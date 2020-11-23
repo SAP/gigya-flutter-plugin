@@ -109,7 +109,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      Request active account.
      */
     func getAccount(arguments: [String: Any], result: @escaping FlutterResult) {
-        let _ = arguments["invalidate"] as? Bool ?? false
+        let invalidate = arguments["invalidate"] as? Bool ?? false
     }
     
     /**

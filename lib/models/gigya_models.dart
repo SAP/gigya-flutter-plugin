@@ -1,35 +1,82 @@
+import 'dart:convert';
+
 class GigyaResponse {
-  String _callId;
-  int _statusCode = 200;
-  int _errorCode = 0;
-  String _errorDetails;
-  String _statusReason;
-
-  String get callId => _callId;
-
-  int get statusCode => _statusCode;
-
-  int get errorCode => _errorCode;
-
-  String get errorDetails => _errorDetails;
-
-  String get statusReason => _statusReason;
+  String callId;
+  int statusCode = 200;
+  int errorCode = 0;
+  String errorDetails;
+  String statusReason;
 
   GigyaResponse.fromJson(dynamic json) {
-    _callId = json['callId'];
-    _statusCode = json['statusCode'];
-    _errorCode = json['errorCode'];
-    _errorDetails = json['errorDetails'];
-    _statusReason = json['statusReason'];
+    callId = json['callId'];
+    statusCode = json['statusCode'];
+    errorCode = json['errorCode'];
+    errorDetails = json['errorDetails'];
+    statusReason = json['statusReason'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['callID'] = _callId;
-    data['statusCode'] = _statusCode;
-    data['errorCode'] = _errorCode;
-    data['errorDetails'] = _errorDetails;
-    data['statusReason'] = _statusReason;
+    data['callID'] = callId;
+    data['statusCode'] = statusCode;
+    data['errorCode'] = errorCode;
+    data['errorDetails'] = errorDetails;
+    data['statusReason'] = statusReason;
+    return data;
+  }
+}
+
+class Account extends GigyaResponse {
+  String uid;
+  Profile profile;
+
+  Account.fromJson(dynamic json) : super.fromJson(json) {
+    uid = json["UID"];
+    profile =  Profile.fromJson(json["profile"].cast<String, dynamic>());
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['UID'] = this.uid;
+    data['profile'] = this.profile.toJson();
+    return data;
+  }
+
+  Map<String, dynamic> toJsonEncoded() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['UID'] = this.uid;
+    data['profile'] = jsonEncode(this.profile.toJson());
+    return data;
+  }
+}
+
+class Profile {
+  String email;
+  String firstName;
+  String lastName;
+  String photoURL;
+  String thumbnailURL;
+  String zip;
+
+  Profile({this.email, this.firstName, this.lastName, this.photoURL, this.thumbnailURL, this.zip});
+
+  Profile.fromJson(Map<String, dynamic> json) {
+    email = json['email'];
+    firstName = json['firstName'];
+    lastName = json['lastName'];
+    photoURL = json['photoURL'];
+    thumbnailURL = json['thumbnailURL'];
+    zip = json['zip'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['email'] = this.email;
+    data['firstName'] = this.firstName;
+    data['lastName'] = this.lastName;
+    data['photoURL'] = this.photoURL;
+    data['thumbnailURL'] = this.thumbnailURL;
+    data['zip'] = this.zip;
     return data;
   }
 }

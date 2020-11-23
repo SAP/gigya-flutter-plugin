@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
-import 'package:gigya_flutter_plugin_example/provider/session_state_provider.dart';
-import 'package:provider/provider.dart';
 
 class HomePageWidget extends StatefulWidget {
   @override
@@ -41,9 +39,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return Consumer<SessionStateProvider>(
-      builder: (context, provider, child) {
-        var loggedIn = provider.loggedIn;
+    return FutureBuilder<bool>(
+      future: GigyaSdk.instance.isLoggedIn(),
+      builder: (context, snapshot) {
+        if (!snapshot.hasData) {
+          return Container(
+            color: Theme.of(context).primaryColor,
+          );
+        }
+        var loggedIn = snapshot.data;
         return Scaffold(
           appBar: AppBar(
             title: const Text('Option selection'),
@@ -67,6 +71,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 Center(child: Text('Running on: $_platformVersion\n')),
                 HomeButtonWidget(route: '/send_request', text: 'Send request'),
                 loggedIn ? Container() : HomeButtonWidget(route: '/login_credentials', text: 'Login with credentials'),
+                loggedIn ? Container() : HomeButtonWidget(route: '/register_email', text: 'Register with email address'),
                 loggedIn ? HomeButtonWidget(route: '/account_information', text: 'getAccount') : Container(),
                 loggedIn
                     ? ButtonTheme(
@@ -75,7 +80,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           textColor: Colors.white,
                           onPressed: () {
                             GigyaSdk.instance.logout().then((val) {
-                              provider.updateLoginState(false);
+                              setState(() {});
                             });
                           },
                           child: const Text('Log out'),

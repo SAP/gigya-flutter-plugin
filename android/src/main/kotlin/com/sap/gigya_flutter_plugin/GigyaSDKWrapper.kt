@@ -153,21 +153,49 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Update account information
      */
     fun setAccount(arguments: Any, channelResult: MethodChannel.Result) {
+        val account: MutableMap<String, Any>? = (arguments as Map<*, *>)["account"] as MutableMap<String, Any>?
+        if (account == null) {
+            channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            return
+        }
+        sdk.setAccount(account, object : GigyaCallback<T>() {
+            override fun onSuccess(p0: T) {
+                val mapped = mapAccountObject(p0)
+                channelResult.success(mapped)
+            }
 
+            override fun onError(p0: GigyaError?) {
+                p0?.let {
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                } ?: channelResult.notImplemented()
+            }
+
+        })
     }
 
     /**
      * Logout of existing session.
      */
     fun logOut(channelResult: MethodChannel.Result) {
+        sdk.logout(object : GigyaCallback<GigyaApiResponse>() {
+            override fun onSuccess(p0: GigyaApiResponse?) {
+                channelResult.success(null)
+            }
 
+            override fun onError(p0: GigyaError?) {
+                p0?.let {
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                } ?: channelResult.notImplemented()
+            }
+
+        });
     }
 
     /**
      * Social login with given provider & provider sessions.
      */
     fun socialLogin(arguments: Any, channelResult: MethodChannel.Result) {
-
+        
     }
 
     /**
