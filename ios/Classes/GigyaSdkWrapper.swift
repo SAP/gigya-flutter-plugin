@@ -110,8 +110,8 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      */
     func getAccount(arguments: [String: Any], result: @escaping FlutterResult) {
         //TODO: Invalidate not supported in iOS?
-        let _ = arguments["invalidate"] as? Bool ?? false
-        sdk?.getAccount() { [weak self] accountResult in
+        let clearCache = arguments["invalidate"] as? Bool ?? false
+        sdk?.getAccount(clearCache) { [weak self] accountResult in
             switch accountResult {
             case .success(let data):
                 let mapped = self?.mapAccountObject(account: data)
