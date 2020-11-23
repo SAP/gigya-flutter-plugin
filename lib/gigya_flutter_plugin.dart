@@ -68,7 +68,7 @@ class GigyaSdk {
   /// Optional [params] map is available.
   Future<Map<String, dynamic>> register(loginId, password, {params}) async {
     final response = await _channel.invokeMapMethod<String, dynamic>(Methods.registerWithCredentials.name,
-        {'loginId': loginId, 'password': password, 'parameters': params ?? {}}).catchError((error) {
+        {'email': loginId, 'password': password, 'parameters': params ?? {}}).catchError((error) {
       return throw GigyaResponse.fromJson(_decodeError(error));
     });
     return response;
@@ -107,7 +107,9 @@ class GigyaSdk {
 
   /// Log out of current active session.
   Future<void> logout() async {
-    await _channel.invokeMethod(Methods.logOut.name);
+    await _channel.invokeMethod(Methods.logOut.name).catchError((error) {
+      debugPrint('Error logging out');
+    });
   }
 
   /// Perform a social login given a [providerSessions] map.
