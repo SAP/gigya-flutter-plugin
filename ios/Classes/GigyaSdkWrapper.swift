@@ -109,21 +109,62 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      Request active account.
      */
     func getAccount(arguments: [String: Any], result: @escaping FlutterResult) {
-        let invalidate = arguments["invalidate"] as? Bool ?? false
+        //TODO: Invalidate not supported in iOS?
+        let _ = arguments["invalidate"] as? Bool ?? false
+        sdk?.getAccount() { [weak self] accountResult in
+            switch accountResult {
+            case .success(let data):
+                let mapped = self?.mapAccountObject(account: data)
+                result(mapped)
+            case .failure(let error):
+                switch error {
+                case .gigyaError(let d):
+                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                default:
+                    result(FlutterError(code: "", message: error.localizedDescription, details: nil))
+                }
+            }
+        }
     }
     
     /**
      Update account information
      */
     func setAccount(arguments: [String: Any], result: @escaping FlutterResult) {
-        
+        let account = arguments["account"] as? [String: Any] ?? [:]
+        sdk?.setAccount(with: account, completion: { [weak self] accountResult in
+            switch accountResult {
+            case .success(let data):
+                let mapped = self?.mapAccountObject(account: data)
+                result(mapped)
+            case .failure(let error):
+                switch error {
+                case .gigyaError(let d):
+                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                default:
+                    result(FlutterError(code: "", message: error.localizedDescription, details: nil))
+                }
+            }
+        })
     }
     
     /**
      Logout of existing session.
      */
     func logOut(result: @escaping FlutterResult) {
-        
+        sdk?.logout(completion: { gigyaResponse in
+            switch gigyaResponse {
+            case .success( _):
+                result(nil)
+            case .failure(let error):
+                switch error {
+                case .gigyaError(let d):
+                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                default:
+                    result(FlutterError(code: "", message: error.localizedDescription, details: nil))
+                }
+            }
+        })
     }
     
     /**
