@@ -1,0 +1,8 @@
+Format: https://www.debian.org/doc/packaging-manuals/copyright-format/1.0/
+Upstream-Name: gigya-flutter-plugin
+Upstream-Contact: Tal Mirmelshtein <tal.mirmelshtein@sap.com>
+Source: https://github.com/sap-staging/gigya-flutter-plugin
+
+Files: *
+Copyright: 2020 SAP SE or an SAP affiliate company
+License: Apache-2.0

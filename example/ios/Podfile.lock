@@ -1,0 +1,29 @@
+PODS:
+  - Flutter (1.0.0)
+  - Gigya (1.1.5)
+  - gigya_flutter_plugin (0.0.1):
+    - Flutter
+    - Gigya
+
+DEPENDENCIES:
+  - Flutter (from `Flutter`)
+  - gigya_flutter_plugin (from `.symlinks/plugins/gigya_flutter_plugin/ios`)
+
+SPEC REPOS:
+  trunk:
+    - Gigya
+
+EXTERNAL SOURCES:
+  Flutter:
+    :path: Flutter
+  gigya_flutter_plugin:
+    :path: ".symlinks/plugins/gigya_flutter_plugin/ios"
+
+SPEC CHECKSUMS:
+  Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  Gigya: 7f467868ba0ae3d10e64e569fc98e5963cd51bae
+  gigya_flutter_plugin: 4bef8a8490bf2ad821f6a0d134479196f2488a9c
+
+PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
+
+COCOAPODS: 1.8.4
