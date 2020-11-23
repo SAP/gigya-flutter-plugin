@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+/// General response structure.
 class GigyaResponse {
   String callId;
   int statusCode = 200;
@@ -26,13 +27,14 @@ class GigyaResponse {
   }
 }
 
+/// Account schema object.
 class Account extends GigyaResponse {
   String uid;
   Profile profile;
 
   Account.fromJson(dynamic json) : super.fromJson(json) {
     uid = json["UID"];
-    profile =  Profile.fromJson(json["profile"].cast<String, dynamic>());
+    profile = Profile.fromJson(json["profile"].cast<String, dynamic>());
   }
 
   Map<String, dynamic> toJson() {
@@ -50,6 +52,7 @@ class Account extends GigyaResponse {
   }
 }
 
+/// Account profile schema object.
 class Profile {
   String email;
   String firstName;

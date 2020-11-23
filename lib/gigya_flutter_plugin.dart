@@ -14,6 +14,8 @@ enum Methods {
   isLoggedIn,
   logOut,
   socialLogin,
+  addConnection,
+  removeConnection,
 }
 
 extension MethodsExt on Methods {
