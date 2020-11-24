@@ -12,6 +12,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     /**
      Send general/antonymous request
      */
+    
     func sendRequest(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let endpoint = arguments["endpoint"] as? String else {
             result(FlutterError(code: PluginErrors.MISSING_PARAMETER_ERROR, message: PluginErrors.MISSING_PARAMETER_MESSAGE, details: nil))
