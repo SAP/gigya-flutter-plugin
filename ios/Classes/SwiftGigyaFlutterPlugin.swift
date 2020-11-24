@@ -13,7 +13,7 @@ public class SwiftGigyaFlutterPlugin: NSObject, FlutterPlugin {
     public static func register<T: GigyaAccountProtocol>(accountSchema: T.Type) {
         guard let registrar = self.registrar else { return }
         let instance = SwiftGigyaFlutterPluginTyped(accountSchema: accountSchema)
-        instance.register(with: registrar)
+        instance.register(with: registrar) 
     }
         
 }

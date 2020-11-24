@@ -87,9 +87,9 @@ class GigyaSdk {
   /// Optional [invalidate] parameter is available to make sure a new account call is preformed, ignoring caching strategy.
   /// API is relevant only when host is logged in.
   /// Account caching strategies are *currently* handled in native code.
-  Future<Map<String, dynamic>> getAccount({invalidate}) async {
-    final response =
-        await _channel.invokeMapMethod<String, dynamic>(Methods.getAccount.name, {'invalidate': invalidate}).catchError((error) {
+  Future<Map<String, dynamic>> getAccount({invalidate, parameters}) async {
+    final response = await _channel.invokeMapMethod<String, dynamic>(
+        Methods.getAccount.name, {'invalidate': invalidate, 'parameters': parameters}).catchError((error) {
       return throw GigyaResponse.fromJson(_decodeError(error));
     });
     return response;

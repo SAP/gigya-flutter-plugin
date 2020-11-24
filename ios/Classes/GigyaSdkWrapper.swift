@@ -109,9 +109,10 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      Request active account.
      */
     func getAccount(arguments: [String: Any], result: @escaping FlutterResult) {
-        //TODO: Invalidate not supported in iOS?
+        // Optionals.
         let clearCache = arguments["invalidate"] as? Bool ?? false
-        sdk?.getAccount(clearCache) { [weak self] accountResult in
+        let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+        sdk?.getAccount(clearCache, params: parameters) { [weak self] accountResult in
             switch accountResult {
             case .success(let data):
                 let mapped = self?.mapAccountObject(account: data)
@@ -177,7 +178,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     /**
      Mapping typed account object.
      */
-    func mapAccountObject(account: T) -> [String: Any]{
+    func mapAccountObject(account: T) -> [String: Any] {
         do {
             let jsonEncoder = JSONEncoder()
             let jsonData = try jsonEncoder.encode(account)
