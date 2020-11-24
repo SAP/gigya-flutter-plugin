@@ -12,6 +12,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     /**
      Send general/antonymous request
      */
+    
     func sendRequest(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let endpoint = arguments["endpoint"] as? String else {
             result(FlutterError(code: PluginErrors.MISSING_PARAMETER_ERROR, message: PluginErrors.MISSING_PARAMETER_MESSAGE, details: nil))
@@ -109,21 +110,63 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      Request active account.
      */
     func getAccount(arguments: [String: Any], result: @escaping FlutterResult) {
-        let _ = arguments["invalidate"] as? Bool ?? false
+        // Optionals.
+        let clearCache = arguments["invalidate"] as? Bool ?? false
+        let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+        sdk?.getAccount(clearCache, params: parameters) { [weak self] accountResult in
+            switch accountResult {
+            case .success(let data):
+                let mapped = self?.mapAccountObject(account: data)
+                result(mapped)
+            case .failure(let error):
+                switch error {
+                case .gigyaError(let d):
+                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                default:
+                    result(FlutterError(code: "", message: error.localizedDescription, details: nil))
+                }
+            }
+        }
     }
     
     /**
      Update account information
      */
     func setAccount(arguments: [String: Any], result: @escaping FlutterResult) {
-        
+        let account = arguments["account"] as? [String: Any] ?? [:]
+        sdk?.setAccount(with: account, completion: { [weak self] accountResult in
+            switch accountResult {
+            case .success(let data):
+                let mapped = self?.mapAccountObject(account: data)
+                result(mapped)
+            case .failure(let error):
+                switch error {
+                case .gigyaError(let d):
+                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                default:
+                    result(FlutterError(code: "", message: error.localizedDescription, details: nil))
+                }
+            }
+        })
     }
     
     /**
      Logout of existing session.
      */
     func logOut(result: @escaping FlutterResult) {
-        
+        sdk?.logout(completion: { gigyaResponse in
+            switch gigyaResponse {
+            case .success( _):
+                result(nil)
+            case .failure(let error):
+                switch error {
+                case .gigyaError(let d):
+                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                default:
+                    result(FlutterError(code: "", message: error.localizedDescription, details: nil))
+                }
+            }
+        })
     }
     
     /**
@@ -136,7 +179,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     /**
      Mapping typed account object.
      */
-    func mapAccountObject(account: T) -> [String: Any]{
+    func mapAccountObject(account: T) -> [String: Any] {
         do {
             let jsonEncoder = JSONEncoder()
             let jsonData = try jsonEncoder.encode(account)

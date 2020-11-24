@@ -4,12 +4,12 @@ import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 import 'package:gigya_flutter_plugin/models/gigya_models.dart';
 
-class LoginWidthCredentialsWidget extends StatefulWidget {
+class RegisterWithEmailWidget extends StatefulWidget {
   @override
-  _LoginWidthCredentialsWidgetState createState() => _LoginWidthCredentialsWidgetState();
+  _RegisterWidthEmailWidgetState createState() => _RegisterWidthEmailWidgetState();
 }
 
-class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidget> {
+class _RegisterWidthEmailWidgetState extends State<RegisterWithEmailWidget> {
   final TextEditingController _loginIdEditingController = TextEditingController();
   final TextEditingController _passwordEditingController = TextEditingController();
   String _requestResult = '';
@@ -26,7 +26,7 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Login with credentials'),
+        title: const Text('Register with email address'),
       ),
       body: Column(
         children: [
@@ -53,7 +53,7 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
                 ),
                 Row(
                   children: [
-                    SizedBox(width: 120, child: const Text('Enter login id:')),
+                    SizedBox(width: 120, child: const Text('Enter email address:')),
                     SizedBox(
                       width: 10,
                     ),
@@ -113,21 +113,21 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
   }
 
   /// Submit request.
-  void sendRequest(loginId, password) async {
+  void sendRequest(email, password) async {
     setState(() {
       _inProgress = true;
     });
-    GigyaSdk.instance.login(loginId, password).then((result) {
+    GigyaSdk.instance.register(email, password).then((result) {
       debugPrint(json.encode(result));
       final response = Account.fromJson(result);
       setState(() {
         _inProgress = false;
-        _requestResult = 'Login success:\n\n ${response.uid}';
+        _requestResult = 'Register success:\n\n ${response.uid}';
       });
     }).catchError((error) {
       setState(() {
         _inProgress = false;
-        _requestResult = 'Request error\n\n${error.errorDetails}';
+        _requestResult = 'Register error\n\n${error.errorDetails}';
       });
     });
   }

@@ -63,12 +63,39 @@ Important:
 Make sure you have [configured](https://developers.gigya.com/display/GD/Swift+SDK#SwiftSDK-ImplicitInitialization) your *info.plist* file accordinglty.
 ```
 
+### Sending a simple request
+
+Sending a request is available using the plugin **send** method.
+```
+GigyaSdk.instance.send('REQUEST-ENDPOINT', {PARAMETER-MAP}).then((result) {
+      debugPrint(json.encode(result));
+    }).catchError((error) {
+      debugPrint(error.errorDetails);
+    });
+```
+Example implementation is demostrated in the *send_request.dart* class of the provided example applicaiton.
+
+### Business APIs
+
+The plugin provides API to varius business APIs which iclude:
+**login, register, getAccount, setAccount, isLoggedIn, logOut etc.**
+Implement them using the same request structure as shown above. 
+Example application includes the varius implementations.
+
+### Social login
+
+
+### Using screen-sets
+
+
+
 ## Known Issues
 None
 
 ## How to obtain support
-Via SAP standard support.
-https://developers.gigya.com/display/GD/Opening+A+Support+Incident
+* Via Github issues
+* [Via SAP standard support](https://developers.gigya.com/display/GD/Opening+A+Support+Incident)
+
 
 ## Contributing
 Via pull request to this repository.
