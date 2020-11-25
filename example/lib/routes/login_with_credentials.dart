@@ -97,12 +97,28 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
                 ),
                 Container(
                   child: Center(
-                    child: IconButton(
-                      icon: Image.asset('assets/google_dark.png'),
-                      iconSize: 50,
-                      onPressed: () {
-                        _sendSocialLoginRequest(SocialProvider.google);
-                        },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        IconButton(
+                          icon: Image.asset('assets/google_dark.png'),
+                          iconSize: 50,
+                          onPressed: () {
+                            _sendSocialLoginRequest(SocialProvider.google);
+                            },
+                        ),
+                        Container(
+                          width: 50,height: 50,
+                          color: const Color(0xff3B5998),
+                          child: IconButton(
+                            icon: Image.asset('assets/facebook_new.png'),
+                            iconSize: 50,
+                            onPressed: () {
+                              _sendSocialLoginRequest(SocialProvider.facebook);
+                            },
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ),
