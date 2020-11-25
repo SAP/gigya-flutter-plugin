@@ -104,7 +104,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
             return
         }
-        val parameters: MutableMap<String, Any>? = arguments["parameters"] as MutableMap<String, Any>?
+        val parameters: MutableMap<String, Any> = arguments["parameters"] as MutableMap<String, Any>?
                 ?: mutableMapOf()
         sdk.register(email, password, parameters!!, object : GigyaLoginCallback<T>() {
             override fun onSuccess(p0: T) {
@@ -195,7 +195,30 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Social login with given provider & provider sessions.
      */
     fun socialLogin(arguments: Any, channelResult: MethodChannel.Result) {
-        
+        val provider: String? = (arguments as Map<*, *>)["provider"] as String?
+        if (provider == null) {
+            channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            return
+        }
+        val parameters: MutableMap<String, Any> = arguments["parameters"] as MutableMap<String, Any>?
+                ?: mutableMapOf()
+        sdk.login(provider, parameters, object : GigyaLoginCallback<T>() {
+            override fun onSuccess(p0: T) {
+                val mapped = mapAccountObject(p0)
+                channelResult.success(mapped)
+            }
+
+            override fun onError(p0: GigyaError?) {
+                p0?.let {
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                } ?: channelResult.notImplemented()
+            }
+
+            override fun onOperationCanceled() {
+                channelResult.error(CANCELED_ERROR, CANCELED_ERROR_MESSAGE, null)
+            }
+
+        })
     }
 
     /**
@@ -213,6 +236,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         const val GENERAL_ERROR_MESSAGE = "general error"
         const val MISSING_PARAMETER_ERROR = "701"
         const val MISSING_PARAMETER_MESSAGE = "request parameter missing"
+        const val CANCELED_ERROR = "702"
+        const val CANCELED_ERROR_MESSAGE = "Operation canceled"
     }
 
 }

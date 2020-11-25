@@ -43,5 +43,21 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
+
+        <activity
+            android:name="com.gigya.android.sdk.ui.HostActivity"
+            android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+
+        <activity
+            android:name="com.gigya.android.sdk.ui.WebLoginActivity"
+            android:allowTaskReparenting="true"
+            android:launchMode="singleTask"
+            android:exported="true"
+            android:theme="@style/Theme.AppCompat.Translucent" />
+
+        <meta-data
+            android:name="googleClientId"
+            android:value="@string/google_client_id" />
     </application>
 </manifest>

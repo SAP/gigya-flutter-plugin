@@ -86,7 +86,7 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
                     onPressed: () {
                       final String loginId = _loginIdEditingController.text.trim();
                       final String password = _passwordEditingController.text.trim();
-                      sendRequest(loginId, password);
+                      _sendLoginRequest(loginId, password);
                     },
                     textColor: Colors.white,
                     child: const Text('Send Request'),
@@ -94,6 +94,16 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
                 ),
                 SizedBox(
                   height: 20,
+                ),
+                ButtonTheme(
+                  minWidth: 240,
+                  child: RaisedButton(
+                    onPressed: () {
+                      _sendSocialLoginRequest(SocialProvider.google);
+                    },
+                    textColor: Colors.white,
+                    child: const Text('Google Sign in'),
+                  ),
                 ),
                 Center(
                   child: Text(
@@ -113,11 +123,30 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
   }
 
   /// Submit request.
-  void sendRequest(loginId, password) async {
+  void _sendLoginRequest(loginId, password) async {
     setState(() {
       _inProgress = true;
     });
     GigyaSdk.instance.login(loginId, password).then((result) {
+      debugPrint(json.encode(result));
+      final response = Account.fromJson(result);
+      setState(() {
+        _inProgress = false;
+        _requestResult = 'Login success:\n\n ${response.uid}';
+      });
+    }).catchError((error) {
+      setState(() {
+        _inProgress = false;
+        _requestResult = 'Request error\n\n${error.errorDetails}';
+      });
+    });
+  }
+
+  void _sendSocialLoginRequest(provider) async {
+    setState(() {
+      _inProgress = true;
+    });
+    GigyaSdk.instance.socialLogin(provider).then((result) {
       debugPrint(json.encode(result));
       final response = Account.fromJson(result);
       setState(() {

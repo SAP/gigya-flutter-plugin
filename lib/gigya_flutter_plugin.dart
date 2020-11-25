@@ -22,6 +22,16 @@ extension MethodsExt on Methods {
   get name => describeEnum(this);
 }
 
+/// Current supported social providers.
+enum SocialProvider {
+  google,
+  facebook,
+}
+
+extension SocialProviderExt on SocialProvider {
+  get name => describeEnum(this);
+}
+
 /// Main Gigya SDK interface class.
 ///
 /// Do not instantiate this class. Instead use [GigyaSDk.instance] initializer to make
@@ -114,13 +124,16 @@ class GigyaSdk {
     });
   }
 
-  /// Perform a social login given a [providerSessions] map.
+  /// Perform a social login given the [provider] identity.
   /// This call will specifically call the "notifySocialLogin" endpoint.
   /// All social provider integration is the host's responsibility.
-  Future<Map<String, dynamic>> socialLogin(providerSessions) async {
-    final response = await _channel
-        .invokeMapMethod<String, dynamic>(Methods.socialLogin.name, {'providerSessions': providerSessions}).catchError((error) {
+  Future<Map<String, dynamic>> socialLogin(SocialProvider provider, {parameters}) async {
+    final response = await _channel.invokeMapMethod<String, dynamic>(
+        Methods.socialLogin.name, {'provider': provider.name, 'parameters': parameters}).catchError((error) {
       return throw GigyaResponse.fromJson(_decodeError(error));
+    }).timeout(Duration(minutes: 5), onTimeout: () {
+        debugPrint('timeout');
+        return null;
     });
     return response;
   }
