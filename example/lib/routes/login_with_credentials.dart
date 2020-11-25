@@ -95,15 +95,19 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
                 SizedBox(
                   height: 20,
                 ),
-                ButtonTheme(
-                  minWidth: 240,
-                  child: RaisedButton(
-                    onPressed: () {
-                      _sendSocialLoginRequest(SocialProvider.google);
-                    },
-                    textColor: Colors.white,
-                    child: const Text('Google Sign in'),
+                Container(
+                  child: Center(
+                    child: IconButton(
+                      icon: Image.asset('assets/google_dark.png'),
+                      iconSize: 50,
+                      onPressed: () {
+                        _sendSocialLoginRequest(SocialProvider.google);
+                        },
+                    ),
                   ),
+                ),
+                SizedBox(
+                  height: 20,
                 ),
                 Center(
                   child: Text(
@@ -122,7 +126,7 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
     );
   }
 
-  /// Submit request.
+  /// Submit login request.
   void _sendLoginRequest(loginId, password) async {
     setState(() {
       _inProgress = true;
@@ -142,6 +146,7 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
     });
   }
 
+  /// Submit social login request.
   void _sendSocialLoginRequest(provider) async {
     setState(() {
       _inProgress = true;
