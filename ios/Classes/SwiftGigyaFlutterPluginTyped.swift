@@ -3,7 +3,19 @@ import UIKit
 import Gigya
 
 public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, FlutterPlugin, GigyaInstanceProtocol {
-    
+
+    enum GigyaMethods: String {
+        case getPlatformVersion
+        case sendRequest
+        case loginWithCredentials
+        case registerWithCredentials
+        case isLoggedIn
+        case getAccount
+        case setAccount
+        case logOut
+        case socialLogin
+
+    }
     var sdk: GigyaSdkWrapper<T>?
     
     public static func register(with registrar: FlutterPluginRegistrar) {
@@ -21,46 +33,47 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
     }
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        switch call.method {
-        case "getPlatformVersion":
+        let method = GigyaMethods(rawValue: call.method)
+        switch method {
+        case .getPlatformVersion:
             result("iOS " + UIDevice.current.systemVersion)
-        case "sendRequest":
+        case .sendRequest:
             guard let args = call.arguments as? [String: Any] else {
-                result(FlutterError(code: PluginErrors.GENERAL_ERROR, message: PluginErrors.GENERAL_ERROR_MESSAGE, details: nil))
+                result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
                 return
             }
             sdk?.sendRequest(arguments: args, result: result)
-        case "loginWithCredentials":
+        case .loginWithCredentials:
             guard let args = call.arguments as? [String: Any] else {
-                result(FlutterError(code: PluginErrors.GENERAL_ERROR, message: PluginErrors.GENERAL_ERROR_MESSAGE, details: nil))
+                result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
                 return
             }
             sdk?.loginWithCredentials(arguments: args, result: result)
-        case "registerWithCredentials":
+        case .registerWithCredentials:
             guard let args = call.arguments as? [String: Any] else {
-                result(FlutterError(code: PluginErrors.GENERAL_ERROR, message: PluginErrors.GENERAL_ERROR_MESSAGE, details: nil))
+                result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
                 return
             }
             sdk?.registerWithCredentials(arguments: args, result: result)
-        case "isLoggedIn":
+        case .isLoggedIn:
             sdk?.isLoggedIn(result: result)
-        case "getAccount":
+        case .getAccount:
             guard let args = call.arguments as? [String: Any] else {
-                result(FlutterError(code: PluginErrors.GENERAL_ERROR, message: PluginErrors.GENERAL_ERROR_MESSAGE, details: nil))
+                result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
                 return
             }
             sdk?.getAccount(arguments: args, result: result)
-        case "setAccount":
+        case .setAccount:
             guard let args = call.arguments as? [String: Any] else {
-                result(FlutterError(code: PluginErrors.GENERAL_ERROR, message: PluginErrors.GENERAL_ERROR_MESSAGE, details: nil))
+                result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
                 return
             }
             sdk?.setAccount(arguments: args, result: result)
-        case "logOut":
+        case .logOut:
             sdk?.logOut(result: result)
-        case "socialLogin":
+        case .socialLogin:
             guard let args = call.arguments as? [String: Any] else {
-                result(FlutterError(code: PluginErrors.GENERAL_ERROR, message: PluginErrors.GENERAL_ERROR_MESSAGE, details: nil))
+                result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
                 return
             }
             sdk?.socialLogin(arguments: args, result: result)

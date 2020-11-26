@@ -15,11 +15,11 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     
     func sendRequest(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let endpoint = arguments["endpoint"] as? String else {
-            result(FlutterError(code: PluginErrors.MISSING_PARAMETER_ERROR, message: PluginErrors.MISSING_PARAMETER_MESSAGE, details: nil))
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
         guard let parameters = arguments["parameters"] as? [String:Any] else {
-            result(FlutterError(code: PluginErrors.MISSING_PARAMETER_ERROR, message: PluginErrors.MISSING_PARAMETER_MESSAGE, details: nil))
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
         sdk?.send(api: endpoint, params: parameters) { (gigyaResponse) in
@@ -32,7 +32,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 case .gigyaError(let d):
                     result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
                 default:
-                    result(FlutterError(code: PluginErrors.GENERAL_ERROR, message: PluginErrors.GENERAL_ERROR_MESSAGE, details: nil))
+                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
                 }
             }
         }
@@ -43,11 +43,11 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      */
     func loginWithCredentials(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let loginId = arguments["loginId"] as? String else {
-            result(FlutterError(code: PluginErrors.MISSING_PARAMETER_ERROR, message: PluginErrors.MISSING_PARAMETER_MESSAGE, details: nil))
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
         guard let password = arguments["password"] as? String else {
-            result(FlutterError(code: PluginErrors.MISSING_PARAMETER_ERROR, message: PluginErrors.MISSING_PARAMETER_MESSAGE, details: nil))
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
         // Optional parameter map.
@@ -73,11 +73,11 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      */
     func registerWithCredentials(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let email = arguments["email"] as? String else {
-            result(FlutterError(code: PluginErrors.MISSING_PARAMETER_ERROR, message: PluginErrors.MISSING_PARAMETER_MESSAGE, details: nil))
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
         guard let password = arguments["password"] as? String else {
-            result(FlutterError(code: PluginErrors.MISSING_PARAMETER_ERROR, message: PluginErrors.MISSING_PARAMETER_MESSAGE, details: nil))
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
         // Optional parameter map.
@@ -198,10 +198,10 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
  */
 public class PluginErrors {
     
-    static let GENERAL_ERROR = "700"
-    static let GENERAL_ERROR_MESSAGE = "general error"
-    static let MISSING_PARAMETER_ERROR = "701"
-    static let MISSING_PARAMETER_MESSAGE = "request parameter missing"
+    static let generalError = "700"
+    static let generalErrorMessage = "general error"
+    static let missingParameterError = "701"
+    static let missingParameterMessage = "request parameter missing"
 }
 
 extension Dictionary {
