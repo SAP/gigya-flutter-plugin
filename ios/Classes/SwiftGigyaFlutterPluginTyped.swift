@@ -14,6 +14,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case setAccount
         case logOut
         case socialLogin
+        case showScreenSet
 
     }
     var sdk: GigyaSdkWrapper<T>?
@@ -77,6 +78,13 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
                 return
             }
             sdk?.socialLogin(arguments: args, result: result)
+        case .showScreenSet:
+            guard let args = call.arguments as? [String: Any] else {
+                result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
+                return
+            }
+            sdk?.showScreenSet(arguments: args, result: result)
+
         default:
             result(nil)
         }

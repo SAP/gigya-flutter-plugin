@@ -70,9 +70,34 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               children: [
                 Center(child: Text('Running on: $_platformVersion\n')),
                 HomeButtonWidget(route: '/send_request', text: 'Send request'),
-                loggedIn ? Container() : HomeButtonWidget(route: '/login_credentials', text: 'Login with credentials'),
-                loggedIn ? Container() : HomeButtonWidget(route: '/register_email', text: 'Register with email address'),
-                loggedIn ? HomeButtonWidget(route: '/account_information', text: 'getAccount') : Container(),
+                loggedIn
+                    ? Container()
+                    : Padding(
+                        padding: const EdgeInsets.only(top: 2),
+                        child: ButtonTheme(
+                          minWidth: 240,
+                          child: RaisedButton(
+                            textColor: Colors.white,
+                            onPressed: () {
+                              GigyaSdk.instance.showScreenSet("Default-RegistrationLogin", (event, map) {
+                                print(event);
+                                print(map);
+                              });
+                            },
+                            child: Text("Show ScreenSet"),
+                          ),
+                        ),
+                      ),
+                loggedIn
+                    ? Container()
+                    : HomeButtonWidget(route: '/login_credentials', text: 'Login with credentials'),
+                loggedIn
+                    ? Container()
+                    : HomeButtonWidget(
+                        route: '/register_email', text: 'Register with email address'),
+                loggedIn
+                    ? HomeButtonWidget(route: '/account_information', text: 'getAccount')
+                    : Container(),
                 loggedIn
                     ? ButtonTheme(
                         minWidth: 240,

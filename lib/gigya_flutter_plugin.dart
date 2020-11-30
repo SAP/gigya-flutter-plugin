@@ -16,6 +16,7 @@ enum Methods {
   socialLogin,
   addConnection,
   removeConnection,
+  showScreenSet,
 }
 
 extension MethodsExt on Methods {
@@ -31,6 +32,8 @@ enum SocialProvider {
 extension SocialProviderExt on SocialProvider {
   get name => describeEnum(this);
 }
+
+typedef void OnScreenSetEvent(event, data);
 
 /// Main Gigya SDK interface class.
 ///
@@ -147,5 +150,20 @@ class GigyaSdk {
       return mapped;
     }
     return {};
+  }
+
+  /// Screensets event subscription.
+  StreamSubscription<dynamic> _screenSetsEventStream;
+
+  showScreenSet(name, OnScreenSetEvent onScreenSetEvent, {parameters}) async {
+    await _channel.invokeMethod(Methods.showScreenSet.name, {'screenSet': name, 'parameters': parameters});
+
+    const EventChannel _stream = EventChannel('screensetEvents');
+    _screenSetsEventStream = _stream.receiveBroadcastStream().listen((onData) {
+      onScreenSetEvent(onData['event'], onData['data']);
+      if (onData['event'] == 'onHide' || onData['event'] == 'onCanceled') {
+        _screenSetsEventStream = null;
+      }
+    });
   }
 }
