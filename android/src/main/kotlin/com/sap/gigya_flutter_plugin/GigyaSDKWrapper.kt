@@ -222,6 +222,60 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     }
 
     /**
+     * Add social connection to active session.
+     */
+    fun addConnection(arguments: Any, channelResult: MethodChannel.Result) {
+        val provider: String? = (arguments as Map<*, *>)["provider"] as String?
+        if (provider == null) {
+            channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            return
+        }
+        sdk.addConnection(provider, object : GigyaLoginCallback<T>() {
+            override fun onSuccess(p0: T) {
+                val mapped = mapAccountObject(p0)
+                channelResult.success(mapped)
+            }
+
+            override fun onError(p0: GigyaError?) {
+                p0?.let {
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                } ?: channelResult.notImplemented()
+            }
+
+            override fun onOperationCanceled() {
+                channelResult.error(CANCELED_ERROR, CANCELED_ERROR_MESSAGE, null)
+            }
+
+        })
+    }
+
+    /**
+     * Remove social connection.
+     */
+    fun removeConnection(arguments: Any, channelResult: MethodChannel.Result) {
+        val provider: String? = (arguments as Map<*, *>)["provider"] as String?
+        if (provider == null) {
+            channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            return
+        }
+        sdk.removeConnection(provider, object : GigyaCallback<GigyaApiResponse>() {
+            override fun onSuccess(p0: GigyaApiResponse?) {
+                p0?.let {
+                    gson.fromJson<Map<String, Any>>(it.asJson(), object : TypeToken<Map<String, Any>>() {}.type)
+                } ?: channelResult.notImplemented()
+            }
+
+            override fun onError(p0: GigyaError?) {
+                p0?.let {
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                } ?: channelResult.notImplemented()
+            }
+
+        })
+    }
+
+
+    /**
      * Map typed account object to a Map<String, Any> object in order to pass on to
      * the method channel response.
      */
