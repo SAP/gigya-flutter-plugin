@@ -62,6 +62,9 @@ class GigyaSdk {
     final json = await _channel
         .invokeMethod<String>(Methods.sendRequest.name, {'endpoint': endpoint, 'parameters': params}).catchError((error) {
       return throw GigyaResponse.fromJson(_decodeError(error));
+    }).timeout(_getTimeout(Methods.sendRequest), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return jsonEncode(_timeoutError());
     });
     return jsonDecode(json);
   }
@@ -74,6 +77,9 @@ class GigyaSdk {
         {'loginId': loginId, 'password': password, 'parameters': params ?? {}}).catchError((error) {
       debugPrint('error');
       return throw GigyaResponse.fromJson(_decodeError(error));
+    }).timeout(_getTimeout(Methods.loginWithCredentials), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
     });
     return response;
   }
@@ -85,6 +91,9 @@ class GigyaSdk {
     final response = await _channel.invokeMapMethod<String, dynamic>(Methods.registerWithCredentials.name,
         {'email': loginId, 'password': password, 'parameters': params ?? {}}).catchError((error) {
       return throw GigyaResponse.fromJson(_decodeError(error));
+    }).timeout(_getTimeout(Methods.registerWithCredentials), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
     });
     return response;
   }
@@ -104,6 +113,9 @@ class GigyaSdk {
     final response = await _channel.invokeMapMethod<String, dynamic>(
         Methods.getAccount.name, {'invalidate': invalidate, 'parameters': parameters}).catchError((error) {
       return throw GigyaResponse.fromJson(_decodeError(error));
+    }).timeout(_getTimeout(Methods.getAccount), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
     });
     return response;
   }
@@ -116,6 +128,9 @@ class GigyaSdk {
     final response =
         await _channel.invokeMapMethod<String, dynamic>(Methods.setAccount.name, {'account': account}).catchError((error) {
       return throw GigyaResponse.fromJson(_decodeError(error));
+    }).timeout(_getTimeout(Methods.setAccount), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
     });
     return response;
   }
@@ -124,6 +139,9 @@ class GigyaSdk {
   Future<void> logout() async {
     await _channel.invokeMethod(Methods.logOut.name).catchError((error) {
       debugPrint('Error logging out');
+    }).timeout(_getTimeout(Methods.logOut), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
     });
   }
 
@@ -136,9 +154,35 @@ class GigyaSdk {
     final response = await _channel.invokeMapMethod<String, dynamic>(
         Methods.socialLogin.name, {'provider': provider.name, 'parameters': parameters}).catchError((error) {
       return throw GigyaResponse.fromJson(_decodeError(error));
-    }).timeout(Duration(minutes: 5), onTimeout: () {
-      debugPrint('timeout');
-      return null;
+    }).timeout(_getTimeout(Methods.socialLogin), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
+    });
+    return response;
+  }
+
+  /// Add a social connection to an existing account.
+  ///
+  /// Will require social connection to be authenticated.
+  Future<Map<String, dynamic>> addConnection(SocialProvider provider) async {
+    final response = await _channel
+        .invokeMapMethod<String, dynamic>(Methods.addConnection.name, {'provider': provider.name}).catchError((error) {
+      return throw GigyaResponse.fromJson(_decodeError(error));
+    }).timeout(_getTimeout(Methods.addConnection), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
+    });
+    return response;
+  }
+
+  /// Remove a social connection from an existing account.
+  Future<Map<String, dynamic>> removeConnection(SocialProvider provider) async {
+    final response = await _channel
+        .invokeMapMethod<String, dynamic>(Methods.removeConnection.name, {'provider': provider.name}).catchError((error) {
+      return throw GigyaResponse.fromJson(_decodeError(error));
+    }).timeout(_getTimeout(Methods.removeConnection), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
     });
     return response;
   }
@@ -165,5 +209,25 @@ class GigyaSdk {
         _screenSetsEventStream = null;
       }
     });
+  }
+
+  /// Specific timeout logic for specific methods.
+  Duration _getTimeout(Methods method) {
+    switch (method) {
+      case Methods.socialLogin:
+      case Methods.addConnection:
+        return Duration(minutes: 5);
+      default:
+        return Duration(minutes: 1);
+    }
+  }
+
+  /// Genetic timeout error.
+  Map<String, dynamic> _timeoutError() {
+    return {
+      'statusCode': 500,
+      'errorCode': 504002,
+      'errorDetails': 'A timeout that was defined in the request is reached',
+    };
   }
 }

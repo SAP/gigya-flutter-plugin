@@ -44,6 +44,8 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler {
             "setAccount" -> sdk.setAccount(call.arguments, result)
             "logOut" -> sdk.logOut(result)
             "socialLogin" -> sdk.socialLogin(call.arguments, result)
+            "addConnection" -> sdk.addConnection(call.arguments, result)
+            "removeConnection" -> sdk.removeConnection(call.arguments, result)
             else -> result.notImplemented()
         }
     }
