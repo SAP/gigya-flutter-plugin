@@ -88,16 +88,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                           ),
                         ),
                       ),
-                loggedIn
-                    ? Container()
-                    : HomeButtonWidget(route: '/login_credentials', text: 'Login with credentials'),
-                loggedIn
-                    ? Container()
-                    : HomeButtonWidget(
-                        route: '/register_email', text: 'Register with email address'),
-                loggedIn
-                    ? HomeButtonWidget(route: '/account_information', text: 'getAccount')
-                    : Container(),
+                loggedIn ? Container() : HomeButtonWidget(route: '/login_credentials', text: 'Login with credentials'),
+                loggedIn ? Container() : HomeButtonWidget(route: '/register_email', text: 'Register with email address'),
+                loggedIn ? HomeButtonWidget(route: '/account_information', text: 'getAccount') : Container(),
                 loggedIn
                     ? ButtonTheme(
                         minWidth: 240,
@@ -112,6 +105,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                       )
                     : Container(),
+                loggedIn ? HomeButtonWidget(route: '/manage_connections', text: 'Manage connections') : Container()
               ],
             ),
           ),

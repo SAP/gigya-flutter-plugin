@@ -262,7 +262,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         sdk.removeConnection(provider, object : GigyaCallback<GigyaApiResponse>() {
             override fun onSuccess(p0: GigyaApiResponse?) {
                 p0?.let {
-                    gson.fromJson<Map<String, Any>>(it.asJson(), object : TypeToken<Map<String, Any>>() {}.type)
+                    val mapped = gson.fromJson<Map<String, Any>>(it.asJson(), object : TypeToken<Map<String, Any>>() {}.type)
+                    channelResult.success(mapped)
                 } ?: channelResult.notImplemented()
             }
 

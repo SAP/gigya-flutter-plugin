@@ -26,6 +26,7 @@ extension MethodsExt on Methods {
 /// Current supported social providers.
 enum SocialProvider {
   google,
+  googleplus,
   facebook,
 }
 
@@ -196,7 +197,7 @@ class GigyaSdk {
     return {};
   }
 
-  /// Screensets event subscription.
+  /// Screen-sets event subscription.
   StreamSubscription<dynamic> _screenSetsEventStream;
 
   showScreenSet(name, OnScreenSetEvent onScreenSetEvent, {parameters}) async {
