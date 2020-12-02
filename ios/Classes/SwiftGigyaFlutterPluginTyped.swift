@@ -15,6 +15,8 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case logOut
         case socialLogin
         case showScreenSet
+        case addConnection
+        case removeConnection
 
     }
     var sdk: GigyaSdkWrapper<T>?
@@ -83,7 +85,23 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
                 result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
                 return
             }
+            
             sdk?.showScreenSet(arguments: args, result: result)
+        case .addConnection:
+            guard let args = call.arguments as? [String: Any] else {
+                result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
+                return
+            }
+
+            sdk?.addConnection(arguments: args, result: result)
+
+        case .removeConnection:
+            guard let args = call.arguments as? [String: Any] else {
+                result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
+                return
+            }
+
+            sdk?.removeConnection(arguments: args, result: result)
 
         default:
             result(nil)

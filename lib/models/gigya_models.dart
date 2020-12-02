@@ -51,7 +51,7 @@ class Account extends GigyaResponse {
   String registered;
   int registeredTimestamp;
   SessionInfo sessionInfo;
-  int signatureTimestamp;
+  String signatureTimestamp;
   String socialProviders;
   String verified;
   int verifiedTimestamp;

@@ -80,6 +80,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             textColor: Colors.white,
                             onPressed: () {
                               GigyaSdk.instance.showScreenSet("Default-RegistrationLogin", (event, map) {
+                                if (event == 'onLogin') {
+                                  setState(() { });
+                                }
                                 print(event);
                                 print(map);
                               });

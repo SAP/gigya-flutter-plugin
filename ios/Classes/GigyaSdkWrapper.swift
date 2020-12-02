@@ -208,6 +208,64 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         }
     }
 
+    func addConnection(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard
+            let viewController = getDisplayedViewController(),
+            let providerString = arguments["provider"] as? String,
+            let provider = GigyaSocialProviders(rawValue: providerString)
+            else {
+                result(FlutterError(code: "", message: "provider not exists", details: nil))
+                return
+        }
+
+        let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+
+        sdk?.addConnection(
+            provider: provider,
+            viewController: viewController,
+            params: parameters) { [weak self] gigyaResponse in
+            switch gigyaResponse {
+            case .success(let data):
+
+                let mapped = self?.mapAccountObject(account: data)
+                result(mapped)
+            case .failure(let error):
+                switch error {
+                case .gigyaError(let d):
+                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                default:
+                    result(FlutterError(code: "", message: error.localizedDescription, details: nil))
+                }
+            }
+        }
+    }
+
+    func removeConnection(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard
+            let providerString = arguments["provider"] as? String,
+            let provider = GigyaSocialProviders(rawValue: providerString)
+            else {
+                result(FlutterError(code: "", message: "provider not exists", details: nil))
+                return
+        }
+
+
+        sdk?.removeConnection(provider: provider) { gigyaResponse in
+            switch gigyaResponse {
+            case .success(let data):
+                let returnData = data.mapValues { $0.value }
+                result(returnData)
+            case .failure(let error):
+                switch error {
+                case .gigyaError(let d):
+                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                default:
+                    result(FlutterError(code: "", message: error.localizedDescription, details: nil))
+                }
+            }
+        }
+    }
+
     /**
      Show screensets call.
      */
@@ -271,6 +329,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         }
     }
+
 
 }
 

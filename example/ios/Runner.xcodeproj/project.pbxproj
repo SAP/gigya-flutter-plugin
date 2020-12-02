@@ -14,6 +14,8 @@
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
 		D5C4DF5F2563F46100CB770E /* UserHost.swift in Sources */ = {isa = PBXBuildFile; fileRef = D5C4DF5E2563F46100CB770E /* UserHost.swift */; };
+		E71BB5D325750B5B0021E592 /* FacebookWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71BB5D125750B5A0021E592 /* FacebookWrapper.swift */; };
+		E71BB5D425750B5B0021E592 /* GoogleWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = E71BB5D225750B5B0021E592 /* GoogleWrapper.swift */; };
 		F53B1CBD8447B46F82ED76E6 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1F4639B1E2013107FEB628B5 /* Pods_Runner.framework */; };
 /* End PBXBuildFile section */
 
@@ -48,6 +50,8 @@
 		97C147021CF9000F007C117D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		D373D3D2892FDD1E688AF746 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		D5C4DF5E2563F46100CB770E /* UserHost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserHost.swift; sourceTree = "<group>"; };
+		E71BB5D125750B5A0021E592 /* FacebookWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FacebookWrapper.swift; sourceTree = "<group>"; };
+		E71BB5D225750B5B0021E592 /* GoogleWrapper.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GoogleWrapper.swift; sourceTree = "<group>"; };
 		EFFE4046AB3295E3F8058E27 /* Pods-Runner.profile.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.profile.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.profile.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -114,6 +118,7 @@
 		97C146F01CF9000F007C117D /* Runner */ = {
 			isa = PBXGroup;
 			children = (
+				E71BB5D025750B4E0021E592 /* GigyaProviders */,
 				97C146FA1CF9000F007C117D /* Main.storyboard */,
 				97C146FD1CF9000F007C117D /* Assets.xcassets */,
 				97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */,
@@ -125,6 +130,15 @@
 				74858FAD1ED2DC5600515810 /* Runner-Bridging-Header.h */,
 			);
 			path = Runner;
+			sourceTree = "<group>";
+		};
+		E71BB5D025750B4E0021E592 /* GigyaProviders */ = {
+			isa = PBXGroup;
+			children = (
+				E71BB5D125750B5A0021E592 /* FacebookWrapper.swift */,
+				E71BB5D225750B5B0021E592 /* GoogleWrapper.swift */,
+			);
+			path = GigyaProviders;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -293,8 +307,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */,
+				E71BB5D425750B5B0021E592 /* GoogleWrapper.swift in Sources */,
 				D5C4DF5F2563F46100CB770E /* UserHost.swift in Sources */,
 				1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */,
+				E71BB5D325750B5B0021E592 /* FacebookWrapper.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
