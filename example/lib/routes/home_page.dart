@@ -69,7 +69,20 @@ class _HomePageWidgetState extends State<HomePageWidget> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Center(child: Text('Running on: $_platformVersion\n')),
-                HomeButtonWidget(route: '/send_request', text: 'Send request'),
+                ButtonTheme(
+                  minWidth: 240,
+                  child: RaisedButton(
+                    textColor: Colors.white,
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/send_requests').then((val) {
+                        setState(() {
+                          debugPrint('Refresh on back');
+                        });
+                      });
+                    },
+                    child: Text('Check available login id'),
+                  ),
+                ),
                 loggedIn
                     ? Container()
                     : Padding(
@@ -80,11 +93,11 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             textColor: Colors.white,
                             onPressed: () {
                               GigyaSdk.instance.showScreenSet("Default-RegistrationLogin", (event, map) {
-                                if (event == 'onLogin') {
-                                  setState(() { });
+                                debugPrint('Screen set event received: $event');
+                                debugPrint('Screen set event data received: $map');
+                                if (event == 'onHide' || event == 'onLogin') {
+                                  setState(() {});
                                 }
-                                print(event);
-                                print(map);
                               });
                             },
                             child: Text("Show ScreenSet"),
@@ -93,13 +106,51 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                 loggedIn
                     ? Container()
-                    : HomeButtonWidget(route: '/login_credentials', text: 'Login with credentials'),
+                    : ButtonTheme(
+                        minWidth: 240,
+                        child: RaisedButton(
+                          textColor: Colors.white,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/login_credentials').then((val) {
+                              setState(() {
+                                debugPrint('Refresh on back');
+                              });
+                            });
+                          },
+                          child: Text('Login with credentials'),
+                        ),
+                      ),
                 loggedIn
                     ? Container()
-                    : HomeButtonWidget(
-                        route: '/register_email', text: 'Register with email address'),
+                    : ButtonTheme(
+                        minWidth: 240,
+                        child: RaisedButton(
+                          textColor: Colors.white,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/register_email').then((val) {
+                              setState(() {
+                                debugPrint('Refresh on back');
+                              });
+                            });
+                          },
+                          child: Text('Register with email address'),
+                        ),
+                      ),
                 loggedIn
-                    ? HomeButtonWidget(route: '/account_information', text: 'getAccount')
+                    ? ButtonTheme(
+                        minWidth: 240,
+                        child: RaisedButton(
+                          textColor: Colors.white,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/account_information').then((val) {
+                              setState(() {
+                                debugPrint('Refresh on back');
+                              });
+                            });
+                          },
+                          child: Text('Account information'),
+                        ),
+                      )
                     : Container(),
                 loggedIn
                     ? ButtonTheme(
@@ -115,35 +166,27 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                       )
                     : Container(),
+                loggedIn
+                    ? ButtonTheme(
+                        minWidth: 240,
+                        child: RaisedButton(
+                          textColor: Colors.white,
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/manage_connections').then((val) {
+                              setState(() {
+                                debugPrint('Refresh on back');
+                              });
+                            });
+                          },
+                          child: Text('Manage connections'),
+                        ),
+                      )
+                    : Container(),
               ],
             ),
           ),
         );
       },
-    );
-  }
-}
-
-class HomeButtonWidget extends StatelessWidget {
-  final String route;
-  final String text;
-
-  const HomeButtonWidget({Key key, this.route, this.text}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(top: 2),
-      child: ButtonTheme(
-        minWidth: 240,
-        child: RaisedButton(
-          textColor: Colors.white,
-          onPressed: () {
-            Navigator.pushNamed(context, route);
-          },
-          child: Text(text),
-        ),
-      ),
     );
   }
 }

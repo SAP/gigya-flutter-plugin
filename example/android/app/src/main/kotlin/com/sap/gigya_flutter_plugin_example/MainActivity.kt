@@ -15,6 +15,6 @@ class MainActivity : FlutterActivity() {
         //
         // Reference the plugin and register your SDK initialization parameters.
         val plugin: GigyaFlutterPlugin= flutterEngine.plugins.get(GigyaFlutterPlugin::class.java) as GigyaFlutterPlugin
-        plugin.registerWith(application, GigyaAccount::class.java)
+        plugin.registerWith(application, GigyaAccount::class.java, flutterEngine.dartExecutor.binaryMessenger)
     }
 }

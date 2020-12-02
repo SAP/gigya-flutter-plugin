@@ -1,18 +1,19 @@
 package com.sap.gigya_flutter_plugin
 
 import android.app.Application
-import com.gigya.android.sdk.Gigya
-import com.gigya.android.sdk.GigyaCallback
-import com.gigya.android.sdk.GigyaDefinitions
-import com.gigya.android.sdk.GigyaLoginCallback
+import com.gigya.android.sdk.*
 import com.gigya.android.sdk.account.models.GigyaAccount
 import com.gigya.android.sdk.api.GigyaApiResponse
 import com.gigya.android.sdk.network.GigyaError
 import com.gigya.android.sdk.providers.provider.Provider
+import com.gigya.android.sdk.ui.plugin.GigyaPluginEvent
 import com.gigya.android.sdk.utils.CustomGSONDeserializer
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import io.flutter.plugin.common.BinaryMessenger
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.view.FlutterView
 
 class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Class<T>) {
 
@@ -261,7 +262,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         sdk.removeConnection(provider, object : GigyaCallback<GigyaApiResponse>() {
             override fun onSuccess(p0: GigyaApiResponse?) {
                 p0?.let {
-                    gson.fromJson<Map<String, Any>>(it.asJson(), object : TypeToken<Map<String, Any>>() {}.type)
+                    val mapped = gson.fromJson<Map<String, Any>>(it.asJson(), object : TypeToken<Map<String, Any>>() {}.type)
+                    channelResult.success(mapped)
                 } ?: channelResult.notImplemented()
             }
 
@@ -272,6 +274,111 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
         })
+    }
+
+    private var screenSetsEventsSink: EventChannel.EventSink? = null
+    private var screenSetEventsChannel: EventChannel? = null
+    private var screenSetsEventsHandler: EventChannel.StreamHandler? = null;
+
+    /**
+     * Trigger embedded web screen sets.
+     */
+    fun showScreenSet(arguments: Any, channelResult: MethodChannel.Result, messenger: BinaryMessenger?) {
+        if (messenger == null) {
+            channelResult.error(GENERAL_ERROR, GENERAL_ERROR_MESSAGE, mapOf<String, Any>())
+            return
+        }
+        val screenSet: String? = (arguments as Map<*, *>)["screenSet"] as String?
+        if (screenSet == null) {
+            channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            return
+        }
+        val parameters: MutableMap<String, Any> = arguments["parameters"] as MutableMap<String, Any>?
+                ?: mutableMapOf()
+
+        // Set events channel & handler.
+        screenSetEventsChannel = EventChannel(messenger, "screensetEvents")
+        screenSetsEventsHandler = object : EventChannel.StreamHandler {
+            override fun onListen(p0: Any?, sink: EventChannel.EventSink?) {
+                screenSetsEventsSink = sink
+            }
+
+            override fun onCancel(p0: Any?) {
+                screenSetEventsChannel = null
+            }
+        }
+        screenSetEventsChannel!!.setStreamHandler(screenSetsEventsHandler)
+
+        sdk.showScreenSet(screenSet, true, parameters, object : GigyaPluginCallback<T>() {
+            override fun onError(event: GigyaPluginEvent?) {
+                screenSetsEventsSink?.success(mapOf("event" to "onError", "data" to event!!.eventMap))
+            }
+
+            override fun onCanceled() {
+                screenSetsEventsSink?.error("200001", "Operation canceled", null)
+                screenSetsEventsHandler = null
+                screenSetEventsChannel = null
+                screenSetsEventsSink = null
+            }
+
+            override fun onHide(event: GigyaPluginEvent, reason: String?) {
+                screenSetsEventsSink?.success(mapOf("event" to "onHide", "reason" to reason!!, "data" to event.eventMap))
+                screenSetsEventsHandler = null
+                screenSetEventsChannel = null
+                screenSetsEventsSink = null
+            }
+
+            override fun onLogin(accountObj: T) {
+                screenSetsEventsSink?.success(mapOf("event" to "onLogin", "data" to mapAccountObject(accountObj)))
+            }
+
+            override fun onLogout() {
+                screenSetsEventsSink?.success(mapOf("event" to "onLogout"))
+            }
+
+            override fun onConnectionAdded() {
+                screenSetsEventsSink?.success(mapOf("event" to "onConnectionAdded"))
+            }
+
+            override fun onConnectionRemoved() {
+                screenSetsEventsSink?.success(mapOf("event" to "onConnectionRemoved"))
+            }
+
+            override fun onBeforeScreenLoad(event: GigyaPluginEvent) {
+                screenSetsEventsSink?.success(mapOf("event" to "onBeforeScreenLoad", "data" to event.eventMap))
+            }
+
+            override fun onAfterScreenLoad(event: GigyaPluginEvent) {
+                screenSetsEventsSink?.success(mapOf("event" to "onAfterScreenLoad", "data" to event.eventMap))
+            }
+
+            override fun onBeforeValidation(event: GigyaPluginEvent) {
+                screenSetsEventsSink?.success(mapOf("event" to "onBeforeValidation", "data" to event.eventMap))
+            }
+
+            override fun onAfterValidation(event: GigyaPluginEvent) {
+                screenSetsEventsSink?.success(mapOf("event" to "onAfterValidation", "data" to event.eventMap))
+            }
+
+            override fun onBeforeSubmit(event: GigyaPluginEvent) {
+                screenSetsEventsSink?.success(mapOf("event" to "onBeforeSubmit", "data" to event.eventMap))
+            }
+
+            override fun onSubmit(event: GigyaPluginEvent) {
+                screenSetsEventsSink?.success(mapOf("event" to "onSubmit", "data" to event.eventMap))
+            }
+
+            override fun onAfterSubmit(event: GigyaPluginEvent) {
+                screenSetsEventsSink?.success(mapOf("event" to "onAfterSubmit", "data" to event.eventMap))
+            }
+
+            override fun onFieldChanged(event: GigyaPluginEvent) {
+                screenSetsEventsSink?.success(mapOf("event" to "onFieldChanged", "data" to event.eventMap))
+            }
+        })
+
+        // Return void result. Streaming channel will handled plugin events.
+        channelResult.success(null)
     }
 
 
