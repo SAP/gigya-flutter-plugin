@@ -74,7 +74,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                   child: RaisedButton(
                     textColor: Colors.white,
                     onPressed: () {
-                      Navigator.pushNamed(context, '/send_requests').then((val) {
+                      Navigator.pushNamed(context, '/send_request').then((val) {
                         setState(() {
                           debugPrint('Refresh on back');
                         });

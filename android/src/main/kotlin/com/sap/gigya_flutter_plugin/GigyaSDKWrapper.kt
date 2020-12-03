@@ -16,6 +16,7 @@ import com.google.gson.reflect.TypeToken
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
+import java.util.*
 
 class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Class<T>) {
 
@@ -31,7 +32,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             val pInfo: PackageInfo = application.packageManager.getPackageInfo(application.packageName, 0)
             val version: String = pInfo.versionName
             val ref:IApiRequestFactory  = Gigya.getContainer().get(IApiRequestFactory::class.java)
-            ref.setSDK("Flutter_${version}")
+            ref.setSDK("flutter_${version}_android_${(Gigya.VERSION).toLowerCase(Locale.ENGLISH)}")
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
