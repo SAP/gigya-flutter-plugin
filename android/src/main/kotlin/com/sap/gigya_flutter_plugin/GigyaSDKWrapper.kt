@@ -1,11 +1,14 @@
 package com.sap.gigya_flutter_plugin
 
 import android.app.Application
+import android.content.pm.PackageInfo
+import android.content.pm.PackageManager
 import com.gigya.android.sdk.*
 import com.gigya.android.sdk.account.models.GigyaAccount
+import com.gigya.android.sdk.api.GigyaApiRequestFactory
 import com.gigya.android.sdk.api.GigyaApiResponse
+import com.gigya.android.sdk.api.IApiRequestFactory
 import com.gigya.android.sdk.network.GigyaError
-import com.gigya.android.sdk.providers.provider.Provider
 import com.gigya.android.sdk.ui.plugin.GigyaPluginEvent
 import com.gigya.android.sdk.utils.CustomGSONDeserializer
 import com.google.gson.GsonBuilder
@@ -13,7 +16,6 @@ import com.google.gson.reflect.TypeToken
 import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
-import io.flutter.view.FlutterView
 
 class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Class<T>) {
 
@@ -24,6 +26,15 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     init {
         Gigya.setApplication(application)
         sdk = Gigya.getInstance(accountObj)
+
+        try {
+            val pInfo: PackageInfo = application.packageManager.getPackageInfo(application.packageName, 0)
+            val version: String = pInfo.versionName
+            val ref:IApiRequestFactory  = Gigya.getContainer().get(IApiRequestFactory::class.java)
+            ref.setSDK("Flutter_${version}")
+        } catch (e: PackageManager.NameNotFoundException) {
+            e.printStackTrace()
+        }
     }
 
     /**
