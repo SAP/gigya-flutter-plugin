@@ -78,16 +78,73 @@ Example implementation is demostrated in the *send_request.dart* class of the pr
 ### Business APIs
 
 The plugin provides API to varius business APIs which iclude:
-**login, register, getAccount, setAccount, isLoggedIn, logOut etc.**
+**login, register, getAccount, getAccount, isLoggedIn ,logOut, addConnection, removeConnection**
 Implement them using the same request structure as shown above. 
 Example application includes the varius implementations.
 
 ### Social login
 
+Use the "socialLogin" interface in order to perform social login using supported providers.
+The Flutter plugin supports the same *providers supported by the Core Gigya SDK.
+
+* LINE, WeChat are currently not supported and will be added in future releases.
+
+## Embeded socail providers
+
+Specific social providers (Facebook, Google) require addional setup. This due to the their
+requirement for specific (embedded) SDKs.
+```
+Example for both Facebook & Google are implemented in the example application.
+```
+
+## Setting up Facebook sign in
+
+Follow the core SDK documentation and instructions for setting Facbook login.
+[Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#facebook)
+[iOS documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#facebook)
+
+iOS: In additon add the following to your Runner's *AppDelegate.swift* file:
+```swift
+Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
+```
+
+```
+Instead of adding the provider's sdk using gradle/cocoapods you are able to add
+the [flutter_facebook_login] plugin to your **pubspec.yaml** dependencies.
+```
+
+## Setting up Google sign in
+
+Follow the core SDK documentation and instructions for setting Facbook login.
+[Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#google)
+[iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#google)
+
+iOS: In additon add the following to your Runner's *AppDelegate.swift* file:
+```swift
+Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .google, wrapper: GoogleWrapper())
+```
+
+```
+Instead of adding the provider's sdk using gradle/cocoapods you are able to add
+the [google_sign_in] plugin to your **pubspec.yaml** dependencies.
+```
 
 ### Using screen-sets
 
+The plugin supports the use of Web screen-sets using the following:
+```
+GigyaSdk.instance.showScreenSet("Default-RegistrationLogin", (event, map) {
+          debugPrint('Screen set event received: $event');
+          debugPrint('Screen set event data received: $map');
+});
+```
+Optional {parameters} map is available.
 
+As in the core SDKs the plugin provides a streaming channel that will stream the
+Screen-Sets events (event, map).
+
+event - actual event name.
+map - event data map.
 
 ## Known Issues
 None
@@ -95,7 +152,6 @@ None
 ## How to obtain support
 * Via Github issues
 * [Via SAP standard support](https://developers.gigya.com/display/GD/Opening+A+Support+Incident)
-
 
 ## Contributing
 Via pull request to this repository.
