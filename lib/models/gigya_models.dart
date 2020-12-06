@@ -35,26 +35,26 @@ class Account extends GigyaResponse {
   String uid;
   String uidSignature;
   String created;
-  int createdTimestamp;
+  dynamic createdTimestamp;
   Emails emails;
   bool isActive;
   bool isRegistered;
   bool isVerified;
   String lastLogin;
-  int lastLoginTimestamp;
+  dynamic lastLoginTimestamp;
   String lastUpdated;
-  int lastUpdatedTimestamp;
+  dynamic lastUpdatedTimestamp;
   String loginProvider;
   String oldestDataUpdated;
-  int oldestDataUpdatedTimestamp;
+  dynamic oldestDataUpdatedTimestamp;
   Profile profile;
   String registered;
-  int registeredTimestamp;
+  dynamic registeredTimestamp;
   SessionInfo sessionInfo;
-  String signatureTimestamp;
+  dynamic signatureTimestamp;
   String socialProviders;
   String verified;
-  int verifiedTimestamp;
+  dynamic verifiedTimestamp;
 
   Account.fromJson(dynamic json) : super.fromJson(json) {
     uid = json['UID'];
