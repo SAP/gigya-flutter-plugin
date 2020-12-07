@@ -26,8 +26,13 @@ extension MethodsExt on Methods {
 /// Current supported social providers.
 enum SocialProvider {
   google,
-  googleplus,
   facebook,
+  line,
+  wechat,
+  apple,
+  amazon,
+  linkedin,
+  yahoo,
 }
 
 extension SocialProviderExt on SocialProvider {
