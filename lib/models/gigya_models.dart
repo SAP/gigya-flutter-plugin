@@ -1,5 +1,11 @@
 import 'dart:convert';
 
+enum Interruption {
+  pendingRegistration,
+  pendingVerification,
+  conflictingAccounts,
+}
+
 /// General response structure.
 class GigyaResponse {
   String callId;
@@ -8,15 +14,29 @@ class GigyaResponse {
   String errorDetails;
   String statusReason;
   int apiVersion;
+  String regToken;
 
-  GigyaResponse.fromJson(dynamic json) {
-    callId = json['callId'];
-    statusCode = json['statusCode'];
-    errorCode = json['errorCode'];
-    errorDetails = json['errorDetails'];
-    statusReason = json['statusReason'];
-    apiVersion = json['apiVersion'];
+  Interruption getInterruption() {
+    switch (errorCode) {
+      case 403043:
+        return Interruption.conflictingAccounts;
+      case 206001:
+        return Interruption.pendingRegistration;
+      case 206002:
+        return Interruption.pendingVerification;
+      default:
+        return null;
+    }
   }
+
+  GigyaResponse.fromJson(dynamic json)
+      : callId = json['callId'],
+        statusCode = json['statusCode'],
+        errorCode = json['errorCode'],
+        errorDetails = json['errorDetails'],
+        statusReason = json['statusReason'],
+        apiVersion = json['apiVersion'],
+        regToken = json['regToken'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
@@ -26,6 +46,7 @@ class GigyaResponse {
     data['errorDetails'] = errorDetails;
     data['statusReason'] = statusReason;
     data['apiVersion'] = apiVersion;
+    data['regToken'] = regToken;
     return data;
   }
 }

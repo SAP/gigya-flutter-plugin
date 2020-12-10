@@ -3,6 +3,7 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
+import 'package:gigya_flutter_plugin/interruption/interruption_resolver.dart';
 import 'package:gigya_flutter_plugin/models/gigya_models.dart';
 
 enum Methods {
@@ -46,11 +47,14 @@ typedef void OnScreenSetEvent(event, data);
 /// Do not instantiate this class. Instead use [GigyaSDk.instance] initializer to make
 /// sure you are using the same instance across your application.
 /// Using the singleton pattern here is crucial to prevent channels overlapping.
-class GigyaSdk {
+class GigyaSdk with DataMixin {
   static const MethodChannel _channel = const MethodChannel('gigya_flutter_plugin');
 
   /// Singleton shared instance of the Gigya SDK.
   static final GigyaSdk instance = GigyaSdk._();
+
+  /// Resolver factory instance.
+  final ResolverFactory resolverFactory = ResolverFactory(_channel);
 
   /// Private initializer.
   GigyaSdk._();
@@ -67,7 +71,7 @@ class GigyaSdk {
   Future<Map<String, dynamic>> send(endpoint, params) async {
     final json = await _channel
         .invokeMethod<String>(Methods.sendRequest.name, {'endpoint': endpoint, 'parameters': params}).catchError((error) {
-      return throw GigyaResponse.fromJson(_decodeError(error));
+      return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.sendRequest), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return jsonEncode(_timeoutError());
@@ -82,7 +86,7 @@ class GigyaSdk {
     final response = await _channel.invokeMapMethod<String, dynamic>(Methods.loginWithCredentials.name,
         {'loginId': loginId, 'password': password, 'parameters': params ?? {}}).catchError((error) {
       debugPrint('error');
-      return throw GigyaResponse.fromJson(_decodeError(error));
+      return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.loginWithCredentials), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return _timeoutError();
@@ -96,7 +100,7 @@ class GigyaSdk {
   Future<Map<String, dynamic>> register(loginId, password, {params}) async {
     final response = await _channel.invokeMapMethod<String, dynamic>(Methods.registerWithCredentials.name,
         {'email': loginId, 'password': password, 'parameters': params ?? {}}).catchError((error) {
-      return throw GigyaResponse.fromJson(_decodeError(error));
+      return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.registerWithCredentials), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return _timeoutError();
@@ -118,7 +122,7 @@ class GigyaSdk {
   Future<Map<String, dynamic>> getAccount({invalidate, parameters}) async {
     final response = await _channel.invokeMapMethod<String, dynamic>(
         Methods.getAccount.name, {'invalidate': invalidate, 'parameters': parameters}).catchError((error) {
-      return throw GigyaResponse.fromJson(_decodeError(error));
+      return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.getAccount), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return _timeoutError();
@@ -133,7 +137,7 @@ class GigyaSdk {
   Future<Map<String, dynamic>> setAccount(account) async {
     final response =
         await _channel.invokeMapMethod<String, dynamic>(Methods.setAccount.name, {'account': account}).catchError((error) {
-      return throw GigyaResponse.fromJson(_decodeError(error));
+      return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.setAccount), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return _timeoutError();
@@ -159,7 +163,7 @@ class GigyaSdk {
   Future<Map<String, dynamic>> socialLogin(SocialProvider provider, {parameters}) async {
     final response = await _channel.invokeMapMethod<String, dynamic>(
         Methods.socialLogin.name, {'provider': provider.name, 'parameters': parameters}).catchError((error) {
-      return throw GigyaResponse.fromJson(_decodeError(error));
+      return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.socialLogin), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return _timeoutError();
@@ -173,7 +177,7 @@ class GigyaSdk {
   Future<Map<String, dynamic>> addConnection(SocialProvider provider) async {
     final response = await _channel
         .invokeMapMethod<String, dynamic>(Methods.addConnection.name, {'provider': provider.name}).catchError((error) {
-      return throw GigyaResponse.fromJson(_decodeError(error));
+      return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.addConnection), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return _timeoutError();
@@ -185,21 +189,12 @@ class GigyaSdk {
   Future<Map<String, dynamic>> removeConnection(SocialProvider provider) async {
     final response = await _channel
         .invokeMapMethod<String, dynamic>(Methods.removeConnection.name, {'provider': provider.name}).catchError((error) {
-      return throw GigyaResponse.fromJson(_decodeError(error));
+      return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.removeConnection), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return _timeoutError();
     });
     return response;
-  }
-
-  /// Mapping communication error structure.
-  Map<String, dynamic> _decodeError(PlatformException error) {
-    if (error.details != null && error.details is Map<dynamic, dynamic>) {
-      final mapped = error.details.cast<String, dynamic>();
-      return mapped;
-    }
-    return {};
   }
 
   /// Screen-sets event subscription.
@@ -235,5 +230,16 @@ class GigyaSdk {
       'errorCode': 504002,
       'errorDetails': 'A timeout that was defined in the request is reached',
     };
+  }
+}
+
+mixin DataMixin {
+  /// Mapping communication error structure.
+  Map<String, dynamic> decodeError(PlatformException error) {
+    if (error.details != null && error.details is Map<dynamic, dynamic>) {
+      final mapped = error.details.cast<String, dynamic>();
+      return mapped;
+    }
+    return {};
   }
 }

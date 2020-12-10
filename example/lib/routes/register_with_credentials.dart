@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 import 'package:gigya_flutter_plugin/models/gigya_models.dart';
+import 'package:gigya_flutter_plugin/interruption/interruption_resolver.dart';
 
 class RegisterWithEmailWidget extends StatefulWidget {
   @override
@@ -124,10 +125,23 @@ class _RegisterWidthEmailWidgetState extends State<RegisterWithEmailWidget> {
         _inProgress = false;
         _requestResult = 'Register success:\n\n ${response.uid}';
       });
-    }).catchError((error) {
+    }).catchError((GigyaResponse error) {
       setState(() {
         _inProgress = false;
         _requestResult = 'Register error\n\n${error.errorDetails}';
+
+        switch (error.getInterruption()) {
+          case Interruption.pendingRegistration:
+            break;
+          case Interruption.pendingVerification:
+            break;
+          case Interruption.conflictingAccounts:
+            LinkAccountResolver resolver = GigyaSdk.instance.resolverFactory.getResolver(error);
+            resolver.linkToSocial(SocialProvider.facebook).catchError((error) {});
+            break;
+          default:
+            break;
+        }
       });
     });
   }
