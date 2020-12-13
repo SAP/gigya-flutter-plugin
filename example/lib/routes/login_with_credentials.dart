@@ -233,8 +233,9 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
                     child: RaisedButton(
                       onPressed: () async {
                         final String password = _linkPasswordController.text.trim();
-                        resolver.linkToSite(loginId, password).then((Account account) {
-                          debugPrint(json.encode(account));
+                        resolver.linkToSite(loginId, password).then((res) {
+                          final Account account = Account.fromJson(res);
+
                           setState(() {
                             _inProgress = false;
                             _requestResult = 'Login success:\n\n ${account.uid}';
@@ -281,8 +282,9 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
                         icon: Image.asset('assets/facebook_new.png'),
                         iconSize: 50,
                         onPressed: () async {
-                          resolver.linkToSocial(SocialProvider.facebook).then((Account account) {
-                            debugPrint(json.encode(account));
+                          resolver.linkToSocial(SocialProvider.facebook).then((res) {
+                            final Account account = Account.fromJson(res);
+
                             setState(() {
                               _inProgress = false;
                               _requestResult = 'Login success:\n\n ${account.uid}';

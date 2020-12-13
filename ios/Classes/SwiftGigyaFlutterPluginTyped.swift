@@ -46,11 +46,15 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         switch method {
         case .getPlatformVersion:
             result("iOS " + UIDevice.current.systemVersion)
+            return
         case .isLoggedIn:
             sdk?.isLoggedIn(result: result)
             return
         case .logOut:
             sdk?.logOut(result: result)
+            return
+        case .getConflictingAccounts:
+            sdk?.resolveGetConflictingAccounts(arguments: [:], result: result)
             return
         default:
             break
@@ -81,8 +85,6 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.addConnection(arguments: args, result: result)
         case .removeConnection:
             sdk?.removeConnection(arguments: args, result: result)
-        case .getConflictingAccounts:
-            sdk?.resolveGetConflictingAccounts(arguments: args, result: result)
         case .linkToSite:
             sdk?.resolveLinkToSite(arguments: args, result: result)
         case .linkToScoial:

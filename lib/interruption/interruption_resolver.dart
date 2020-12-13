@@ -33,25 +33,23 @@ class LinkAccountResolver with DataMixin {
     return ConflictingAccounts.fromJson(map);
   }
 
-  Future<Account> linkToSite(String loginId, String password) async {
+  Future<Map<String, dynamic>> linkToSite(String loginId, String password) async {
     final Map<String, dynamic> res = await _channel.invokeMapMethod<String, dynamic>('linkToSite', {
       'loginId': loginId,
       'password': password,
     }).catchError((error) {
       throw GigyaResponse.fromJson(decodeError(error));
     });
-    final Account account = Account.fromJson(res);
-    return account;
+    return res;
   }
 
-  Future<Account> linkToSocial(SocialProvider provider) async {
+  Future<Map<String, dynamic>> linkToSocial(SocialProvider provider) async {
     final Map<String, dynamic> res = await _channel.invokeMapMethod<String, dynamic>('linkToSocial', {
       'provider': provider.name,
     }).catchError((error) {
       throw GigyaResponse.fromJson(decodeError(error));
     });
-    final Account account = Account.fromJson(res);
-    return account;
+    return res;
   }
 }
 
@@ -60,14 +58,13 @@ class PendingRegistrationResolver with DataMixin {
 
   PendingRegistrationResolver(this._channel);
 
-  Future<Account> setAccount(Map<String, dynamic> map) async {
+  Future<Map<String, dynamic>> setAccount(Map<String, dynamic> map) async {
     final Map<String, dynamic> res = await _channel.invokeMapMethod<String, dynamic>('resolveSetAccount', {
       map,
     }).catchError((error) {
       throw GigyaResponse.fromJson(decodeError(error));
     });
-    final Account account = Account.fromJson(res);
-    return account;
+    return res;
   }
 }
 
