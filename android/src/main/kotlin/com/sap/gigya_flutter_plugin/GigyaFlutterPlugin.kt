@@ -51,7 +51,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler {
             "addConnection" -> sdk.addConnection(call.arguments, result)
             "removeConnection" -> sdk.removeConnection(call.arguments, result)
             "showScreenSet" -> sdk.showScreenSet(call.arguments, result, _messenger)
-            "getConflictingAccounts" -> sdk.resolveGetConflictingAccounts(call.arguments, result)
+            "getConflictingAccounts" -> sdk.resolveGetConflictingAccounts(result)
             "linkToSite" -> sdk.resolveLinkToSite(call.arguments, result)
             "linkToSocial"-> sdk.resolveLinkToSocial(call.arguments, result)
             "resolveSetAccount"-> sdk.resolveSetAccount(call.arguments, result)

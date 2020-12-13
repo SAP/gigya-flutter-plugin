@@ -53,7 +53,7 @@ class GigyaSdk with DataMixin {
   /// Singleton shared instance of the Gigya SDK.
   static final GigyaSdk instance = GigyaSdk._();
 
-  /// Resolver factory instance.
+  /// Resolver factory instance.cd
   final ResolverFactory resolverFactory = ResolverFactory(_channel);
 
   /// Private initializer.

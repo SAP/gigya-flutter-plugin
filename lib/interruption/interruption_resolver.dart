@@ -24,14 +24,13 @@ class ResolverFactory {
 class LinkAccountResolver with DataMixin {
   final MethodChannel _channel;
 
-  Map<String, dynamic> conflictingAccounts;
-
   LinkAccountResolver(this._channel) {
     getConflictingAccounts();
   }
 
-  Future<void> getConflictingAccounts() async {
-    conflictingAccounts = await _channel.invokeMapMethod('getConflictingAccounts');
+  Future<ConflictingAccounts> getConflictingAccounts() async {
+    Map<String, dynamic> map =  await _channel.invokeMapMethod('getConflictingAccounts');
+    return ConflictingAccounts.fromJson(map);
   }
 
   Future<Account> linkToSite(String loginId, String password) async {

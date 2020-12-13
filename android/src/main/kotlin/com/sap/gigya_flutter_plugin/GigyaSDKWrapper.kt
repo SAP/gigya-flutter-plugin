@@ -23,7 +23,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     private var sdk: Gigya<T>
 
-    private var resolverHelper: ResolverHelper<T> = ResolverHelper();
+    private var resolverHelper: ResolverHelper = ResolverHelper();
 
     val gson = GsonBuilder().registerTypeAdapter(object : TypeToken<Map<String?, Any?>?>() {}.type, CustomGSONDeserializer()).create()
 
@@ -93,6 +93,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         sdk.login(loginParams, object : GigyaLoginCallback<T>() {
 
             override fun onSuccess(p0: T) {
+                resolverHelper.clear()
                 val mapped = mapObject(p0)
                 channelResult.success(mapped)
             }
@@ -105,17 +106,17 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onConflictingAccounts(response: GigyaApiResponse, resolver: ILinkAccountsResolver) {
                 resolverHelper.linkAccountResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asJson())
+                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingRegistration(response: GigyaApiResponse, resolver: IPendingRegistrationResolver) {
                 resolverHelper.pendingRegistrationResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asJson())
+                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
                 resolverHelper.regToken = regToken
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asJson())
+                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
         })
     }
@@ -138,6 +139,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 ?: mutableMapOf()
         sdk.register(email, password, parameters!!, object : GigyaLoginCallback<T>() {
             override fun onSuccess(p0: T) {
+                resolverHelper.clear()
                 val mapped = mapObject(p0)
                 channelResult.success(mapped)
             }
@@ -150,17 +152,17 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onConflictingAccounts(response: GigyaApiResponse, resolver: ILinkAccountsResolver) {
                 resolverHelper.linkAccountResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asJson())
+                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingRegistration(response: GigyaApiResponse, resolver: IPendingRegistrationResolver) {
                 resolverHelper.pendingRegistrationResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asJson())
+                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
                 resolverHelper.regToken = regToken
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asJson())
+                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
         })
@@ -250,6 +252,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         sdk.login(provider, parameters, object : GigyaLoginCallback<T>() {
             override fun onSuccess(p0: T) {
                 val mapped = mapObject(p0)
+                resolverHelper.clear()
                 channelResult.success(mapped)
             }
 
@@ -265,17 +268,17 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onConflictingAccounts(response: GigyaApiResponse, resolver: ILinkAccountsResolver) {
                 resolverHelper.linkAccountResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asJson())
+                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingRegistration(response: GigyaApiResponse, resolver: IPendingRegistrationResolver) {
                 resolverHelper.pendingRegistrationResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asJson())
+                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
                 resolverHelper.regToken = regToken
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asJson())
+                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
         })
@@ -443,7 +446,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     /**
      * Link account - handler for fetching conflicting accounts from current intrruption state.
      */
-    fun resolveGetConflictingAccounts(arguments: Any, channelResult: MethodChannel.Result) {
+    fun resolveGetConflictingAccounts(channelResult: MethodChannel.Result) {
         resolverHelper.linkAccountResolver?.let { resolver ->
             val conflictingAccounts = resolver.conflictingAccounts
             channelResult.success(mapObject(conflictingAccounts));
@@ -521,30 +524,15 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
 }
 
-class ResolverHelper<T : GigyaAccount> {
+class ResolverHelper {
 
     var linkAccountResolver: ILinkAccountsResolver? = null
-        set(value) {
-            clear()
-            field = value
-        }
-
     var pendingRegistrationResolver: IPendingRegistrationResolver? = null
-        set(value) {
-            clear()
-            field = value
-        }
-
     var regToken: String? = null
-        set(value) {
-            clear()
-            field = value
-        }
 
-    private fun clear() {
+    fun clear() {
         linkAccountResolver = null
         pendingRegistrationResolver = null
         regToken = null
     }
-
 }
