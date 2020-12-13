@@ -44,6 +44,8 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
 
         // Methods without arguments
         switch method {
+        case .getPlatformVersion:
+            result("iOS " + UIDevice.current.systemVersion)
         case .isLoggedIn:
             sdk?.isLoggedIn(result: result)
             return
@@ -61,8 +63,6 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         }
 
         switch method {
-        case .getPlatformVersion:
-            result("iOS " + UIDevice.current.systemVersion)
         case .sendRequest:
             sdk?.sendRequest(arguments: args, result: result)
         case .loginWithCredentials:
