@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 import 'package:gigya_flutter_plugin/models/gigya_models.dart';
-import 'package:gigya_flutter_plugin/interruption/interruption_resolver.dart';
 
 class RegisterWithEmailWidget extends StatefulWidget {
   @override
@@ -16,6 +15,8 @@ class _RegisterWidthEmailWidgetState extends State<RegisterWithEmailWidget> {
   String _requestResult = '';
   bool _inProgress = false;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void dispose() {
     _loginIdEditingController.dispose();
@@ -26,6 +27,7 @@ class _RegisterWidthEmailWidgetState extends State<RegisterWithEmailWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Register with email address'),
       ),
@@ -125,23 +127,10 @@ class _RegisterWidthEmailWidgetState extends State<RegisterWithEmailWidget> {
         _inProgress = false;
         _requestResult = 'Register success:\n\n ${response.uid}';
       });
-    }).catchError((GigyaResponse error) {
+    }).catchError((error) {
       setState(() {
         _inProgress = false;
         _requestResult = 'Register error\n\n${error.errorDetails}';
-
-        switch (error.getInterruption()) {
-          case Interruption.pendingRegistration:
-            break;
-          case Interruption.pendingVerification:
-            break;
-          case Interruption.conflictingAccounts:
-            LinkAccountResolver resolver = GigyaSdk.instance.resolverFactory.getResolver(error);
-            resolver.linkToSocial(SocialProvider.facebook).catchError((error) {});
-            break;
-          default:
-            break;
-        }
       });
     });
   }

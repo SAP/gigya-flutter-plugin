@@ -812,3 +812,14 @@ class Work {
     return data;
   }
 }
+
+class ConflictingAccounts {
+
+  String loginID;
+  List<String> loginProviders;
+
+  ConflictingAccounts.fromJson(Map<String, dynamic> json) {
+    loginID = json['loginID'];
+    loginProviders = json['loginProviders'].cast<String>();
+  }
+}
