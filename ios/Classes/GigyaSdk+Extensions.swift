@@ -36,10 +36,10 @@ extension GigyaSdkWrapper {
     /**
      Mapping typed account object.
      */
-    func mapAccountObject(account: T) -> [String: Any] {
+    func mapObject<T: Codable>(_ obj: T) -> [String: Any] {
         do {
             let jsonEncoder = JSONEncoder()
-            let jsonData = try jsonEncoder.encode(account)
+            let jsonData = try jsonEncoder.encode(obj)
             let dictionary = try JSONSerialization.jsonObject(with: jsonData, options: [])
                 as? [String: Any]
             return dictionary ?? [:]
