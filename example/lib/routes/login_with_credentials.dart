@@ -154,10 +154,15 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
         _requestResult = 'Login success:\n\n ${response.uid}';
       });
     }).catchError((error) {
-      setState(() {
-        _inProgress = false;
-        _requestResult = 'Request error\n\n${error.errorDetails}';
-      });
+      if (error.getInterruption() == Interruption.conflictingAccounts) {
+        LinkAccountResolver resolver = GigyaSdk.instance.resolverFactory.getResolver(error);
+        _resolveLinkAccount(resolver);
+      } else {
+        setState(() {
+          _inProgress = false;
+          _requestResult = 'Register error\n\n${error.errorDetails}';
+        });
+      }
     });
   }
 
@@ -228,13 +233,13 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
                     child: RaisedButton(
                       onPressed: () async {
                         final String password = _linkPasswordController.text.trim();
-                        resolver.linkToSite(loginId, password).then((value) {
-                          debugPrint(json.encode(value));
-                          final response = Account.fromJson(value);
+                        resolver.linkToSite(loginId, password).then((Account account) {
+                          debugPrint(json.encode(account));
                           setState(() {
                             _inProgress = false;
-                            _requestResult = 'Login success:\n\n ${response.uid}';
+                            _requestResult = 'Login success:\n\n ${account.uid}';
                           });
+                          Navigator.of(context).pop();
                         });
                       },
                       textColor: Colors.white,
@@ -276,13 +281,13 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
                         icon: Image.asset('assets/facebook_new.png'),
                         iconSize: 50,
                         onPressed: () async {
-                          resolver.linkToSocial(SocialProvider.facebook).then((value) {
-                            debugPrint(json.encode(value));
-                            final response = Account.fromJson(value);
+                          resolver.linkToSocial(SocialProvider.facebook).then((Account account) {
+                            debugPrint(json.encode(account));
                             setState(() {
                               _inProgress = false;
-                              _requestResult = 'Login success:\n\n ${response.uid}';
+                              _requestResult = 'Login success:\n\n ${account.uid}';
                             });
+                            Navigator.of(context).pop();
                           });
                         },
                       ),

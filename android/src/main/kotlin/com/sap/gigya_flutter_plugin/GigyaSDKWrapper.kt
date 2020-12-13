@@ -23,7 +23,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     private var sdk: Gigya<T>
 
-    private var resolverHelper: ResolverHelper = ResolverHelper();
+    private var resolverHelper: ResolverHelper = ResolverHelper()
+
+    private var currentResult: MethodChannel.Result? = null
 
     val gson = GsonBuilder().registerTypeAdapter(object : TypeToken<Map<String?, Any?>?>() {}.type, CustomGSONDeserializer()).create()
 
@@ -75,14 +77,15 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Login using credentials (loginId/password combination with optional parameter map).
      */
     fun loginWithCredentials(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult
         val loginId: String? = (arguments as Map<*, *>)["loginId"] as String?
         if (loginId == null) {
-            channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            currentResult!!.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
             return
         }
         val password: String? = arguments["password"] as String?
         if (password == null) {
-            channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            currentResult!!.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
             return
         }
         val parameters: Map<String, Any>? = arguments["parameters"] as Map<String, Any>?
@@ -95,28 +98,28 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onSuccess(p0: T) {
                 resolverHelper.clear()
                 val mapped = mapObject(p0)
-                channelResult.success(mapped)
+                currentResult!!.success(mapped)
             }
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
-                } ?: channelResult.notImplemented()
+                    currentResult!!.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                } ?: currentResult!!.notImplemented()
             }
 
             override fun onConflictingAccounts(response: GigyaApiResponse, resolver: ILinkAccountsResolver) {
                 resolverHelper.linkAccountResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
+                currentResult!!.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingRegistration(response: GigyaApiResponse, resolver: IPendingRegistrationResolver) {
                 resolverHelper.pendingRegistrationResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
+                currentResult!!.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
                 resolverHelper.regToken = regToken
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
+                currentResult!!.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
         })
     }
@@ -125,14 +128,15 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Register a new user using credentials (email/password combination with optional parameter map).
      */
     fun registerWithCredentials(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult;
         val email: String? = (arguments as Map<*, *>)["email"] as String?
         if (email == null) {
-            channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            currentResult!!.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
             return
         }
         val password: String? = arguments["password"] as String?
         if (password == null) {
-            channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            currentResult!!.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
             return
         }
         val parameters: MutableMap<String, Any> = arguments["parameters"] as MutableMap<String, Any>?
@@ -141,28 +145,28 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onSuccess(p0: T) {
                 resolverHelper.clear()
                 val mapped = mapObject(p0)
-                channelResult.success(mapped)
+                currentResult!!.success(mapped)
             }
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
-                } ?: channelResult.notImplemented()
+                    currentResult!!.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                } ?: currentResult!!.notImplemented()
             }
 
             override fun onConflictingAccounts(response: GigyaApiResponse, resolver: ILinkAccountsResolver) {
                 resolverHelper.linkAccountResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
+                currentResult!!.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingRegistration(response: GigyaApiResponse, resolver: IPendingRegistrationResolver) {
                 resolverHelper.pendingRegistrationResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
+                currentResult!!.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
                 resolverHelper.regToken = regToken
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
+                currentResult!!.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
         })
@@ -242,9 +246,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Social login with given provider & provider sessions.
      */
     fun socialLogin(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult
         val provider: String? = (arguments as Map<*, *>)["provider"] as String?
         if (provider == null) {
-            channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            currentResult!!.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
             return
         }
         val parameters: MutableMap<String, Any> = arguments["parameters"] as MutableMap<String, Any>?
@@ -253,32 +258,32 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onSuccess(p0: T) {
                 val mapped = mapObject(p0)
                 resolverHelper.clear()
-                channelResult.success(mapped)
+                currentResult!!.success(mapped)
             }
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
-                } ?: channelResult.notImplemented()
+                    currentResult!!.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                } ?: currentResult!!.notImplemented()
             }
 
             override fun onOperationCanceled() {
-                channelResult.error(CANCELED_ERROR, CANCELED_ERROR_MESSAGE, null)
+                currentResult!!.error(CANCELED_ERROR, CANCELED_ERROR_MESSAGE, null)
             }
 
             override fun onConflictingAccounts(response: GigyaApiResponse, resolver: ILinkAccountsResolver) {
                 resolverHelper.linkAccountResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
+                currentResult!!.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingRegistration(response: GigyaApiResponse, resolver: IPendingRegistrationResolver) {
                 resolverHelper.pendingRegistrationResolver = resolver
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
+                currentResult!!.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
             override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
                 resolverHelper.regToken = regToken
-                channelResult.error(response.errorCode.toString(), response.errorDetails, response.asMap())
+                currentResult!!.error(response.errorCode.toString(), response.errorDetails, response.asMap())
             }
 
         })
@@ -458,6 +463,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Link account - resolving link to site.
      */
     fun resolveLinkToSite(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult
         resolverHelper.linkAccountResolver?.let { resolver ->
             val loginId: String? = (arguments as Map<*, *>)["loginId"] as String?
             if (loginId == null) {
@@ -478,6 +484,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Link account - resolving link to social.
      */
     fun resolveLinkToSocial(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult
         resolverHelper.linkAccountResolver?.let { resolver ->
             val provider: String? = (arguments as Map<*, *>)["provider"] as String?
             if (provider == null) {
@@ -493,8 +500,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Pending registration - resolving missing account data.
      */
     fun resolveSetAccount(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult
         resolverHelper.pendingRegistrationResolver?.let { resolver ->
-            val data: Map<String, Any>? = (arguments as Map<*, *>)["provider"] as Map<String, Any>?
+            val data: Map<String, Any>? = arguments as Map<String, Any>
             if (data == null) {
                 channelResult.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
                 return
