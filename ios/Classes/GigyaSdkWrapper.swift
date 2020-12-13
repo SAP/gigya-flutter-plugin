@@ -360,7 +360,7 @@ extension GigyaSdkWrapper {
     /**
      Link account - handler for fetching conflicting accounts from current intrruption state.
      */
-    func resolveGetConflictingAccounts(arguments: [String: Any], result: @escaping FlutterResult) {
+    func resolveGetConflictingAccounts(result: @escaping FlutterResult) {
         guard let resolver = resolverHelper.linkAccountResolver else {
             result(FlutterError(code: PluginErrors.generalError, message: "resolver not found", details: nil))
 

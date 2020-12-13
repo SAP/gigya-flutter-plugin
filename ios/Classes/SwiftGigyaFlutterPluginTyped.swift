@@ -54,7 +54,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.logOut(result: result)
             return
         case .getConflictingAccounts:
-            sdk?.resolveGetConflictingAccounts(arguments: [:], result: result)
+            sdk?.resolveGetConflictingAccounts(result: result)
             return
         default:
             break
