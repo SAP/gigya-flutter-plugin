@@ -2,8 +2,7 @@
 # 0.0.1
 Inital release.
 
-* Business Apis.
-* Social login.
-* Web Screen-sets.
-
-**LINE, WeChat social login providers not supported**
+* Business APIs.
+* Social login (View documentation for supported providers).
+* Web Screen-Sets.
+* Interruption handling.
