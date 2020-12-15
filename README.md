@@ -204,7 +204,7 @@ resolver.linkToSite(loginId, password).then((res) {
 None
 
 ## How to obtain support
-* Via Github issues
+* [Via Github issues](https://github.com/SAP/gigya-flutter-plugin/issues)
 * [Via SAP standard support](https://developers.gigya.com/display/GD/Opening+A+Support+Incident)
 
 ## Contributing
