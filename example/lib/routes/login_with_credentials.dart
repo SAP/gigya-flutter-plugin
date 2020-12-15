@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
+import 'package:gigya_flutter_plugin/interruption/interruption_resolver.dart';
 import 'package:gigya_flutter_plugin/models/gigya_models.dart';
 
 class LoginWidthCredentialsWidget extends StatefulWidget {
@@ -15,6 +16,9 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
   String _requestResult = '';
   bool _inProgress = false;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final TextEditingController _linkPasswordController = TextEditingController();
+
   @override
   void dispose() {
     _loginIdEditingController.dispose();
@@ -25,6 +29,7 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Login with credentials'),
       ),
@@ -86,10 +91,34 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
                     onPressed: () {
                       final String loginId = _loginIdEditingController.text.trim();
                       final String password = _passwordEditingController.text.trim();
-                      sendRequest(loginId, password);
+                      _sendLoginRequest(loginId, password);
                     },
                     textColor: Colors.white,
                     child: const Text('Send Request'),
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: Center(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Container(
+                          width: 50,
+                          height: 50,
+                          color: const Color(0xff3B5998),
+                          child: IconButton(
+                            icon: Image.asset('assets/facebook_new.png'),
+                            iconSize: 50,
+                            onPressed: () {
+                              _sendSocialLoginRequest(SocialProvider.facebook);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
                 ),
                 SizedBox(
@@ -112,8 +141,8 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
     );
   }
 
-  /// Submit request.
-  void sendRequest(loginId, password) async {
+  /// Submit login request.
+  void _sendLoginRequest(loginId, password) async {
     setState(() {
       _inProgress = true;
     });
@@ -125,10 +154,152 @@ class _LoginWidthCredentialsWidgetState extends State<LoginWidthCredentialsWidge
         _requestResult = 'Login success:\n\n ${response.uid}';
       });
     }).catchError((error) {
+      if (error.getInterruption() == Interruption.conflictingAccounts) {
+        LinkAccountResolver resolver = GigyaSdk.instance.resolverFactory.getResolver(error);
+        _resolveLinkAccount(resolver);
+      } else {
+        setState(() {
+          _inProgress = false;
+          _requestResult = 'Register error\n\n${error.errorDetails}';
+        });
+      }
+    });
+  }
+
+  /// Submit social login request.
+  void _sendSocialLoginRequest(provider) async {
+    setState(() {
+      _inProgress = true;
+    });
+    GigyaSdk.instance.socialLogin(provider).then((result) {
+      debugPrint(json.encode(result));
+      final response = Account.fromJson(result);
       setState(() {
         _inProgress = false;
-        _requestResult = 'Request error\n\n${error.errorDetails}';
+        _requestResult = 'Login success:\n\n ${response.uid}';
       });
+    }).catchError((error) {
+      if (error.getInterruption() == Interruption.conflictingAccounts) {
+        LinkAccountResolver resolver = GigyaSdk.instance.resolverFactory.getResolver(error);
+        _resolveLinkAccount(resolver);
+      } else {
+        setState(() {
+          _inProgress = false;
+          _requestResult = 'Register error\n\n${error.errorDetails}';
+        });
+      }
     });
+  }
+
+  /// Resolving link account interruption.
+  _resolveLinkAccount(LinkAccountResolver resolver) async {
+    final ConflictingAccounts conflictingAccounts = await resolver.getConflictingAccounts();
+    if (conflictingAccounts.loginProviders.contains('site')) {
+      // link to site.
+      _showLinkToSiteBottomSheet(conflictingAccounts.loginID, resolver);
+    } else {
+      // link to social
+      _showLinkToSocialBottomSheet(resolver);
+    }
+  }
+
+  /// Show link account (site) bottom sheet.
+  _showLinkToSiteBottomSheet(String loginId, LinkAccountResolver resolver) {
+    _scaffoldKey.currentState.showBottomSheet((context) => Material(
+          color: Colors.white,
+          elevation: 4,
+          child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Center(
+                    child: const Text(
+                      'Link to site',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Center(child: Text('Enter password for loginID: $loginId')),
+                  SizedBox(height: 10),
+                  TextField(
+                    controller: _linkPasswordController,
+                    decoration: InputDecoration(hintText: 'password'),
+                  ),
+                  SizedBox(height: 10),
+                  ButtonTheme(
+                    minWidth: 240,
+                    child: RaisedButton(
+                      onPressed: () async {
+                        final String password = _linkPasswordController.text.trim();
+                        resolver.linkToSite(loginId, password).then((res) {
+                          final Account account = Account.fromJson(res);
+
+                          setState(() {
+                            _inProgress = false;
+                            _requestResult = 'Login success:\n\n ${account.uid}';
+                          });
+                          Navigator.of(context).pop();
+                        });
+                      },
+                      textColor: Colors.white,
+                      child: const Text('Link to site'),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ),
+        ));
+  }
+
+  /// Show link account (social) bottom sheet.
+  _showLinkToSocialBottomSheet(LinkAccountResolver resolver) {
+    _scaffoldKey.currentState.showBottomSheet((context) => Material(
+      color: Colors.white,
+      elevation: 4,
+      child: Container(
+            child: Padding(
+              padding: const EdgeInsets.all(24.0),
+              child: ListView(
+                shrinkWrap: true,
+                children: [
+                  Center(
+                    child: const Text(
+                      'Link to social',
+                      style: TextStyle(fontSize: 18),
+                    ),
+                  ),
+                  SizedBox(height: 10),
+                  Center(
+                    child: Container(
+                      width: 50,
+                      height: 50,
+                      color: const Color(0xff3B5998),
+                      child: IconButton(
+                        icon: Image.asset('assets/facebook_new.png'),
+                        iconSize: 50,
+                        onPressed: () async {
+                          resolver.linkToSocial(SocialProvider.facebook).then((res) {
+                            final Account account = Account.fromJson(res);
+
+                            setState(() {
+                              _inProgress = false;
+                              _requestResult = 'Login success:\n\n ${account.uid}';
+                            });
+                            Navigator.of(context).pop();
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 20),
+                ],
+              ),
+            ),
+          ),
+    ));
   }
 }

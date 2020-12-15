@@ -15,6 +15,8 @@ class _RegisterWidthEmailWidgetState extends State<RegisterWithEmailWidget> {
   String _requestResult = '';
   bool _inProgress = false;
 
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
   @override
   void dispose() {
     _loginIdEditingController.dispose();
@@ -25,6 +27,7 @@ class _RegisterWidthEmailWidgetState extends State<RegisterWithEmailWidget> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
       appBar: AppBar(
         title: const Text('Register with email address'),
       ),

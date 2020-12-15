@@ -6,6 +6,7 @@ import com.gigya.android.sdk.Gigya
 import com.gigya.android.sdk.account.models.GigyaAccount
 
 import io.flutter.embedding.engine.plugins.FlutterPlugin
+import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -18,9 +19,12 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler {
 
     /// Main communication method channel.
     private lateinit var channel: MethodChannel
+    
+    private var _messenger: BinaryMessenger? = null
 
-    fun <T : GigyaAccount> registerWith(application: Application, accountObj: Class<T>) {
+    fun <T : GigyaAccount> registerWith(application: Application, accountObj: Class<T>, messenger: BinaryMessenger) {
         sdk = GigyaSDKWrapper(application, accountObj)
+        _messenger = messenger
     }
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
@@ -44,6 +48,13 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler {
             "setAccount" -> sdk.setAccount(call.arguments, result)
             "logOut" -> sdk.logOut(result)
             "socialLogin" -> sdk.socialLogin(call.arguments, result)
+            "addConnection" -> sdk.addConnection(call.arguments, result)
+            "removeConnection" -> sdk.removeConnection(call.arguments, result)
+            "showScreenSet" -> sdk.showScreenSet(call.arguments, result, _messenger)
+            "getConflictingAccounts" -> sdk.resolveGetConflictingAccounts(result)
+            "linkToSite" -> sdk.resolveLinkToSite(call.arguments, result)
+            "linkToSocial"-> sdk.resolveLinkToSocial(call.arguments, result)
+            "resolveSetAccount"-> sdk.resolveSetAccount(call.arguments, result)
             else -> result.notImplemented()
         }
     }

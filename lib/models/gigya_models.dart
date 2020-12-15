@@ -1,5 +1,11 @@
 import 'dart:convert';
 
+enum Interruption {
+  pendingRegistration,
+  pendingVerification,
+  conflictingAccounts,
+}
+
 /// General response structure.
 class GigyaResponse {
   String callId;
@@ -8,15 +14,29 @@ class GigyaResponse {
   String errorDetails;
   String statusReason;
   int apiVersion;
+  String regToken;
 
-  GigyaResponse.fromJson(dynamic json) {
-    callId = json['callId'];
-    statusCode = json['statusCode'];
-    errorCode = json['errorCode'];
-    errorDetails = json['errorDetails'];
-    statusReason = json['statusReason'];
-    apiVersion = json['apiVersion'];
+  Interruption getInterruption() {
+    switch (errorCode) {
+      case 403043:
+        return Interruption.conflictingAccounts;
+      case 206001:
+        return Interruption.pendingRegistration;
+      case 206002:
+        return Interruption.pendingVerification;
+      default:
+        return null;
+    }
   }
+
+  GigyaResponse.fromJson(dynamic json)
+      : callId = json['callId'],
+        statusCode = json['statusCode'],
+        errorCode = json['errorCode'],
+        errorDetails = json['errorDetails'],
+        statusReason = json['statusReason'],
+        apiVersion = json['apiVersion'],
+        regToken = json['regToken'];
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
@@ -26,6 +46,7 @@ class GigyaResponse {
     data['errorDetails'] = errorDetails;
     data['statusReason'] = statusReason;
     data['apiVersion'] = apiVersion;
+    data['regToken'] = regToken;
     return data;
   }
 }
@@ -35,26 +56,26 @@ class Account extends GigyaResponse {
   String uid;
   String uidSignature;
   String created;
-  double createdTimestamp;
+  dynamic createdTimestamp;
   Emails emails;
   bool isActive;
   bool isRegistered;
   bool isVerified;
   String lastLogin;
-  double lastLoginTimestamp;
+  dynamic lastLoginTimestamp;
   String lastUpdated;
-  double lastUpdatedTimestamp;
+  dynamic lastUpdatedTimestamp;
   String loginProvider;
   String oldestDataUpdated;
-  double oldestDataUpdatedTimestamp;
+  dynamic oldestDataUpdatedTimestamp;
   Profile profile;
   String registered;
-  double registeredTimestamp;
+  dynamic registeredTimestamp;
   SessionInfo sessionInfo;
-  double signatureTimestamp;
+  dynamic signatureTimestamp;
   String socialProviders;
   String verified;
-  double verifiedTimestamp;
+  dynamic verifiedTimestamp;
 
   Account.fromJson(dynamic json) : super.fromJson(json) {
     uid = json['UID'];
@@ -789,5 +810,16 @@ class Work {
     data['startDate'] = this.startDate;
     data['title'] = this.title;
     return data;
+  }
+}
+
+class ConflictingAccounts {
+
+  String loginID;
+  List<String> loginProviders;
+
+  ConflictingAccounts.fromJson(Map<String, dynamic> json) {
+    loginID = json['loginID'];
+    loginProviders = json['loginProviders'].cast<String>();
   }
 }
