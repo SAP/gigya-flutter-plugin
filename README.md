@@ -30,11 +30,9 @@ class MainActivity : FlutterActivity() {
 }
 ```
 
-```
 Important:
 Make sure you have [configured](https://developers.gigya.com/display/GD/Android+SDK+v4#AndroidSDKv4-ViaJSONconfigurationfile:)
- the basic steps needed for integrating the Android SDK
-```
+the basic steps needed for integrating the Android SDK
 
 ### iOS setup
 
@@ -58,10 +56,8 @@ Navigate to **\<your project root\>/ios/Runner/AppDelegate.swift** and add the f
 }
 ```
 
-```
 Important:
 Make sure you have [configured](https://developers.gigya.com/display/GD/Swift+SDK#SwiftSDK-ImplicitInitialization) your *info.plist* file accordinglty.
-```
 
 ## Sending a simple request
 
