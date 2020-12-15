@@ -45,6 +45,6 @@ dependencies {
     
     // Gigya SDK core implementation.
     //api 'com.github.SAP.gigya-android-sdk::core-v5.0.0'
-    api 'com.github.SAP.gigya-android-sdk:gigya-android-sdk-core:tmp-finj'
+    api 'com.github.SAP.gigya-android-sdk:gigya-android-sdk-core:core-v5.0.1'
     api 'com.google.code.gson:gson:2.8.6'
 }

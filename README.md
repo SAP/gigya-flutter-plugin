@@ -160,6 +160,46 @@ Screen-Sets events (event, map).
 event - actual event name.
 map - event data map.
 
+## Resolving interruptions
+
+Much like the our core SDKs, resolving interruptions is available using the plugin.
+
+Current supporting interruptions:
+* pendingRegistration using the *PendingRegistrationResolver* class.
+* pendingVerification using the *PendingVerificationResolver* class.
+* conflictingAccounts using the *LinkAccountResolver* class.
+
+Example for resolving **conflictingAccounts** interruptions:
+```
+GigyaSdk.instance.login(loginId, password).then((result) {
+      debugPrint(json.encode(result));
+      final response = Account.fromJson(result);
+      // Successfully logged in
+    }).catchError((error) {
+      // Interruption may occured.
+      if (error.getInterruption() == Interruption.conflictingAccounts) {
+        // Reference the correct resolver
+        LinkAccountResolver resolver = GigyaSdk.instance.resolverFactory.getResolver(error);
+      } else {
+        setState(() {
+          _inProgress = false;
+          _requestResult = 'Register error\n\n${error.errorDetails}';
+        });
+      }
+    });
+```
+Once you reference your resolver, create your relevant UI to determine if a site or social linking is
+required (see example app for details) and use the relevant "resolve" method.
+
+Example of resolveing link to site when trying to link a new social account to a site account.
+```
+final String password = _linkPasswordController.text.trim();
+resolver.linkToSite(loginId, password).then((res) {
+     final Account account = Account.fromJson(res);
+     // Account successfully linked.
+});
+```
+
 ## Known Issues
 None
 
