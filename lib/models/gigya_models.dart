@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+/// Available interruptions.
 enum Interruption {
   pendingRegistration,
   pendingVerification,
@@ -813,8 +814,8 @@ class Work {
   }
 }
 
+/// Conflicting accounts model used for resolving a link account interruption flow.
 class ConflictingAccounts {
-
   String loginID;
   List<String> loginProviders;
 

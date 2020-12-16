@@ -30,18 +30,18 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             Account account = snapshot.data;
-            _firstNameTextController.text = _firstNameTextController.text.isEmpty
-                ? account.profile.firstName : _firstNameTextController.text.trim() ?? '';
+            _firstNameTextController.text =
+                _firstNameTextController.text.isEmpty ? account.profile.firstName : _firstNameTextController.text.trim() ?? '';
             return Container(
               child: Column(
                 children: [
                   _inProgress
                       ? LinearProgressIndicator(
-                    minHeight: 4,
-                  )
+                          minHeight: 4,
+                        )
                       : SizedBox(
-                    height: 4,
-                  ),
+                          height: 4,
+                        ),
                   Padding(
                     padding: const EdgeInsets.all(16.0),
                     child: Column(
@@ -123,6 +123,7 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
     );
   }
 
+  /// Fetch account information.
   Future<Account> _getAccountInformation() async {
     var result = await GigyaSdk.instance.getAccount();
     debugPrint(jsonEncode(result));
@@ -130,12 +131,15 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
     return response;
   }
 
+  /// Update account information given new updated [account] object.
   _updateAccountInformation(Account account) async {
     setState(() {
       _inProgress = true;
     });
     String newFirstName = _firstNameTextController.text.trim();
-    var result = await GigyaSdk.instance.setAccount({'profile' : jsonEncode({ 'firstName': newFirstName})});
+    var result = await GigyaSdk.instance.setAccount({
+      'profile': jsonEncode({'firstName': newFirstName})
+    });
     debugPrint(jsonEncode(result));
     FocusScope.of(context).unfocus();
     setState(() {

@@ -6,14 +6,14 @@ A [Flutter](https://flutter.dev) plugin for interfacing Gigya's native SDKs into
 Flutter plugin that provides an interface for the Gigya API.
 
 ## Developers Preview Status
-The plugin allows you to use the core elements & business API's flows available within the mobile SDKs.
-Session encryption & management is handled in each platform. This plugin is currently in an early **developers preview** stage.
+The plugin allows you to use the core elements & business API flows available within the SAP Customer Data Cloud mobile SDKs.
+This plugin is currently in an early developers preview stage.
 
 ## Setup & Gigya core integration
 
 ### Android setup
 
-Please add the following to your native implementation.
+Add the following to your native implementation.
 
 ```kotlin
 class MainActivity : FlutterActivity() {
@@ -69,14 +69,14 @@ GigyaSdk.instance.send('REQUEST-ENDPOINT', {PARAMETER-MAP}).then((result) {
       debugPrint(error.errorDetails);
     });
 ```
-Example implementation is demostrated in the *send_request.dart* class of the provided example applicaiton.
+Example implementation is demonstrated in the *send_request.dart* class of the provided example application.
 
 ## Business APIs
 
-The plugin provides API to varius business APIs which iclude:
+The plugin provides an interface to these core SDK business APIs:
 **login, register, getAccount, getAccount, isLoggedIn ,logOut, addConnection, removeConnection**
 Implement them using the same request structure as shown above. 
-Example application includes the varius implementations.
+Example application includes the various implementations.
 
 ## Social login
 
@@ -86,9 +86,9 @@ The Flutter plugin supports the same *providers supported by the Core Gigya SDK.
 Supported social login providers:
 google, facebook, line, wechat, apple, amazon, linkedin, yahoo.
 
-## Embeded socail providers
+## Embedded social providers
 
-Specific social providers (Facebook, Google) require addional setup. This due to the their
+Specific social providers (Facebook, Google) require additional setup. This due to the their
 requirement for specific (embedded) SDKs.
 ```
 Example for both Facebook & Google are implemented in the example application.
@@ -96,11 +96,11 @@ Example for both Facebook & Google are implemented in the example application.
 
 ### Facebook
 
-Follow the core SDK documentation and instructions for setting Facbook login.
+Follow the core SDK documentation and instructions for setting Facebook login.
 [Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#facebook)
 [iOS documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#facebook)
 
-iOS: In additon add the following to your Runner's *AppDelegate.swift* file:
+iOS: In addition add the following to your Runner's *AppDelegate.swift* file:
 ```swift
 Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
 ```
@@ -112,11 +112,11 @@ the [flutter_facebook_login] plugin to your **pubspec.yaml** dependencies.
 
 ### Google
 
-Follow the core SDK documentation and instructions for setting Facbook login.
+Follow the core SDK documentation and instructions for setting Google login.
 [Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#google)
 [iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#google)
 
-iOS: In additon add the following to your Runner's *AppDelegate.swift* file:
+iOS: In addition add the following to your Runner's *AppDelegate.swift* file:
 ```swift
 Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .google, wrapper: GoogleWrapper())
 ```
@@ -172,7 +172,7 @@ GigyaSdk.instance.login(loginId, password).then((result) {
       final response = Account.fromJson(result);
       // Successfully logged in
     }).catchError((error) {
-      // Interruption may occured.
+      // Interruption may have occurred.
       if (error.getInterruption() == Interruption.conflictingAccounts) {
         // Reference the correct resolver
         LinkAccountResolver resolver = GigyaSdk.instance.resolverFactory.getResolver(error);
@@ -187,7 +187,7 @@ GigyaSdk.instance.login(loginId, password).then((result) {
 Once you reference your resolver, create your relevant UI to determine if a site or social linking is
 required (see example app for details) and use the relevant "resolve" method.
 
-Example of resolveing link to site when trying to link a new social account to a site account.
+Example of resolving link to site when trying to link a new social account to a site account.
 ```
 final String password = _linkPasswordController.text.trim();
 resolver.linkToSite(loginId, password).then((res) {

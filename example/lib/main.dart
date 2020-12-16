@@ -20,16 +20,21 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
-      routes: {
-        // When navigating to the "/" route, build the FirstScreen widget.
-        '/': (context) => HomePageWidget(),
-        // When navigating to the "/second" route, build the SecondScreen widget.
-        '/send_request': (context) => SendRequestPageWidget(),
-        '/login_credentials': (context) => LoginWidthCredentialsWidget(),
-        '/register_email': (context) => RegisterWithEmailWidget(),
-        '/account_information': (context) => AccountInformationWidget(),
-        '/manage_connections': (context) => ManageConnectionWidget(),
-      },
+      routes: _exampleRoutes(),
     );
+  }
+
+  /// Each route demonstrates a different flow.
+  ///
+  /// Specific implementation available in every route widget.
+  Map<String, WidgetBuilder> _exampleRoutes() {
+    return {
+      '/': (context) => HomePageWidget(),
+      '/send_request': (context) => SendRequestPageWidget(),
+      '/login_credentials': (context) => LoginWidthCredentialsWidget(),
+      '/register_email': (context) => RegisterWithEmailWidget(),
+      '/account_information': (context) => AccountInformationWidget(),
+      '/manage_connections': (context) => ManageConnectionWidget(),
+    };
   }
 }

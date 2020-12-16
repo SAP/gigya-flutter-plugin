@@ -10,7 +10,6 @@ class ManageConnectionWidget extends StatefulWidget {
 }
 
 class _ManageConnectionWidgetState extends State<ManageConnectionWidget> {
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -78,12 +77,18 @@ class _ManageConnectionWidgetState extends State<ManageConnectionWidget> {
     return response;
   }
 
+  /// Add a social connection.
+  ///
+  /// In this case adding Facebook social connection.
   void _addConnection() async {
     var result = await GigyaSdk.instance.addConnection(SocialProvider.facebook);
     debugPrint(jsonEncode(result));
     setState(() {});
   }
 
+  /// Remove a social connection.
+  ///
+  /// In this case removing Facebook connection.
   void _removeConnection() async {
     await GigyaSdk.instance.removeConnection(SocialProvider.facebook);
     setState(() {});
