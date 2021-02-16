@@ -39,6 +39,9 @@ the basic steps needed for integrating the Android SDK
 Navigate to **\<your project root\>/ios/Runner/AppDelegate.swift** and add the following:
 
 ```swift
+import gigya_flutter_plugin
+import Gigya
+
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
