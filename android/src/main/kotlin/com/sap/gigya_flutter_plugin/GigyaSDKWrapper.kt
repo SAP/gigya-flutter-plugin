@@ -66,7 +66,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, mapJson(p0.data))
                 } ?: channelResult.notImplemented()
             }
 
@@ -103,7 +103,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    currentResult!!.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                    currentResult!!.error(p0.errorCode.toString(), p0.localizedMessage, mapJson(p0.data))
                 } ?: currentResult!!.notImplemented()
             }
 
@@ -150,7 +150,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    currentResult!!.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                    currentResult!!.error(p0.errorCode.toString(), p0.localizedMessage, mapJson(p0.data))
                 } ?: currentResult!!.notImplemented()
             }
 
@@ -193,7 +193,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, mapJson(p0.data))
                 } ?: channelResult.notImplemented()
             }
 
@@ -217,7 +217,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, mapJson(p0.data))
                 } ?: channelResult.notImplemented()
             }
 
@@ -235,7 +235,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, mapJson(p0.data))
                 } ?: channelResult.notImplemented()
             }
 
@@ -263,7 +263,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    currentResult!!.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                    currentResult!!.error(p0.errorCode.toString(), p0.localizedMessage, mapJson(p0.data))
                 } ?: currentResult!!.notImplemented()
             }
 
@@ -306,7 +306,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, mapJson(p0.data))
                 } ?: channelResult.notImplemented()
             }
 
@@ -336,7 +336,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onError(p0: GigyaError?) {
                 p0?.let {
-                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, p0.data)
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, mapJson(p0.data))
                 } ?: channelResult.notImplemented()
             }
 
@@ -518,6 +518,15 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     private fun <V> mapObject(obj: V): Map<String, Any> {
         val jsonString = gson.toJson(obj)
         return gson.fromJson(jsonString, object : TypeToken<Map<String, Any>>() {}.type)
+    }
+
+    /**
+     * Map a JSON string to a Map<String, Any> object in order to pass on to
+     * the method channel response.
+     */
+    private fun mapJson(jsonString: String): Map<String, Any> {
+        return gson.fromJson(jsonString, object : TypeToken<Map<String, Any>>() {}.type)
+
     }
 
     companion object {

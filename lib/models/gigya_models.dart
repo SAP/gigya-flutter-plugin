@@ -16,6 +16,7 @@ class GigyaResponse {
   String statusReason;
   int apiVersion;
   String regToken;
+  dynamic mapped;
 
   Interruption getInterruption() {
     switch (errorCode) {
@@ -37,7 +38,8 @@ class GigyaResponse {
         errorDetails = json['errorDetails'],
         statusReason = json['statusReason'],
         apiVersion = json['apiVersion'],
-        regToken = json['regToken'];
+        regToken = json['regToken'],
+        mapped = json;
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
@@ -48,6 +50,7 @@ class GigyaResponse {
     data['statusReason'] = statusReason;
     data['apiVersion'] = apiVersion;
     data['regToken'] = regToken;
+    data['mapped'] = mapped;
     return data;
   }
 }

@@ -11,3 +11,9 @@ Example & documentation.
 
 * Example application updates.
 * Documentation updates.
+
+# 0.0.3
+Platform alignments
+
+* Fixed Android error not mapped correctly.
+* Added dynamic "mapped" field to base GigyaResponse.
