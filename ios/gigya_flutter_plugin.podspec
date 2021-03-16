@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'gigya_flutter_plugin'
-  s.version          = '0.0.1'
+  s.version          = '0.0.4'
   s.summary          = 'SAP Gigya Flutter plugin'
   s.description      = <<-DESC
 SAP Gigya Flutter plugin
@@ -15,7 +15,7 @@ SAP Gigya Flutter plugin
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'Gigya', '>= 1.1.7'
+  s.dependency 'Gigya', '>= 1.2.0'
   s.platform = :ios, '11.0'
 
   # Flutter.framework does not contain a i386 slice.

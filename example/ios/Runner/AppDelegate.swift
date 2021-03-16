@@ -14,7 +14,6 @@ import FBSDKCoreKit
     SwiftGigyaFlutterPlugin.register(accountSchema: UserHost.self)
     
     Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
-    Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .google, wrapper: GoogleWrapper())
 
     ApplicationDelegate.shared.application(
                 application,
