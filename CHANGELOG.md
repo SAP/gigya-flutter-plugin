@@ -17,3 +17,9 @@ Platform alignments
 
 * Fixed Android error not mapped correctly.
 * Added dynamic "mapped" field to base GigyaResponse.
+
+# 0.0.4
+Core SDKS updates
+
+* Updated Swift SDK 1.2.0
+* Updated Android SDK 5.1.0
