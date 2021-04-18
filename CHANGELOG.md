@@ -23,3 +23,8 @@ Core SDKS updates
 
 * Updated Swift SDK 1.2.0
 * Updated Android SDK 5.1.0
+
+# 0.0.5
+Core SDKS update
+
+* Updated Android SDK 5.1.1 (security)
