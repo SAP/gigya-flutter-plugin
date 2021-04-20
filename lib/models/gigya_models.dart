@@ -1,4 +1,4 @@
-import 'dart:convert';
+import 'dart:io';
 
 /// Available interruptions.
 enum Interruption {
@@ -149,12 +149,12 @@ class Account extends GigyaResponse {
 class SessionInfo {
   String sessionToken;
   String sessionSecret;
-  double expirationTime;
+  dynamic expiresIn;
 
   SessionInfo.fromJson(Map<String, dynamic> json) {
     sessionToken = json['sessionToken'];
     sessionSecret = json['sessionSecret'];
-    expirationTime = json['expires_in'];
+    expiresIn = json['expires_in'];
   }
 
   Map<String, dynamic> toJson() {
@@ -164,6 +164,8 @@ class SessionInfo {
     data['expires_in'] = this.expirationTime;
     return data;
   }
+
+  double get expirationTime => Platform.isIOS ? double.parse(expiresIn) : expiresIn;
 }
 
 /// Account profile schema object.

@@ -21,10 +21,15 @@ Platform alignments
 # 0.0.4
 Core SDKS updates
 
-* Updated Swift SDK 1.2.0
-* Updated Android SDK 5.1.0
+* Updated Swift SDK 1.2.0.
+* Updated Android SDK 5.1.0.
 
 # 0.0.5
 Core SDKS update
 
-* Updated Android SDK 5.1.1 (security)
+* Updated Android SDK 5.1.1 (security).
+
+# 0.0.6
+Account Model Patch
+
+* Fix to main account model (sessionInfo type).
