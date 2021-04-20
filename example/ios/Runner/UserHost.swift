@@ -66,4 +66,7 @@ struct UserHost: GigyaAccountProtocol {
         }
         return ""
     }
+
+    var sessionInfo: [String: AnyCodable]?
 }
+
