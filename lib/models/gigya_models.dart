@@ -9,16 +9,16 @@ enum Interruption {
 
 /// General response structure.
 class GigyaResponse {
-  String callId;
-  int statusCode = 200;
-  int errorCode = 0;
-  String errorDetails;
-  String statusReason;
-  int apiVersion;
-  String regToken;
+  String? callId;
+  int? statusCode = 200;
+  int? errorCode = 0;
+  String? errorDetails;
+  String? statusReason;
+  int? apiVersion;
+  String? regToken;
   dynamic mapped;
 
-  Interruption getInterruption() {
+  Interruption? getInterruption() {
     switch (errorCode) {
       case 403043:
         return Interruption.conflictingAccounts;
@@ -57,28 +57,28 @@ class GigyaResponse {
 
 /// Account schema object.
 class Account extends GigyaResponse {
-  String uid;
-  String uidSignature;
-  String created;
+  String? uid;
+  String? uidSignature;
+  String? created;
   dynamic createdTimestamp;
-  Emails emails;
-  bool isActive;
-  bool isRegistered;
-  bool isVerified;
-  String lastLogin;
+  late Emails emails;
+  bool? isActive;
+  bool? isRegistered;
+  bool? isVerified;
+  String? lastLogin;
   dynamic lastLoginTimestamp;
-  String lastUpdated;
+  String? lastUpdated;
   dynamic lastUpdatedTimestamp;
-  String loginProvider;
-  String oldestDataUpdated;
+  String? loginProvider;
+  String? oldestDataUpdated;
   dynamic oldestDataUpdatedTimestamp;
-  Profile profile;
-  String registered;
+  Profile? profile;
+  String? registered;
   dynamic registeredTimestamp;
-  SessionInfo sessionInfo;
+  SessionInfo? sessionInfo;
   dynamic signatureTimestamp;
-  String socialProviders;
-  String verified;
+  String? socialProviders;
+  String? verified;
   dynamic verifiedTimestamp;
 
   Account.fromJson(dynamic json) : super.fromJson(json) {
@@ -105,7 +105,8 @@ class Account extends GigyaResponse {
     registered = json['registered'];
     registeredTimestamp = json['registeredTimestamp'];
     if (json['sessionInfo'] != null) {
-      sessionInfo = SessionInfo.fromJson(json['sessionInfo'].cast<String, dynamic>());
+      sessionInfo =
+          SessionInfo.fromJson(json['sessionInfo'].cast<String, dynamic>());
     }
     signatureTimestamp = json['signatureTimestamp'];
     socialProviders = json['socialProviders'];
@@ -131,12 +132,12 @@ class Account extends GigyaResponse {
     data['lastUpdatedTimestamp'] = this.lastUpdatedTimestamp;
     data['oldestDataUpdatedTimestamp'] = this.oldestDataUpdatedTimestamp;
     if (this.profile != null) {
-      data['profile'] = this.profile.toJson();
+      data['profile'] = this.profile!.toJson();
     }
     data['registered'] = this.registered;
     data['registeredTimestamp'] = this.registeredTimestamp;
     if (this.sessionInfo != null) {
-      data['sessionInfo'] = this.sessionInfo.toJson();
+      data['sessionInfo'] = this.sessionInfo!.toJson();
     }
     data['signatureTimestamp'] = this.signatureTimestamp;
     data['socialProviders'] = this.socialProviders;
@@ -147,8 +148,8 @@ class Account extends GigyaResponse {
 }
 
 class SessionInfo {
-  String sessionToken;
-  String sessionSecret;
+  String? sessionToken;
+  String? sessionSecret;
   dynamic expiresIn;
 
   SessionInfo.fromJson(Map<String, dynamic> json) {
@@ -165,61 +166,62 @@ class SessionInfo {
     return data;
   }
 
-  double get expirationTime => Platform.isIOS ? double.parse(expiresIn) : expiresIn;
+  double? get expirationTime =>
+      Platform.isIOS ? double.parse(expiresIn) : expiresIn;
 }
 
 /// Account profile schema object.
 class Profile {
-  String activities;
-  String address;
-  int age;
-  String bio;
-  int birthDay;
-  int birthMonth;
-  int birthYear;
-  List<Certification> certifications;
-  String city;
-  String country;
-  List<Education> education;
-  String educationLevel;
-  String email;
-  List<Favorites> favorites;
-  String firstName;
-  String lastName;
-  double followersCounts;
-  double followingCount;
-  String gender;
-  String hometown;
-  String honors;
-  String industry;
-  String interestedIn;
-  String interests;
-  String languages;
-  Location lastLoginLocation;
-  List<Like> likes;
-  String locale;
-  String name;
-  String nickname;
-  OidcData oidcData;
-  List<Patent> patents;
-  List<Phone> phones;
-  String photoURL;
-  String thumbnailURL;
-  String profileURL;
-  String politicalView;
-  String professionalHeadline;
-  String proxyEmail;
-  List<Publication> publications;
-  String relationshipStatus;
-  String religion;
-  List<Skill> skills;
-  String specialities;
-  String state;
-  String timezone;
-  String username;
-  String verified;
-  List<Work> work;
-  String zip;
+  String? activities;
+  String? address;
+  int? age;
+  String? bio;
+  int? birthDay;
+  int? birthMonth;
+  int? birthYear;
+  List<Certification>? certifications;
+  String? city;
+  String? country;
+  List<Education>? education;
+  String? educationLevel;
+  String? email;
+  List<Favorites>? favorites;
+  String? firstName;
+  String? lastName;
+  double? followersCounts;
+  double? followingCount;
+  String? gender;
+  String? hometown;
+  String? honors;
+  String? industry;
+  String? interestedIn;
+  String? interests;
+  String? languages;
+  Location? lastLoginLocation;
+  List<Like>? likes;
+  String? locale;
+  String? name;
+  String? nickname;
+  OidcData? oidcData;
+  List<Patent>? patents;
+  List<Phone>? phones;
+  String? photoURL;
+  String? thumbnailURL;
+  String? profileURL;
+  String? politicalView;
+  String? professionalHeadline;
+  String? proxyEmail;
+  List<Publication>? publications;
+  String? relationshipStatus;
+  String? religion;
+  List<Skill>? skills;
+  String? specialities;
+  String? state;
+  String? timezone;
+  String? username;
+  String? verified;
+  List<Work>? work;
+  String? zip;
 
   Profile.fromJson(Map<String, dynamic> json) {
     activities = json['activities'];
@@ -230,15 +232,15 @@ class Profile {
     birthMonth = json['birthMonth'];
     birthYear = json['birthYear'];
     if (json['certifications'] != null) {
-      certifications = List<Certification>();
+      certifications = <Certification>[];
       json['certifications'].forEach((j) {
-        certifications.add(Certification.fromJson(j));
+        certifications!.add(Certification.fromJson(j));
       });
     }
     if (json['education'] != null) {
-      education = List<Education>();
+      education = <Education>[];
       json['education'].forEach((j) {
-        education.add(Education.fromJson(j));
+        education!.add(Education.fromJson(j));
       });
     }
     educationLevel = json['educationLevel'];
@@ -246,9 +248,9 @@ class Profile {
     country = json['country'];
     email = json['email'];
     if (json['favorites'] != null) {
-      favorites = List<Favorites>();
+      favorites = <Favorites>[];
       json['favorites'].forEach((j) {
-        favorites.add(Favorites.fromJson(j));
+        favorites!.add(Favorites.fromJson(j));
       });
     }
     firstName = json['firstName'];
@@ -266,9 +268,9 @@ class Profile {
       lastLoginLocation = Location.fromJson(json['lastLoginLocation']);
     }
     if (json['likes'] != null) {
-      likes = List<Like>();
+      likes = <Like>[];
       json['likes'].forEach((j) {
-        likes.add(Like.fromJson(j));
+        likes!.add(Like.fromJson(j));
       });
     }
     locale = json['locale'];
@@ -278,15 +280,15 @@ class Profile {
       oidcData = OidcData.fromJson(json['oidcData'].cast<String, dynamic>());
     }
     if (json['patents'] != null) {
-      patents = List<Patent>();
+      patents = <Patent>[];
       json['patents'].forEach((j) {
-        patents.add(Patent.fromJson(j));
+        patents!.add(Patent.fromJson(j));
       });
     }
     if (json['phones'] != null) {
-      phones = List<Phone>();
+      phones = <Phone>[];
       json['phones'].forEach((j) {
-        phones.add(Phone.fromJson(j));
+        phones!.add(Phone.fromJson(j));
       });
     }
     photoURL = json['photoURL'];
@@ -296,17 +298,17 @@ class Profile {
     professionalHeadline = json['professionalHeadline'];
     proxyEmail = json['proxyEmail'];
     if (json['publications'] != null) {
-      publications = List<Publication>();
+      publications = <Publication>[];
       json['publications'].forEach((j) {
-        publications.add(Publication.fromJson(j));
+        publications!.add(Publication.fromJson(j));
       });
     }
     relationshipStatus = json['relationshipStatus'];
     religion = json['religion'];
     if (json['skills'] != null) {
-      skills = List<Skill>();
+      skills = <Skill>[];
       json['skills'].forEach((j) {
-        skills.add(Skill.fromJson(j));
+        skills!.add(Skill.fromJson(j));
       });
     }
     specialities = json['specialities'];
@@ -315,9 +317,9 @@ class Profile {
     username = json['username'];
     verified = json['verified'];
     if (json['work'] != null) {
-      work = List<Work>();
+      work = <Work>[];
       json['work'].forEach((j) {
-        work.add(Work.fromJson(j));
+        work!.add(Work.fromJson(j));
       });
     }
     zip = json['zip'];
@@ -333,17 +335,18 @@ class Profile {
     data['birthMonth'] = this.birthMonth;
     data['birthYear'] = this.birthYear;
     if (this.certifications != null) {
-      data['configurations'] = this.certifications.map((j) => j.toJson()).toList();
+      data['configurations'] =
+          this.certifications!.map((j) => j.toJson()).toList();
     }
     if (this.education != null) {
-      data['education'] = this.education.map((j) => j.toJson()).toList();
+      data['education'] = this.education!.map((j) => j.toJson()).toList();
     }
     data['educationLevel'] = this.educationLevel;
     data['city'] = this.city;
     data['country'] = this.country;
     data['email'] = this.email;
     if (this.favorites != null) {
-      data['favorites'] = this.favorites.map((j) => j.toJson()).toList();
+      data['favorites'] = this.favorites!.map((j) => j.toJson()).toList();
     }
     data['firstName'] = this.firstName;
     data['lastName'] = this.lastName;
@@ -357,22 +360,22 @@ class Profile {
     data['interests'] = this.interests;
     data['languages'] = this.languages;
     if (this.lastLoginLocation != null) {
-      data['lastLoginLocation'] = this.lastLoginLocation.toJson();
+      data['lastLoginLocation'] = this.lastLoginLocation!.toJson();
     }
     if (this.likes != null) {
-      data['likes'] = this.likes.map((j) => j.toJson()).toList();
+      data['likes'] = this.likes!.map((j) => j.toJson()).toList();
     }
     data['locale'] = this.locale;
     data['name'] = this.name;
     data['nickname'] = this.nickname;
     if (this.oidcData != null) {
-      data['oidcData'] = this.oidcData.toJson();
+      data['oidcData'] = this.oidcData!.toJson();
     }
     if (this.patents != null) {
-      data['patents'] = this.patents.map((j) => j.toJson()).toList();
+      data['patents'] = this.patents!.map((j) => j.toJson()).toList();
     }
     if (this.phones != null) {
-      data['phones'] = this.phones.map((j) => j.toJson()).toList();
+      data['phones'] = this.phones!.map((j) => j.toJson()).toList();
     }
     data['photoURL'] = this.photoURL;
     data['thumbnailURL'] = this.thumbnailURL;
@@ -381,12 +384,12 @@ class Profile {
     data['professionalHeadline'] = this.professionalHeadline;
     data['proxyEmail'] = this.proxyEmail;
     if (this.publications != null) {
-      data['publications'] = this.publications.map((j) => j.toJson()).toList();
+      data['publications'] = this.publications!.map((j) => j.toJson()).toList();
     }
     data['relationshipStatus'] = this.relationshipStatus;
     data['religion'] = this.religion;
     if (this.skills != null) {
-      data['skills'] = this.skills.map((j) => j.toJson()).toList();
+      data['skills'] = this.skills!.map((j) => j.toJson()).toList();
     }
     data['specialities'] = this.specialities;
     data['state'] = this.state;
@@ -394,7 +397,7 @@ class Profile {
     data['username'] = this.username;
     data['verified'] = this.verified;
     if (this.work != null) {
-      data['work'] = this.work.map((j) => j.toJson()).toList();
+      data['work'] = this.work!.map((j) => j.toJson()).toList();
     }
     data['zip'] = this.zip;
     return data;
@@ -402,8 +405,8 @@ class Profile {
 }
 
 class Emails {
-  List<String> unverified = [];
-  List<String> verified = [];
+  List<String>? unverified = [];
+  List<String>? verified = [];
 
   Emails.fromJson(Map<String, dynamic> json) {
     if (json['unverified'] != null) {
@@ -423,11 +426,11 @@ class Emails {
 }
 
 class Certification {
-  String authority;
-  String endDate;
-  String name;
-  String number;
-  String startDate;
+  String? authority;
+  String? endDate;
+  String? name;
+  String? number;
+  String? startDate;
 
   Certification.fromJson(Map<String, dynamic> json) {
     authority = json['authority'];
@@ -449,12 +452,12 @@ class Certification {
 }
 
 class Education {
-  String degree;
-  String endYear;
-  String fieldOfStudy;
-  String school;
-  String schoolType;
-  String startYear;
+  String? degree;
+  String? endYear;
+  String? fieldOfStudy;
+  String? school;
+  String? schoolType;
+  String? startYear;
 
   Education.fromJson(Map<String, dynamic> json) {
     degree = json['degree'];
@@ -478,12 +481,12 @@ class Education {
 }
 
 class Favorites {
-  List<Favorite> activities;
-  List<Favorite> books;
-  List<Favorite> interests;
-  List<Favorite> movies;
-  List<Favorite> music;
-  List<Favorite> television;
+  List<Favorite>? activities;
+  List<Favorite>? books;
+  List<Favorite>? interests;
+  List<Favorite>? movies;
+  List<Favorite>? music;
+  List<Favorite>? television;
 
   Favorites.fromJson(Map<String, dynamic> json) {
     if (json['activities'] != null) {
@@ -515,9 +518,9 @@ class Favorites {
 }
 
 class Favorite {
-  String id;
-  String name;
-  String category;
+  String? id;
+  String? name;
+  String? category;
 
   Favorite.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -535,17 +538,18 @@ class Favorite {
 }
 
 class Location {
-  String city;
-  String country;
-  String state;
-  Coordinates coordinates;
+  String? city;
+  String? country;
+  String? state;
+  Coordinates? coordinates;
 
   Location.fromJson(Map<String, dynamic> json) {
     city = json['city'];
     country = json['country'];
     state = json['state'];
     if (json['coordinates'] != null) {
-      coordinates = Coordinates.fromJson(json['coordinates'].cast<String, dynamic>());
+      coordinates =
+          Coordinates.fromJson(json['coordinates'].cast<String, dynamic>());
     }
   }
 
@@ -555,15 +559,15 @@ class Location {
     data['country'] = this.country;
     data['state'] = this.state;
     if (this.coordinates != null) {
-      data['coordinates'] = this.coordinates.toJson();
+      data['coordinates'] = this.coordinates!.toJson();
     }
     return data;
   }
 }
 
 class Coordinates {
-  double lat;
-  double lon;
+  double? lat;
+  double? lon;
 
   Coordinates.fromJson(Map<String, dynamic> json) {
     lat = json['lat'];
@@ -579,11 +583,11 @@ class Coordinates {
 }
 
 class Like {
-  String category;
-  String id;
-  String name;
-  String time;
-  double timestamp;
+  String? category;
+  String? id;
+  String? name;
+  String? time;
+  double? timestamp;
 
   Like.fromJson(Map<String, dynamic> json) {
     category = json['category'];
@@ -605,16 +609,16 @@ class Like {
 }
 
 class OidcData {
-  Address address;
-  String emailVerified;
-  String locale;
-  String middleName;
-  String name;
-  String phoneNumber;
-  String phoneNumberVerified;
-  String updatedAt;
-  String website;
-  String zoneinfo;
+  Address? address;
+  String? emailVerified;
+  String? locale;
+  String? middleName;
+  String? name;
+  String? phoneNumber;
+  String? phoneNumberVerified;
+  String? updatedAt;
+  String? website;
+  String? zoneinfo;
 
   OidcData.fromJson(Map<String, dynamic> json) {
     if (json['address'] != null) {
@@ -634,7 +638,7 @@ class OidcData {
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = {};
     if (this.address != null) {
-      data['address'] = this.address.toJson();
+      data['address'] = this.address!.toJson();
     }
     data['email_verified'] = this.emailVerified;
     data['locale'] = this.locale;
@@ -650,12 +654,12 @@ class OidcData {
 }
 
 class Address {
-  String country;
-  String formatted;
-  String locality;
-  String postalCode;
-  String region;
-  String streetAddress;
+  String? country;
+  String? formatted;
+  String? locality;
+  String? postalCode;
+  String? region;
+  String? streetAddress;
 
   Address.fromJson(Map<String, dynamic> json) {
     country = json['country'];
@@ -679,13 +683,13 @@ class Address {
 }
 
 class Patent {
-  String date;
-  String number;
-  String office;
-  String status;
-  String summary;
-  String title;
-  String url;
+  String? date;
+  String? number;
+  String? office;
+  String? status;
+  String? summary;
+  String? title;
+  String? url;
 
   Patent.fromJson(Map<String, dynamic> json) {
     date = json['date'];
@@ -711,11 +715,11 @@ class Patent {
 }
 
 class Phone {
-  String _default;
-  String number;
-  String type;
+  String? _default;
+  String? number;
+  String? type;
 
-  String get defaultNumber => this._default;
+  String? get defaultNumber => this._default;
 
   Phone.fromJson(Map<String, dynamic> json) {
     _default = json['default'];
@@ -733,11 +737,11 @@ class Phone {
 }
 
 class Publication {
-  String date;
-  String publisher;
-  String summary;
-  String title;
-  String url;
+  String? date;
+  String? publisher;
+  String? summary;
+  String? title;
+  String? url;
 
   Publication.fromJson(Map<String, dynamic> json) {
     date = json['date'];
@@ -759,9 +763,9 @@ class Publication {
 }
 
 class Skill {
-  String level;
-  String skill;
-  int years;
+  String? level;
+  String? skill;
+  int? years;
 
   Skill.fromJson(Map<String, dynamic> json) {
     level = json['level'];
@@ -779,16 +783,16 @@ class Skill {
 }
 
 class Work {
-  String company;
-  String companyID;
-  double companySize;
-  String description;
-  String endDate;
-  String industry;
-  bool isCurrent;
-  String location;
-  String startDate;
-  String title;
+  String? company;
+  String? companyID;
+  double? companySize;
+  String? description;
+  String? endDate;
+  String? industry;
+  bool? isCurrent;
+  String? location;
+  String? startDate;
+  String? title;
 
   Work.fromJson(Map<String, dynamic> json) {
     company = json['company'];
@@ -821,8 +825,8 @@ class Work {
 
 /// Conflicting accounts model used for resolving a link account interruption flow.
 class ConflictingAccounts {
-  String loginID;
-  List<String> loginProviders;
+  String? loginID;
+  List<String>? loginProviders;
 
   ConflictingAccounts.fromJson(Map<String, dynamic> json) {
     loginID = json['loginID'];

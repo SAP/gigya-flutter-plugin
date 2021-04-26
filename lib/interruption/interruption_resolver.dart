@@ -32,13 +32,16 @@ class LinkAccountResolver with DataMixin {
 
   /// Get the user conflicting account object to determine how to resolve the flow.
   Future<ConflictingAccounts> getConflictingAccounts() async {
-    Map<String, dynamic> map = await _channel.invokeMapMethod<String, dynamic>('getConflictingAccounts');
+    Map<String, dynamic> map = await (_channel.invokeMapMethod<String, dynamic>(
+        'getConflictingAccounts') as Future<Map<String, dynamic>>);
     return ConflictingAccounts.fromJson(map);
   }
 
   /// Link social account to existing site account.
-  Future<Map<String, dynamic>> linkToSite(String loginId, String password) async {
-    final Map<String, dynamic> res = await _channel.invokeMapMethod<String, dynamic>('linkToSite', {
+  Future<Map<String, dynamic>?> linkToSite(
+      String loginId, String password) async {
+    final Map<String, dynamic>? res =
+        await _channel.invokeMapMethod<String, dynamic>('linkToSite', {
       'loginId': loginId,
       'password': password,
     }).catchError((error) {
@@ -48,8 +51,9 @@ class LinkAccountResolver with DataMixin {
   }
 
   /// Link site account to existing social account.
-  Future<Map<String, dynamic>> linkToSocial(SocialProvider provider) async {
-    final Map<String, dynamic> res = await _channel.invokeMapMethod<String, dynamic>('linkToSocial', {
+  Future<Map<String, dynamic>?> linkToSocial(SocialProvider provider) async {
+    final Map<String, dynamic>? res =
+        await _channel.invokeMapMethod<String, dynamic>('linkToSocial', {
       'provider': provider.name,
     }).catchError((error) {
       throw GigyaResponse.fromJson(decodeError(error));
@@ -65,8 +69,9 @@ class PendingRegistrationResolver with DataMixin {
   PendingRegistrationResolver(this._channel);
 
   /// Set the missing account data in order to resolve the interruption.
-  Future<Map<String, dynamic>> setAccount(Map<String, dynamic> map) async {
-    final Map<String, dynamic> res = await _channel.invokeMapMethod<String, dynamic>('resolveSetAccount', {
+  Future<Map<String, dynamic>?> setAccount(Map<String, dynamic> map) async {
+    final Map<String, dynamic>? res =
+        await _channel.invokeMapMethod<String, dynamic>('resolveSetAccount', {
       map,
     }).catchError((error) {
       throw GigyaResponse.fromJson(decodeError(error));
@@ -79,9 +84,9 @@ class PendingRegistrationResolver with DataMixin {
 ///
 /// Use available [regToken] value to resolve.
 class PendingVerificationResolver {
-  final String _regToken;
+  final String? _regToken;
 
   PendingVerificationResolver(this._regToken);
 
-  String get regToken => _regToken;
+  String? get regToken => _regToken;
 }

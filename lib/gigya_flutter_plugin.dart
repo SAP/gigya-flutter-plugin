@@ -60,29 +60,29 @@ class GigyaSdk with DataMixin {
   GigyaSdk._();
 
   /// Testing basic channeling.
-  Future<String> get platformVersion async {
-    final String version = await _channel.invokeMethod('getPlatformVersion');
+  Future<String?> get platformVersion async {
+    final String? version = await _channel.invokeMethod('getPlatformVersion');
     return version;
   }
 
   /// General/Anonymous send request initiator.
   ///
   /// Request should receive an [endpoint] and required [params] map.
-  Future<Map<String, dynamic>> send(endpoint, params) async {
-    final json = await _channel
+  Future<Map<String, dynamic>?> send(endpoint, params) async {
+    final json = await (_channel
         .invokeMethod<String>(Methods.sendRequest.name, {'endpoint': endpoint, 'parameters': params}).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.sendRequest), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return jsonEncode(_timeoutError());
-    });
+    }) as FutureOr<String>);
     return jsonDecode(json);
   }
 
   /// Login using LoginId/password combination.
   ///
   /// Optional [params] map is available.
-  Future<Map<String, dynamic>> login(loginId, password, {params}) async {
+  Future<Map<String, dynamic>?> login(loginId, password, {params}) async {
     final response = await _channel.invokeMapMethod<String, dynamic>(Methods.loginWithCredentials.name,
         {'loginId': loginId, 'password': password, 'parameters': params ?? {}}).catchError((error) {
       debugPrint('error');
@@ -97,7 +97,7 @@ class GigyaSdk with DataMixin {
   /// Register new user using email/password combination.
   ///
   /// Optional [params] map is available.
-  Future<Map<String, dynamic>> register(loginId, password, {params}) async {
+  Future<Map<String, dynamic>?> register(loginId, password, {params}) async {
     final response = await _channel.invokeMapMethod<String, dynamic>(Methods.registerWithCredentials.name,
         {'email': loginId, 'password': password, 'parameters': params ?? {}}).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
@@ -119,7 +119,7 @@ class GigyaSdk with DataMixin {
   /// Optional [invalidate] parameter is available to make sure a new account call is preformed, ignoring caching strategy.
   /// API is relevant only when host is logged in.
   /// Account caching strategies are *currently* handled in native code.
-  Future<Map<String, dynamic>> getAccount({invalidate, parameters}) async {
+  Future<Map<String, dynamic>?> getAccount({invalidate, parameters}) async {
     final response = await _channel.invokeMapMethod<String, dynamic>(
         Methods.getAccount.name, {'invalidate': invalidate, 'parameters': parameters}).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
@@ -134,7 +134,7 @@ class GigyaSdk with DataMixin {
   ///
   /// API is relevant only when host is logged in.
   /// It is suggested to use "isLoggedIn" call to verify state.
-  Future<Map<String, dynamic>> setAccount(account) async {
+  Future<Map<String, dynamic>?> setAccount(account) async {
     final response =
         await _channel.invokeMapMethod<String, dynamic>(Methods.setAccount.name, {'account': account}).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
@@ -160,7 +160,7 @@ class GigyaSdk with DataMixin {
   /// All social provider integration is the host's responsibility.
   ///
   /// Long timeout is set (5 minutes) in order to make sure that long sign in processes will not break.
-  Future<Map<String, dynamic>> socialLogin(SocialProvider provider, {parameters}) async {
+  Future<Map<String, dynamic>?> socialLogin(SocialProvider provider, {parameters}) async {
     final response = await _channel.invokeMapMethod<String, dynamic>(
         Methods.socialLogin.name, {'provider': provider.name, 'parameters': parameters}).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
@@ -174,7 +174,7 @@ class GigyaSdk with DataMixin {
   /// Add a social connection to an existing account.
   ///
   /// Will require social connection to be authenticated.
-  Future<Map<String, dynamic>> addConnection(SocialProvider provider) async {
+  Future<Map<String, dynamic>?> addConnection(SocialProvider provider) async {
     final response = await _channel
         .invokeMapMethod<String, dynamic>(Methods.addConnection.name, {'provider': provider.name}).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
@@ -186,7 +186,7 @@ class GigyaSdk with DataMixin {
   }
 
   /// Remove a social connection from an existing account.
-  Future<Map<String, dynamic>> removeConnection(SocialProvider provider) async {
+  Future<Map<String, dynamic>?> removeConnection(SocialProvider provider) async {
     final response = await _channel
         .invokeMapMethod<String, dynamic>(Methods.removeConnection.name, {'provider': provider.name}).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
@@ -198,7 +198,7 @@ class GigyaSdk with DataMixin {
   }
 
   /// Screen-sets event subscription.
-  StreamSubscription<dynamic> _screenSetsEventStream;
+  StreamSubscription<dynamic>? _screenSetsEventStream;
 
   showScreenSet(name, OnScreenSetEvent onScreenSetEvent, {parameters}) async {
     await _channel.invokeMethod(Methods.showScreenSet.name, {'screenSet': name, 'parameters': parameters});
@@ -235,7 +235,7 @@ class GigyaSdk with DataMixin {
 
 mixin DataMixin {
   /// Mapping communication error structure.
-  Map<String, dynamic> decodeError(PlatformException error) {
+  Map<String, dynamic>? decodeError(PlatformException error) {
     if (error.details != null && error.details is Map<dynamic, dynamic>) {
       final mapped = error.details.cast<String, dynamic>();
       return mapped;
