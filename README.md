@@ -11,6 +11,9 @@ Flutter plugin that provides an interface for the Gigya API.
 The plugin allows you to use the core elements & business API flows available within the SAP Customer Data Cloud mobile SDKs.
 This plugin is currently in an early developers preview stage.
 
+## Requirements
+Android SDK support requires SDK 14 and above.
+
 ## Download and Installation
 Add the plugin in your **pubspec.yaml** fie.
 
