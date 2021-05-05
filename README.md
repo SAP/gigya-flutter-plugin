@@ -210,6 +210,11 @@ None
 
 ## Contributing
 Via pull request to this repository.
+Please read CONTRIBUTING file for guidelines.
 
 ## To-Do (upcoming changes)
 None
+
+## Licensing
+Please see our [LICENSE](https://github.com/SAP/gigya-flutter-plugin/blob/main/LICENSES/Apache-2.0.txt) for copyright and license information.
+
