@@ -11,19 +11,19 @@ public class PluginErrors {
 }
 
 public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
-
+    
     let sdk: GigyaCore<T>?
-
+    
     let resolverHelper: ResolverHelper<T> = ResolverHelper()
-
+    
     init(accountSchema: T.Type) {
         // Initializing the Gigya SDK instance.
         GigyaDefinitions.versionPrefix = "flutter_0.0.2_"
         sdk = Gigya.sharedInstance(accountSchema)
     }
-
+    
     // MARK: - Main instance
-
+    
     /**
      Send general/antonymous request
      */
@@ -34,7 +34,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
-
+        
         sdk?.send(api: endpoint, params: parameters) { (gigyaResponse) in
             switch gigyaResponse {
             case .success(let data):
@@ -60,9 +60,9 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
-
+        
         resolverHelper.currentResult = result
-
+        
         // Optional parameter map.
         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
         sdk?.login(loginId: loginId, password: password, params: parameters) { [weak self] loginResult in
@@ -70,11 +70,11 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             case .success(let data):
                 let mapped = self?.mapObject(data)
                 self?.resolverHelper.currentResult?(mapped)
-
+                
                 self?.resolverHelper.dispose()
             case .failure(let error):
                 self?.saveResolvesIfNeeded(interruption: error.interruption)
-
+                
                 switch error.error {
                 case .gigyaError(let ge):
                     self?.resolverHelper.currentResult?(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
@@ -94,9 +94,9 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
-
+        
         resolverHelper.currentResult = result
-
+        
         // Optional parameter map.
         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
         sdk?.register(email: email, password: password, params: parameters) { [weak self] loginResult in
@@ -104,11 +104,11 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             case .success(let data):
                 let mapped = self?.mapObject(data)
                 self?.resolverHelper.currentResult?(mapped)
-
+                
                 self?.resolverHelper.dispose()
             case .failure(let error):
                 self?.saveResolvesIfNeeded(interruption: error.interruption)
-
+                
                 switch error.error {
                 case .gigyaError(let ge):
                     self?.resolverHelper.currentResult?(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
@@ -191,6 +191,29 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     }
     
     /**
+     Forgot password
+     */
+    func forgotPassword(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard let loginId = arguments["loginId"] as? String else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        sdk?.forgotPassword(loginId: loginId, completion: { gigyaResponse in
+            switch gigyaResponse {
+            case .success( _):
+                result(nil)
+            case .failure(let error):
+                switch error {
+                case .gigyaError(let d):
+                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                default:
+                    result(FlutterError(code: PluginErrors.generalError, message: error.localizedDescription, details: nil))
+                }
+            }
+        })
+    }
+    
+    /**
      Social login with given provider & provider sessions.
      */
     func socialLogin(arguments: [String: Any], result: @escaping FlutterResult) {
@@ -198,29 +221,29 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             let viewController = getDisplayedViewController(),
             let providerString = arguments["provider"] as? String,
             let provider = GigyaSocialProviders(rawValue: providerString)
-            else {
-                result(FlutterError(code: PluginErrors.generalError, message: "provider not exists", details: nil))
-                return
+        else {
+            result(FlutterError(code: PluginErrors.generalError, message: "provider not exists", details: nil))
+            return
         }
-
+        
         resolverHelper.currentResult = result
-
+        
         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
-
+        
         sdk?.login(
             with: provider,
             viewController: viewController,
             params: parameters) { [weak self] (gigyaResponse) in
             switch gigyaResponse {
             case .success(let data):
-
+                
                 let mapped = self?.mapObject(data)
                 self?.resolverHelper.currentResult?(mapped)
-
+                
                 self?.resolverHelper.dispose()
             case .failure(let error):
                 self?.saveResolvesIfNeeded(interruption: error.interruption)
-
+                
                 switch error.error {
                 case .gigyaError(let d):
                     self?.resolverHelper.currentResult?(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
@@ -230,26 +253,26 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         }
     }
-
+    
     func addConnection(arguments: [String: Any], result: @escaping FlutterResult) {
         guard
             let viewController = getDisplayedViewController(),
             let providerString = arguments["provider"] as? String,
             let provider = GigyaSocialProviders(rawValue: providerString)
-            else {
-                result(FlutterError(code: PluginErrors.generalError, message: "provider not exists", details: nil))
-                return
+        else {
+            result(FlutterError(code: PluginErrors.generalError, message: "provider not exists", details: nil))
+            return
         }
-
+        
         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
-
+        
         sdk?.addConnection(
             provider: provider,
             viewController: viewController,
             params: parameters) { [weak self] gigyaResponse in
             switch gigyaResponse {
             case .success(let data):
-
+                
                 let mapped = self?.mapObject(data)
                 result(mapped)
             case .failure(let error):
@@ -262,17 +285,17 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         }
     }
-
+    
     func removeConnection(arguments: [String: Any], result: @escaping FlutterResult) {
         guard
             let providerString = arguments["provider"] as? String,
             let provider = GigyaSocialProviders(rawValue: providerString)
-            else {
-                result(FlutterError(code: PluginErrors.generalError, message: "provider not exists", details: nil))
-                return
+        else {
+            result(FlutterError(code: PluginErrors.generalError, message: "provider not exists", details: nil))
+            return
         }
-
-
+        
+        
         sdk?.removeConnection(provider: provider) { gigyaResponse in
             switch gigyaResponse {
             case .success(let data):
@@ -288,27 +311,27 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         }
     }
-
+    
     /**
      Show screensets call.
      */
-
+    
     func showScreenSet(arguments: [String: Any], result: @escaping FlutterResult) {
         guard
             let viewController = getDisplayedViewController(),
             let screenSet = arguments["screenSet"] as? String else {
-                return
+            return
         }
-
+        
         // Create streamer
         var screenSetsEventHandler: ScreenSetsStreamHandler? = ScreenSetsStreamHandler()
         let eventChannel = FlutterEventChannel(name: "screensetEvents", binaryMessenger: SwiftGigyaFlutterPlugin.registrar!.messenger())
-
+        
         eventChannel.setStreamHandler(screenSetsEventHandler)
-
+        
         // Release the await request
         result(nil)
-
+        
         //TODO missing onAfterValidation in SDK.
         sdk?.showScreenSet(
             with: screenSet,
@@ -352,8 +375,8 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         }
     }
-
-
+    
+    
 }
 
 // MARK: - Resolvers
@@ -364,71 +387,71 @@ extension GigyaSdkWrapper {
     func resolveGetConflictingAccounts(result: @escaping FlutterResult) {
         guard let resolver = resolverHelper.linkAccountResolver else {
             result(FlutterError(code: PluginErrors.generalError, message: "resolver not found", details: nil))
-
+            
             return
         }
-
+        
         result(mapObject(resolver.conflictingAccount!))
     }
-
+    
     /**
      Link account - resolving link to site.
      */
     func resolveLinkToSite(arguments: [String: Any], result: @escaping FlutterResult) {
         resolverHelper.currentResult = result
-
+        
         guard let resolver = resolverHelper.linkAccountResolver else {
             result(FlutterError(code: PluginErrors.generalError, message: "resolver not found", details: nil))
-
+            
             return
         }
-
+        
         guard
             let loginId = arguments["loginId"] as? String ,
             let password = arguments["password"] as? String else {
             result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
             return
         }
-
+        
         resolver.linkToSite(loginId: loginId, password: password)
-
+        
     }
-
+    
     /**
      Link account - resolving link to social.
      */
     func resolveLinkToSocial(arguments: [String: Any], result: @escaping FlutterResult) {
         resolverHelper.currentResult = result
-
+        
         guard let resolver = resolverHelper.linkAccountResolver else {
             result(FlutterError(code: PluginErrors.generalError, message: "resolver not found", details: nil))
-
+            
             return
         }
-
+        
         guard let viewController = getDisplayedViewController(),
               let providerString = arguments["provider"] as? String,
               let provider = GigyaSocialProviders(rawValue: providerString)
-              else {
+        else {
             result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
             return
         }
-
+        
         resolver.linkToSocial(provider: provider, viewController: viewController)
     }
-
+    
     /**
      Pending registration - resolving missing account data.
      */
     func resolveSetAccount(arguments: [String: Any], result: @escaping FlutterResult) {
         resolverHelper.currentResult = result
-
+        
         guard let resolver = resolverHelper.pendingRegistrationResolver else {
             result(FlutterError(code: PluginErrors.generalError, message: "resolver not found", details: nil))
-
+            
             return
         }
-
+        
         resolver.setAccount(params: arguments)
     }
 }
@@ -438,7 +461,7 @@ extension GigyaSdkWrapper {
         guard let interruption = interruption else {
             return
         }
-
+        
         switch interruption {
         case .pendingRegistration(let resolver):
             resolverHelper.pendingRegistrationResolver = resolver
@@ -453,13 +476,13 @@ extension GigyaSdkWrapper {
 
 class ResolverHelper<T: GigyaAccountProtocol> {
     var currentResult: FlutterResult?
-
+    
     var linkAccountResolver: LinkAccountsResolver<T>?
-
+    
     var pendingRegistrationResolver: PendingRegistrationResolver<T>?
-
+    
     var regToken: String?
-
+    
     func dispose() {
         linkAccountResolver = nil
         pendingRegistrationResolver = nil

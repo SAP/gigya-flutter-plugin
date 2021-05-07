@@ -51,6 +51,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler {
             "linkToSite" -> sdk.resolveLinkToSite(call.arguments, result)
             "linkToSocial" -> sdk.resolveLinkToSocial(call.arguments, result)
             "resolveSetAccount" -> sdk.resolveSetAccount(call.arguments, result)
+            "forgotPassword" -> sdk.forgotPassword(call.arguments, result)
             else -> result.notImplemented()
         }
     }

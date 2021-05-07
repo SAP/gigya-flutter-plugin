@@ -18,6 +18,7 @@ enum Methods {
   addConnection,
   removeConnection,
   showScreenSet,
+  forgotPassword,
 }
 
 extension MethodsExt on Methods {
@@ -150,6 +151,15 @@ class GigyaSdk with DataMixin {
       _channel.invokeMethod(Methods.logOut.name).catchError((error) {
         debugPrint('Error logging out');
       }).timeout(_getTimeout(Methods.logOut), onTimeout: () {
+        debugPrint('A timeout that was defined in the request is reached');
+        return _timeoutError();
+      });
+
+  /// Forgot password using LoginId
+  Future<void> forgotPassword(loginId) =>
+      _channel.invokeMapMethod<String, dynamic>(Methods.forgotPassword.name, {
+        'loginId': loginId,
+      }).timeout(_getTimeout(Methods.forgotPassword), onTimeout: () {
         debugPrint('A timeout that was defined in the request is reached');
         return _timeoutError();
       });
