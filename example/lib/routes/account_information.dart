@@ -6,11 +6,13 @@ import 'package:gigya_flutter_plugin/models/gigya_models.dart';
 
 class AccountInformationWidget extends StatefulWidget {
   @override
-  _AccountInformationWidgetState createState() => _AccountInformationWidgetState();
+  _AccountInformationWidgetState createState() =>
+      _AccountInformationWidgetState();
 }
 
 class _AccountInformationWidgetState extends State<AccountInformationWidget> {
-  final TextEditingController _firstNameTextController = TextEditingController();
+  final TextEditingController _firstNameTextController =
+      TextEditingController();
   bool _inProgress = false;
 
   @override
@@ -31,7 +33,9 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
           if (snapshot.hasData) {
             Account account = snapshot.data;
             _firstNameTextController.text =
-                _firstNameTextController.text.isEmpty ? account.profile.firstName : _firstNameTextController.text.trim() ?? '';
+                _firstNameTextController.text.isEmpty
+                    ? account.profile.firstName
+                    : _firstNameTextController.text.trim() ?? '';
             return Container(
               child: Column(
                 children: [
@@ -50,7 +54,8 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
                           children: [
                             const Text(
                               'Account UID: ',
-                              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 16.0, fontWeight: FontWeight.bold),
                             ),
                             Text(account.uid)
                           ],
@@ -62,7 +67,8 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
                           children: [
                             const Text(
                               'Email address: ',
-                              style: TextStyle(fontSize: 16.0, fontWeight: FontWeight.bold),
+                              style: TextStyle(
+                                  fontSize: 16.0, fontWeight: FontWeight.bold),
                             ),
                             Text(account.profile.email)
                           ],
@@ -72,7 +78,8 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
                         ),
                         const Text(
                           'Testing setAccount',
-                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 16, fontWeight: FontWeight.bold),
                         ),
                         SizedBox(
                           height: 10,
@@ -93,8 +100,12 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
                         SizedBox(height: 20),
                         ButtonTheme(
                           minWidth: 240,
-                          child: RaisedButton(
-                            textColor: Colors.white,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                             onPressed: () {
                               _updateAccountInformation(account);
                             },
