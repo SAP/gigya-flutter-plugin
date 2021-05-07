@@ -21,23 +21,6 @@ Add the plugin in your **pubspec.yaml** fie.
 
 ### Android setup
 
-Add the following to your native implementation.
-
-```kotlin
-class MainActivity : FlutterActivity() {
-
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-        GeneratedPluginRegistrant.registerWith(flutterEngine)
-
-        // Copy this code to you Android app.
-        //
-        // Reference the plugin and register your SDK initialization parameters.
-        val plugin: GigyaFlutterPlugin= flutterEngine.plugins.get(GigyaFlutterPlugin::class.java) as GigyaFlutterPlugin
-        plugin.registerWith(application, GigyaAccount::class.java)
-    }
-}
-```
-
 Important:
 Make sure you have [configured](https://developers.gigya.com/display/GD/Android+SDK+v4#AndroidSDKv4-ViaJSONconfigurationfile:)
 the basic steps needed for integrating the Android SDK
