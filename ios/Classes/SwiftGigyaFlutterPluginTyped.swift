@@ -90,6 +90,8 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.resolveLinkToSite(arguments: args, result: result)
         case .linkToScoial:
             sdk?.resolveLinkToSocial(arguments: args, result: result)
+        case .resolveSetAccount:
+            sdk?.resolveSetAccount(arguments: args, result: result)
         case .forgotPassword:
             sdk?.forgotPassword(arguments: args, result: result)
         default:

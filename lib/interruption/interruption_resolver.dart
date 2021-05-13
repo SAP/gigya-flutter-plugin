@@ -60,10 +60,10 @@ class PendingRegistrationResolver with DataMixin {
   PendingRegistrationResolver(this._channel);
 
   /// Set the missing account data in order to resolve the interruption.
-  Future<Map<String, dynamic>?> setAccount(Map<String, dynamic> map) =>
-      _channel.invokeMapMethod<String, dynamic>('resolveSetAccount', {
-        map,
-      }).catchError((error) {
+  Future<Map<String, dynamic>?> setAccount(Map<String, dynamic> map) => _channel
+          .invokeMapMethod<String, dynamic>('resolveSetAccount', map)
+          .catchError((error) {
+        print('setAccount Error: $error');
         throw GigyaResponse.fromJson(decodeError(error));
       });
 }

@@ -32,7 +32,7 @@ class GigyaResponse {
   }
 
   GigyaResponse.fromJson(dynamic json)
-      : callId = json['callId'],
+      : callId = json['callId']?.toString(),
         statusCode = json['statusCode'],
         errorCode = json['errorCode'],
         errorDetails = json['errorDetails'],
