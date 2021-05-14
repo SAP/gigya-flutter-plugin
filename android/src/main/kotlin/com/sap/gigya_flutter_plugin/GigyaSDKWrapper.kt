@@ -185,7 +185,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      */
     fun getAccount(arguments: Any, channelResult: MethodChannel.Result) {
         val invalidate: Boolean = (arguments as Map<*, *>)["invalidate"] as Boolean? ?: false
-        sdk.getAccount(invalidate, object : GigyaCallback<T>() {
+        val parameters: MutableMap<String, Any> = arguments["parameters"] as MutableMap<String, Any>?
+                ?: mutableMapOf()
+        sdk.getAccount(invalidate, parameters, object : GigyaCallback<T>() {
             override fun onSuccess(p0: T) {
                 val mapped = mapObject(p0)
                 channelResult.success(mapped)
