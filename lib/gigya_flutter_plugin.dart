@@ -204,6 +204,15 @@ class GigyaSdk with DataMixin {
         return _timeoutError();
       });
 
+  /// Link social account to existing site account.
+  Future<Map<String, dynamic>?> resolveLinkToSocial(String loginId, String password) =>
+      _channel.invokeMapMethod<String, dynamic>('linkToSite', {
+        'loginId': loginId,
+        'password': password,
+      }).catchError((error) {
+        throw GigyaResponse.fromJson(decodeError(error));
+      });
+
   /// Screen-sets event subscription.
   // ignore: unused_field, cancel_subscriptions
   StreamSubscription<dynamic>? _screenSetsEventStream;
