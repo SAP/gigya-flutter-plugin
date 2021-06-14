@@ -25,6 +25,17 @@ Important:
 Make sure you have [configured](https://developers.gigya.com/display/GD/Android+SDK+v4#AndroidSDKv4-ViaJSONconfigurationfile:)
 the basic steps needed for integrating the Android SDK
 
+If you need custom scheme(**Optional**):
+```
+class MyApplication : FlutterApplication() {
+
+    override fun onCreate() {
+        super.onCreate()
+        GigyaFlutterPlugin.init(this, GigyaAccount::class.java)
+    }
+}
+```
+
 ### iOS setup
 
 Navigate to **\<your project root\>/ios/Runner/AppDelegate.swift** and add the following:

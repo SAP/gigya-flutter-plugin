@@ -200,8 +200,8 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         }
         sdk?.forgotPassword(loginId: loginId, completion: { gigyaResponse in
             switch gigyaResponse {
-            case .success( _):
-                result(nil)
+            case .success(let data):
+                result(data)
             case .failure(let error):
                 switch error {
                 case .gigyaError(let d):

@@ -13,7 +13,15 @@ import io.flutter.plugin.common.MethodChannel.Result
 /** GigyaFlutterPlugin */
 class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler {
 
-    private lateinit var sdk: GigyaSDKWrapper<*>
+    companion object {
+        private lateinit var sdk: GigyaSDKWrapper<*>
+        fun <T : GigyaAccount> init(application: Application, accountObj: Class<T>) {
+            if (::sdk.isInitialized.not()) {
+                sdk = GigyaSDKWrapper(application, accountObj)
+            }
+        }
+    }
+
 
     /// Main communication method channel.
     private lateinit var channel: MethodChannel
@@ -21,7 +29,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler {
     private var _messenger: BinaryMessenger? = null
 
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        sdk = GigyaSDKWrapper(flutterPluginBinding.applicationContext as Application, GigyaAccount::class.java)
+        init(flutterPluginBinding.applicationContext as Application, GigyaAccount::class.java)
         _messenger = flutterPluginBinding.binaryMessenger
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "gigya_flutter_plugin")
         channel.setMethodCallHandler(this)

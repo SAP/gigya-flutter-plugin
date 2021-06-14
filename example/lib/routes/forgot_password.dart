@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
-import 'package:gigya_flutter_plugin/models/gigya_models.dart';
 
 class ForgotPasswordPageWidget extends StatefulWidget {
   @override
@@ -119,17 +118,5 @@ class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
         _requestResult = 'Request error\n\n${error.errorDetails}';
       });
     });
-  }
-}
-
-/// Specific response object used for the "accounts.isAvailableLoginID" endpoint.
-/// Extending the [GigyaResponse] object is optional if you require using its provided structure.
-class AvailableLoginIdResponse extends GigyaResponse {
-  bool _isAvailable;
-
-  bool get isAvailable => _isAvailable;
-
-  AvailableLoginIdResponse.fromJson(dynamic json) : super.fromJson(json) {
-    _isAvailable = json["isAvailable"];
   }
 }
