@@ -127,6 +127,19 @@ class _LoginWidthCredentialsWidgetState
                             },
                           ),
                         ),
+                        SizedBox(width: 16),
+                        Container(
+                          width: 50,
+                          height: 50,
+                          color: const Color(0xff3B5998),
+                          child: IconButton(
+                            icon: Image.asset('assets/google_dark.png'),
+                            iconSize: 50,
+                            onPressed: () {
+                              _sendSocialLoginRequest(SocialProvider.google);
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),
