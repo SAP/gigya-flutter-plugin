@@ -33,3 +33,13 @@ Core SDKS update
 Account Model Patch
 
 * Fix to main account model (sessionInfo type).
+
+# 0.1.0
+
+Developer Preview 0.1.0
+Flutter 2 and Null-safety
+
+* Android [initialization](https://github.com/SAP/gigya-flutter-plugin#android-setup) update (custom schema) 
+* Migrated to Flutter 2 and Null-safety.
+* Added Forgot password feature (including example application implementation).
+* Added Google sign-in integration to the example application.
