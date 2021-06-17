@@ -1,4 +1,6 @@
 # SAP CDC Gigya Flutter Plugin
+[![REUSE status](https://api.reuse.software/badge/github.com/SAP/gigya-flutter-plugin)](https://api.reuse.software/info/github.com/SAP/gigya-flutter-plugin)
+
 
 A [Flutter](https://flutter.dev) plugin for interfacing Gigya's native SDKs into a Flutter application using [Dart](https://dart.dev).
 
@@ -9,30 +11,30 @@ Flutter plugin that provides an interface for the Gigya API.
 The plugin allows you to use the core elements & business API flows available within the SAP Customer Data Cloud mobile SDKs.
 This plugin is currently in an early developers preview stage.
 
+## Requirements
+Android SDK support requires SDK 14 and above.
+
+## Download and Installation
+Add the plugin in your **pubspec.yaml** fie.
+
 ## Setup & Gigya core integration
 
 ### Android setup
 
-Add the following to your native implementation.
-
-```kotlin
-class MainActivity : FlutterActivity() {
-
-    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
-        GeneratedPluginRegistrant.registerWith(flutterEngine)
-
-        // Copy this code to you Android app.
-        //
-        // Reference the plugin and register your SDK initialization parameters.
-        val plugin: GigyaFlutterPlugin= flutterEngine.plugins.get(GigyaFlutterPlugin::class.java) as GigyaFlutterPlugin
-        plugin.registerWith(application, GigyaAccount::class.java)
-    }
-}
-```
-
 Important:
 Make sure you have [configured](https://developers.gigya.com/display/GD/Android+SDK+v4#AndroidSDKv4-ViaJSONconfigurationfile:)
 the basic steps needed for integrating the Android SDK
+
+If you need custom scheme(**Optional**):
+```
+class MyApplication : FlutterApplication() {
+
+    override fun onCreate() {
+        super.onCreate()
+        GigyaFlutterPlugin.init(this, GigyaAccount::class.java)
+    }
+}
+```
 
 ### iOS setup
 
@@ -208,6 +210,11 @@ None
 
 ## Contributing
 Via pull request to this repository.
+Please read CONTRIBUTING file for guidelines.
 
 ## To-Do (upcoming changes)
 None
+
+## Licensing
+Please see our [LICENSE](https://github.com/SAP/gigya-flutter-plugin/blob/main/LICENSES/Apache-2.0.txt) for copyright and license information.
+

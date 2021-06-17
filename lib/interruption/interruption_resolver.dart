@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 import 'package:gigya_flutter_plugin/models/gigya_models.dart';
@@ -32,29 +33,39 @@ class LinkAccountResolver with DataMixin {
 
   /// Get the user conflicting account object to determine how to resolve the flow.
   Future<ConflictingAccounts> getConflictingAccounts() async {
-    Map<String, dynamic> map = await _channel.invokeMapMethod<String, dynamic>('getConflictingAccounts');
-    return ConflictingAccounts.fromJson(map);
+    final result = await _channel
+        .invokeMapMethod<String, dynamic>('getConflictingAccounts');
+    return ConflictingAccounts.fromJson(result ?? {});
   }
 
   /// Link social account to existing site account.
-  Future<Map<String, dynamic>> linkToSite(String loginId, String password) async {
-    final Map<String, dynamic> res = await _channel.invokeMapMethod<String, dynamic>('linkToSite', {
-      'loginId': loginId,
-      'password': password,
-    }).catchError((error) {
+  Future<Map<String, dynamic>?> linkToSite(
+    String loginId,
+    String password,
+  ) async {
+    final result = await _channel.invokeMapMethod<String, dynamic>(
+      'linkToSite',
+      {
+        'loginId': loginId,
+        'password': password,
+      },
+    ).catchError((error) {
       throw GigyaResponse.fromJson(decodeError(error));
     });
-    return res;
+    return result;
   }
 
   /// Link site account to existing social account.
-  Future<Map<String, dynamic>> linkToSocial(SocialProvider provider) async {
-    final Map<String, dynamic> res = await _channel.invokeMapMethod<String, dynamic>('linkToSocial', {
-      'provider': provider.name,
-    }).catchError((error) {
+  Future<Map<String, dynamic>?> linkToSocial(SocialProvider provider) async {
+    final result = await _channel.invokeMapMethod<String, dynamic>(
+      'linkToSocial',
+      {
+        'provider': provider.name,
+      },
+    ).catchError((error) {
       throw GigyaResponse.fromJson(decodeError(error));
     });
-    return res;
+    return result;
   }
 }
 
@@ -65,13 +76,14 @@ class PendingRegistrationResolver with DataMixin {
   PendingRegistrationResolver(this._channel);
 
   /// Set the missing account data in order to resolve the interruption.
-  Future<Map<String, dynamic>> setAccount(Map<String, dynamic> map) async {
-    final Map<String, dynamic> res = await _channel.invokeMapMethod<String, dynamic>('resolveSetAccount', {
-      map,
-    }).catchError((error) {
+  Future<Map<String, dynamic>?> setAccount(Map<String, dynamic> map) async {
+    final result = await _channel
+        .invokeMapMethod<String, dynamic>('resolveSetAccount', map)
+        .catchError((error) {
+      debugPrint('setAccount Error: $error');
       throw GigyaResponse.fromJson(decodeError(error));
     });
-    return res;
+    return result;
   }
 }
 
@@ -79,9 +91,9 @@ class PendingRegistrationResolver with DataMixin {
 ///
 /// Use available [regToken] value to resolve.
 class PendingVerificationResolver {
-  final String _regToken;
+  final String? _regToken;
 
   PendingVerificationResolver(this._regToken);
 
-  String get regToken => _regToken;
+  String? get regToken => _regToken;
 }

@@ -1,15 +1,13 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
-import 'package:gigya_flutter_plugin/models/gigya_models.dart';
 
-class SendRequestPageWidget extends StatefulWidget {
+class ForgotPasswordPageWidget extends StatefulWidget {
   @override
-  _SendRequestPageWidgetState createState() => _SendRequestPageWidgetState();
+  _ForgotPasswordPageWidgetState createState() =>
+      _ForgotPasswordPageWidgetState();
 }
 
-class _SendRequestPageWidgetState extends State<SendRequestPageWidget> {
+class _ForgotPasswordPageWidgetState extends State<ForgotPasswordPageWidget> {
   final TextEditingController _loginIdEditingController =
       TextEditingController();
   String _requestResult = '';
@@ -25,7 +23,7 @@ class _SendRequestPageWidgetState extends State<SendRequestPageWidget> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Send request'),
+        title: const Text('Forgot password'),
       ),
       body: Column(
         children: [
@@ -43,7 +41,7 @@ class _SendRequestPageWidgetState extends State<SendRequestPageWidget> {
               children: [
                 Center(
                   child: const Text(
-                    'Testing endpoint: accounts.isAvailableLoginID',
+                    'Testing forgot password with login ID',
                     style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -107,14 +105,12 @@ class _SendRequestPageWidgetState extends State<SendRequestPageWidget> {
     setState(() {
       _inProgress = true;
     });
-    GigyaSdk.instance.send(
-        'accounts.isAvailableLoginID', {'loginID': loginId}).then((result) {
-      debugPrint(json.encode(result));
-      final response = AvailableLoginIdResponse.fromJson(result);
+    GigyaSdk.instance.forgotPassword(loginId).then((result) {
+      debugPrint('Success');
       setState(() {
         _inProgress = false;
-        _requestResult = 'Requested '
-            'login id is ${response.isAvailable ? 'available' : 'not available'}';
+        _requestResult = 'Requested: '
+            'instructions have been sent to your email';
       });
     }).catchError((error) {
       setState(() {
@@ -122,17 +118,5 @@ class _SendRequestPageWidgetState extends State<SendRequestPageWidget> {
         _requestResult = 'Request error\n\n${error.errorDetails}';
       });
     });
-  }
-}
-
-/// Specific response object used for the "accounts.isAvailableLoginID" endpoint.
-/// Extending the [GigyaResponse] object is optional if you require using its provided structure.
-class AvailableLoginIdResponse extends GigyaResponse {
-  bool _isAvailable;
-
-  bool get isAvailable => _isAvailable;
-
-  AvailableLoginIdResponse.fromJson(dynamic json) : super.fromJson(json) {
-    _isAvailable = json["isAvailable"];
   }
 }

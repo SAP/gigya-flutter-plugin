@@ -54,8 +54,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             actions: [
               loggedIn
                   ? IconButton(
-                      icon: new Image.asset('assets/286027_SAP_for_Me_R_neg_orange.png'),
-                      tooltip: 'User logged in. Click to request account information',
+                      icon: new Image.asset(
+                          'assets/286027_SAP_for_Me_R_neg_orange.png'),
+                      tooltip:
+                          'User logged in. Click to request account information',
                       onPressed: () {
                         Navigator.pushNamed(context, '/account_information');
                       },
@@ -71,8 +73,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 Center(child: Text('Running on: $_platformVersion\n')),
                 ButtonTheme(
                   minWidth: 240,
-                  child: RaisedButton(
-                    textColor: Colors.white,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     onPressed: () {
                       Navigator.pushNamed(context, '/send_request').then((val) {
                         setState(() {
@@ -83,18 +89,46 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     child: Text('Check available login id'),
                   ),
                 ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 2),
+                  child: ButtonTheme(
+                    minWidth: 240,
+                    child: ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        textStyle: TextStyle(
+                          color: Colors.white,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pushNamed(context, '/forgot_password')
+                            .then((val) {
+                          setState(() {
+                            debugPrint('Refresh on back');
+                          });
+                        });
+                      },
+                      child: Text("Forgot password"),
+                    ),
+                  ),
+                ),
                 loggedIn
                     ? Container()
                     : Padding(
                         padding: const EdgeInsets.only(top: 2),
                         child: ButtonTheme(
                           minWidth: 240,
-                          child: RaisedButton(
-                            textColor: Colors.white,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
                             onPressed: () {
-                              GigyaSdk.instance.showScreenSet("Default-RegistrationLogin", (event, map) {
+                              GigyaSdk.instance.showScreenSet(
+                                  "Default-RegistrationLogin", (event, map) {
                                 debugPrint('Screen set event received: $event');
-                                debugPrint('Screen set event data received: $map');
+                                debugPrint(
+                                    'Screen set event data received: $map');
                                 if (event == 'onHide' || event == 'onLogin') {
                                   setState(() {});
                                 }
@@ -108,10 +142,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ? Container()
                     : ButtonTheme(
                         minWidth: 240,
-                        child: RaisedButton(
-                          textColor: Colors.white,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/login_credentials').then((val) {
+                            Navigator.pushNamed(context, '/login_credentials')
+                                .then((val) {
                               setState(() {
                                 debugPrint('Refresh on back');
                               });
@@ -124,10 +163,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     ? Container()
                     : ButtonTheme(
                         minWidth: 240,
-                        child: RaisedButton(
-                          textColor: Colors.white,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/register_email').then((val) {
+                            Navigator.pushNamed(context, '/register_email')
+                                .then((val) {
                               setState(() {
                                 debugPrint('Refresh on back');
                               });
@@ -139,10 +183,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 loggedIn
                     ? ButtonTheme(
                         minWidth: 240,
-                        child: RaisedButton(
-                          textColor: Colors.white,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/account_information').then((val) {
+                            Navigator.pushNamed(context, '/account_information')
+                                .then((val) {
                               setState(() {
                                 debugPrint('Refresh on back');
                               });
@@ -155,8 +204,12 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 loggedIn
                     ? ButtonTheme(
                         minWidth: 240,
-                        child: RaisedButton(
-                          textColor: Colors.white,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                           onPressed: () {
                             GigyaSdk.instance.logout().then((val) {
                               setState(() {});
@@ -169,10 +222,15 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                 loggedIn
                     ? ButtonTheme(
                         minWidth: 240,
-                        child: RaisedButton(
-                          textColor: Colors.white,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
                           onPressed: () {
-                            Navigator.pushNamed(context, '/manage_connections').then((val) {
+                            Navigator.pushNamed(context, '/manage_connections')
+                                .then((val) {
                               setState(() {
                                 debugPrint('Refresh on back');
                               });

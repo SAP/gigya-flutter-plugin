@@ -20,7 +20,7 @@ PODS:
     - FBSDKLoginKit (~> 5.5)
     - Flutter
   - Gigya (1.2.0)
-  - gigya_flutter_plugin (0.0.4):
+  - gigya_flutter_plugin (0.1.0):
     - Flutter
     - Gigya (>= 1.2.0)
   - google_sign_in (0.0.1):
@@ -69,10 +69,6 @@ SPEC CHECKSUMS:
   flutter_facebook_login: cfb5659f686b1c575ef205c6b6fd20db9679d3c4
   Gigya: 16ded2781c0a4c93e221ea3ea0496741f78dc1e9
   gigya_flutter_plugin: 1ddd04b750b959d2142f6b60f1f146458427618a
-  google_sign_in: 6bd214b9c154f881422f5fe27b66aaa7bbd580cc
-  GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
-  GTMAppAuth: ad5c2b70b9a8689e1a04033c9369c4915bfcbe89
-  GTMSessionFetcher: b3503b20a988c4e20cc189aa798fd18220133f52
 
 PODFILE CHECKSUM: ef19549a9bc3046e7bb7d2fab4d021637c0c58a3
 
