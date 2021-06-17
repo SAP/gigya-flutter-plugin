@@ -3,7 +3,7 @@ import UIKit
 import Gigya
 
 public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, FlutterPlugin, GigyaInstanceProtocol {
-
+    
     enum GigyaMethods: String {
         case getPlatformVersion
         case sendRequest
@@ -22,6 +22,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case linkToSite
         case linkToScoial
         case resolveSetAccount
+        case forgotPassword
     }
     var sdk: GigyaSdkWrapper<T>?
     
@@ -41,7 +42,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
     
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
         let method = GigyaMethods(rawValue: call.method)
-
+        
         // Methods without arguments
         switch method {
         case .getPlatformVersion:
@@ -59,13 +60,13 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         default:
             break
         }
-
+        
         // Methods with arguments
         guard let args = call.arguments as? [String: Any] else {
             result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
             return
         }
-
+        
         switch method {
         case .sendRequest:
             sdk?.sendRequest(arguments: args, result: result)
@@ -89,6 +90,10 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.resolveLinkToSite(arguments: args, result: result)
         case .linkToScoial:
             sdk?.resolveLinkToSocial(arguments: args, result: result)
+        case .resolveSetAccount:
+            sdk?.resolveSetAccount(arguments: args, result: result)
+        case .forgotPassword:
+            sdk?.forgotPassword(arguments: args, result: result)
         default:
             result(nil)
         }

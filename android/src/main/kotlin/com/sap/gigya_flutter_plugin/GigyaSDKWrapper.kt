@@ -27,7 +27,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     private var currentResult: MethodChannel.Result? = null
 
-    val gson = GsonBuilder().registerTypeAdapter(object : TypeToken<Map<String?, Any?>?>() {}.type, CustomGSONDeserializer()).create()
+    private val gson = GsonBuilder().registerTypeAdapter(object : TypeToken<Map<String?, Any?>?>() {}.type, CustomGSONDeserializer()).create()
 
     init {
         Gigya.setApplication(application)
@@ -185,7 +185,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      */
     fun getAccount(arguments: Any, channelResult: MethodChannel.Result) {
         val invalidate: Boolean = (arguments as Map<*, *>)["invalidate"] as Boolean? ?: false
-        sdk.getAccount(invalidate, object : GigyaCallback<T>() {
+        val parameters: MutableMap<String, Any> = arguments["parameters"] as MutableMap<String, Any>?
+                ?: mutableMapOf()
+        sdk.getAccount(invalidate, parameters, object : GigyaCallback<T>() {
             override fun onSuccess(p0: T) {
                 val mapped = mapObject(p0)
                 channelResult.success(mapped)
@@ -222,6 +224,29 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
         })
+    }
+
+    /**
+     * Forgot password.
+     */
+    fun forgotPassword(arguments: Any, channelResult: MethodChannel.Result) {
+        val loginId: String? = (arguments as Map<*, *>)["loginId"] as String?
+        if (loginId == null) {
+            currentResult!!.error(MISSING_PARAMETER_ERROR, MISSING_PARAMETER_MESSAGE, mapOf<String, Any>())
+            return
+        }
+        sdk.forgotPassword(loginId, object : GigyaCallback<GigyaApiResponse>() {
+            override fun onSuccess(p0: GigyaApiResponse?) {
+                channelResult.success(p0)
+            }
+
+            override fun onError(p0: GigyaError?) {
+                p0?.let {
+                    channelResult.error(p0.errorCode.toString(), p0.localizedMessage, mapJson(p0.data))
+                } ?: channelResult.notImplemented()
+            }
+
+        });
     }
 
     /**

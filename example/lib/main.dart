@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin_example/routes/account_information.dart';
+import 'package:gigya_flutter_plugin_example/routes/forgot_password.dart';
 import 'package:gigya_flutter_plugin_example/routes/home_page.dart';
 import 'package:gigya_flutter_plugin_example/routes/login_with_credentials.dart';
 import 'package:gigya_flutter_plugin_example/routes/manage_connection.dart';
@@ -35,6 +36,7 @@ class _MyAppState extends State<MyApp> {
       '/register_email': (context) => RegisterWithEmailWidget(),
       '/account_information': (context) => AccountInformationWidget(),
       '/manage_connections': (context) => ManageConnectionWidget(),
+      '/forgot_password': (context) => ForgotPasswordPageWidget(),
     };
   }
 }

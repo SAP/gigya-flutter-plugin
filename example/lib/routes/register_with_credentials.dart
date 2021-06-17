@@ -6,12 +6,15 @@ import 'package:gigya_flutter_plugin/models/gigya_models.dart';
 
 class RegisterWithEmailWidget extends StatefulWidget {
   @override
-  _RegisterWidthEmailWidgetState createState() => _RegisterWidthEmailWidgetState();
+  _RegisterWidthEmailWidgetState createState() =>
+      _RegisterWidthEmailWidgetState();
 }
 
 class _RegisterWidthEmailWidgetState extends State<RegisterWithEmailWidget> {
-  final TextEditingController _loginIdEditingController = TextEditingController();
-  final TextEditingController _passwordEditingController = TextEditingController();
+  final TextEditingController _loginIdEditingController =
+      TextEditingController();
+  final TextEditingController _passwordEditingController =
+      TextEditingController();
   String _requestResult = '';
   bool _inProgress = false;
 
@@ -56,7 +59,8 @@ class _RegisterWidthEmailWidgetState extends State<RegisterWithEmailWidget> {
                 ),
                 Row(
                   children: [
-                    SizedBox(width: 120, child: const Text('Enter email address:')),
+                    SizedBox(
+                        width: 120, child: const Text('Enter email address:')),
                     SizedBox(
                       width: 10,
                     ),
@@ -85,13 +89,19 @@ class _RegisterWidthEmailWidgetState extends State<RegisterWithEmailWidget> {
                 ),
                 ButtonTheme(
                   minWidth: 240,
-                  child: RaisedButton(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     onPressed: () {
-                      final String loginId = _loginIdEditingController.text.trim();
-                      final String password = _passwordEditingController.text.trim();
+                      final String loginId =
+                          _loginIdEditingController.text.trim();
+                      final String password =
+                          _passwordEditingController.text.trim();
                       sendRequest(loginId, password);
                     },
-                    textColor: Colors.white,
                     child: const Text('Send Request'),
                   ),
                 ),

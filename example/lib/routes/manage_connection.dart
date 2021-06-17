@@ -38,26 +38,36 @@ class _ManageConnectionWidgetState extends State<ManageConnectionWidget> {
               children: [
                 SizedBox(height: 20),
                 Center(child: const Text('Current account connections:\n')),
-                account.socialProviders.isNotEmpty ? Text(account.socialProviders) : Container(),
+                account.socialProviders.isNotEmpty
+                    ? Text(account.socialProviders)
+                    : Container(),
                 SizedBox(height: 20),
                 ButtonTheme(
                   minWidth: 200,
-                  child: RaisedButton(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     onPressed: () {
                       _addConnection();
                     },
-                    textColor: Colors.white,
                     child: const Text('Add connection'),
                   ),
                 ),
                 SizedBox(height: 16),
                 ButtonTheme(
                   minWidth: 200,
-                  child: RaisedButton(
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
                     onPressed: () {
                       _removeConnection();
                     },
-                    textColor: Colors.white,
                     child: const Text('Remove connection'),
                   ),
                 )
