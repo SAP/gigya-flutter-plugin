@@ -203,7 +203,26 @@ class _LoginWidthCredentialsWidgetState
         _requestResult = 'Login success:\n\n ${response.uid}';
       });
     }).catchError((error) {
-      if (error.getInterruption() == Interruption.conflictingAccounts) {
+      if (error.getInterruption() == Interruption.pendingRegistration) {
+        debugPrint('Pending registration interruption');
+        PendingRegistrationResolver prResolver =
+            GigyaSdk.instance.resolverFactory.getResolver(error);
+        prResolver.setAccount({
+          'profile': json.encode({
+              'birthMonth': '5',
+              'birthYear': '5',
+            }),
+        }).then((res) {
+          final Account account = Account.fromJson(res);
+
+          setState(() {
+            _inProgress = false;
+            _requestResult =
+            'Login success:\n\n ${account.uid}';
+          });
+          Navigator.of(context).pop();
+        });
+      } else if (error.getInterruption() == Interruption.conflictingAccounts) {
         LinkAccountResolver resolver =
             GigyaSdk.instance.resolverFactory.getResolver(error);
         _resolveLinkAccount(resolver);
