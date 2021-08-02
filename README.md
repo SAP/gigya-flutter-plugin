@@ -1,4 +1,4 @@
-# SAP CDC Gigya Flutter Plugin
+# Flutter plug-in for SAP Customer Data Cloud
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/gigya-flutter-plugin)](https://api.reuse.software/info/github.com/SAP/gigya-flutter-plugin)
 
 
