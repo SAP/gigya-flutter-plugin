@@ -43,3 +43,8 @@ Flutter 2 and Null-safety
 * Migrated to Flutter 2 and Null-safety.
 * Added Forgot password feature (including example application implementation).
 * Added Google sign-in integration to the example application.
+
+# 0.1.1
+Android core SDK update.
+
+* Updated Android Core SDK v5.1.3
