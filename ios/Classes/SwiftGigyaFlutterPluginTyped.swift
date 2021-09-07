@@ -6,6 +6,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
     
     enum GigyaMethods: String {
         case getPlatformVersion
+        case initSdk
         case sendRequest
         case loginWithCredentials
         case registerWithCredentials
@@ -94,6 +95,8 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.resolveSetAccount(arguments: args, result: result)
         case .forgotPassword:
             sdk?.forgotPassword(arguments: args, result: result)
+        case .initSdk:
+            sdk?.initSdk(arguments: args, result: result)
         default:
             result(nil)
         }
