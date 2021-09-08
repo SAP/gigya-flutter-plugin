@@ -197,7 +197,11 @@ class GigyaSdk with DataMixin {
   }
 
   /// Init SDK using apiKey and apiDomain
-  Future<Map<String, dynamic>?> initSdk(String apiKey, String apiDomain) async {
+  Future<Map<String, dynamic>?> initSdk(String apiKey, String apiDomain, [bool logout = true]) async {
+    if (logout) {
+      await logout();
+    }
+
     final result = await _channel.invokeMapMethod<String, dynamic>(
       Methods.initSdk.name,
       {
