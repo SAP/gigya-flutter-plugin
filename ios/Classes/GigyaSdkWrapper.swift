@@ -18,7 +18,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     
     init(accountSchema: T.Type) {
         // Initializing the Gigya SDK instance.
-        GigyaDefinitions.versionPrefix = "flutter_0.0.2_"
+        GigyaDefinitions.versionPrefix = "react_native_0.0.2_"
         sdk = Gigya.sharedInstance(accountSchema)
     }
     
@@ -322,7 +322,9 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             let screenSet = arguments["screenSet"] as? String else {
             return
         }
-        
+
+        let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+
         // Create streamer
         var screenSetsEventHandler: ScreenSetsStreamHandler? = ScreenSetsStreamHandler()
         let eventChannel = FlutterEventChannel(name: "screensetEvents", binaryMessenger: SwiftGigyaFlutterPlugin.registrar!.messenger())
@@ -336,7 +338,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         sdk?.showScreenSet(
             with: screenSet,
             viewController: viewController,
-            params: arguments) { [weak self] event in
+            params: parameters) { [weak self] event in
             switch event {
             case .error(let event):
                 screenSetsEventHandler?.sink?(["event":"onError", "data" : event])
