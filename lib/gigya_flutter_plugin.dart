@@ -19,6 +19,7 @@ enum Methods {
   removeConnection,
   showScreenSet,
   forgotPassword,
+  initSdk,
 }
 
 extension MethodsExt on Methods {
@@ -189,6 +190,25 @@ class GigyaSdk with DataMixin {
         'loginId': loginId,
       },
     ).timeout(_getTimeout(Methods.forgotPassword), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
+    });
+    return result;
+  }
+
+  /// Init SDK using apiKey and apiDomain
+  Future<Map<String, dynamic>?> initSdk(String apiKey, String apiDomain, [bool logout = true]) async {
+    if (logout) {
+      await logout();
+    }
+
+    final result = await _channel.invokeMapMethod<String, dynamic>(
+      Methods.initSdk.name,
+      {
+        'apiKey': apiKey,
+        'apiDomain': apiDomain,
+      },
+    ).timeout(_getTimeout(Methods.initSdk), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return _timeoutError();
     });

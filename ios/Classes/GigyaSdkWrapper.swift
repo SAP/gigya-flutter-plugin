@@ -212,6 +212,23 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         })
     }
+
+    /**
+     Init SDK
+     */
+    func initSdk(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard let apiKey = arguments["apiKey"] as? String else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        guard let apiDomain = arguments["apiDomain"] as? String else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        sdk?.initFor(apiKey: apiKey, apiDomain: apiDomain)
+
+        result(["success": true])
+    }
     
     /**
      Social login with given provider & provider sessions.
