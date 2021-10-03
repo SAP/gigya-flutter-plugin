@@ -197,8 +197,8 @@ class GigyaSdk with DataMixin {
   }
 
   /// Init SDK using apiKey and apiDomain
-  Future<Map<String, dynamic>?> initSdk(String apiKey, String apiDomain, [bool logout = true]) async {
-    if (logout) {
+  Future<Map<String, dynamic>?> initSdk(String apiKey, String apiDomain, [bool forceLogout = true]) async {
+    if (forceLogout) {
       await logout();
     }
 
@@ -217,7 +217,7 @@ class GigyaSdk with DataMixin {
 
   /// Perform a social login given the [provider] identity.
   /// This call will specifically call the "notifySocialLogin" endpoint.
-  /// All social provider integration is the host's responsibility.
+  /// All social provider integration is the host's responsibiliy.
   ///
   /// Long timeout is set (5 minutes) in order to make sure that long sign in processes will not break.
   Future<Map<String, dynamic>?> socialLogin(SocialProvider provider,
