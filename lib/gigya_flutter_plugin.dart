@@ -19,6 +19,7 @@ enum Methods {
   removeConnection,
   showScreenSet,
   forgotPassword,
+  initSdk,
 }
 
 extension MethodsExt on Methods {
@@ -195,9 +196,28 @@ class GigyaSdk with DataMixin {
     return result;
   }
 
+  /// Init SDK using apiKey and apiDomain
+  Future<Map<String, dynamic>?> initSdk(String apiKey, String apiDomain, [bool forceLogout = true]) async {
+    if (forceLogout) {
+      await logout();
+    }
+
+    final result = await _channel.invokeMapMethod<String, dynamic>(
+      Methods.initSdk.name,
+      {
+        'apiKey': apiKey,
+        'apiDomain': apiDomain,
+      },
+    ).timeout(_getTimeout(Methods.initSdk), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
+    });
+    return result;
+  }
+
   /// Perform a social login given the [provider] identity.
   /// This call will specifically call the "notifySocialLogin" endpoint.
-  /// All social provider integration is the host's responsibility.
+  /// All social provider integration is the host's responsibiliy.
   ///
   /// Long timeout is set (5 minutes) in order to make sure that long sign in processes will not break.
   Future<Map<String, dynamic>?> socialLogin(SocialProvider provider,
