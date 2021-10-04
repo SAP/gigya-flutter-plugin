@@ -18,7 +18,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     
     init(accountSchema: T.Type) {
         // Initializing the Gigya SDK instance.
-        GigyaDefinitions.versionPrefix = "react_native_0.0.2_"
+        GigyaDefinitions.versionPrefix = "flutter_0.0.2_"
         sdk = Gigya.sharedInstance(accountSchema)
     }
     
