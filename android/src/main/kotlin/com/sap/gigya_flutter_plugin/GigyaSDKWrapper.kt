@@ -237,7 +237,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         }
         sdk.forgotPassword(loginId, object : GigyaCallback<GigyaApiResponse>() {
             override fun onSuccess(p0: GigyaApiResponse?) {
-                channelResult.success(p0)
+                channelResult.success(p0?.asMap())
             }
 
             override fun onError(p0: GigyaError?) {

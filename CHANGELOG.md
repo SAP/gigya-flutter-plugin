@@ -48,3 +48,10 @@ Flutter 2 and Null-safety
 Android core SDK update.
 
 * Updated Android Core SDK v5.1.3
+
+# 0.1.2
+Developer Preview 0.1.2
+
+* Updated Android Core SDK v5.1.4
+* Forgot password bug fix.
+* Added manual initSDK interface.
