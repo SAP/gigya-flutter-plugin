@@ -55,3 +55,9 @@ Developer Preview 0.1.2
 * Updated Android Core SDK v5.1.4
 * Forgot password bug fix.
 * Added manual initSDK interface.
+
+# 0.1.3
+Developer Preview 0.1.3
+
+* iOS: Fixed crash in forgotPassword.
+* iOS: Fixed bug in link account.
