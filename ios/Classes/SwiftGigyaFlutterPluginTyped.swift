@@ -21,7 +21,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         // intteruptions cases
         case getConflictingAccounts
         case linkToSite
-        case linkToScoial
+        case linkToSocial
         case resolveSetAccount
         case forgotPassword
     }
@@ -89,7 +89,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.removeConnection(arguments: args, result: result)
         case .linkToSite:
             sdk?.resolveLinkToSite(arguments: args, result: result)
-        case .linkToScoial:
+        case .linkToSocial:
             sdk?.resolveLinkToSocial(arguments: args, result: result)
         case .resolveSetAccount:
             sdk?.resolveSetAccount(arguments: args, result: result)

@@ -18,7 +18,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     
     init(accountSchema: T.Type) {
         // Initializing the Gigya SDK instance.
-        GigyaDefinitions.versionPrefix = "flutter_0.1.2_"
+        GigyaDefinitions.versionPrefix = "flutter_0.1.3_"
         sdk = Gigya.sharedInstance(accountSchema)
     }
     
@@ -31,9 +31,9 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     func sendRequest(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let endpoint = arguments["endpoint"] as? String,
               let parameters = arguments["parameters"] as? [String:Any] else {
-            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
-            return
-        }
+                  result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+                  return
+              }
         
         sdk?.send(api: endpoint, params: parameters) { (gigyaResponse) in
             switch gigyaResponse {
@@ -57,9 +57,9 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     func loginWithCredentials(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let loginId = arguments["loginId"] as? String,
               let password = arguments["password"] as? String else {
-            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
-            return
-        }
+                  result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+                  return
+              }
         
         resolverHelper.currentResult = result
         
@@ -91,9 +91,9 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     func registerWithCredentials(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let email = arguments["email"] as? String,
               let password = arguments["password"] as? String else {
-            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
-            return
-        }
+                  result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+                  return
+              }
         
         resolverHelper.currentResult = result
         
@@ -198,10 +198,11 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
-        sdk?.forgotPassword(loginId: loginId, completion: { gigyaResponse in
+        sdk?.forgotPassword(loginId: loginId, completion: { [weak self] gigyaResponse in
             switch gigyaResponse {
             case .success(let data):
-                result(data)
+                let mapped = self?.mapObject(data)
+                result(mapped)
             case .failure(let error):
                 switch error {
                 case .gigyaError(let d):
@@ -212,7 +213,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         })
     }
-
+    
     /**
      Init SDK
      */
@@ -226,7 +227,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             return
         }
         sdk?.initFor(apiKey: apiKey, apiDomain: apiDomain)
-
+        
         result(["success": true])
     }
     
@@ -251,24 +252,24 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             with: provider,
             viewController: viewController,
             params: parameters) { [weak self] (gigyaResponse) in
-            switch gigyaResponse {
-            case .success(let data):
-                
-                let mapped = self?.mapObject(data)
-                self?.resolverHelper.currentResult?(mapped)
-                
-                self?.resolverHelper.dispose()
-            case .failure(let error):
-                self?.saveResolvesIfNeeded(interruption: error.interruption)
-                
-                switch error.error {
-                case .gigyaError(let d):
-                    self?.resolverHelper.currentResult?(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
-                default:
-                    self?.resolverHelper.currentResult?(FlutterError(code: "", message: error.error.localizedDescription, details: nil))
+                switch gigyaResponse {
+                case .success(let data):
+                    
+                    let mapped = self?.mapObject(data)
+                    self?.resolverHelper.currentResult?(mapped)
+                    
+                    self?.resolverHelper.dispose()
+                case .failure(let error):
+                    self?.saveResolvesIfNeeded(interruption: error.interruption)
+                    
+                    switch error.error {
+                    case .gigyaError(let d):
+                        self?.resolverHelper.currentResult?(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                    default:
+                        self?.resolverHelper.currentResult?(FlutterError(code: "", message: error.error.localizedDescription, details: nil))
+                    }
                 }
             }
-        }
     }
     
     func addConnection(arguments: [String: Any], result: @escaping FlutterResult) {
@@ -287,20 +288,20 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             provider: provider,
             viewController: viewController,
             params: parameters) { [weak self] gigyaResponse in
-            switch gigyaResponse {
-            case .success(let data):
-                
-                let mapped = self?.mapObject(data)
-                result(mapped)
-            case .failure(let error):
-                switch error {
-                case .gigyaError(let d):
-                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: error.localizedDescription, details: nil))
+                switch gigyaResponse {
+                case .success(let data):
+                    
+                    let mapped = self?.mapObject(data)
+                    result(mapped)
+                case .failure(let error):
+                    switch error {
+                    case .gigyaError(let d):
+                        result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                    default:
+                        result(FlutterError(code: PluginErrors.generalError, message: error.localizedDescription, details: nil))
+                    }
                 }
             }
-        }
     }
     
     func removeConnection(arguments: [String: Any], result: @escaping FlutterResult) {
@@ -337,11 +338,11 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         guard
             let viewController = getDisplayedViewController(),
             let screenSet = arguments["screenSet"] as? String else {
-            return
-        }
-
+                return
+            }
+        
         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
-
+        
         // Create streamer
         var screenSetsEventHandler: ScreenSetsStreamHandler? = ScreenSetsStreamHandler()
         let eventChannel = FlutterEventChannel(name: "screensetEvents", binaryMessenger: SwiftGigyaFlutterPlugin.registrar!.messenger())
@@ -356,43 +357,43 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             with: screenSet,
             viewController: viewController,
             params: parameters) { [weak self] event in
-            switch event {
-            case .error(let event):
-                screenSetsEventHandler?.sink?(["event":"onError", "data" : event])
-            case .onHide(let event):
-                screenSetsEventHandler?.sink?(["event":"onHide", "data" : event])
-                screenSetsEventHandler?.destroy()
-                screenSetsEventHandler = nil
-            case .onLogin(account: let account):
-                screenSetsEventHandler?.sink?(["event":"onLogin", "data" : self?.mapObject(account) ?? [:]])
-            case .onLogout:
-                screenSetsEventHandler?.sink?(["event":"onLogout"])
-            case .onConnectionAdded:
-                screenSetsEventHandler?.sink?(["event":"onConnectionAdded"])
-            case .onConnectionRemoved:
-                screenSetsEventHandler?.sink?(["event":"onConnectionRemoved"])
-            case .onBeforeScreenLoad(let event):
-                screenSetsEventHandler?.sink?(["event":"onBeforeScreenLoad", "data" : event])
-            case .onAfterScreenLoad(let event):
-                screenSetsEventHandler?.sink?(["event":"onAfterScreenLoad", "data" : event])
-            case .onBeforeValidation(let event):
-                screenSetsEventHandler?.sink?(["event":"onBeforeValidation", "data" : event])
-            case .onAfterValidation(let event):
-                screenSetsEventHandler?.sink?(["event":"onAfterValidation", "data" : event])
-            case .onBeforeSubmit(let event):
-                screenSetsEventHandler?.sink?(["event":"onBeforeSubmit", "data" : event])
-            case .onSubmit(let event):
-                screenSetsEventHandler?.sink?(["event":"onSubmit", "data" : event])
-            case .onAfterSubmit(let event):
-                screenSetsEventHandler?.sink?(["event":"onAfterSubmit", "data" : event])
-            case .onFieldChanged(let event):
-                screenSetsEventHandler?.sink?(["event":"onFieldChanged", "data" : event])
-            case .onCanceled:
-                screenSetsEventHandler?.sink?(["event":"onCanceled", "data" : [:]])
-                screenSetsEventHandler?.destroy()
-                screenSetsEventHandler = nil
+                switch event {
+                case .error(let event):
+                    screenSetsEventHandler?.sink?(["event":"onError", "data" : event])
+                case .onHide(let event):
+                    screenSetsEventHandler?.sink?(["event":"onHide", "data" : event])
+                    screenSetsEventHandler?.destroy()
+                    screenSetsEventHandler = nil
+                case .onLogin(account: let account):
+                    screenSetsEventHandler?.sink?(["event":"onLogin", "data" : self?.mapObject(account) ?? [:]])
+                case .onLogout:
+                    screenSetsEventHandler?.sink?(["event":"onLogout"])
+                case .onConnectionAdded:
+                    screenSetsEventHandler?.sink?(["event":"onConnectionAdded"])
+                case .onConnectionRemoved:
+                    screenSetsEventHandler?.sink?(["event":"onConnectionRemoved"])
+                case .onBeforeScreenLoad(let event):
+                    screenSetsEventHandler?.sink?(["event":"onBeforeScreenLoad", "data" : event])
+                case .onAfterScreenLoad(let event):
+                    screenSetsEventHandler?.sink?(["event":"onAfterScreenLoad", "data" : event])
+                case .onBeforeValidation(let event):
+                    screenSetsEventHandler?.sink?(["event":"onBeforeValidation", "data" : event])
+                case .onAfterValidation(let event):
+                    screenSetsEventHandler?.sink?(["event":"onAfterValidation", "data" : event])
+                case .onBeforeSubmit(let event):
+                    screenSetsEventHandler?.sink?(["event":"onBeforeSubmit", "data" : event])
+                case .onSubmit(let event):
+                    screenSetsEventHandler?.sink?(["event":"onSubmit", "data" : event])
+                case .onAfterSubmit(let event):
+                    screenSetsEventHandler?.sink?(["event":"onAfterSubmit", "data" : event])
+                case .onFieldChanged(let event):
+                    screenSetsEventHandler?.sink?(["event":"onFieldChanged", "data" : event])
+                case .onCanceled:
+                    screenSetsEventHandler?.sink?(["event":"onCanceled", "data" : [:]])
+                    screenSetsEventHandler?.destroy()
+                    screenSetsEventHandler = nil
+                }
             }
-        }
     }
     
     
@@ -428,9 +429,9 @@ extension GigyaSdkWrapper {
         guard
             let loginId = arguments["loginId"] as? String ,
             let password = arguments["password"] as? String else {
-            result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-            return
-        }
+                result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
+                return
+            }
         
         resolver.linkToSite(loginId: loginId, password: password)
         
