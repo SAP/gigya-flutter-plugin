@@ -23,7 +23,7 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
 
-  flutter_facebook_login: ^3.0.0
+  flutter_facebook_auth: ^3.5.7
   google_sign_in: ^5.0.4
 
   # The following adds the Cupertino Icons font to your application.

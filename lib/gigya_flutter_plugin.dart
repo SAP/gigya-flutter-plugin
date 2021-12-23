@@ -20,6 +20,7 @@ enum Methods {
   showScreenSet,
   forgotPassword,
   initSdk,
+  setSession,
 }
 
 extension MethodsExt on Methods {
@@ -197,7 +198,8 @@ class GigyaSdk with DataMixin {
   }
 
   /// Init SDK using apiKey and apiDomain
-  Future<Map<String, dynamic>?> initSdk(String apiKey, String apiDomain, [bool forceLogout = true]) async {
+  Future<Map<String, dynamic>?> initSdk(String apiKey, String apiDomain,
+      [bool forceLogout = true]) async {
     if (forceLogout) {
       await logout();
     }
@@ -270,6 +272,21 @@ class GigyaSdk with DataMixin {
       return _timeoutError();
     });
     return result;
+  }
+
+  /// Log out of current active session.
+  Future<void> setSession(
+      String sessionToken, String sessionSecret, double expiration) async {
+    await _channel.invokeMapMethod(Methods.setSession.name, {
+      "sessionToken": sessionToken,
+      "sessionSecret": sessionSecret,
+      "expires_in": expiration
+    }).catchError((error) {
+      debugPrint('Set session error');
+    }).timeout(_getTimeout(Methods.setSession), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
+    });
   }
 
   /// Link social account to existing site account.
