@@ -407,8 +407,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Will overwrite current session.
      */
     fun setSession(arguments: Any, channelResult: MethodChannel.Result) {
-        val argumentMap: MutableMap<String, Any>? =
-            (arguments as Map<*, *>)["sessionInfo"] as MutableMap<String, Any>?
+        val argumentMap: MutableMap<String, Any>? = arguments as MutableMap<String, Any>?
         if (argumentMap != null) {
             val sessionInfo = SessionInfo(
                 argumentMap["sessionToken"] as String,

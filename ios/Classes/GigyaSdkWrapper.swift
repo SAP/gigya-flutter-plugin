@@ -170,6 +170,24 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         })
     }
+
+    /**
+     Override exists session
+     */
+
+    func setSession(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard let token = arguments["sessionToken"] as? String,
+              let secret = arguments["sessionSecret"] as? String,
+              let expiration = arguments["expires_in"] as? Double else {
+                  result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+                  return
+              }
+
+        let newSession = GigyaSession(sessionToken: token, secret: secret, expiration: expiration)
+        sdk?.setSession(newSession!)
+
+        result(nil)
+    }
     
     /**
      Logout of existing session.
