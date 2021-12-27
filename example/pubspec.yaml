@@ -1,12 +1,7 @@
 name: gigya_flutter_plugin_example
 description: Demonstrates how to use the gigya_flutter_plugin plugin.
 version: 0.0.1
-author: SAP LTD
 homepage: https://www.sap.com
-
-# The following line prevents the package from being accidentally published to
-# pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -15,14 +10,7 @@ dependencies:
   flutter:
     sdk: flutter
 
-  gigya_flutter_plugin:
-    # When depending on this package from a real application you should use:
-    #   gigya_flutter_plugin: ^x.y.z
-    # See https://dart.dev/tools/pub/dependencies#version-constraints
-    # The example app is bundled with the plugin so we use a path dependency on
-    # the parent directory to use the current plugin's version.
-    path: ../
-
+  gigya_flutter_plugin: ^0.1.3
   flutter_facebook_auth: ^3.5.7
   google_sign_in: ^5.0.4
 
