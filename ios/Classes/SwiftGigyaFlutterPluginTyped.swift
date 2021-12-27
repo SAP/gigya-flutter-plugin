@@ -13,6 +13,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case isLoggedIn
         case getAccount
         case setAccount
+        case setSession
         case logOut
         case socialLogin
         case showScreenSet
@@ -79,6 +80,8 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.getAccount(arguments: args, result: result)
         case .setAccount:
             sdk?.setAccount(arguments: args, result: result)
+        case .setSession:
+            sdk?.setSession(arguments: args, result: result)
         case .socialLogin:
             sdk?.socialLogin(arguments: args, result: result)
         case .showScreenSet:
