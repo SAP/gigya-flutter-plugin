@@ -61,3 +61,9 @@ Developer Preview 0.1.3
 
 * iOS: Fixed crash in forgotPassword.
 * iOS: Fixed bug in link account.
+
+# 0.1.4
+Developer Preview 0.1.3
+
+* Updated Android Core SDK v5.1.6
+* Added setSession interface.
