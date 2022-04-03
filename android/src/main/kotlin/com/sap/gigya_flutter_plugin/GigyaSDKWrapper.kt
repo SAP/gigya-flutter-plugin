@@ -29,8 +29,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     private var currentResult: MethodChannel.Result? = null
 
     private val gson = GsonBuilder().registerTypeAdapter(
-            object : TypeToken<Map<String?, Any?>?>() {}.type,
-            CustomGSONDeserializer()
+        object : TypeToken<Map<String?, Any?>?>() {}.type,
+        CustomGSONDeserializer()
     ).create()
 
     init {
@@ -39,7 +39,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
         try {
             val pInfo: PackageInfo =
-                    application.packageManager.getPackageInfo(application.packageName, 0)
+                application.packageManager.getPackageInfo(application.packageName, 0)
             val version: String = pInfo.versionName
             val ref: IApiRequestFactory = Gigya.getContainer().get(IApiRequestFactory::class.java)
             ref.setSDK("flutter_${version}_android_${(Gigya.VERSION).toLowerCase(Locale.ENGLISH)}")
@@ -55,18 +55,18 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val endpoint: String? = (arguments as Map<*, *>)["endpoint"] as String?
         if (endpoint == null) {
             channelResult.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
         val parameters: Map<String, Any>? = arguments["parameters"] as Map<String, Any>?
         if (parameters == null) {
             channelResult.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
@@ -80,9 +80,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onError(p0: GigyaError?) {
                 p0?.let {
                     channelResult.error(
-                            p0.errorCode.toString(),
-                            p0.localizedMessage,
-                            mapJson(p0.data)
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
                     )
                 } ?: channelResult.notImplemented()
             }
@@ -98,18 +98,18 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val loginId: String? = (arguments as Map<*, *>)["loginId"] as String?
         if (loginId == null) {
             currentResult!!.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
         val password: String? = arguments["password"] as String?
         if (password == null) {
             currentResult!!.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
@@ -129,43 +129,43 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onError(p0: GigyaError?) {
                 p0?.let {
                     currentResult!!.error(
-                            p0.errorCode.toString(),
-                            p0.localizedMessage,
-                            mapJson(p0.data)
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
                     )
                 } ?: currentResult!!.notImplemented()
             }
 
             override fun onConflictingAccounts(
-                    response: GigyaApiResponse,
-                    resolver: ILinkAccountsResolver
+                response: GigyaApiResponse,
+                resolver: ILinkAccountsResolver
             ) {
                 resolverHelper.linkAccountResolver = resolver
                 currentResult!!.error(
-                        response.errorCode.toString(),
-                        response.errorDetails,
-                        response.asMap()
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
                 )
             }
 
             override fun onPendingRegistration(
-                    response: GigyaApiResponse,
-                    resolver: IPendingRegistrationResolver
+                response: GigyaApiResponse,
+                resolver: IPendingRegistrationResolver
             ) {
                 resolverHelper.pendingRegistrationResolver = resolver
                 currentResult!!.error(
-                        response.errorCode.toString(),
-                        response.errorDetails,
-                        response.asMap()
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
                 )
             }
 
             override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
                 resolverHelper.regToken = regToken
                 currentResult!!.error(
-                        response.errorCode.toString(),
-                        response.errorDetails,
-                        response.asMap()
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
                 )
             }
         })
@@ -179,24 +179,24 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val email: String? = (arguments as Map<*, *>)["email"] as String?
         if (email == null) {
             currentResult!!.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
         val password: String? = arguments["password"] as String?
         if (password == null) {
             currentResult!!.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
         val parameters: MutableMap<String, Any> =
-                arguments["parameters"] as MutableMap<String, Any>?
-                        ?: mutableMapOf()
+            arguments["parameters"] as MutableMap<String, Any>?
+                ?: mutableMapOf()
         sdk.register(email, password, parameters!!, object : GigyaLoginCallback<T>() {
             override fun onSuccess(p0: T) {
                 resolverHelper.clear()
@@ -207,43 +207,43 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onError(p0: GigyaError?) {
                 p0?.let {
                     currentResult!!.error(
-                            p0.errorCode.toString(),
-                            p0.localizedMessage,
-                            mapJson(p0.data)
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
                     )
                 } ?: currentResult!!.notImplemented()
             }
 
             override fun onConflictingAccounts(
-                    response: GigyaApiResponse,
-                    resolver: ILinkAccountsResolver
+                response: GigyaApiResponse,
+                resolver: ILinkAccountsResolver
             ) {
                 resolverHelper.linkAccountResolver = resolver
                 currentResult!!.error(
-                        response.errorCode.toString(),
-                        response.errorDetails,
-                        response.asMap()
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
                 )
             }
 
             override fun onPendingRegistration(
-                    response: GigyaApiResponse,
-                    resolver: IPendingRegistrationResolver
+                response: GigyaApiResponse,
+                resolver: IPendingRegistrationResolver
             ) {
                 resolverHelper.pendingRegistrationResolver = resolver
                 currentResult!!.error(
-                        response.errorCode.toString(),
-                        response.errorDetails,
-                        response.asMap()
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
                 )
             }
 
             override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
                 resolverHelper.regToken = regToken
                 currentResult!!.error(
-                        response.errorCode.toString(),
-                        response.errorDetails,
-                        response.asMap()
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
                 )
             }
 
@@ -264,8 +264,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     fun getAccount(arguments: Any, channelResult: MethodChannel.Result) {
         val invalidate: Boolean = (arguments as Map<*, *>)["invalidate"] as Boolean? ?: false
         val parameters: MutableMap<String, Any> =
-                arguments["parameters"] as MutableMap<String, Any>?
-                        ?: mutableMapOf()
+            arguments["parameters"] as MutableMap<String, Any>?
+                ?: mutableMapOf()
         sdk.getAccount(invalidate, parameters, object : GigyaCallback<T>() {
             override fun onSuccess(p0: T) {
                 val mapped = mapObject(p0)
@@ -275,9 +275,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onError(p0: GigyaError?) {
                 p0?.let {
                     channelResult.error(
-                            p0.errorCode.toString(),
-                            p0.localizedMessage,
-                            mapJson(p0.data)
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
                     )
                 } ?: channelResult.notImplemented()
             }
@@ -290,12 +290,12 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      */
     fun setAccount(arguments: Any, channelResult: MethodChannel.Result) {
         val account: MutableMap<String, Any>? =
-                (arguments as Map<*, *>)["account"] as MutableMap<String, Any>?
+            (arguments as Map<*, *>)["account"] as MutableMap<String, Any>?
         if (account == null) {
             channelResult.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
@@ -308,9 +308,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onError(p0: GigyaError?) {
                 p0?.let {
                     channelResult.error(
-                            p0.errorCode.toString(),
-                            p0.localizedMessage,
-                            mapJson(p0.data)
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
                     )
                 } ?: channelResult.notImplemented()
             }
@@ -325,9 +325,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val loginId: String? = (arguments as Map<*, *>)["loginId"] as String?
         if (loginId == null) {
             currentResult!!.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
@@ -339,9 +339,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onError(p0: GigyaError?) {
                 p0?.let {
                     channelResult.error(
-                            p0.errorCode.toString(),
-                            p0.localizedMessage,
-                            mapJson(p0.data)
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
                     )
                 } ?: channelResult.notImplemented()
             }
@@ -358,9 +358,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             channelResult.success(mapOf("success" to false))
 
             currentResult!!.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
@@ -369,9 +369,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             channelResult.success(mapOf("success" to false))
 
             currentResult!!.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
@@ -392,9 +392,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onError(p0: GigyaError?) {
                 p0?.let {
                     channelResult.error(
-                            p0.errorCode.toString(),
-                            p0.localizedMessage,
-                            mapJson(p0.data)
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
                     )
                 } ?: channelResult.notImplemented()
             }
@@ -410,19 +410,82 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val argumentMap: MutableMap<String, Any>? = arguments as MutableMap<String, Any>?
         if (argumentMap != null) {
             val sessionInfo = SessionInfo(
-                    argumentMap["sessionToken"] as String,
-                    argumentMap["sessionSecret"] as String,
-                    (argumentMap["expires_in"] as Double).toLong()
+                argumentMap["sessionToken"] as String,
+                argumentMap["sessionSecret"] as String,
+                (argumentMap["expires_in"] as Double).toLong()
             )
             sdk.setSession(sessionInfo)
             channelResult.success(null)
             return
         }
         channelResult.error(
-                MISSING_PARAMETER_ERROR,
-                MISSING_PARAMETER_MESSAGE,
-                mapOf<String, Any>()
+            MISSING_PARAMETER_ERROR,
+            MISSING_PARAMETER_MESSAGE,
+            mapOf<String, Any>()
         )
+    }
+
+    /**
+     * Mobile sso initiator using CLP.
+     */
+    fun sso(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult
+        val argumentMap: MutableMap<String, Any>? = arguments as MutableMap<String, Any>?
+        sdk.login(GigyaDefinitions.Providers.SSO, argumentMap, object : GigyaLoginCallback<T>() {
+            override fun onSuccess(p0: T) {
+                val mapped = mapObject(p0)
+                resolverHelper.clear()
+                currentResult!!.success(mapped)
+            }
+
+            override fun onError(p0: GigyaError?) {
+                p0?.let {
+                    currentResult!!.error(
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
+                    )
+                } ?: currentResult!!.notImplemented()
+            }
+
+            override fun onOperationCanceled() {
+                currentResult!!.error(CANCELED_ERROR, CANCELED_ERROR_MESSAGE, null)
+            }
+
+            override fun onConflictingAccounts(
+                response: GigyaApiResponse,
+                resolver: ILinkAccountsResolver
+            ) {
+                resolverHelper.linkAccountResolver = resolver
+                currentResult!!.error(
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
+                )
+            }
+
+            override fun onPendingRegistration(
+                response: GigyaApiResponse,
+                resolver: IPendingRegistrationResolver
+            ) {
+                resolverHelper.pendingRegistrationResolver = resolver
+                currentResult!!.error(
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
+                )
+            }
+
+            override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
+                resolverHelper.regToken = regToken
+                currentResult!!.error(
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
+                )
+            }
+
+        })
     }
 
     /**
@@ -433,15 +496,15 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val provider: String? = (arguments as Map<*, *>)["provider"] as String?
         if (provider == null) {
             currentResult!!.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
         val parameters: MutableMap<String, Any> =
-                arguments["parameters"] as MutableMap<String, Any>?
-                        ?: mutableMapOf()
+            arguments["parameters"] as MutableMap<String, Any>?
+                ?: mutableMapOf()
         sdk.login(provider, parameters, object : GigyaLoginCallback<T>() {
             override fun onSuccess(p0: T) {
                 val mapped = mapObject(p0)
@@ -452,9 +515,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onError(p0: GigyaError?) {
                 p0?.let {
                     currentResult!!.error(
-                            p0.errorCode.toString(),
-                            p0.localizedMessage,
-                            mapJson(p0.data)
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
                     )
                 } ?: currentResult!!.notImplemented()
             }
@@ -464,35 +527,35 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onConflictingAccounts(
-                    response: GigyaApiResponse,
-                    resolver: ILinkAccountsResolver
+                response: GigyaApiResponse,
+                resolver: ILinkAccountsResolver
             ) {
                 resolverHelper.linkAccountResolver = resolver
                 currentResult!!.error(
-                        response.errorCode.toString(),
-                        response.errorDetails,
-                        response.asMap()
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
                 )
             }
 
             override fun onPendingRegistration(
-                    response: GigyaApiResponse,
-                    resolver: IPendingRegistrationResolver
+                response: GigyaApiResponse,
+                resolver: IPendingRegistrationResolver
             ) {
                 resolverHelper.pendingRegistrationResolver = resolver
                 currentResult!!.error(
-                        response.errorCode.toString(),
-                        response.errorDetails,
-                        response.asMap()
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
                 )
             }
 
             override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
                 resolverHelper.regToken = regToken
                 currentResult!!.error(
-                        response.errorCode.toString(),
-                        response.errorDetails,
-                        response.asMap()
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
                 )
             }
 
@@ -506,9 +569,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val provider: String? = (arguments as Map<*, *>)["provider"] as String?
         if (provider == null) {
             channelResult.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
@@ -521,9 +584,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onError(p0: GigyaError?) {
                 p0?.let {
                     channelResult.error(
-                            p0.errorCode.toString(),
-                            p0.localizedMessage,
-                            mapJson(p0.data)
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
                     )
                 } ?: channelResult.notImplemented()
             }
@@ -542,9 +605,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val provider: String? = (arguments as Map<*, *>)["provider"] as String?
         if (provider == null) {
             channelResult.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
@@ -552,8 +615,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onSuccess(p0: GigyaApiResponse?) {
                 p0?.let {
                     val mapped = gson.fromJson<Map<String, Any>>(
-                            it.asJson(),
-                            object : TypeToken<Map<String, Any>>() {}.type
+                        it.asJson(),
+                        object : TypeToken<Map<String, Any>>() {}.type
                     )
                     channelResult.success(mapped)
                 } ?: channelResult.notImplemented()
@@ -562,9 +625,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onError(p0: GigyaError?) {
                 p0?.let {
                     channelResult.error(
-                            p0.errorCode.toString(),
-                            p0.localizedMessage,
-                            mapJson(p0.data)
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
                     )
                 } ?: channelResult.notImplemented()
             }
@@ -580,9 +643,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Trigger embedded web screen sets.
      */
     fun showScreenSet(
-            arguments: Any,
-            channelResult: MethodChannel.Result,
-            messenger: BinaryMessenger?
+        arguments: Any,
+        channelResult: MethodChannel.Result,
+        messenger: BinaryMessenger?
     ) {
         if (messenger == null) {
             channelResult.error(GENERAL_ERROR, GENERAL_ERROR_MESSAGE, mapOf<String, Any>())
@@ -591,15 +654,15 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val screenSet: String? = (arguments as Map<*, *>)["screenSet"] as String?
         if (screenSet == null) {
             channelResult.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
             return
         }
         val parameters: MutableMap<String, Any> =
-                arguments["parameters"] as MutableMap<String, Any>?
-                        ?: mutableMapOf()
+            arguments["parameters"] as MutableMap<String, Any>?
+                ?: mutableMapOf()
 
         // Set events channel & handler.
         screenSetEventsChannel = EventChannel(messenger, "screensetEvents")
@@ -617,10 +680,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         sdk.showScreenSet(screenSet, true, parameters, object : GigyaPluginCallback<T>() {
             override fun onError(event: GigyaPluginEvent?) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onError",
-                                "data" to event!!.eventMap
-                        )
+                    mapOf(
+                        "event" to "onError",
+                        "data" to event!!.eventMap
+                    )
                 )
             }
 
@@ -633,11 +696,11 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onHide(event: GigyaPluginEvent, reason: String?) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onHide",
-                                "reason" to reason!!,
-                                "data" to event.eventMap
-                        )
+                    mapOf(
+                        "event" to "onHide",
+                        "reason" to reason!!,
+                        "data" to event.eventMap
+                    )
                 )
                 screenSetsEventsHandler = null
                 screenSetEventsChannel = null
@@ -646,10 +709,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onLogin(accountObj: T) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onLogin",
-                                "data" to mapObject(accountObj)
-                        )
+                    mapOf(
+                        "event" to "onLogin",
+                        "data" to mapObject(accountObj)
+                    )
                 )
             }
 
@@ -667,73 +730,73 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onBeforeScreenLoad(event: GigyaPluginEvent) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onBeforeScreenLoad",
-                                "data" to event.eventMap
-                        )
+                    mapOf(
+                        "event" to "onBeforeScreenLoad",
+                        "data" to event.eventMap
+                    )
                 )
             }
 
             override fun onAfterScreenLoad(event: GigyaPluginEvent) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onAfterScreenLoad",
-                                "data" to event.eventMap
-                        )
+                    mapOf(
+                        "event" to "onAfterScreenLoad",
+                        "data" to event.eventMap
+                    )
                 )
             }
 
             override fun onBeforeValidation(event: GigyaPluginEvent) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onBeforeValidation",
-                                "data" to event.eventMap
-                        )
+                    mapOf(
+                        "event" to "onBeforeValidation",
+                        "data" to event.eventMap
+                    )
                 )
             }
 
             override fun onAfterValidation(event: GigyaPluginEvent) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onAfterValidation",
-                                "data" to event.eventMap
-                        )
+                    mapOf(
+                        "event" to "onAfterValidation",
+                        "data" to event.eventMap
+                    )
                 )
             }
 
             override fun onBeforeSubmit(event: GigyaPluginEvent) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onBeforeSubmit",
-                                "data" to event.eventMap
-                        )
+                    mapOf(
+                        "event" to "onBeforeSubmit",
+                        "data" to event.eventMap
+                    )
                 )
             }
 
             override fun onSubmit(event: GigyaPluginEvent) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onSubmit",
-                                "data" to event.eventMap
-                        )
+                    mapOf(
+                        "event" to "onSubmit",
+                        "data" to event.eventMap
+                    )
                 )
             }
 
             override fun onAfterSubmit(event: GigyaPluginEvent) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onAfterSubmit",
-                                "data" to event.eventMap
-                        )
+                    mapOf(
+                        "event" to "onAfterSubmit",
+                        "data" to event.eventMap
+                    )
                 )
             }
 
             override fun onFieldChanged(event: GigyaPluginEvent) {
                 screenSetsEventsSink?.success(
-                        mapOf(
-                                "event" to "onFieldChanged",
-                                "data" to event.eventMap
-                        )
+                    mapOf(
+                        "event" to "onFieldChanged",
+                        "data" to event.eventMap
+                    )
                 )
             }
         })
@@ -762,18 +825,18 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             val loginId: String? = (arguments as Map<*, *>)["loginId"] as String?
             if (loginId == null) {
                 channelResult.error(
-                        MISSING_PARAMETER_ERROR,
-                        MISSING_PARAMETER_MESSAGE,
-                        mapOf<String, Any>()
+                    MISSING_PARAMETER_ERROR,
+                    MISSING_PARAMETER_MESSAGE,
+                    mapOf<String, Any>()
                 )
                 return
             }
             val password: String? = (arguments as Map<*, *>)["password"] as String?
             if (password == null) {
                 channelResult.error(
-                        MISSING_PARAMETER_ERROR,
-                        MISSING_PARAMETER_MESSAGE,
-                        mapOf<String, Any>()
+                    MISSING_PARAMETER_ERROR,
+                    MISSING_PARAMETER_MESSAGE,
+                    mapOf<String, Any>()
                 )
                 return
             }
@@ -791,9 +854,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             val provider: String? = (arguments as Map<*, *>)["provider"] as String?
             if (provider == null) {
                 channelResult.error(
-                        MISSING_PARAMETER_ERROR,
-                        MISSING_PARAMETER_MESSAGE,
-                        mapOf<String, Any>()
+                    MISSING_PARAMETER_ERROR,
+                    MISSING_PARAMETER_MESSAGE,
+                    mapOf<String, Any>()
                 )
                 return
             }
@@ -811,9 +874,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             val data: Map<String, Any>? = arguments as Map<String, Any>
             if (data == null) {
                 channelResult.error(
-                        MISSING_PARAMETER_ERROR,
-                        MISSING_PARAMETER_MESSAGE,
-                        mapOf<String, Any>()
+                    MISSING_PARAMETER_ERROR,
+                    MISSING_PARAMETER_MESSAGE,
+                    mapOf<String, Any>()
                 )
                 return
             }

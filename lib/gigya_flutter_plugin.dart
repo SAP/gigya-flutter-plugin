@@ -21,6 +21,7 @@ enum Methods {
   forgotPassword,
   initSdk,
   setSession,
+  sso,
 }
 
 extension MethodsExt on Methods {
@@ -233,6 +234,23 @@ class GigyaSdk with DataMixin {
     ).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.socialLogin), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
+    });
+    return result;
+  }
+
+  Future<Map<String, dynamic>?> sso(
+      {parameters}) async {
+    final result = await _channel.invokeMapMethod<String, dynamic>(
+      Methods.sso.name,
+      {
+        'provider': 'sso',
+        'parameters': parameters,
+      },
+    ).catchError((error) {
+      return throw GigyaResponse.fromJson(decodeError(error));
+    }).timeout(_getTimeout(Methods.sso), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return _timeoutError();
     });
