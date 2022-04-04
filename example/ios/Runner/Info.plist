@@ -49,6 +49,8 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>FacebookAppID</key>
 	<string>720188262037015</string>
+	<key>FacebookClientToken</key>
+	<string>242d446e866f086fdfb11729e548f958</string>
 	<key>GigyaApiDomain</key>
 	<string>us1.gigya.com</string>
 	<key>GigyaApiKey</key>
