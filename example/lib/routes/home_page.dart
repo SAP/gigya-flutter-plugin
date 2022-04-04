@@ -250,10 +250,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                       ),
                     ),
                     onPressed: () {
-                      GigyaSdk.instance.sso().then((result) => {
-
+                      GigyaSdk.instance.sso().then((result) {
+                        setState(() { });
                       }).catchError((error) {
-                        
+
                       });
                     },
                     child: Text('SSO'),
