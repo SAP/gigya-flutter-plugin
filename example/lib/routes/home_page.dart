@@ -240,6 +240,26 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                       )
                     : Container(),
+                loggedIn == false
+                    ? ButtonTheme(
+                  minWidth: 240,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      textStyle: TextStyle(
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed: () {
+                      GigyaSdk.instance.sso().then((result) => {
+
+                      }).catchError((error) {
+                        
+                      });
+                    },
+                    child: Text('SSO'),
+                  ),
+                )
+                    : Container(),
               ],
             ),
           ),

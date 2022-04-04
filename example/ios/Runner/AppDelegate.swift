@@ -11,7 +11,11 @@ import FBSDKCoreKit
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
-    SwiftGigyaFlutterPlugin.register(accountSchema: UserHost.self)
+      if #available(iOS 13.0, *) {
+          SwiftGigyaFlutterPlugin.register(accountSchema: UserHost.self)
+      } else {
+          // Fallback on earlier versions
+      }
     
     Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
     Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .google, wrapper: GoogleWrapper())
