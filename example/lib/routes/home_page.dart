@@ -124,6 +124,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               ),
                             ),
                             onPressed: () {
+
                               GigyaSdk.instance.showScreenSet(
                                   "Default-RegistrationLogin", (event, map) {
                                 debugPrint('Screen set event received: $event');
