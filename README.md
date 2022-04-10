@@ -164,7 +164,11 @@ map - event data map.
 ## Mobile SSO
 
 The plugin supports the native SDK's "Single Sign On feature".
+
+Documentation:
+
 [Andorid](https://sap.github.io/gigya-android-sdk/sdk-core/#sso-single-sign-on)
+
 [iOS](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#sso-single-sign-on)
 
 Please make sure to implement the nessesary steps described for each platform.
