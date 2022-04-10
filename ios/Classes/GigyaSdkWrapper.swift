@@ -290,6 +290,45 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
     }
     
+    /**
+     SSO.
+     */
+    func sso(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard
+            let viewController = getDisplayedViewController()
+        else {
+            result(FlutterError(code: PluginErrors.generalError, message: "provider not exists", details: nil))
+            return
+        }
+        
+        resolverHelper.currentResult = result
+        
+        let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+        
+        sdk?.login(
+            with: .sso,
+            viewController: viewController,
+            params: parameters) { [weak self] (gigyaResponse) in
+                switch gigyaResponse {
+                case .success(let data):
+                    
+                    let mapped = self?.mapObject(data)
+                    self?.resolverHelper.currentResult?(mapped)
+                    
+                    self?.resolverHelper.dispose()
+                case .failure(let error):
+                    self?.saveResolvesIfNeeded(interruption: error.interruption)
+                    
+                    switch error.error {
+                    case .gigyaError(let d):
+                        self?.resolverHelper.currentResult?(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                    default:
+                        self?.resolverHelper.currentResult?(FlutterError(code: "", message: error.error.localizedDescription, details: nil))
+                    }
+                }
+            }
+    }
+    
     func addConnection(arguments: [String: Any], result: @escaping FlutterResult) {
         guard
             let viewController = getDisplayedViewController(),

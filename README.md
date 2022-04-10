@@ -161,6 +161,24 @@ Screen-Sets events (event, map).
 event - actual event name.
 map - event data map.
 
+## Mobile SSO
+
+The plugin supports the native SDK's "Single Sign On feature".
+[Andorid](https://sap.github.io/gigya-android-sdk/sdk-core/#sso-single-sign-on)
+[iOS](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#sso-single-sign-on)
+
+Please make sure to implement the nessesary steps described for each platform.
+
+To initiate the flow run the following snippet.
+```
+ GigyaSdk.instance.sso().then((result) {
+ // Handle result here.
+ setState(() { });
+ }).catchError((error) {
+// Handle error here.
+ });
+```
+
 ## Resolving interruptions
 
 Much like the our core SDKs, resolving interruptions is available using the plugin.

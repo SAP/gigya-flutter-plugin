@@ -2,6 +2,7 @@ import Flutter
 import UIKit
 import Gigya
 
+@available(iOS 13.0, *)
 public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, FlutterPlugin, GigyaInstanceProtocol {
     
     enum GigyaMethods: String {
@@ -19,6 +20,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case showScreenSet
         case addConnection
         case removeConnection
+        case sso
         // intteruptions cases
         case getConflictingAccounts
         case linkToSite
@@ -100,9 +102,17 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.forgotPassword(arguments: args, result: result)
         case .initSdk:
             sdk?.initSdk(arguments: args, result: result)
+        case .sso:
+            sdk?.sso(arguments: args, result: result)
         default:
             result(nil)
         }
         
+    }
+    
+    
+    
+    deinit {
+        print("[SwiftGigyaFlutterPluginTyped deinit]")
     }
 }

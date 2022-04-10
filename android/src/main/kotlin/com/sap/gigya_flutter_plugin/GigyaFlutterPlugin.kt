@@ -62,6 +62,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler {
             "forgotPassword" -> sdk.forgotPassword(call.arguments, result)
             "initSdk" -> sdk.initSdk(call.arguments, result)
             "setSession" -> sdk.setSession(call.arguments, result)
+            "sso" -> sdk.sso(call.arguments, result)
             else -> result.notImplemented()
         }
     }
