@@ -63,7 +63,12 @@ Developer Preview 0.1.3
 * iOS: Fixed bug in link account.
 
 # 0.1.4
-Developer Preview 0.1.3
+Developer Preview 0.1.4
 
 * Updated Android Core SDK v5.1.6
 * Added setSession interface.
+
+# 0.1.5
+Developer Preview 0.1.5
+
+* Added mobile SSO support using CLP.
