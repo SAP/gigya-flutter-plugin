@@ -25,4 +25,6 @@ flutter:
       ios:
         pluginClass: GigyaFlutterPlugin
 
-
+false_secrets:
+  - example/android/app/src/main/res/values/strings.xml
+  - example/ios/Runner/Info.plist
