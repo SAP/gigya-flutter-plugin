@@ -72,3 +72,9 @@ Developer Preview 0.1.4
 Developer Preview 0.1.5
 
 * Added mobile SSO support using CLP.
+
+# 0.1.6
+
+Developer Preview 0.1.6
+
+* Bug fix - Android setSession. Wrong SessonInfo propagation.
