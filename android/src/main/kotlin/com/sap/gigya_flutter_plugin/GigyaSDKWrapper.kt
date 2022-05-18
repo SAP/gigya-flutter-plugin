@@ -410,8 +410,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val argumentMap: MutableMap<String, Any>? = arguments as MutableMap<String, Any>?
         if (argumentMap != null) {
             val sessionInfo = SessionInfo(
-                argumentMap["sessionToken"] as String,
                 argumentMap["sessionSecret"] as String,
+                argumentMap["sessionToken"] as String,
                 (argumentMap["expires_in"] as Double).toLong()
             )
             sdk.setSession(sessionInfo)
