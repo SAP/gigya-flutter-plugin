@@ -1,6 +1,6 @@
 name: gigya_flutter_plugin
 description: SAP Gigya Flutter plugin
-version: 0.1.6
+version: 0.1.7
 homepage: https://github.com/SAP/gigya-flutter-plugin
 
 environment:
@@ -25,4 +25,6 @@ flutter:
       ios:
         pluginClass: GigyaFlutterPlugin
 
-
+false_secrets:
+  - example/android/app/src/main/res/values/strings.xml
+  - example/ios/Runner/Info.plist
