@@ -78,3 +78,9 @@ Developer Preview 0.1.5
 Developer Preview 0.1.6
 
 * Bug fix - Android setSession. Wrong SessonInfo propagation.
+
+# 0.1.7
+
+Developer Preview 0.1.7
+
+* Updated Android Core SDK v5.2.0 containing varius security updates.
