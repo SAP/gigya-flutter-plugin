@@ -20,6 +20,7 @@ enum Methods {
   showScreenSet,
   forgotPassword,
   initSdk,
+  getSession,
   setSession,
   sso,
 }
@@ -286,6 +287,20 @@ class GigyaSdk with DataMixin {
     ).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
     }).timeout(_getTimeout(Methods.removeConnection), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return _timeoutError();
+    });
+    return result;
+  }
+
+  /// Get current session.
+  Future<Map<String, dynamic>?> getSession() async {
+    final result = await _channel.invokeMapMethod<String, dynamic>(
+      Methods.getSession.name,
+    ).catchError((error) {
+      debugPrint('get session error $error');
+      throw error;
+    }).timeout(_getTimeout(Methods.getSession), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
       return _timeoutError();
     });

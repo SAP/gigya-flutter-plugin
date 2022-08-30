@@ -403,6 +403,18 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     }
 
     /**
+     * Get current session
+     */
+    fun getSession(channelResult: MethodChannel.Result) {
+        val session = sdk.session
+        if (session != null) {
+            channelResult.success(mapObject(session))
+        } else {
+            channelResult.success(null)
+        }
+    }
+
+    /**
      * Manually set the session.
      * Will overwrite current session.
      */

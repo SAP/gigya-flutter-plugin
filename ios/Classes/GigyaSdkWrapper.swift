@@ -172,6 +172,19 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     }
 
     /**
+     Get current session
+     */
+
+    func getSession(result: @escaping FlutterResult) {
+        let session = sdk?.getSession()
+        if (session != nil) {
+            result(["sessionToken": session?.token, "sessionSecret": session?.secret, "expires_in": session?.sessionExpirationTimestamp])
+        } else {
+            result(nil)
+        }
+    }
+    
+    /**
      Override exists session
      */
 
