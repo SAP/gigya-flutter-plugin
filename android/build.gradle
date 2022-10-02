@@ -44,6 +44,8 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     
     // Gigya SDK core implementation.
-    api 'com.github.SAP.gigya-android-sdk:sdk-core:core-v5.2.0'
-    api 'com.google.code.gson:gson:2.8.6'
+    api 'com.github.SAP.gigya-android-sdk:sdk-core:core-v6.1.0'
+    api 'com.google.code.gson:gson:2.8.9'
+
+    api 'androidx.appcompat:appcompat:1.5.1'
 }

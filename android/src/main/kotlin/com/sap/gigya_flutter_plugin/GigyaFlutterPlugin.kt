@@ -1,6 +1,8 @@
 package com.sap.gigya_flutter_plugin
 
 import android.app.Application
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 import androidx.annotation.NonNull
 import com.gigya.android.sdk.account.models.GigyaAccount
 import io.flutter.embedding.engine.plugins.FlutterPlugin
@@ -22,9 +24,10 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler {
         }
     }
 
-
     /// Main communication method channel.
     private lateinit var channel: MethodChannel
+
+    lateinit var fidoResultHandler: ActivityResultLauncher<IntentSenderRequest>
 
     private var _messenger: BinaryMessenger? = null
 
@@ -63,6 +66,9 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler {
             "initSdk" -> sdk.initSdk(call.arguments, result)
             "setSession" -> sdk.setSession(call.arguments, result)
             "sso" -> sdk.sso(call.arguments, result)
+            "webAuthnLogin" -> sdk.webAuthnLogin(fidoResultHandler, result)
+            "webAuthnRegister" -> sdk.webAuthnRegister(fidoResultHandler, result)
+            "webAuthnRevoke" -> sdk.webAuthnRevoke(result)
             else -> result.notImplemented()
         }
     }
