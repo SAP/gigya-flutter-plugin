@@ -124,7 +124,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               ),
                             ),
                             onPressed: () {
-
                               GigyaSdk.instance.showScreenSet(
                                   "Default-RegistrationLogin", (event, map) {
                                 debugPrint('Screen set event received: $event');
@@ -243,23 +242,41 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     : Container(),
                 loggedIn == false
                     ? ButtonTheme(
-                  minWidth: 240,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    onPressed: () {
-                      GigyaSdk.instance.sso().then((result) {
-                        setState(() { });
-                      }).catchError((error) {
-
-                      });
-                    },
-                    child: Text('SSO'),
-                  ),
-                )
+                        minWidth: 240,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            GigyaSdk.instance.sso().then((result) {
+                              setState(() {});
+                            }).catchError((error) {});
+                          },
+                          child: Text('SSO'),
+                        ),
+                      )
+                    : Container(),
+                loggedIn == false
+                    ? ButtonTheme(
+                        minWidth: 240,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            GigyaSdk.instance.webAuthn
+                                .webAuthnLogin()
+                                .then((result) {
+                              setState(() {});
+                            }).catchError((error) {});
+                          },
+                          child: Text('Login with PassKey'),
+                        ),
+                      )
                     : Container(),
               ],
             ),

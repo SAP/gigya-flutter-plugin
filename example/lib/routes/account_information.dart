@@ -112,6 +112,35 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
                             child: const Text('Update profile first name'),
                           ),
                         ),
+                        SizedBox(height: 100),
+                        ButtonTheme(
+                          minWidth: 240,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              _registerPasskey();
+                            },
+                            child: const Text('Register new Passkey'),
+                          ),
+                        ),
+                        ButtonTheme(
+                          minWidth: 240,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              _revokePasskey();
+                            },
+                            child: const Text('Revoke Passkey'),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -153,6 +182,28 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
     });
     debugPrint(jsonEncode(result));
     FocusScope.of(context).unfocus();
+    setState(() {
+      _inProgress = false;
+    });
+  }
+
+  _registerPasskey() async {
+    setState(() {
+      _inProgress = true;
+    });
+    var result = await GigyaSdk.instance.webAuthn.webAuthnRegister();
+    debugPrint(jsonEncode(result));
+    setState(() {
+      _inProgress = false;
+    });
+  }
+
+  _revokePasskey() async {
+    setState(() {
+      _inProgress = true;
+    });
+    var result = await GigyaSdk.instance.webAuthn.webAuthnRevoke();
+    debugPrint(jsonEncode(result));
     setState(() {
       _inProgress = false;
     });
