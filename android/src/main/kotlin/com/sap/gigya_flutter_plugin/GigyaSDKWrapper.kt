@@ -817,7 +817,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             resultLauncher,
             object : GigyaCallback<GigyaApiResponse>() {
                 override fun onSuccess(obj: GigyaApiResponse?) {
-                    channelResult.success(obj?.asMap())
+                    channelResult.success(obj?.asJson())
                 }
 
                 override fun onError(error: GigyaError?) {
@@ -868,7 +868,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         sdk.WebAuthn().revoke(
             object : GigyaCallback<GigyaApiResponse>() {
                 override fun onSuccess(obj: GigyaApiResponse?) {
-                    channelResult.success(obj?.asMap())
+                    channelResult.success(obj?.asJson())
                 }
 
                 override fun onError(error: GigyaError?) {

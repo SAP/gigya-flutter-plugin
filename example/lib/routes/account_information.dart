@@ -191,34 +191,43 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
     setState(() {
       _inProgress = true;
     });
-    var result =
-        await GigyaSdk.instance.webAuthn.webAuthnRegister().catchError((error) {
+    try {
+      var result = await GigyaSdk.instance.webAuthn.webAuthnRegister();
+      debugPrint(jsonEncode(result));
+      setState(() {
+        _inProgress = false;
+      });
+      showAlert("FIDO success", "passkey registered");
+    } catch (error) {
       if (error is GigyaResponse) {
         showAlert("FIDO error", error.errorDetails);
       }
-    });
-    debugPrint(jsonEncode(result));
-    showAlert("FIDO success", "passkey registered");
-    setState(() {
-      _inProgress = false;
-    });
+      setState(() {
+        _inProgress = false;
+      });
+    }
+
   }
 
   _revokePasskey() async {
     setState(() {
       _inProgress = true;
     });
-    var result =
-        await GigyaSdk.instance.webAuthn.webAuthnRevoke().catchError((error) {
+    try {
+      var result = await GigyaSdk.instance.webAuthn.webAuthnRevoke();
+      debugPrint(jsonEncode(result));
+      setState(() {
+        _inProgress = false;
+      });
+      showAlert("FIDO success", "passkey revoked");
+    } catch (error) {
       if (error is GigyaResponse) {
-        showAlert("FIDO error", error.errorDetails);
+        showAlert("FIDO", error.errorDetails);
       }
-    });
-    debugPrint(jsonEncode(result));
-    showAlert("FIDO success", "passkey revoked");
-    setState(() {
-      _inProgress = false;
-    });
+      setState(() {
+        _inProgress = false;
+      });
+    }
   }
 
   showAlert(String title, String message) {
