@@ -274,7 +274,10 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 .then((result) {
                               setState(() {});
                             }).catchError((error) {
-                              showError("FidoError", (error as GigyaResponse).errorDetails);
+                              if (error is GigyaResponse) {
+                                showAlert("FidoError",
+                                    error.errorDetails);
+                              }
                             });
                           },
                           child: Text('Login with PassKey'),
@@ -289,7 +292,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     );
   }
 
-  showError(String title, String message) {
+  showAlert(String title, String message) {
     AlertDialog alert = AlertDialog(
       title: Text(title),
       content: Text(message),

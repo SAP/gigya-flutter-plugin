@@ -191,10 +191,14 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
     setState(() {
       _inProgress = true;
     });
-    var result = await GigyaSdk.instance.webAuthn.webAuthnRegister().catchError((error) {
-      showError("FIDO error", (error as GigyaResponse).errorDetails);
+    var result =
+        await GigyaSdk.instance.webAuthn.webAuthnRegister().catchError((error) {
+      if (error is GigyaResponse) {
+        showAlert("FIDO error", error.errorDetails);
+      }
     });
     debugPrint(jsonEncode(result));
+    showAlert("FIDO success", "passkey registered");
     setState(() {
       _inProgress = false;
     });
@@ -204,16 +208,20 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
     setState(() {
       _inProgress = true;
     });
-    var result = await GigyaSdk.instance.webAuthn.webAuthnRevoke().catchError((error) {
-      showError("FIDO error", (error as GigyaResponse).errorDetails);
+    var result =
+        await GigyaSdk.instance.webAuthn.webAuthnRevoke().catchError((error) {
+      if (error is GigyaResponse) {
+        showAlert("FIDO error", error.errorDetails);
+      }
     });
     debugPrint(jsonEncode(result));
+    showAlert("FIDO success", "passkey revoked");
     setState(() {
       _inProgress = false;
     });
   }
 
-  showError(String title, String message) {
+  showAlert(String title, String message) {
     AlertDialog alert = AlertDialog(
       title: Text(title),
       content: Text(message),
