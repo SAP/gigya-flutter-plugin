@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
+import 'package:gigya_flutter_plugin/models/gigya_models.dart';
 
 class HomePageWidget extends StatefulWidget {
   @override
@@ -272,7 +273,9 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                                 .webAuthnLogin()
                                 .then((result) {
                               setState(() {});
-                            }).catchError((error) {});
+                            }).catchError((error) {
+                              showError("FidoError", (error as GigyaResponse).errorDetails);
+                            });
                           },
                           child: Text('Login with PassKey'),
                         ),
@@ -282,6 +285,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
             ),
           ),
         );
+      },
+    );
+  }
+
+  showError(String title, String message) {
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(message),
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
       },
     );
   }
