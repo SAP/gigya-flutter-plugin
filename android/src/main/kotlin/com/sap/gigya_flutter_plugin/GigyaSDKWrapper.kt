@@ -3,6 +3,8 @@ package com.sap.gigya_flutter_plugin
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import androidx.activity.result.ActivityResultLauncher
+import androidx.activity.result.IntentSenderRequest
 import com.gigya.android.sdk.*
 import com.gigya.android.sdk.account.models.GigyaAccount
 import com.gigya.android.sdk.api.GigyaApiResponse
@@ -803,6 +805,84 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
         // Return void result. Streaming channel will handled plugin events.
         channelResult.success(null)
+    }
+
+
+    /**
+     * Fido2/WebAuthn register.
+     */
+    fun webAuthnRegister(resultLauncher: ActivityResultLauncher<IntentSenderRequest>,
+                         channelResult: MethodChannel.Result) {
+        sdk.WebAuthn().register(
+            resultLauncher,
+            object : GigyaCallback<GigyaApiResponse>() {
+                override fun onSuccess(obj: GigyaApiResponse?) {
+                    channelResult.success(obj?.asJson())
+                }
+
+                override fun onError(error: GigyaError?) {
+                    error?.let {
+                        channelResult.error(
+                            error.errorCode.toString(),
+                            error.localizedMessage,
+                            mapJson(error.data)
+                        )
+                    } ?: channelResult.notImplemented()
+                }
+
+            }
+        )
+    }
+
+    /**
+     * Fido2/WebAuthn login.
+     */
+    fun webAuthnLogin(resultLauncher: ActivityResultLauncher<IntentSenderRequest>,
+                      channelResult: MethodChannel.Result) {
+        sdk.WebAuthn().login(
+            resultLauncher,
+            object : GigyaLoginCallback<T>() {
+                override fun onSuccess(obj: T) {
+                    val mapped = mapObject(obj)
+                    channelResult.success(mapped)
+                }
+
+                override fun onError(error: GigyaError?) {
+                    error?.let {
+                        channelResult.error(
+                            error.errorCode.toString(),
+                            error.localizedMessage,
+                            mapJson(error.data)
+                        )
+                    } ?: channelResult.notImplemented()
+                }
+
+            }
+        )
+    }
+
+    /**
+     * Fido2/WebAuthn revoke.
+     */
+    fun webAuthnRevoke(channelResult: MethodChannel.Result) {
+        sdk.WebAuthn().revoke(
+            object : GigyaCallback<GigyaApiResponse>() {
+                override fun onSuccess(obj: GigyaApiResponse?) {
+                    channelResult.success(obj?.asJson())
+                }
+
+                override fun onError(error: GigyaError?) {
+                    error?.let {
+                        channelResult.error(
+                            error.errorCode.toString(),
+                            error.localizedMessage,
+                            mapJson(error.data)
+                        )
+                    } ?: channelResult.notImplemented()
+                }
+
+            }
+        )
     }
 
     /**

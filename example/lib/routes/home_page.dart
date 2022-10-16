@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
+import 'package:gigya_flutter_plugin/models/gigya_models.dart';
 
 class HomePageWidget extends StatefulWidget {
   @override
@@ -124,7 +125,6 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                               ),
                             ),
                             onPressed: () {
-
                               GigyaSdk.instance.showScreenSet(
                                   "Default-RegistrationLogin", (event, map) {
                                 debugPrint('Screen set event received: $event');
@@ -243,28 +243,67 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                     : Container(),
                 loggedIn == false
                     ? ButtonTheme(
-                  minWidth: 240,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      textStyle: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                    onPressed: () {
-                      GigyaSdk.instance.sso().then((result) {
-                        setState(() { });
-                      }).catchError((error) {
-
-                      });
-                    },
-                    child: Text('SSO'),
-                  ),
-                )
+                        minWidth: 240,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            GigyaSdk.instance.sso().then((result) {
+                              setState(() {});
+                            }).catchError((error) {});
+                          },
+                          child: Text('SSO'),
+                        ),
+                      )
+                    : Container(),
+                loggedIn == false
+                    ? ButtonTheme(
+                        minWidth: 240,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            _loginWithPasskey();
+                          },
+                          child: Text('Login with PassKey'),
+                        ),
+                      )
                     : Container(),
               ],
             ),
           ),
         );
+      },
+    );
+  }
+
+  _loginWithPasskey() async {
+    try {
+      GigyaSdk.instance.webAuthn.webAuthnLogin().then((result) {
+        setState(() {});
+      });
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FidoError", error.errorDetails);
+      }
+    }
+  }
+
+  showAlert(String title, String message) {
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(message),
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
       },
     );
   }

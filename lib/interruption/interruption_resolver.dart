@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 import 'package:gigya_flutter_plugin/models/gigya_models.dart';
 
+import '../mixin/global_mixin.dart';
+
 /// Determines the relevant interruption resolver according to given error.
 class ResolverFactory {
   final MethodChannel _channel;

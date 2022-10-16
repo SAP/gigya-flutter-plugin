@@ -35,7 +35,11 @@ class GigyaResponse {
       : callId = json['callId']?.toString(),
         statusCode = json['statusCode'],
         errorCode = json['errorCode'],
-        errorDetails = json['errorDetails'],
+        errorDetails = json['errorDetails'] != null
+            ? json['errorDetails']
+            : json['localizedMessage'] != null
+                ? json['localizedMessage']
+                : null,
         statusReason = json['statusReason'],
         apiVersion = json['apiVersion'],
         regToken = json['regToken'],

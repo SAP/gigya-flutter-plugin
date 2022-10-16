@@ -112,6 +112,35 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
                             child: const Text('Update profile first name'),
                           ),
                         ),
+                        SizedBox(height: 100),
+                        ButtonTheme(
+                          minWidth: 240,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              _registerPasskey();
+                            },
+                            child: const Text('Register new Passkey'),
+                          ),
+                        ),
+                        ButtonTheme(
+                          minWidth: 240,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              textStyle: TextStyle(
+                                color: Colors.white,
+                              ),
+                            ),
+                            onPressed: () {
+                              _revokePasskey();
+                            },
+                            child: const Text('Revoke Passkey'),
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -156,5 +185,61 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
     setState(() {
       _inProgress = false;
     });
+  }
+
+  _registerPasskey() async {
+    setState(() {
+      _inProgress = true;
+    });
+    try {
+      var result = await GigyaSdk.instance.webAuthn.webAuthnRegister();
+      debugPrint(jsonEncode(result));
+      setState(() {
+        _inProgress = false;
+      });
+      showAlert("FIDO success", "passkey registered");
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FIDO error", error.errorDetails);
+      }
+      setState(() {
+        _inProgress = false;
+      });
+    }
+
+  }
+
+  _revokePasskey() async {
+    setState(() {
+      _inProgress = true;
+    });
+    try {
+      var result = await GigyaSdk.instance.webAuthn.webAuthnRevoke();
+      debugPrint(jsonEncode(result));
+      setState(() {
+        _inProgress = false;
+      });
+      showAlert("FIDO success", "passkey revoked");
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FIDO", error.errorDetails);
+      }
+      setState(() {
+        _inProgress = false;
+      });
+    }
+  }
+
+  showAlert(String title, String message) {
+    AlertDialog alert = AlertDialog(
+      title: Text(title),
+      content: Text(message),
+    );
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
   }
 }
