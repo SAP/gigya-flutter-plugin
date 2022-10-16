@@ -191,29 +191,46 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
     setState(() {
       _inProgress = true;
     });
-    var result = await GigyaSdk.instance.webAuthn.webAuthnRegister().catchError((error) {
-      showError("FIDO error", (error as GigyaResponse).errorDetails);
-    });
-    debugPrint(jsonEncode(result));
-    setState(() {
-      _inProgress = false;
-    });
+    try {
+      var result = await GigyaSdk.instance.webAuthn.webAuthnRegister();
+      debugPrint(jsonEncode(result));
+      setState(() {
+        _inProgress = false;
+      });
+      showAlert("FIDO success", "passkey registered");
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FIDO error", error.errorDetails);
+      }
+      setState(() {
+        _inProgress = false;
+      });
+    }
+
   }
 
   _revokePasskey() async {
     setState(() {
       _inProgress = true;
     });
-    var result = await GigyaSdk.instance.webAuthn.webAuthnRevoke().catchError((error) {
-      showError("FIDO error", (error as GigyaResponse).errorDetails);
-    });
-    debugPrint(jsonEncode(result));
-    setState(() {
-      _inProgress = false;
-    });
+    try {
+      var result = await GigyaSdk.instance.webAuthn.webAuthnRevoke();
+      debugPrint(jsonEncode(result));
+      setState(() {
+        _inProgress = false;
+      });
+      showAlert("FIDO success", "passkey revoked");
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FIDO", error.errorDetails);
+      }
+      setState(() {
+        _inProgress = false;
+      });
+    }
   }
 
-  showError(String title, String message) {
+  showAlert(String title, String message) {
     AlertDialog alert = AlertDialog(
       title: Text(title),
       content: Text(message),

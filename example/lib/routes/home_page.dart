@@ -269,13 +269,7 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                             ),
                           ),
                           onPressed: () {
-                            GigyaSdk.instance.webAuthn
-                                .webAuthnLogin()
-                                .then((result) {
-                              setState(() {});
-                            }).catchError((error) {
-                              showError("FidoError", (error as GigyaResponse).errorDetails);
-                            });
+                            _loginWithPasskey();
                           },
                           child: Text('Login with PassKey'),
                         ),
@@ -289,7 +283,19 @@ class _HomePageWidgetState extends State<HomePageWidget> {
     );
   }
 
-  showError(String title, String message) {
+  _loginWithPasskey() async {
+    try {
+      GigyaSdk.instance.webAuthn.webAuthnLogin().then((result) {
+        setState(() {});
+      });
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FidoError", error.errorDetails);
+      }
+    }
+  }
+
+  showAlert(String title, String message) {
     AlertDialog alert = AlertDialog(
       title: Text(title),
       content: Text(message),
