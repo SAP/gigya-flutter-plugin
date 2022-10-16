@@ -164,7 +164,11 @@ map - event data map.
 ## Mobile SSO
 
 The plugin supports the native SDK's "Single Sign On feature".
+
+Documentation:
+
 [Andorid](https://sap.github.io/gigya-android-sdk/sdk-core/#sso-single-sign-on)
+
 [iOS](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#sso-single-sign-on)
 
 Please make sure to implement the nessesary steps described for each platform.
@@ -224,7 +228,7 @@ None
 
 ## How to obtain support
 * [Via Github issues](https://github.com/SAP/gigya-flutter-plugin/issues)
-* [Via SAP standard support](https://developers.gigya.com/display/GD/Opening+A+Support+Incident)
+* [Via SAP standard support](https://help.sap.com/viewer/8b8d6fffe113457094a17701f63e3d6a/GIGYA/en-US/4167e8a470b21014bbc5a10ce4041860.html)
 
 ## Contributing
 Via pull request to this repository.

@@ -1,12 +1,7 @@
 name: gigya_flutter_plugin_example
 description: Demonstrates how to use the gigya_flutter_plugin plugin.
 version: 0.0.1
-author: SAP LTD
 homepage: https://www.sap.com
-
-# The following line prevents the package from being accidentally published to
-# pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
