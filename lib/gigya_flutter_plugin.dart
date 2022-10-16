@@ -305,9 +305,9 @@ class GigyaSdk with DataMixin, GigyaResponseMixin {
     ).catchError((error) {
       debugPrint('get session error $error');
       throw error;
-    }).timeout(_getTimeout(Methods.getSession), onTimeout: () {
+    }).timeout(getTimeout(Methods.getSession), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
