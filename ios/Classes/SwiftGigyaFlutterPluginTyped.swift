@@ -14,6 +14,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case isLoggedIn
         case getAccount
         case setAccount
+        case getSession
         case setSession
         case logOut
         case socialLogin
@@ -64,6 +65,9 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             return
         case .getConflictingAccounts:
             sdk?.resolveGetConflictingAccounts(result: result)
+            return
+        case .getSession:
+            sdk?.getSession(result: result)
             return
         default:
             break

@@ -84,3 +84,9 @@ Developer Preview 0.1.6
 Developer Preview 0.1.7
 
 * Updated Android Core SDK v5.2.0 containing varius security updates.
+
+# 0.1.8
+
+Developer Preview 0.1.7
+
+* Added getSession method
