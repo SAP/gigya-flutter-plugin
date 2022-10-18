@@ -171,7 +171,7 @@ Documentation:
 
 [iOS](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#sso-single-sign-on)
 
-Please make sure to implement the nessesary steps described for each platform.
+Please make sure to implement the necessary steps described for each platform.
 
 To initiate the flow run the following snippet.
 ```
@@ -182,6 +182,64 @@ To initiate the flow run the following snippet.
 // Handle error here.
  });
 ```
+
+## FIDO/WebAuthn Authentication
+FIDO is a passwordless authentication method that allows password-only logins to be replaced with secure and fast login experiences across websites and apps.
+Our SDK provides an interface to register a passkey, login, and revoke passkeys created using FIDO/Passkeys, backed by our WebAuthn service.
+
+Please follow the platform implementation guides:
+[Swift](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#fidowebauthn-authentication)
+[Android](https://sap.github.io/gigya-android-sdk/sdk-core/#fidowebauthn-authentication)
+
+Additional setup for Android:
+To support FIDO operations in your application, it is required that the *MainActivity* class of the application
+extends the *FlutterFragmentActivity* class and not *FlutterActivity*.
+
+**Usage example**
+Login with FIDO/WebAuthn passkey:
+```
+_loginWithPasskey() async {
+    try {
+      GigyaSdk.instance.webAuthn.webAuthnLogin().then((result) {
+        setState(() {});
+      });
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FidoError", error.errorDetails);
+      }
+    }
+  }
+```
+Register a new FIDO/WebAuthn passkey:
+```
+_registerPasskey() async {
+    try {
+      var result = await GigyaSdk.instance.webAuthn.webAuthnRegister();
+      debugPrint(jsonEncode(result));
+      showAlert("FIDO success", "passkey registered");
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FIDO error", error.errorDetails);
+      }
+    }
+
+  }
+```
+Revoke an existing FIDO/WebAuthn passkey:
+```
+ _revokePasskey() async {
+    try {
+      var result = await GigyaSdk.instance.webAuthn.webAuthnRevoke();
+      debugPrint(jsonEncode(result));
+      showAlert("FIDO success", "passkey revoked");
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FIDO", error.errorDetails);
+      }
+    }
+  }
+```
+
 
 ## Resolving interruptions
 
