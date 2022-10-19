@@ -14,6 +14,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case isLoggedIn
         case getAccount
         case setAccount
+        case getSession
         case setSession
         case logOut
         case socialLogin
@@ -27,6 +28,10 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case linkToSocial
         case resolveSetAccount
         case forgotPassword
+        // webauthn
+        case webAuthnLogin
+        case webAuthnRegister
+        case webAuthnRevoke
     }
     var sdk: GigyaSdkWrapper<T>?
     
@@ -60,6 +65,9 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             return
         case .getConflictingAccounts:
             sdk?.resolveGetConflictingAccounts(result: result)
+            return
+        case .getSession:
+            sdk?.getSession(result: result)
             return
         default:
             break
@@ -104,6 +112,12 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.initSdk(arguments: args, result: result)
         case .sso:
             sdk?.sso(arguments: args, result: result)
+        case .webAuthnLogin:
+            sdk?.webAuthnLogin(result: result)
+        case .webAuthnRegister:
+            sdk?.webAuthnRegister(result: result)
+        case .webAuthnRevoke:
+            sdk?.webAuthnRevoke(result: result)
         default:
             result(nil)
         }

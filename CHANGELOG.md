@@ -77,10 +77,19 @@ Developer Preview 0.1.5
 
 Developer Preview 0.1.6
 
-* Bug fix - Android setSession. Wrong SessonInfo propagation.
+* Bug fix - Android setSession. Wrong SessionInfo propagation.
 
 # 0.1.7
 
 Developer Preview 0.1.7
 
-* Updated Android Core SDK v5.2.0 containing varius security updates.
+* Updated Android Core SDK v5.2.0 containing various security updates.
+
+# 0.2.0
+
+Developer Preview 0.2.0
+
+* Updated Android Core SDK v6.1.0 containing various security updates.
+* Bug fix - Fixed account schema parsing.
+* Added getSession method.
+* Added support for FIDO authentication.

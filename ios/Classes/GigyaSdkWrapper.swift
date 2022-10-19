@@ -31,9 +31,9 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     func sendRequest(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let endpoint = arguments["endpoint"] as? String,
               let parameters = arguments["parameters"] as? [String:Any] else {
-                  result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
-                  return
-              }
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
         
         sdk?.send(api: endpoint, params: parameters) { (gigyaResponse) in
             switch gigyaResponse {
@@ -57,9 +57,9 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     func loginWithCredentials(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let loginId = arguments["loginId"] as? String,
               let password = arguments["password"] as? String else {
-                  result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
-                  return
-              }
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
         
         resolverHelper.currentResult = result
         
@@ -91,9 +91,9 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     func registerWithCredentials(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let email = arguments["email"] as? String,
               let password = arguments["password"] as? String else {
-                  result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
-                  return
-              }
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
         
         resolverHelper.currentResult = result
         
@@ -170,22 +170,35 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         })
     }
+    
+    /**
+     Get current session
+     */
 
+    func getSession(result: @escaping FlutterResult) {
+        let session = sdk?.getSession()
+        if (session != nil) {
+            result(["sessionToken": session?.token, "sessionSecret": session?.secret, "expires_in": session?.sessionExpirationTimestamp])
+        } else {
+            result(nil)
+        }
+    }
+    
     /**
      Override exists session
      */
-
+    
     func setSession(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let token = arguments["sessionToken"] as? String,
               let secret = arguments["sessionSecret"] as? String,
               let expiration = arguments["expires_in"] as? Double else {
-                  result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
-                  return
-              }
-
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        
         let newSession = GigyaSession(sessionToken: token, secret: secret, expiration: expiration)
         sdk?.setSession(newSession!)
-
+        
         result(nil)
     }
     
@@ -395,8 +408,8 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         guard
             let viewController = getDisplayedViewController(),
             let screenSet = arguments["screenSet"] as? String else {
-                return
-            }
+            return
+        }
         
         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
         
@@ -453,6 +466,98 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
     }
     
+    
+    func webAuthnLogin(result: @escaping FlutterResult) {
+        guard
+            let viewController = getDisplayedViewController() else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        
+        if #available(iOS 16.0.0, *) {
+            resolverHelper.currentResult = result
+            
+            Task { [weak self] in
+                guard let res = await sdk?.webAuthn.login(viewController: viewController) else { return }
+                
+                switch res {
+                case .success(let data):
+                    
+                    let mapped = self?.mapObject(data)
+                    self?.resolverHelper.currentResult?(mapped)
+                    
+                    self?.resolverHelper.dispose()
+                case .failure(let error):
+                    self?.saveResolvesIfNeeded(interruption: error.interruption)
+                    
+                    switch error.error {
+                    case .gigyaError(let d):
+                        self?.resolverHelper.currentResult?(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                    default:
+                        self?.resolverHelper.currentResult?(FlutterError(code: "", message: error.error.localizedDescription, details: nil))
+                    }
+                    
+                }
+            }
+        } else {
+            GigyaLogger.log(with: self, message: "not supported in this iOS version.")
+            result(FlutterError(code: PluginErrors.missingParameterError, message: "not supported in this iOS version.", details: nil))
+        }
+    }
+    
+    func webAuthnRegister(result: @escaping FlutterResult) {
+        guard
+            let viewController = getDisplayedViewController() else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        
+        if #available(iOS 16.0.0, *) {
+            Task {
+                guard let res = await sdk?.webAuthn.register(viewController: viewController) else { return }
+                
+                switch res {
+                case .success(let data):
+                    let json = data.mapValues { $0.value }.asJson
+                    result(json)
+                case .failure(let error):
+                    switch error {
+                    case .gigyaError(let d):
+                        result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                    default:
+                        result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
+                    }
+                }
+            }
+        } else {
+            GigyaLogger.log(with: self, message: "not supported in this iOS version.")
+            result(FlutterError(code: PluginErrors.missingParameterError, message: "not supported in this iOS version.", details: nil))
+        }
+    }
+    
+    func webAuthnRevoke(result: @escaping FlutterResult) {
+        if #available(iOS 16.0.0, *) {
+            Task {
+                guard let res = await sdk?.webAuthn.revoke() else { return }
+                
+                switch res {
+                case .success(let data):
+                    let json = data.mapValues { $0.value }.asJson
+                    result(json)
+                case .failure(let error):
+                    switch error {
+                    case .gigyaError(let d):
+                        result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
+                    default:
+                        result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
+                    }
+                }
+            }
+        } else {
+            GigyaLogger.log(with: self, message: "not supported in this iOS version.")
+            result(FlutterError(code: PluginErrors.missingParameterError, message: "not supported in this iOS version.", details: nil))
+        }
+    }
     
 }
 
@@ -531,6 +636,7 @@ extension GigyaSdkWrapper {
         
         resolver.setAccount(params: arguments)
     }
+
 }
 
 extension GigyaSdkWrapper {

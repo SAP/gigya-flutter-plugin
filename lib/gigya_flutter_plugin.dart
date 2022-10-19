@@ -5,6 +5,9 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:gigya_flutter_plugin/interruption/interruption_resolver.dart';
 import 'package:gigya_flutter_plugin/models/gigya_models.dart';
+import 'package:gigya_flutter_plugin/services/webauthn_service.dart';
+
+import 'mixin/global_mixin.dart';
 
 enum Methods {
   sendRequest,
@@ -20,6 +23,7 @@ enum Methods {
   showScreenSet,
   forgotPassword,
   initSdk,
+  getSession,
   setSession,
   sso,
 }
@@ -51,7 +55,7 @@ typedef void OnScreenSetEvent(event, data);
 /// Do not instantiate this class. Instead use [GigyaSDk.instance] initializer to make
 /// sure you are using the same instance across your application.
 /// Using the singleton pattern here is crucial to prevent channels overlapping.
-class GigyaSdk with DataMixin {
+class GigyaSdk with DataMixin, GigyaResponseMixin {
   static const MethodChannel _channel =
       const MethodChannel('gigya_flutter_plugin');
 
@@ -60,6 +64,8 @@ class GigyaSdk with DataMixin {
 
   /// Resolver factory instance.cd
   final ResolverFactory resolverFactory = ResolverFactory(_channel);
+
+  final WebAuthnService webAuthn = WebAuthnService(_channel);
 
   /// Private initializer.
   GigyaSdk._();
@@ -82,9 +88,9 @@ class GigyaSdk with DataMixin {
       },
     ).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(_getTimeout(Methods.sendRequest), onTimeout: () {
+    }).timeout(getTimeout(Methods.sendRequest), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return jsonEncode(_timeoutError());
+      return jsonEncode(timeoutError());
     });
     return json != null ? jsonDecode(json) : null;
   }
@@ -103,9 +109,9 @@ class GigyaSdk with DataMixin {
     ).catchError((error) {
       debugPrint('error');
       return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(_getTimeout(Methods.loginWithCredentials), onTimeout: () {
+    }).timeout(getTimeout(Methods.loginWithCredentials), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
@@ -123,9 +129,9 @@ class GigyaSdk with DataMixin {
       },
     ).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(_getTimeout(Methods.registerWithCredentials), onTimeout: () {
+    }).timeout(getTimeout(Methods.registerWithCredentials), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
@@ -150,9 +156,9 @@ class GigyaSdk with DataMixin {
       },
     ).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(_getTimeout(Methods.getAccount), onTimeout: () {
+    }).timeout(getTimeout(Methods.getAccount), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
@@ -167,9 +173,9 @@ class GigyaSdk with DataMixin {
       {'account': account},
     ).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(_getTimeout(Methods.setAccount), onTimeout: () {
+    }).timeout(getTimeout(Methods.setAccount), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
@@ -178,9 +184,9 @@ class GigyaSdk with DataMixin {
   Future<void> logout() async {
     await _channel.invokeMethod(Methods.logOut.name).catchError((error) {
       debugPrint('Error logging out');
-    }).timeout(_getTimeout(Methods.logOut), onTimeout: () {
+    }).timeout(getTimeout(Methods.logOut), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
   }
 
@@ -191,9 +197,9 @@ class GigyaSdk with DataMixin {
       {
         'loginId': loginId,
       },
-    ).timeout(_getTimeout(Methods.forgotPassword), onTimeout: () {
+    ).timeout(getTimeout(Methods.forgotPassword), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
@@ -211,9 +217,9 @@ class GigyaSdk with DataMixin {
         'apiKey': apiKey,
         'apiDomain': apiDomain,
       },
-    ).timeout(_getTimeout(Methods.initSdk), onTimeout: () {
+    ).timeout(getTimeout(Methods.initSdk), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
@@ -233,9 +239,9 @@ class GigyaSdk with DataMixin {
       },
     ).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(_getTimeout(Methods.socialLogin), onTimeout: () {
+    }).timeout(getTimeout(Methods.socialLogin), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
@@ -250,9 +256,9 @@ class GigyaSdk with DataMixin {
       },
     ).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(_getTimeout(Methods.sso), onTimeout: () {
+    }).timeout(getTimeout(Methods.sso), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
@@ -268,9 +274,9 @@ class GigyaSdk with DataMixin {
       },
     ).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(_getTimeout(Methods.addConnection), onTimeout: () {
+    }).timeout(getTimeout(Methods.addConnection), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
@@ -285,9 +291,23 @@ class GigyaSdk with DataMixin {
       },
     ).catchError((error) {
       return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(_getTimeout(Methods.removeConnection), onTimeout: () {
+    }).timeout(getTimeout(Methods.removeConnection), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
+    });
+    return result;
+  }
+
+  /// Get current session.
+  Future<Map<String, dynamic>?> getSession() async {
+    final result = await _channel.invokeMapMethod<String, dynamic>(
+      Methods.getSession.name,
+    ).catchError((error) {
+      debugPrint('get session error $error');
+      throw error;
+    }).timeout(getTimeout(Methods.getSession), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return timeoutError();
     });
     return result;
   }
@@ -301,9 +321,9 @@ class GigyaSdk with DataMixin {
       "expires_in": expiration
     }).catchError((error) {
       debugPrint('Set session error');
-    }).timeout(_getTimeout(Methods.setSession), onTimeout: () {
+    }).timeout(getTimeout(Methods.setSession), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
   }
 
@@ -318,9 +338,9 @@ class GigyaSdk with DataMixin {
       },
     ).catchError((error) {
       throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(_getTimeout(Methods.removeConnection), onTimeout: () {
+    }).timeout(getTimeout(Methods.removeConnection), onTimeout: () {
       debugPrint('A timeout that was defined in the request is reached');
-      return _timeoutError();
+      return timeoutError();
     });
     return result;
   }
@@ -350,32 +370,4 @@ class GigyaSdk with DataMixin {
     });
   }
 
-  /// Specific timeout logic for specific methods.
-  Duration _getTimeout(Methods method) {
-    switch (method) {
-      case Methods.socialLogin:
-      case Methods.addConnection:
-        return Duration(minutes: 5);
-      default:
-        return Duration(minutes: 1);
-    }
-  }
-
-  /// Genetic timeout error.
-  Map<String, dynamic> _timeoutError() => {
-        'statusCode': 500,
-        'errorCode': 504002,
-        'errorDetails': 'A timeout that was defined in the request is reached',
-      };
-}
-
-mixin DataMixin {
-  /// Mapping communication error structure.
-  Map<String, dynamic> decodeError(PlatformException error) {
-    if (error.details != null && error.details is Map<dynamic, dynamic>) {
-      final mapped = error.details.cast<String, dynamic>();
-      return mapped;
-    }
-    return {};
-  }
 }

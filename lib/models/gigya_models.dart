@@ -35,7 +35,11 @@ class GigyaResponse {
       : callId = json['callId']?.toString(),
         statusCode = json['statusCode'],
         errorCode = json['errorCode'],
-        errorDetails = json['errorDetails'],
+        errorDetails = json['errorDetails'] != null
+            ? json['errorDetails']
+            : json['localizedMessage'] != null
+                ? json['localizedMessage']
+                : null,
         statusReason = json['statusReason'],
         apiVersion = json['apiVersion'],
         regToken = json['regToken'],
@@ -224,13 +228,13 @@ class Profile {
     certifications = [];
     if (json['certifications'] != null) {
       json['certifications'].forEach((j) {
-        certifications.add(Certification.fromJson(j));
+        certifications.add(Certification.fromJson(j.cast<String, dynamic>()));
       });
     }
     education = [];
     if (json['education'] != null) {
       json['education'].forEach((j) {
-        education.add(Education.fromJson(j));
+        education.add(Education.fromJson(j.cast<String, dynamic>()));
       });
     }
     educationLevel = json['educationLevel'];
@@ -240,7 +244,7 @@ class Profile {
     favorites = [];
     if (json['favorites'] != null) {
       json['favorites'].forEach((j) {
-        favorites.add(Favorites.fromJson(j));
+        favorites.add(Favorites.fromJson(j.cast<String, dynamic>()));
       });
     }
     firstName = json['firstName'];
@@ -260,7 +264,7 @@ class Profile {
     likes = [];
     if (json['likes'] != null) {
       json['likes'].forEach((j) {
-        likes.add(Like.fromJson(j));
+        likes.add(Like.fromJson(j.cast<String, dynamic>()));
       });
     }
     locale = json['locale'];
@@ -272,13 +276,13 @@ class Profile {
     patents = [];
     if (json['patents'] != null) {
       json['patents'].forEach((j) {
-        patents.add(Patent.fromJson(j));
+        patents.add(Patent.fromJson(j.cast<String, dynamic>()));
       });
     }
     phones = [];
     if (json['phones'] != null) {
       json['phones'].forEach((j) {
-        phones.add(Phone.fromJson(j));
+        phones.add(Phone.fromJson(j.cast<String, dynamic>()));
       });
     }
     photoURL = json['photoURL'];
@@ -290,7 +294,7 @@ class Profile {
     publications = [];
     if (json['publications'] != null) {
       json['publications'].forEach((j) {
-        publications.add(Publication.fromJson(j));
+        publications.add(Publication.fromJson(j.cast<String, dynamic>()));
       });
     }
     relationshipStatus = json['relationshipStatus'];
@@ -298,7 +302,7 @@ class Profile {
     skills = [];
     if (json['skills'] != null) {
       json['skills'].forEach((j) {
-        skills.add(Skill.fromJson(j));
+        skills.add(Skill.fromJson(j.cast<String, dynamic>()));
       });
     }
     specialities = json['specialities'];
@@ -309,7 +313,7 @@ class Profile {
     work = [];
     if (json['work'] != null) {
       json['work'].forEach((j) {
-        work.add(Work.fromJson(j));
+        work.add(Work.fromJson(j.cast<String, dynamic>()));
       });
     }
     zip = json['zip'];
