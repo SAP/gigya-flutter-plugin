@@ -32,6 +32,10 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case webAuthnLogin
         case webAuthnRegister
         case webAuthnRevoke
+        // otp
+        case otpLogin
+        case otpUpdate
+        case verifyOtp
     }
     var sdk: GigyaSdkWrapper<T>?
     
@@ -118,6 +122,12 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.webAuthnRegister(result: result)
         case .webAuthnRevoke:
             sdk?.webAuthnRevoke(result: result)
+        case .otpLogin:
+            sdk?.otpLogin(arguments: args, result: result)
+        case .otpUpdate:
+            sdk?.otpLogin(arguments: args, result: result)
+        case .verifyOtp:
+            sdk?.verifyOtp(arguments: args, result: result)
         default:
             result(nil)
         }
