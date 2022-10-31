@@ -680,7 +680,45 @@ extension GigyaSdkWrapper {
             }
         }
     }
-    
+
+   /**
+     Login using credentials (loginId/password combination with optional parameter map).
+     */
+    func otpUpdate(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard let phone = arguments["phone"] as? String else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+
+        resolverHelper.currentResult = result
+
+        // Optional parameter map.
+        let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+        GigyaAuth.shared.otp.update(phone: phone, params: parameters ) { (loginResult: GigyaOtpResult<T>) in
+            switch loginResult {
+            case .success(let data):
+                let mapped = self.mapObject(data)
+                self.resolverHelper.currentResult?(mapped)
+
+                self.resolverHelper.dispose()
+            case .failure(let error):
+                self.saveResolvesIfNeeded(interruption: error.interruption)
+
+                switch error.error {
+                case .gigyaError(let ge):
+                    self.resolverHelper.currentResult?(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
+                default:
+                    break;
+                }
+            case .pendingOtpVerification(resolver: let resolver):
+                self.resolverHelper.pendingOtpResolver = resolver
+
+                self.resolverHelper.currentResult?(FlutterError(code: "40232", message: "pending otp", details: nil))
+
+            }
+        }
+    }
+
     func verifyOtp(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let code = arguments["code"] as? String,
               let resolver = resolverHelper.pendingOtpResolver

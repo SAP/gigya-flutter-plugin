@@ -125,7 +125,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case .otpLogin:
             sdk?.otpLogin(arguments: args, result: result)
         case .otpUpdate:
-            sdk?.otpLogin(arguments: args, result: result)
+            sdk?.otpUpdate(arguments: args, result: result)
         case .verifyOtp:
             sdk?.verifyOtp(arguments: args, result: result)
         default:

@@ -33,6 +33,26 @@ class OtpService with DataMixin, GigyaResponseMixin {
     });
     return result;
   }
+
+  /// Update using otp phone combination.
+  ///
+  /// Optional [params] map is available.
+  Future<Map<String, dynamic>?> update(phone, {params}) async {
+    final result = await _channel.invokeMapMethod<String, dynamic>(
+      OtpMethods.update.name,
+      {
+        'phone': phone,
+        'parameters': params ?? {},
+      },
+    ).catchError((error) {
+      debugPrint('error');
+      return throw GigyaResponse.fromJson(decodeError(error));
+    }).timeout(Duration(minutes: 1), onTimeout: () {
+      debugPrint('A timeout that was defined in the request is reached');
+      return timeoutError();
+    });
+    return result;
+  }
 }
 
 /// Verify OTP resolver
