@@ -6,7 +6,8 @@ import '../models/gigya_models.dart';
 
 enum OtpMethods {
   login,
-  update
+  update,
+  verify,
 }
 
 class OtpService with DataMixin, GigyaResponseMixin {
@@ -63,9 +64,9 @@ class PendingOtpVerification with GigyaResponseMixin, DataMixin  {
 
   Future<Map<String, dynamic>?> verify(code) async {
     final result = await _channel.invokeMapMethod<String, dynamic>(
-      'verifyOtp',
+      OtpMethods.verify.name,
       {
-        'cpde': code,
+        'code': code,
       },
     ).catchError((error) {
       throw GigyaResponse.fromJson(decodeError(error));
