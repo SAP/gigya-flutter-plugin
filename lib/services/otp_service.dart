@@ -45,7 +45,7 @@ class OtpService with DataMixin, GigyaResponseMixin {
       debugPrint('A timeout that was defined in the request is reached');
       return timeoutError();
     });
-    return PendingOtpVerification(_channel);
+    return PendingOtpVerification(_channel, result ?? {});
   }
 
   /// Update using otp phone combination.
@@ -72,8 +72,9 @@ class OtpService with DataMixin, GigyaResponseMixin {
 /// Verify OTP resolver
 class PendingOtpVerification with GigyaResponseMixin, DataMixin {
   final MethodChannel _channel;
+  Map<String, dynamic> response;
 
-  PendingOtpVerification(this._channel);
+  PendingOtpVerification(this._channel, this.response);
 
   Future<Map<String, dynamic>?> verify(code) async {
     final result = await _channel.invokeMapMethod<String, dynamic>(

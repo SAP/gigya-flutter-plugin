@@ -114,6 +114,7 @@ class _OTPLoginWidgetState extends State<OTPLoginWidget> {
 
     GigyaSdk.instance.otp.login(phone).then((resolver) {
       debugPrint('Otp login success');
+      debugPrint(jsonEncode(resolver.response));
       setState(() {
         _inProgress = false;
         _requestResult =

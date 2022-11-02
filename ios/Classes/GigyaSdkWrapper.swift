@@ -674,9 +674,9 @@ extension GigyaSdkWrapper {
                 }
             case .pendingOtpVerification(resolver: let resolver):
                 self.resolverHelper.pendingOtpResolver = resolver
-                
-                self.resolverHelper.currentResult?([:])
-
+                let data = resolver.data?.mapValues { value in ((value as? AnyCodable) ?? AnyCodable.init("")).value }
+                                
+                self.resolverHelper.currentResult?(data)
             }
         }
     }
@@ -713,8 +713,9 @@ extension GigyaSdkWrapper {
             case .pendingOtpVerification(resolver: let resolver):
                 self.resolverHelper.pendingOtpResolver = resolver
 
-                self.resolverHelper.currentResult?(FlutterError(code: "40232", message: "pending otp", details: nil))
-
+                let data = resolver.data?.mapValues { value in ((value as? AnyCodable) ?? AnyCodable.init("")).value }
+                                
+                self.resolverHelper.currentResult?(data)
             }
         }
     }
