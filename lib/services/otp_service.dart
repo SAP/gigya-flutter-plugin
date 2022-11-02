@@ -10,6 +10,19 @@ enum OtpMethods {
   verify,
 }
 
+extension OtpMethodsExtension on OtpMethods {
+  String get name {
+    switch (this) {
+      case OtpMethods.login:
+        return 'otpLogin';
+      case OtpMethods.update:
+        return 'otpUpdate';
+      case OtpMethods.verify:
+        return 'otpVerify';
+    }
+  }
+}
+
 class OtpService with DataMixin, GigyaResponseMixin {
   final MethodChannel _channel;
 
@@ -57,7 +70,7 @@ class OtpService with DataMixin, GigyaResponseMixin {
 }
 
 /// Verify OTP resolver
-class PendingOtpVerification with GigyaResponseMixin, DataMixin  {
+class PendingOtpVerification with GigyaResponseMixin, DataMixin {
   final MethodChannel _channel;
 
   PendingOtpVerification(this._channel);
