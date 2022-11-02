@@ -920,6 +920,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     //region OTP
 
+    /**
+     * Login via phone OTP.
+     */
     fun otpLogin(arguments: Any, channelResult: MethodChannel.Result) {
         currentResult = channelResult
         val phoneNumber: String? = (arguments as Map<*, *>)["phone"] as String?
@@ -942,10 +945,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                     resolver: IGigyaOtpResult
                 ) {
                     resolverHelper.otpResolver = resolver
-                    currentResult!!.error(
-                        "40232",
-                        "pending otp", response.asMap()
-                    )
+                    currentResult!!.success(mapObject(response))
                 }
 
                 override fun onSuccess(obj: T) {
@@ -968,6 +968,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         )
     }
 
+    /**
+     * Update phone number using OTP verification for existing user.
+     */
     fun otpUpdate(arguments: Any, channelResult: MethodChannel.Result) {
         currentResult = channelResult
         val phoneNumber: String? = (arguments as Map<*, *>)["phone"] as String?
@@ -988,10 +991,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 resolver: IGigyaOtpResult
             ) {
                 resolverHelper.otpResolver = resolver
-                currentResult!!.error(
-                    "40232",
-                    "pending otp", response.asMap()
-                )
+                currentResult!!.success(mapObject(response))
             }
 
             override fun onSuccess(obj: T) {
@@ -1013,6 +1013,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         })
     }
 
+    /**
+     * Verify phone OTP code.
+     */
     fun otpVerify(arguments: Any, channelResult: MethodChannel.Result) {
         currentResult = channelResult
         val code: String? = (arguments as Map<*, *>)["code"] as String?
