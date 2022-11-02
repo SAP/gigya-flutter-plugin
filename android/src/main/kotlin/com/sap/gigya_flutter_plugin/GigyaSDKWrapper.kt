@@ -9,6 +9,9 @@ import com.gigya.android.sdk.*
 import com.gigya.android.sdk.account.models.GigyaAccount
 import com.gigya.android.sdk.api.GigyaApiResponse
 import com.gigya.android.sdk.api.IApiRequestFactory
+import com.gigya.android.sdk.auth.GigyaAuth
+import com.gigya.android.sdk.auth.GigyaOTPCallback
+import com.gigya.android.sdk.auth.resolvers.IGigyaOtpResult
 import com.gigya.android.sdk.interruption.IPendingRegistrationResolver
 import com.gigya.android.sdk.interruption.link.ILinkAccountsResolver
 import com.gigya.android.sdk.network.GigyaError
@@ -26,6 +29,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     private var sdk: Gigya<T>
 
+    private var sdkAuth: GigyaAuth
+
     private var resolverHelper: ResolverHelper = ResolverHelper()
 
     private var currentResult: MethodChannel.Result? = null
@@ -38,6 +43,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     init {
         Gigya.setApplication(application)
         sdk = Gigya.getInstance(accountObj)
+        sdkAuth = GigyaAuth.getInstance()
 
         try {
             val pInfo: PackageInfo =
@@ -49,6 +55,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             e.printStackTrace()
         }
     }
+
+    //region REQUEST INTERFACING
 
     /**
      * Send general/antonymous request.
@@ -649,6 +657,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         })
     }
 
+    //endregion
+
+    //region SCREENSETS
+
     private var screenSetsEventsSink: EventChannel.EventSink? = null
     private var screenSetEventsChannel: EventChannel? = null
     private var screenSetsEventsHandler: EventChannel.StreamHandler? = null;
@@ -819,12 +831,17 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         channelResult.success(null)
     }
 
+    //endregion
+
+    //region FIDO
 
     /**
      * Fido2/WebAuthn register.
      */
-    fun webAuthnRegister(resultLauncher: ActivityResultLauncher<IntentSenderRequest>,
-                         channelResult: MethodChannel.Result) {
+    fun webAuthnRegister(
+        resultLauncher: ActivityResultLauncher<IntentSenderRequest>,
+        channelResult: MethodChannel.Result
+    ) {
         sdk.WebAuthn().register(
             resultLauncher,
             object : GigyaCallback<GigyaApiResponse>() {
@@ -849,8 +866,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     /**
      * Fido2/WebAuthn login.
      */
-    fun webAuthnLogin(resultLauncher: ActivityResultLauncher<IntentSenderRequest>,
-                      channelResult: MethodChannel.Result) {
+    fun webAuthnLogin(
+        resultLauncher: ActivityResultLauncher<IntentSenderRequest>,
+        channelResult: MethodChannel.Result
+    ) {
         sdk.WebAuthn().login(
             resultLauncher,
             object : GigyaLoginCallback<T>() {
@@ -897,8 +916,122 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         )
     }
 
+    //endregion
+
+    //region OTP
+
+    fun otpLogin(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult
+        val phoneNumber: String? = (arguments as Map<*, *>)["phone"] as String?
+        if (phoneNumber == null) {
+            channelResult.error(
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
+            )
+        }
+        var parameters: Map<String, Any>? = arguments["parameters"] as Map<String, Any>?
+        if (parameters == null) {
+            parameters = mapOf()
+        }
+        sdkAuth.otp.phoneLogin(
+            phoneNumber!!, parameters, object : GigyaOTPCallback<T>() {
+
+                override fun onPendingOTPVerification(
+                    response: GigyaApiResponse,
+                    resolver: IGigyaOtpResult
+                ) {
+                    resolverHelper.otpResolver = resolver
+                    currentResult!!.error(
+                        "40232",
+                        "pending otp", response.asMap()
+                    )
+                }
+
+                override fun onSuccess(obj: T) {
+                    resolverHelper.clear()
+                    val mapped = mapObject(obj)
+                    currentResult!!.success(mapped)
+                }
+
+                override fun onError(error: GigyaError?) {
+                    error?.let {
+                        currentResult!!.error(
+                            error.errorCode.toString(),
+                            error.localizedMessage,
+                            mapJson(error.data)
+                        )
+                    } ?: channelResult.notImplemented()
+                }
+
+            }
+        )
+    }
+
+    fun otpUpdate(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult
+        val phoneNumber: String? = (arguments as Map<*, *>)["phone"] as String?
+        if (phoneNumber == null) {
+            channelResult.error(
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
+            )
+        }
+        var parameters: Map<String, Any>? = arguments["parameters"] as Map<String, Any>?
+        if (parameters == null) {
+            parameters = mapOf()
+        }
+        sdkAuth.otp.phoneUpdate(phoneNumber!!, parameters, object : GigyaOTPCallback<T>() {
+            override fun onPendingOTPVerification(
+                response: GigyaApiResponse,
+                resolver: IGigyaOtpResult
+            ) {
+                resolverHelper.otpResolver = resolver
+                currentResult!!.error(
+                    "40232",
+                    "pending otp", response.asMap()
+                )
+            }
+
+            override fun onSuccess(obj: T) {
+                resolverHelper.clear()
+                val mapped = mapObject(obj)
+                currentResult!!.success(mapped)
+            }
+
+            override fun onError(error: GigyaError?) {
+                error?.let {
+                    currentResult!!.error(
+                        error.errorCode.toString(),
+                        error.localizedMessage,
+                        mapJson(error.data)
+                    )
+                } ?: channelResult.notImplemented()
+            }
+
+        })
+    }
+
+    fun otpVerify(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult
+        val code: String? = (arguments as Map<*, *>)["code"] as String?
+        if (code == null) {
+            channelResult.error(
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
+            )
+        }
+        resolverHelper.otpResolver?.verify(code!!)
+    }
+
+    //endregion
+
+    //region RESOLVERS
+
     /**
-     * Link account - handler for fetching conflicting accounts from current intrruption state.
+     * Link account - handler for fetching conflicting accounts from current interruption state.
      */
     fun resolveGetConflictingAccounts(channelResult: MethodChannel.Result) {
         resolverHelper.linkAccountResolver?.let { resolver ->
@@ -976,6 +1109,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         } ?: channelResult.notImplemented()
     }
 
+    //endregion
+
     /**
      * Map typed object to a Map<String, Any> object in order to pass on to
      * the method channel response.
@@ -1010,11 +1145,13 @@ class ResolverHelper {
 
     var linkAccountResolver: ILinkAccountsResolver? = null
     var pendingRegistrationResolver: IPendingRegistrationResolver? = null
+    var otpResolver: IGigyaOtpResult? = null
     var regToken: String? = null
 
     fun clear() {
         linkAccountResolver = null
         pendingRegistrationResolver = null
+        otpResolver = null
         regToken = null
     }
 }

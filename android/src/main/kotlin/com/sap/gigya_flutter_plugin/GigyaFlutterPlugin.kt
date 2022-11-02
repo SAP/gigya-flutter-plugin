@@ -84,6 +84,9 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
                 }
             }
             "webAuthnRevoke" -> sdk.webAuthnRevoke(result)
+            "otpLogin" -> sdk.otpLogin(call.arguments, result)
+            "otpUpdate" -> sdk.otpUpdate(call.arguments, result)
+            "otpVerify" -> sdk.otpVerify(call.arguments, result)
             else -> result.notImplemented()
         }
     }
