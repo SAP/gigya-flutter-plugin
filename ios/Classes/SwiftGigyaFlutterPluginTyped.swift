@@ -35,7 +35,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         // otp
         case otpLogin
         case otpUpdate
-        case verifyOtp
+        case otpVerify
     }
     var sdk: GigyaSdkWrapper<T>?
     
@@ -126,7 +126,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.otpLogin(arguments: args, result: result)
         case .otpUpdate:
             sdk?.otpUpdate(arguments: args, result: result)
-        case .verifyOtp:
+        case .otpVerify:
             sdk?.verifyOtp(arguments: args, result: result)
         default:
             result(nil)

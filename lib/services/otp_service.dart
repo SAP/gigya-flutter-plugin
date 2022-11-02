@@ -31,7 +31,7 @@ class OtpService with DataMixin, GigyaResponseMixin {
   /// Login using otp phone combination.
   ///
   /// Optional [params] map is available.
-  Future<Map<String, dynamic>?> login(phone, {params}) async {
+  Future<PendingOtpVerification> login(phone, {params}) async {
     final result = await _channel.invokeMapMethod<String, dynamic>(
       OtpMethods.login.name,
       {
@@ -45,7 +45,7 @@ class OtpService with DataMixin, GigyaResponseMixin {
       debugPrint('A timeout that was defined in the request is reached');
       return timeoutError();
     });
-    return result;
+    return PendingOtpVerification(_channel);
   }
 
   /// Update using otp phone combination.

@@ -675,7 +675,7 @@ extension GigyaSdkWrapper {
             case .pendingOtpVerification(resolver: let resolver):
                 self.resolverHelper.pendingOtpResolver = resolver
                 
-                self.resolverHelper.currentResult?(FlutterError(code: "40232", message: "pending otp", details: nil))
+                self.resolverHelper.currentResult?([:])
 
             }
         }
