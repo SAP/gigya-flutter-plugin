@@ -7,10 +7,6 @@ A [Flutter](https://flutter.dev) plugin for interfacing Gigya's native SDKs into
 ## Description
 Flutter plugin that provides an interface for the Gigya API.
 
-## Developers Preview Status
-The plugin allows you to use the core elements & business API flows available within the SAP Customer Data Cloud mobile SDKs.
-This plugin is currently in an early developers preview stage.
-
 ## Requirements
 Android SDK support requires SDK 14 and above.
 
@@ -240,6 +236,31 @@ Revoke an existing FIDO/WebAuthn passkey:
   }
 ```
 
+## Login using phone number (OTP)
+Users can now authenticate using a valid phone number.
+**Note: An SMS provider configuration setup is required for the partner**
+
+**Usage example**
+Begin phone authentication flow providing phone number.
+```
+GigyaSdk.instance.otp.login(phone).then((resolver) {
+      // Code is sent. A resolver object is available for code verification
+    }).catchError((error) {
+      // Handle error here.
+    });
+```
+
+Verify SMS code using obtained "resolver" object.
+```
+resolver.verify(code).then((res) {
+    // Parse account information.
+    final Account account = Account.fromJson(res);
+    }).catchError((error) {
+    // Handle error here.
+    });
+```
+
+[Additional information & limitations](https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/4137e1be70b21014bbc5a10ce4041860.html?q=accounts.otp.sendCode)
 
 ## Resolving interruptions
 

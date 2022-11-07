@@ -1,5 +1,5 @@
 import Gigya
-
+import GigyaAuth
 /**
  Plugin specific error constants.
  */
@@ -20,6 +20,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         // Initializing the Gigya SDK instance.
         GigyaDefinitions.versionPrefix = "flutter_0.1.3_"
         sdk = Gigya.sharedInstance(accountSchema)
+        GigyaAuth.shared.register(scheme: accountSchema)
     }
     
     // MARK: - Main instance
@@ -639,6 +640,99 @@ extension GigyaSdkWrapper {
 
 }
 
+// Otp
+extension GigyaSdkWrapper {
+
+    /**
+     Login using credentials (loginId/password combination with optional parameter map).
+     */
+    func otpLogin(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard let phone = arguments["phone"] as? String else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+
+        resolverHelper.currentResult = result
+
+        // Optional parameter map.
+        let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+        GigyaAuth.shared.otp.login(phone: phone, params: parameters ) { (loginResult: GigyaOtpResult<T>) in
+            switch loginResult {
+            case .success(let data):
+                let mapped = self.mapObject(data)
+                self.resolverHelper.currentResult?(mapped)
+
+                self.resolverHelper.dispose()
+            case .failure(let error):
+                self.saveResolvesIfNeeded(interruption: error.interruption)
+
+                switch error.error {
+                case .gigyaError(let ge):
+                    self.resolverHelper.currentResult?(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
+                default:
+                    break;
+                }
+            case .pendingOtpVerification(resolver: let resolver):
+                self.resolverHelper.pendingOtpResolver = resolver
+                let data = resolver.data?.mapValues { value in ((value as? AnyCodable) ?? AnyCodable.init("")).value }
+                                
+                self.resolverHelper.currentResult?(data)
+            }
+        }
+    }
+
+   /**
+     Login using credentials (loginId/password combination with optional parameter map).
+     */
+    func otpUpdate(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard let phone = arguments["phone"] as? String else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+
+        resolverHelper.currentResult = result
+
+        // Optional parameter map.
+        let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+        GigyaAuth.shared.otp.update(phone: phone, params: parameters ) { (loginResult: GigyaOtpResult<T>) in
+            switch loginResult {
+            case .success(let data):
+                let mapped = self.mapObject(data)
+                self.resolverHelper.currentResult?(mapped)
+
+                self.resolverHelper.dispose()
+            case .failure(let error):
+                self.saveResolvesIfNeeded(interruption: error.interruption)
+
+                switch error.error {
+                case .gigyaError(let ge):
+                    self.resolverHelper.currentResult?(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
+                default:
+                    break;
+                }
+            case .pendingOtpVerification(resolver: let resolver):
+                self.resolverHelper.pendingOtpResolver = resolver
+
+                let data = resolver.data?.mapValues { value in ((value as? AnyCodable) ?? AnyCodable.init("")).value }
+                                
+                self.resolverHelper.currentResult?(data)
+            }
+        }
+    }
+
+    func verifyOtp(arguments: [String: Any], result: @escaping FlutterResult) {
+        guard let code = arguments["code"] as? String,
+              let resolver = resolverHelper.pendingOtpResolver
+        else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        resolverHelper.currentResult = result
+        
+        resolver.verify(code: code)
+    }
+}
+
 extension GigyaSdkWrapper {
     private func saveResolvesIfNeeded(interruption: GigyaInterruptions<T>?) {
         guard let interruption = interruption else {
@@ -664,11 +758,14 @@ class ResolverHelper<T: GigyaAccountProtocol> {
     
     var pendingRegistrationResolver: PendingRegistrationResolver<T>?
     
+    var pendingOtpResolver: OtpServiceVerifyProtocol?
+
     var regToken: String?
     
     func dispose() {
         linkAccountResolver = nil
         pendingRegistrationResolver = nil
+        pendingOtpResolver = nil
         regToken = nil
     }
 }

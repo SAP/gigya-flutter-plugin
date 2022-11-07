@@ -275,6 +275,27 @@ class _HomePageWidgetState extends State<HomePageWidget> {
                         ),
                       )
                     : Container(),
+                loggedIn == false
+                    ? ButtonTheme(
+                        minWidth: 240,
+                        child: ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            textStyle: TextStyle(
+                              color: Colors.white,
+                            ),
+                          ),
+                          onPressed: () {
+                            Navigator.pushNamed(context, '/otp_phone_login')
+                                .then((val) {
+                              setState(() {
+                                debugPrint('Refresh on back');
+                              });
+                            });
+                          },
+                          child: Text('OTP phone login'),
+                        ),
+                      )
+                    : Container(),
               ],
             ),
           ),
