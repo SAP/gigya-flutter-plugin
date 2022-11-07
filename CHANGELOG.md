@@ -93,3 +93,7 @@ Developer Preview 0.2.0
 * Bug fix - Fixed account schema parsing.
 * Added getSession method.
 * Added support for FIDO authentication.
+
+# 0.2.1
+
+* Added support for phone number authentication (OTP).

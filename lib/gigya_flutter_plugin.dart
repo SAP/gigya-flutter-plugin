@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/services.dart';
 import 'package:gigya_flutter_plugin/interruption/interruption_resolver.dart';
 import 'package:gigya_flutter_plugin/models/gigya_models.dart';
+import 'package:gigya_flutter_plugin/services/otp_service.dart';
 import 'package:gigya_flutter_plugin/services/webauthn_service.dart';
 
 import 'mixin/global_mixin.dart';
@@ -66,6 +67,8 @@ class GigyaSdk with DataMixin, GigyaResponseMixin {
   final ResolverFactory resolverFactory = ResolverFactory(_channel);
 
   final WebAuthnService webAuthn = WebAuthnService(_channel);
+
+  final OtpService otp = OtpService(_channel);
 
   /// Private initializer.
   GigyaSdk._();

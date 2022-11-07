@@ -16,6 +16,7 @@ SAP Gigya Flutter plugin
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
   s.dependency 'Gigya', '>= 1.4.0'
+  s.dependency 'GigyaAuth', '>= 1.1.1'
   s.platform = :ios, '11.0'
 
   # Flutter.framework does not contain a i386 slice.

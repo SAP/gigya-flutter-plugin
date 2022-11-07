@@ -3,6 +3,7 @@ import 'package:gigya_flutter_plugin_example/routes/account_information.dart';
 import 'package:gigya_flutter_plugin_example/routes/forgot_password.dart';
 import 'package:gigya_flutter_plugin_example/routes/home_page.dart';
 import 'package:gigya_flutter_plugin_example/routes/login_with_credentials.dart';
+import 'package:gigya_flutter_plugin_example/routes/login_with_phone_otp.dart';
 import 'package:gigya_flutter_plugin_example/routes/manage_connection.dart';
 import 'package:gigya_flutter_plugin_example/routes/register_with_credentials.dart';
 import 'package:gigya_flutter_plugin_example/routes/send_request.dart';
@@ -37,6 +38,7 @@ class _MyAppState extends State<MyApp> {
       '/account_information': (context) => AccountInformationWidget(),
       '/manage_connections': (context) => ManageConnectionWidget(),
       '/forgot_password': (context) => ForgotPasswordPageWidget(),
+      '/otp_phone_login': (context) => OTPLoginWidget(),
     };
   }
 }

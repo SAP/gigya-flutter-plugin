@@ -70,7 +70,7 @@ class _AccountInformationWidgetState extends State<AccountInformationWidget> {
                               style: TextStyle(
                                   fontSize: 16.0, fontWeight: FontWeight.bold),
                             ),
-                            Text(account.profile.email)
+                            Text(account.profile.email == null ? 'no email evailable': account.profile.email)
                           ],
                         ),
                         SizedBox(
