@@ -11,6 +11,7 @@ dependencies:
   flutter:
     sdk: flutter
 
+  flutter_facebook_auth: ^4.1.2
   gigya_flutter_plugin:
     # When depending on this package from a real application you should use:
     #   gigya_flutter_plugin: ^x.y.z
@@ -19,24 +20,11 @@ dependencies:
     # the parent directory to use the current plugin's version.
     path: ../
 
-  flutter_facebook_auth: ^4.1.2
   google_sign_in: ^5.2.4
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
 
-# For information on the generic Dart part of this file, see the
-# following page: https://dart.dev/tools/pub/pubspec
-
-# The following section is specific to Flutter.
 flutter:
-
-  # The following line ensures that the Material Icons font is
-  # included with your application, so that you can use the icons in
-  # the material Icons class.
   uses-material-design: true
