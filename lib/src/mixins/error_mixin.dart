@@ -18,7 +18,7 @@ mixin ErrorMixin {
   }
 
   /// Construct a timeout error.
-  Map<String, dynamic> get timeoutError {
+  Map<String, dynamic> timeoutError() {
     return const <String, dynamic>{
       'statusCode': 500,
       'errorCode': 504002,
