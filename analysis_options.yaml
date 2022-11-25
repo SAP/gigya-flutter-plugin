@@ -1,0 +1,53 @@
+# This file configures the Dart analyzer for code analysis.
+# Additional information about this file can be found at
+# https://dart.dev/guides/language/analysis-options
+
+# Include the recommended lints for Flutter projects.
+include: package:flutter_lints/flutter.yaml
+
+analyzer:
+  language:
+    strict-casts: true
+    strict-inference: true
+    strict-raw-types: true
+
+linter:
+  rules:
+    always_declare_return_types: true
+    always_put_required_named_parameters_first: true
+    always_specify_types: true
+    always_use_package_imports: true
+    avoid_dynamic_calls: true
+    avoid_positional_boolean_parameters: true
+    avoid_redundant_argument_values: true
+    avoid_returning_null_for_future: true
+    avoid_returning_this: true # Cascade operator `..` is preferred if code gets flagged.
+    avoid_slow_async_io: true
+    avoid_unused_constructor_parameters: true
+    cancel_subscriptions: true
+    conditional_uri_does_not_exist: true
+    directives_ordering: true
+    join_return_with_assignment: true
+    noop_primitive_operations: true
+    only_throw_errors: true
+    prefer_asserts_with_message: true
+    prefer_constructors_over_static_methods: true
+    prefer_final_in_for_each: true
+    prefer_final_locals: true
+    prefer_null_aware_method_calls: true
+    prefer_single_quotes: true
+    public_member_api_docs: true
+    sort_constructors_first: true
+    sort_pub_dependencies: true
+    sort_unnamed_constructors_first: true
+    type_annotate_public_apis: true
+    unawaited_futures: true
+    unnecessary_await_in_return: true
+    unnecessary_lambdas: true
+    unnecessary_to_list_in_spreads: true
+    use_enums: true
+    use_if_null_to_convert_nulls_to_bools: true
+    use_is_even_rather_than_modulo: true
+    use_named_constants: true
+    use_string_buffers: true
+    use_super_parameters: true
