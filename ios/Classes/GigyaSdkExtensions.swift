@@ -1,14 +1,9 @@
-//
-//  GigyaSdk+Extensions.swift
-//  gigya_flutter_plugin
-//
-//  Created by Shmuel, Sagi on 26/11/2020.
-//
-
 import Foundation
 
 extension Dictionary {
-
+    /**
+    Get this dictionary as a JSON string.
+    */
     var asJson: String {
         if let jsonData: Data = try? JSONSerialization.data(withJSONObject: self, options:[]),
             let result = String(data: jsonData, encoding: .utf8) {
@@ -19,7 +14,6 @@ extension Dictionary {
 }
 
 extension GigyaSdkWrapper {
-
     /**
      Get top view controller.
      */
@@ -34,7 +28,8 @@ extension GigyaSdkWrapper {
     }
 
     /**
-     Mapping typed account object.
+     Map the given object to a Dictionary.
+     The returned dictionary uses String keys.
      */
     func mapObject<T: Codable>(_ obj: T) -> [String: Any] {
         do {
@@ -48,6 +43,4 @@ extension GigyaSdkWrapper {
         }
         return [:]
     }
-    
 }
-
