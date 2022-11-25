@@ -92,7 +92,7 @@ packages:
       path: ".."
       relative: true
     source: path
-    version: "0.2.1"
+    version: "0.3.0"
   google_sign_in:
     dependency: "direct main"
     description:
@@ -218,5 +218,5 @@ packages:
     source: hosted
     version: "2.1.2"
 sdks:
-  dart: ">=2.17.0-0 <3.0.0"
-  flutter: ">=2.5.0"
+  dart: ">=2.18.0 <3.0.0"
+  flutter: ">=3.3.0"
