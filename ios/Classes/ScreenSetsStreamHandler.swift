@@ -1,15 +1,8 @@
-//
-//  ScreenSetsStreamHandler.swift
-//  gigya_flutter_plugin
-//
-//  Created by Shmuel, Sagi on 26/11/2020.
-//
-
 import Foundation
 
 /**
- Screensete event handler stream handler.
- */
+The ScreenSets StreamHandler implementation.
+*/
 class ScreenSetsStreamHandler: NSObject, FlutterStreamHandler {
 
     var sink: FlutterEventSink?
