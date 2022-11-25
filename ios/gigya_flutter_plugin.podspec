@@ -1,17 +1,17 @@
 #
 # To learn more about a Podspec see http://guides.cocoapods.org/syntax/podspec.html.
-# Run `pod lib lint gigya_flutter_plugin.podspec' to validate before publishing.
+# Run `pod lib lint gigya_flutter_plugin.podspec` to validate before publishing.
 #
 Pod::Spec.new do |s|
   s.name             = 'gigya_flutter_plugin'
-  s.version          = '0.1.0'
+  s.version          = '0.3.0'
   s.summary          = 'SAP Gigya Flutter plugin'
   s.description      = <<-DESC
-SAP Gigya Flutter plugin
+  SAP Gigya Flutter plugin
                        DESC
-  s.homepage         = 'http://example.com'
+  s.homepage         = 'https://opensource.sap.com/'
   s.license          = { :file => '../LICENSE' }
-  s.author           = { 'Your Company' => 'email@example.com' }
+  s.author           = { 'SAP' => 'ospo@sap.com' }
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
