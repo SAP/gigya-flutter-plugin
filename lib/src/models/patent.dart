@@ -26,7 +26,7 @@ class Patent {
     );
   }
 
-  /// The date the parent was issued.
+  /// The date the patent was issued.
   final DateTime? date;
 
   /// The patent number.
