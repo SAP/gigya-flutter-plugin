@@ -60,7 +60,7 @@ class GigyaError implements Exception {
 }
 
 /// This class defines a timeout error for Gigya SDK API responses.
-class GigyaTimeoutError {
+class GigyaTimeoutError implements Exception {
   /// The default constructor.
   const GigyaTimeoutError();
 
