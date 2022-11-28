@@ -1,19 +1,14 @@
 import 'emails.dart';
-import 'gigya_response.dart';
 import 'profile.dart';
 import 'session_info.dart';
 
 /// This class represents an account.
-class Account extends GigyaResponse {
+class Account {
   /// The default constructor.
   Account({
     required this.emails,
-    super.apiVersion,
-    super.callId,
     this.created,
     this.createdTimestamp,
-    super.errorCode,
-    super.errorDetails,
     this.isActive,
     this.isRegistered,
     this.isVerified,
@@ -24,12 +19,9 @@ class Account extends GigyaResponse {
     this.profile,
     this.registered,
     this.registeredTimestamp,
-    super.registrationToken,
     this.sessionInfo,
     this.signatureTimestamp,
     this.socialProviders,
-    super.statusCode,
-    super.statusReason,
     this.uid,
     this.uidSignature,
     this.verified,
@@ -38,8 +30,6 @@ class Account extends GigyaResponse {
 
   /// COnstruct an account from the given [json].
   factory Account.fromJson(Map<String, dynamic> json) {
-    final GigyaResponse base = GigyaResponse.fromJson(json);
-
     final Map<String, dynamic>? emails =
         json['emails'] as Map<String, dynamic>?;
     final Map<String, dynamic>? profile =
@@ -49,12 +39,8 @@ class Account extends GigyaResponse {
 
     return Account(
       emails: emails == null ? const Emails() : Emails.fromJson(emails),
-      apiVersion: base.apiVersion,
-      callId: base.callId,
       created: json['created'] as String?,
       createdTimestamp: json['createdTimestamp'] as Object?,
-      errorCode: base.errorCode,
-      errorDetails: base.errorDetails,
       isActive: json['isActive'] as bool?,
       isRegistered: json['isRegistered'] as bool?,
       isVerified: json['isVerified'] as bool?,
@@ -65,12 +51,9 @@ class Account extends GigyaResponse {
       profile: profile == null ? null : Profile.fromJson(profile),
       registered: json['registered'] as String?,
       registeredTimestamp: json['registeredTimestamp'] as Object?,
-      registrationToken: base.registrationToken,
       sessionInfo: session == null ? null : SessionInfo.fromJson(session),
       signatureTimestamp: json['signatureTimestamp'] as Object?,
       socialProviders: json['socialProviders'] as String?,
-      statusCode: base.statusCode,
-      statusReason: base.statusReason,
       uid: json['UID'] as String?,
       uidSignature: json['UIDSignature'] as String?,
       verified: json['verified'] as String?,
@@ -138,13 +121,12 @@ class Account extends GigyaResponse {
   /// The timestamp of the [verified] status.
   final Object? verifiedTimestamp; // TODO: this should be a `DateTime?`.
 
-  @override
+  /// Convert this object into a JSON object.
   Map<String, dynamic> toJson() {
     final Profile? accountProfile = profile;
     final SessionInfo? session = sessionInfo;
 
     return <String, dynamic>{
-      ...super.toJson(),
       'created': created,
       'createdTimestamp': createdTimestamp?.toString(),
       'emails': emails.toJson(),
