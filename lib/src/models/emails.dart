@@ -1,7 +1,7 @@
 /// This class represents a collection of [verified] and [unverified] email addresses.
 class Emails {
-  /// The private constructor.
-  Emails._({
+  /// The default constructor.
+  const Emails({
     this.unverified = const <String>[],
     this.verified = const <String>[],
   });
@@ -11,7 +11,7 @@ class Emails {
     final List<dynamic>? unverified = json['unverified'] as List<dynamic>?;
     final List<dynamic>? verified = json['verified'] as List<dynamic>?;
 
-    return Emails._(
+    return Emails(
       unverified: unverified?.cast<String>() ?? <String>[],
       verified: verified?.cast<String>() ?? <String>[],
     );
