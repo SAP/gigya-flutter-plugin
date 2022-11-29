@@ -98,9 +98,9 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>> initSdk(
-    String apiKey,
-    String apiDomain, {
+  Future<Map<String, dynamic>> initSdk({
+    required String apiDomain,
+    required String apiKey,
     bool forceLogout = true,
   }) async {
     try {
@@ -140,10 +140,10 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>> linkToSite(
-    String loginId,
-    String password,
-  ) async {
+  Future<Map<String, dynamic>> linkToSite({
+    required String loginId,
+    required String password,
+  }) async {
     try {
       final Map<String, dynamic>? result =
           await methodChannel.invokeMapMethod<String, dynamic>(
@@ -164,9 +164,9 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>> login(
-    String loginId,
-    String password, {
+  Future<Map<String, dynamic>> login({
+    required String loginId,
+    required String password,
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
     try {
@@ -202,9 +202,9 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>> register(
-    String loginId,
-    String password, {
+  Future<Map<String, dynamic>> register({
+    required String loginId,
+    required String password,
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
     try {
@@ -291,11 +291,11 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  Future<void> setSession(
-    int expiresIn,
-    String sessionToken,
-    String sessionSecret,
-  ) {
+  Future<void> setSession({
+    required int expiresIn,
+    required String sessionSecret,
+    required String sessionToken,
+  }) {
     try {
       return methodChannel.invokeMethod<void>(
         Methods.setSession.methodName,

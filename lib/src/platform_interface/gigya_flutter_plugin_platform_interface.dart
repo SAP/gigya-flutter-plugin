@@ -59,9 +59,9 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   /// Initialize the Gigya SDK with the given [apiKey] and [apiDomain].
   ///
   /// If [forceLogout] is true, the user will be logged out.
-  Future<Map<String, dynamic>> initSdk(
-    String apiKey,
-    String apiDomain, {
+  Future<Map<String, dynamic>> initSdk({
+    required String apiDomain,
+    required String apiKey,
     bool forceLogout = true,
   }) {
     throw UnimplementedError('isLoggedIn() is not implemented.');
@@ -73,16 +73,19 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }
 
   /// Link a social account to an existing site account.
-  Future<Map<String, dynamic>> linkToSite(String loginId, String password) {
+  Future<Map<String, dynamic>> linkToSite({
+    required String loginId,
+    required String password,
+  }) {
     throw UnimplementedError('linkToSite() is not implemented.');
   }
 
   /// Login using the given [loginId] and [password] combination.
   ///
   /// Any additional parameters can be provided using the [parameters] map.
-  Future<Map<String, dynamic>> login(
-    String loginId,
-    String password, {
+  Future<Map<String, dynamic>> login({
+    required String loginId,
+    required String password,
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) {
     throw UnimplementedError('login() is not implemented.');
@@ -96,9 +99,9 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   /// Register a new user using the given [loginId] and [password].
   ///
   /// Any additional parameters can be provided using the [parameters] map.
-  Future<Map<String, dynamic>> register(
-    String loginId,
-    String password, {
+  Future<Map<String, dynamic>> register({
+    required String loginId,
+    required String password,
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) {
     throw UnimplementedError('register() is not implemented.');
@@ -131,11 +134,11 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   /// Set a new session with the given [expiresIn], [sessionToken] and [sessionSecret].
   ///
   /// The [expiresIn] indicates the amount of seconds until the session expires.
-  Future<void> setSession(
-    int expiresIn,
-    String sessionToken,
-    String sessionSecret,
-  ) {
+  Future<void> setSession({
+    required int expiresIn,
+    required String sessionSecret,
+    required String sessionToken,
+  }) {
     throw UnimplementedError('setSession() is not implemented.');
   }
 
