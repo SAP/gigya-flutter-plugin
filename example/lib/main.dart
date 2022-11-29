@@ -12,6 +12,7 @@ void main() {
   runApp(MyApp());
 }
 
+/// The example app.
 class MyApp extends StatefulWidget {
   @override
   _MyAppState createState() => _MyAppState();
@@ -22,23 +23,16 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MaterialApp(
       initialRoute: '/',
-      routes: _exampleRoutes(),
+      routes: <String, WidgetBuilder>{
+        '/': (_) => HomePageWidget(),
+        '/send_request': (_) => SendRequestPageWidget(),
+        '/login_credentials': (_) => LoginWidthCredentialsWidget(),
+        '/register_email': (_) => RegisterWithEmailWidget(),
+        '/account_information': (_) => AccountInformationWidget(),
+        '/manage_connections': (_) => ManageConnectionWidget(),
+        '/forgot_password': (_) => ForgotPasswordPageWidget(),
+        '/otp_phone_login': (_) => OTPLoginWidget(),
+      },
     );
-  }
-
-  /// Each route demonstrates a different flow.
-  ///
-  /// Specific implementation available in every route widget.
-  Map<String, WidgetBuilder> _exampleRoutes() {
-    return {
-      '/': (context) => HomePageWidget(),
-      '/send_request': (context) => SendRequestPageWidget(),
-      '/login_credentials': (context) => LoginWidthCredentialsWidget(),
-      '/register_email': (context) => RegisterWithEmailWidget(),
-      '/account_information': (context) => AccountInformationWidget(),
-      '/manage_connections': (context) => ManageConnectionWidget(),
-      '/forgot_password': (context) => ForgotPasswordPageWidget(),
-      '/otp_phone_login': (context) => OTPLoginWidget(),
-    };
   }
 }
