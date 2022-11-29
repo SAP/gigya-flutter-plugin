@@ -1,52 +1,49 @@
-import 'package:flutter/services.dart';
-import 'package:gigya_flutter_plugin/src/models/gigya_error.dart';
+import 'package:flutter/services.dart' show MethodChannel, PlatformException;
 
-import '../models/enums/methods.dart';
+import '../../models/enums/methods.dart';
+import '../../models/gigya_error.dart';
+import 'otp_service.dart';
 
-/// This service defines an OTP login service.
-class OtpService {
+/// This class represents an [OtpService] that uses a [MethodChannel]
+/// for its implementation.
+class MethodChannelOtpService extends OtpService {
   /// The default constructor.
-  const OtpService(this._channel);
+  const MethodChannelOtpService(this._channel);
 
   final MethodChannel _channel;
 
   final Duration _timeout = const Duration(minutes: 1);
 
-  /// Login using the given [phone] number.
-  ///
-  /// To complete the login flow, call [PendingOtpVerification.verify]
-  /// with the code that was sent to the user.
-  ///
-  /// Returns a [PendingOtpVerification].
+  @override
   Future<PendingOtpVerification> login(
     String phone, {
-    Map<String, dynamic> params = const <String, dynamic>{},
+    Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
     try {
       await _channel.invokeMapMethod<String, dynamic>(
         OtpMethods.login.methodName,
-        <String, dynamic>{'phone': phone, 'parameters': params},
+        <String, dynamic>{'phone': phone, 'parameters': parameters},
       ).timeout(
         _timeout,
         onTimeout: () => throw const GigyaTimeoutError(),
       );
 
-      return PendingOtpVerification(_channel);
+      return _MethodChannelPendingVerification(_channel);
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
     }
   }
 
-  /// Update the login information using the given [phone] number.
+  @override
   Future<Map<String, dynamic>> update(
     String phone, {
-    Map<String, dynamic> params = const <String, dynamic>{},
+    Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
     try {
       final Map<String, dynamic>? result =
           await _channel.invokeMapMethod<String, dynamic>(
         OtpMethods.update.methodName,
-        <String, dynamic>{'phone': phone, 'parameters': params},
+        <String, dynamic>{'phone': phone, 'parameters': parameters},
       ).timeout(
         _timeout,
         onTimeout: () => throw const GigyaTimeoutError(),
@@ -59,15 +56,15 @@ class OtpService {
   }
 }
 
-/// This class represents a pending OTP verification,
-///  which can be used to finish a login over telephone.
-class PendingOtpVerification {
+/// This class represents a [PendingOtpVerification] that uses a [MethodChannel]
+/// for its implementation.
+class _MethodChannelPendingVerification extends PendingOtpVerification {
   /// The default constructor.
-  PendingOtpVerification(this._channel);
+  _MethodChannelPendingVerification(this._channel);
 
   final MethodChannel _channel;
 
-  /// Verify the given [code] and finish the current user login.
+  @override
   Future<Map<String, dynamic>> verify(String code) async {
     try {
       final Map<String, dynamic>? result =
