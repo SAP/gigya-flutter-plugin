@@ -7,6 +7,12 @@ import '../models/enums/methods.dart';
 import '../models/enums/social_provider.dart';
 import '../models/gigya_error.dart';
 import '../models/screenset_event.dart';
+import '../services/interruption_resolver/interruption_resolver.dart';
+import '../services/interruption_resolver/method_channel_interruption_resolver.dart';
+import '../services/otp_service/method_channel_otp_service.dart';
+import '../services/otp_service/otp_service.dart';
+import '../services/web_authentication_service/method_channel_web_authentication_service.dart';
+import '../services/web_authentication_service/web_authentication_service.dart';
 import 'gigya_flutter_plugin_platform_interface.dart';
 
 /// An implementation of [GigyaFlutterPluginPlatform] that uses method channels.
@@ -20,6 +26,19 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   /// The event channel that provides the stream of screen set events.
   @visibleForTesting
   final EventChannel screenSetEvents = const EventChannel('screensetEvents');
+
+  @override
+  InterruptionResolverFactory get interruptionResolverFactory {
+    return MethodChannelInterruptionResolverFactory(methodChannel);
+  }
+
+  @override
+  OtpService get otpService => MethodChannelOtpService(methodChannel);
+
+  @override
+  WebAuthenticationService get webAuthenticationService {
+    return MethodChannelWebAuthenticationService(methodChannel);
+  }
 
   @override
   Future<Map<String, dynamic>> addConnection(SocialProvider provider) async {

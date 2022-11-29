@@ -2,6 +2,9 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../models/enums/social_provider.dart';
 import '../models/screenset_event.dart';
+import '../services/interruption_resolver/interruption_resolver.dart';
+import '../services/otp_service/otp_service.dart';
+import '../services/web_authentication_service/web_authentication_service.dart';
 import 'gigya_flutter_plugin_method_channel.dart';
 
 /// The platform interface for the Gigya Flutter Plugin.
@@ -26,6 +29,15 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }
+
+  /// Get the interruption resolver factory provided by the Gigya SDK.
+  InterruptionResolverFactory get interruptionResolverFactory;
+
+  /// Get the One-Time-Password service provided by the Gigya SDK.
+  OtpService get otpService;
+
+  /// Get the web authentication service provided by the Gigya SDK.
+  WebAuthenticationService get webAuthenticationService;
 
   /// Add a social connection to an existing account.
   Future<Map<String, dynamic>> addConnection(SocialProvider provider) {
