@@ -1,18 +1,19 @@
 import 'dart:convert';
 
-import 'package:flutter/services.dart';
-import 'package:gigya_flutter_plugin/src/models/gigya_error.dart';
+import 'package:flutter/services.dart' show MethodChannel, PlatformException;
+import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
-import '../models/enums/methods.dart';
+import '../../models/enums/methods.dart';
 
-/// This service defines a Web Authentication service.
-class WebAuthnService {
+/// This class represents a [WebAuthenticationService] that uses a [MethodChannel]
+/// for its implementation.
+class MethodChannelWebAuthenticationService extends WebAuthenticationService {
   /// The default constructor.
-  const WebAuthnService(this._channel);
+  const MethodChannelWebAuthenticationService(this._channel);
 
   final MethodChannel _channel;
 
-  /// Login using WebAuthn/FIDO combination.
+  @override
   Future<Map<String, dynamic>> login() async {
     try {
       final Map<String, dynamic>? result =
@@ -30,7 +31,7 @@ class WebAuthnService {
     }
   }
 
-  /// Register using WebAuthn/FIDO combination.
+  @override
   Future<Map<String, dynamic>> register() async {
     try {
       final String? json = await _channel.invokeMethod<String>(
@@ -51,7 +52,7 @@ class WebAuthnService {
     }
   }
 
-  /// Revoke WebAuthn/FIDO authentication.
+  @override
   Future<Map<String, dynamic>> revoke() async {
     try {
       final String? json = await _channel.invokeMethod<String>(
