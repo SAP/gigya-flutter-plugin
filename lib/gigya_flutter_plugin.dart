@@ -1,376 +1,221 @@
-import 'dart:async';
-import 'dart:convert';
+import 'src/models/enums/social_provider.dart';
+import 'src/models/screenset_event.dart';
+import 'src/platform_interface/gigya_flutter_plugin_platform_interface.dart';
+import 'src/services/interruption_resolver/interruption_resolver.dart';
+import 'src/services/otp_service/otp_service.dart';
+import 'src/services/web_authentication_service/web_authentication_service.dart';
 
-import 'package:flutter/foundation.dart';
-import 'package:flutter/services.dart';
-import 'package:gigya_flutter_plugin/interruption/interruption_resolver.dart';
-import 'package:gigya_flutter_plugin/models/gigya_models.dart';
-import 'package:gigya_flutter_plugin/services/otp_service.dart';
-import 'package:gigya_flutter_plugin/services/webauthn_service.dart';
+export 'src/models/account.dart';
+export 'src/models/address.dart';
+export 'src/models/certification.dart';
+export 'src/models/conflicting_accounts.dart';
+export 'src/models/education.dart';
+export 'src/models/emails.dart';
+export 'src/models/enums/social_provider.dart';
+export 'src/models/favorite.dart';
+export 'src/models/gigya_error.dart';
+export 'src/models/like.dart';
+export 'src/models/location.dart';
+export 'src/models/oidc_data.dart';
+export 'src/models/patent.dart';
+export 'src/models/phone.dart';
+export 'src/models/profile.dart';
+export 'src/models/publication.dart';
+export 'src/models/screenset_event.dart';
+export 'src/models/session_info.dart';
+export 'src/models/skill.dart';
+export 'src/models/work.dart';
+export 'src/services/interruption_resolver/interruption_resolver.dart';
+export 'src/services/otp_service/otp_service.dart';
+export 'src/services/web_authentication_service/web_authentication_service.dart';
 
-import 'mixin/global_mixin.dart';
+/// This class represents the Gigya SDK plugin.
+class GigyaSdk {
+  /// The default constructor.
+  const GigyaSdk();
 
-enum Methods {
-  sendRequest,
-  loginWithCredentials,
-  registerWithCredentials,
-  setAccount,
-  getAccount,
-  isLoggedIn,
-  logOut,
-  socialLogin,
-  addConnection,
-  removeConnection,
-  showScreenSet,
-  forgotPassword,
-  initSdk,
-  getSession,
-  setSession,
-  sso,
-}
-
-extension MethodsExt on Methods {
-  get name => describeEnum(this);
-}
-
-/// Current supported social providers.
-enum SocialProvider {
-  google,
-  facebook,
-  line,
-  wechat,
-  apple,
-  amazon,
-  linkedin,
-  yahoo,
-}
-
-extension SocialProviderExt on SocialProvider {
-  get name => describeEnum(this);
-}
-
-typedef void OnScreenSetEvent(event, data);
-
-/// Main Gigya SDK interface class.
-///
-/// Do not instantiate this class. Instead use [GigyaSDk.instance] initializer to make
-/// sure you are using the same instance across your application.
-/// Using the singleton pattern here is crucial to prevent channels overlapping.
-class GigyaSdk with DataMixin, GigyaResponseMixin {
-  static const MethodChannel _channel =
-      const MethodChannel('gigya_flutter_plugin');
-
-  /// Singleton shared instance of the Gigya SDK.
-  static final GigyaSdk instance = GigyaSdk._();
-
-  /// Resolver factory instance.cd
-  final ResolverFactory resolverFactory = ResolverFactory(_channel);
-
-  final WebAuthnService webAuthn = WebAuthnService(_channel);
-
-  final OtpService otp = OtpService(_channel);
-
-  /// Private initializer.
-  GigyaSdk._();
-
-  /// Testing basic channeling.
-  Future<String> get platformVersion async {
-    final result = await _channel.invokeMethod<String>('getPlatformVersion');
-    return result!;
+  /// Get the interruption resolver factory provided by the Gigya SDK.
+  InterruptionResolverFactory get interruptionResolverFactory {
+    return GigyaFlutterPluginPlatform.instance.interruptionResolverFactory;
   }
 
-  /// General/Anonymous send request initiator.
-  ///
-  /// Request should receive an [endpoint] and required [params] map.
-  Future<Map<String, dynamic>?> send(endpoint, params) async {
-    final json = await _channel.invokeMethod<String>(
-      Methods.sendRequest.name,
-      {
-        'endpoint': endpoint,
-        'parameters': params,
-      },
-    ).catchError((error) {
-      return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(getTimeout(Methods.sendRequest), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return jsonEncode(timeoutError());
-    });
-    return json != null ? jsonDecode(json) : null;
+  /// Get the One-Time-Password service provided by the Gigya SDK.
+  OtpService get otpService {
+    return GigyaFlutterPluginPlatform.instance.otpService;
   }
 
-  /// Login using LoginId/password combination.
-  ///
-  /// Optional [params] map is available.
-  Future<Map<String, dynamic>?> login(loginId, password, {params}) async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.loginWithCredentials.name,
-      {
-        'loginId': loginId,
-        'password': password,
-        'parameters': params ?? {},
-      },
-    ).catchError((error) {
-      debugPrint('error');
-      return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(getTimeout(Methods.loginWithCredentials), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
-  }
-
-  /// Register new user using email/password combination.
-  ///
-  /// Optional [params] map is available.
-  Future<Map<String, dynamic>?> register(loginId, password, {params}) async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.registerWithCredentials.name,
-      {
-        'email': loginId,
-        'password': password,
-        'parameters': params ?? {},
-      },
-    ).catchError((error) {
-      return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(getTimeout(Methods.registerWithCredentials), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
-  }
-
-  /// Check logged in status.
-  Future<bool> isLoggedIn() async {
-    final result = await _channel.invokeMethod<bool>(Methods.isLoggedIn.name);
-    return result ?? false;
-  }
-
-  /// Request account object.
-  ///
-  /// Optional [invalidate] parameter is available to make sure a new account call is preformed, ignoring caching strategy.
-  /// API is relevant only when host is logged in.
-  /// Account caching strategies are *currently* handled in native code.
-  Future<Map<String, dynamic>?> getAccount({invalidate, parameters}) async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.getAccount.name,
-      {
-        'invalidate': invalidate,
-        'parameters': parameters,
-      },
-    ).catchError((error) {
-      return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(getTimeout(Methods.getAccount), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
-  }
-
-  /// Update account object providing a mapped [account].
-  ///
-  /// API is relevant only when host is logged in.
-  /// It is suggested to use "isLoggedIn" call to verify state.
-  Future<Map<String, dynamic>?> setAccount(account) async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.setAccount.name,
-      {'account': account},
-    ).catchError((error) {
-      return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(getTimeout(Methods.setAccount), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
-  }
-
-  /// Log out of current active session.
-  Future<void> logout() async {
-    await _channel.invokeMethod(Methods.logOut.name).catchError((error) {
-      debugPrint('Error logging out');
-    }).timeout(getTimeout(Methods.logOut), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-  }
-
-  /// Forgot password using LoginId
-  Future<Map<String, dynamic>?> forgotPassword(loginId) async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.forgotPassword.name,
-      {
-        'loginId': loginId,
-      },
-    ).timeout(getTimeout(Methods.forgotPassword), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
-  }
-
-  /// Init SDK using apiKey and apiDomain
-  Future<Map<String, dynamic>?> initSdk(String apiKey, String apiDomain,
-      [bool forceLogout = true]) async {
-    if (forceLogout) {
-      await logout();
-    }
-
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.initSdk.name,
-      {
-        'apiKey': apiKey,
-        'apiDomain': apiDomain,
-      },
-    ).timeout(getTimeout(Methods.initSdk), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
-  }
-
-  /// Perform a social login given the [provider] identity.
-  /// This call will specifically call the "notifySocialLogin" endpoint.
-  /// All social provider integration is the host's responsibiliy.
-  ///
-  /// Long timeout is set (5 minutes) in order to make sure that long sign in processes will not break.
-  Future<Map<String, dynamic>?> socialLogin(SocialProvider provider,
-      {parameters}) async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.socialLogin.name,
-      {
-        'provider': provider.name,
-        'parameters': parameters,
-      },
-    ).catchError((error) {
-      return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(getTimeout(Methods.socialLogin), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
-  }
-
-  Future<Map<String, dynamic>?> sso(
-      {parameters}) async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.sso.name,
-      {
-        'provider': 'sso',
-        'parameters': parameters,
-      },
-    ).catchError((error) {
-      return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(getTimeout(Methods.sso), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
+  /// Get the web authentication service provided by the Gigya SDK.
+  WebAuthenticationService get webAuthenticationService {
+    return GigyaFlutterPluginPlatform.instance.webAuthenticationService;
   }
 
   /// Add a social connection to an existing account.
+  Future<Map<String, dynamic>> addConnection(SocialProvider provider) {
+    return GigyaFlutterPluginPlatform.instance.addConnection(provider);
+  }
+
+  /// Start the forgot password flow for the given [loginId].
+  Future<Map<String, dynamic>> forgotPassword(String loginId) {
+    return GigyaFlutterPluginPlatform.instance.forgotPassword(loginId);
+  }
+
+  /// Get a user account.
   ///
-  /// Will require social connection to be authenticated.
-  Future<Map<String, dynamic>?> addConnection(SocialProvider provider) async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.addConnection.name,
-      {
-        'provider': provider.name,
-      },
-    ).catchError((error) {
-      return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(getTimeout(Methods.addConnection), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
+  /// If [invalidate] is true, the existing account is invalidated,
+  /// regardless if it was cached.
+  /// Account caching is *currently* handled on the native side.
+  ///
+  /// Throws an error if the user is not logged in.
+  Future<Map<String, dynamic>> getAccount({
+    bool invalidate = false,
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.getAccount(
+      invalidate: invalidate,
+      parameters: parameters,
+    );
+  }
+
+  /// Get the current session.
+  Future<Map<String, dynamic>> getSession() {
+    return GigyaFlutterPluginPlatform.instance.getSession();
+  }
+
+  /// Initialize the Gigya SDK with the given [apiKey] and [apiDomain].
+  ///
+  /// If [forceLogout] is true, the user will be logged out.
+  Future<Map<String, dynamic>> initSdk({
+    required String apiDomain,
+    required String apiKey,
+    bool forceLogout = true,
+  }) {
+    return GigyaFlutterPluginPlatform.instance.initSdk(
+      apiDomain: apiDomain,
+      apiKey: apiKey,
+      forceLogout: forceLogout,
+    );
+  }
+
+  /// Check whether the user is logged in.
+  Future<bool> isLoggedIn() => GigyaFlutterPluginPlatform.instance.isLoggedIn();
+
+  /// Link a social account to an existing site account.
+  Future<Map<String, dynamic>> linkToSite({
+    required String loginId,
+    required String password,
+  }) {
+    return GigyaFlutterPluginPlatform.instance.linkToSite(
+      loginId: loginId,
+      password: password,
+    );
+  }
+
+  /// Login using the given [loginId] and [password] combination.
+  ///
+  /// Any additional parameters can be provided using the [parameters] map.
+  Future<Map<String, dynamic>> login({
+    required String loginId,
+    required String password,
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.login(
+      loginId: loginId,
+      password: password,
+      parameters: parameters,
+    );
+  }
+
+  /// Log out of the current active session.
+  Future<void> logout() => GigyaFlutterPluginPlatform.instance.logout();
+
+  /// Register a new user using the given [loginId] and [password].
+  ///
+  /// Any additional parameters can be provided using the [parameters] map.
+  Future<Map<String, dynamic>> register({
+    required String loginId,
+    required String password,
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.register(
+      loginId: loginId,
+      password: password,
+      parameters: parameters,
+    );
   }
 
   /// Remove a social connection from an existing account.
-  Future<Map<String, dynamic>?> removeConnection(
-      SocialProvider provider) async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.removeConnection.name,
-      {
-        'provider': provider.name,
-      },
-    ).catchError((error) {
-      return throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(getTimeout(Methods.removeConnection), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
+  Future<Map<String, dynamic>> removeConnection(SocialProvider provider) {
+    return GigyaFlutterPluginPlatform.instance.removeConnection(provider);
   }
 
-  /// Get current session.
-  Future<Map<String, dynamic>?> getSession() async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      Methods.getSession.name,
-    ).catchError((error) {
-      debugPrint('get session error $error');
-      throw error;
-    }).timeout(getTimeout(Methods.getSession), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
-  }
-
-  /// Log out of current active session.
-  Future<void> setSession(
-      String sessionToken, String sessionSecret, double expiration) async {
-    await _channel.invokeMapMethod(Methods.setSession.name, {
-      "sessionToken": sessionToken,
-      "sessionSecret": sessionSecret,
-      "expires_in": expiration
-    }).catchError((error) {
-      debugPrint('Set session error');
-    }).timeout(getTimeout(Methods.setSession), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-  }
-
-  /// Link social account to existing site account.
-  Future<Map<String, dynamic>?> linkToSite(
-      String loginId, String password) async {
-    final result = await _channel.invokeMapMethod<String, dynamic>(
-      'linkToSite',
-      {
-        'loginId': loginId,
-        'password': password,
-      },
-    ).catchError((error) {
-      throw GigyaResponse.fromJson(decodeError(error));
-    }).timeout(getTimeout(Methods.removeConnection), onTimeout: () {
-      debugPrint('A timeout that was defined in the request is reached');
-      return timeoutError();
-    });
-    return result;
-  }
-
-  /// Screen-sets event subscription.
-  // ignore: unused_field, cancel_subscriptions
-  StreamSubscription<dynamic>? _screenSetsEventStream;
-
-  showScreenSet(name, OnScreenSetEvent onScreenSetEvent, {parameters}) async {
-    await _channel.invokeMethod(
-      Methods.showScreenSet.name,
-      {
-        'screenSet': name,
-        'parameters': parameters,
-      },
+  /// Send a request to the Gigya SDK.
+  ///
+  /// The [endpoint] specifies which API endpoint to use.
+  /// The [parameters] specify the parameters to pass to the endpoint.
+  Future<Map<String, dynamic>> send(
+    String endpoint, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.send(
+      endpoint,
+      parameters: parameters,
     );
-
-    const EventChannel _stream = EventChannel('screensetEvents');
-    _screenSetsEventStream = _stream.receiveBroadcastStream().listen((onData) {
-      onScreenSetEvent(
-        onData['event'],
-        onData['data'],
-      );
-      if (onData['event'] == 'onHide' || onData['event'] == 'onCanceled') {
-        _screenSetsEventStream = null;
-      }
-    });
   }
 
+  /// Update a given [account].
+  ///
+  /// After updating an account, it is strongly recommended to verify
+  /// if the account is still logged in, using [isLoggedIn].
+  Future<Map<String, dynamic>> setAccount(Map<String, dynamic> account) {
+    return GigyaFlutterPluginPlatform.instance.setAccount(account);
+  }
+
+  /// Set a new session with the given [expiresIn], [sessionToken] and [sessionSecret].
+  ///
+  /// The [expiresIn] indicates the amount of seconds until the session expires.
+  Future<void> setSession({
+    required int expiresIn,
+    required String sessionSecret,
+    required String sessionToken,
+  }) {
+    return GigyaFlutterPluginPlatform.instance.setSession(
+      expiresIn: expiresIn,
+      sessionSecret: sessionSecret,
+      sessionToken: sessionToken,
+    );
+  }
+
+  /// Show the screen set with the given [name].
+  ///
+  /// Returns the stream of screenset events.
+  Stream<ScreensetEvent> showScreenSet(
+    String name, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.showScreenSet(
+      name,
+      parameters: parameters,
+    );
+  }
+
+  /// Perform a login through the given [provider].
+  ///
+  /// This method leverages a longer than usual timeout of 5 minutes,
+  /// to make sure that long sign-in processes don't fail early.
+  Future<Map<String, dynamic>> socialLogin(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.socialLogin(
+      provider,
+      parameters: parameters,
+    );
+  }
+
+  /// Perform a single-sign-on.
+  Future<Map<String, dynamic>> sso({
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.sso(parameters: parameters);
+  }
 }
