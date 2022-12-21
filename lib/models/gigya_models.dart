@@ -1,4 +1,3 @@
-import 'dart:io';
 
 /// Available interruptions.
 enum Interruption {
@@ -160,8 +159,7 @@ class SessionInfo {
         'expires_in': this.expirationTime,
       };
 
-  double get expirationTime =>
-      Platform.isIOS ? double.parse(expiresIn) : expiresIn;
+  double get expirationTime => double.parse(expiresIn);
 }
 
 /// Account profile schema object.
