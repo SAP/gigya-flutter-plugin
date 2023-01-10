@@ -434,7 +434,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             val sessionInfo = SessionInfo(
                 argumentMap["sessionSecret"] as String,
                 argumentMap["sessionToken"] as String,
-                (argumentMap["expires_in"] as Double).toLong()
+                argumentMap["expires_in"] as Long,
             )
             sdk.setSession(sessionInfo)
             channelResult.success(null)

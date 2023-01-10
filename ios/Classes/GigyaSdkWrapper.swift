@@ -179,7 +179,16 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     func getSession(result: @escaping FlutterResult) {
         let session = sdk?.getSession()
         if (session != nil) {
-            result(["sessionToken": session?.token, "sessionSecret": session?.secret, "expires_in": session?.sessionExpirationTimestamp])
+            // The timestamp is a Double? but the `expires_in` is expected to be an Int? so convert it.
+            let sessionExpirationTimestamp : Double? = session?.sessionExpirationTimestamp
+
+            var timestamp: Int? = nil
+
+            if (sessionExpirationTimestamp != nil) {
+                timestamp = Int(sessionExpirationTimestamp!)
+            }
+
+            result(["sessionToken": session?.token, "sessionSecret": session?.secret, "expires_in": timestamp])
         } else {
             result(nil)
         }
@@ -192,12 +201,13 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     func setSession(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let token = arguments["sessionToken"] as? String,
               let secret = arguments["sessionSecret"] as? String,
-              let expiration = arguments["expires_in"] as? Double else {
+              let expiration = arguments["expires_in"] as? Int else {
             result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
-        
-        let newSession = GigyaSession(sessionToken: token, secret: secret, expiration: expiration)
+
+        // `expiration` is an Int but a Double is expected by the SDK, so convert it.
+        let newSession = GigyaSession(sessionToken: token, secret: secret, expiration: Double(expiration))
         sdk?.setSession(newSession!)
         
         result(nil)
