@@ -5,6 +5,9 @@ import Gigya
 public class SwiftGigyaFlutterPlugin<T: GigyaAccountProtocol>: NSObject, FlutterPlugin, GigyaInstanceProtocol {
     var sdk: GigyaSdkWrapper<T>?
 
+    // TODO: let register(with registrar: FlutterPluginRegistrar) handle a default registration
+    // TODO: provide a mechanism to register a custom scheme
+
     public static func register(with registrar: FlutterPluginRegistrar) {
         // This method is a stub and does not actually register the plugin,
         // as it needs a `GigyaAccountProtocol` type to be registered with.
