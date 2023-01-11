@@ -16,7 +16,7 @@ public class SwiftGigyaFlutterPlugin<T: GigyaAccountProtocol>: NSObject, Flutter
     }
 
     public static func registerForAccountProtocol<T: GigyaAccountProtocol>(registrar: FlutterPluginRegistrar, accountSchema: T.Type) {
-        let channel = FlutterMethodChannel(name: "gigya_flutter_plugin", binaryMessenger: registrar.messenger())
+        let channel = FlutterMethodChannel(name: "com.sap.gigya_flutter_plugin/methods", binaryMessenger: registrar.messenger())
         let instance = SwiftGigyaFlutterPlugin(accountSchema: accountSchema)
         registrar.addMethodCallDelegate(instance, channel: channel)
     }

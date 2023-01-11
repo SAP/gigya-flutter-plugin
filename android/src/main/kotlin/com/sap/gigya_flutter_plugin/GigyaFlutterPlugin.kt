@@ -41,7 +41,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         init<GigyaAccount>(flutterPluginBinding.applicationContext as Application, GigyaAccount::class.java)
         _messenger = flutterPluginBinding.binaryMessenger
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "gigya_flutter_plugin")
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.sap.gigya_flutter_plugin/methods")
         channel.setMethodCallHandler(this)
     }
 

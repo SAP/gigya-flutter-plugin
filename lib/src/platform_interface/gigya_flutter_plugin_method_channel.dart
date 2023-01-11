@@ -20,7 +20,7 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   /// The method channel used to interact with the native platform.
   @visibleForTesting
   final MethodChannel methodChannel = const MethodChannel(
-    'gigya_flutter_plugin',
+    'com.sap.gigya_flutter_plugin/methods',
   );
 
   /// The event channel that provides the stream of screen set events.
