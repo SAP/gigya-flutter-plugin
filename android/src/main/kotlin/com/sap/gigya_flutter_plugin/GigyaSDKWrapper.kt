@@ -22,7 +22,6 @@ import com.gigya.android.sdk.utils.CustomGSONDeserializer
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import io.flutter.plugin.common.BinaryMessenger
-import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodChannel
 import java.util.*
 
@@ -667,12 +666,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     }
 
     //endregion
-
     //region SCREENSETS
-
-    private var screenSetsEventsSink: EventChannel.EventSink? = null
-    private var screenSetEventsChannel: EventChannel? = null
-    private var screenSetsEventsHandler: EventChannel.StreamHandler? = null;
 
     /**
      * Trigger embedded web screen sets.
@@ -680,12 +674,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     fun showScreenSet(
         arguments: Any,
         channelResult: MethodChannel.Result,
-        messenger: BinaryMessenger?
+        handler: ScreenSetEventDelegate,
     ) {
-        if (messenger == null) {
-            channelResult.error(GENERAL_ERROR, GENERAL_ERROR_MESSAGE, mapOf<String, Any>())
-            return
-        }
         val screenSet: String? = (arguments as Map<*, *>)["screenSet"] as String?
         if (screenSet == null) {
             channelResult.error(
@@ -699,22 +689,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             arguments["parameters"] as MutableMap<String, Any>?
                 ?: mutableMapOf()
 
-        // Set events channel & handler.
-        screenSetEventsChannel = EventChannel(messenger, "screensetEvents")
-        screenSetsEventsHandler = object : EventChannel.StreamHandler {
-            override fun onListen(p0: Any?, sink: EventChannel.EventSink?) {
-                screenSetsEventsSink = sink
-            }
-
-            override fun onCancel(p0: Any?) {
-                screenSetEventsChannel = null
-            }
-        }
-        screenSetEventsChannel!!.setStreamHandler(screenSetsEventsHandler)
-
         sdk.showScreenSet(screenSet, true, parameters, object : GigyaPluginCallback<T>() {
             override fun onError(event: GigyaPluginEvent?) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onError",
                         "data" to event!!.eventMap
@@ -723,27 +700,21 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onCanceled() {
-                screenSetsEventsSink?.error("200001", "Operation canceled", null)
-                screenSetsEventsHandler = null
-                screenSetEventsChannel = null
-                screenSetsEventsSink = null
+                handler.addScreenSetError("200001", "Operation canceled", null)
             }
 
             override fun onHide(event: GigyaPluginEvent, reason: String?) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onHide",
                         "reason" to reason!!,
                         "data" to event.eventMap
                     )
                 )
-                screenSetsEventsHandler = null
-                screenSetEventsChannel = null
-                screenSetsEventsSink = null
             }
 
             override fun onLogin(accountObj: T) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onLogin",
                         "data" to mapObject(accountObj)
@@ -752,19 +723,19 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onLogout() {
-                screenSetsEventsSink?.success(mapOf("event" to "onLogout"))
+                handler.addScreenSetEvent(mapOf("event" to "onLogout"))
             }
 
             override fun onConnectionAdded() {
-                screenSetsEventsSink?.success(mapOf("event" to "onConnectionAdded"))
+                handler.addScreenSetEvent(mapOf("event" to "onConnectionAdded"))
             }
 
             override fun onConnectionRemoved() {
-                screenSetsEventsSink?.success(mapOf("event" to "onConnectionRemoved"))
+                handler.addScreenSetEvent(mapOf("event" to "onConnectionRemoved"))
             }
 
             override fun onBeforeScreenLoad(event: GigyaPluginEvent) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onBeforeScreenLoad",
                         "data" to event.eventMap
@@ -773,7 +744,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onAfterScreenLoad(event: GigyaPluginEvent) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onAfterScreenLoad",
                         "data" to event.eventMap
@@ -782,7 +753,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onBeforeValidation(event: GigyaPluginEvent) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onBeforeValidation",
                         "data" to event.eventMap
@@ -791,7 +762,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onAfterValidation(event: GigyaPluginEvent) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onAfterValidation",
                         "data" to event.eventMap
@@ -800,7 +771,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onBeforeSubmit(event: GigyaPluginEvent) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onBeforeSubmit",
                         "data" to event.eventMap
@@ -809,7 +780,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onSubmit(event: GigyaPluginEvent) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onSubmit",
                         "data" to event.eventMap
@@ -818,7 +789,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onAfterSubmit(event: GigyaPluginEvent) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onAfterSubmit",
                         "data" to event.eventMap
@@ -827,7 +798,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onFieldChanged(event: GigyaPluginEvent) {
-                screenSetsEventsSink?.success(
+                handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onFieldChanged",
                         "data" to event.eventMap
