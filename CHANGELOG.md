@@ -15,6 +15,7 @@ Android:
 * Bump Android compile SDK version to 33
 * Specify Java version in compile options
 * Remove unused getPlatformVersion() method call
+* Fix deprecation for `PackageManager.getPackageInfo()` on API 33 and higher.
 
 iOS:
 * Raise the minimum iOS version to 13.0

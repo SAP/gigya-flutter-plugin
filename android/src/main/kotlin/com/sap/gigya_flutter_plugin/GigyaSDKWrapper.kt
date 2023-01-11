@@ -3,6 +3,7 @@ package com.sap.gigya_flutter_plugin
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
+import android.os.Build
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import com.gigya.android.sdk.*
@@ -46,14 +47,22 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         sdkAuth = GigyaAuth.getInstance()
 
         try {
-            val pInfo: PackageInfo =
-                application.packageManager.getPackageInfo(application.packageName, 0)
+            val pInfo: PackageInfo = getPackageInfo(application.packageManager, application.packageName)
             val version: String = pInfo.versionName
             val ref: IApiRequestFactory = Gigya.getContainer().get(IApiRequestFactory::class.java)
             ref.setSDK("flutter_${version}_android_${(Gigya.VERSION).toLowerCase(Locale.ENGLISH)}")
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
+    }
+
+    @SuppressWarnings("deprecation")
+    private fun getPackageInfo(packageManager: PackageManager, packageName: String): PackageInfo {
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.TIRAMISU){
+            return packageManager.getPackageInfo(packageName, 0)
+        }
+
+        return packageManager.getPackageInfo(packageName, PackageManager.PackageInfoFlags.of(0))
     }
 
     //region REQUEST INTERFACING
