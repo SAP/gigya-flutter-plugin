@@ -2,8 +2,28 @@ import Flutter
 import UIKit
 import Gigya
 
-public class SwiftGigyaFlutterPlugin<T: GigyaAccountProtocol>: NSObject, FlutterPlugin, GigyaInstanceProtocol {
+public class SwiftGigyaFlutterPlugin<T: GigyaAccountProtocol>: NSObject, FlutterPlugin, FlutterStreamHandler, GigyaInstanceProtocol, ScreenSetEventDelegate {
     var sdk: GigyaSdkWrapper<T>?
+
+    var screenSetsEventsSink: FlutterEventSink?
+
+    func addScreenSetError(error: FlutterError) {
+        screenSetsEventsSink?(error)
+    }
+
+    func addScreenSetEvent(event: [String, Any?]) {
+        screenSetsEventsSink?(event)
+    }
+
+    func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        screenSetsEventsSink = events
+        return nil
+    }
+
+    func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        screenSetsEventsSink = nil
+        return nil
+    }
 
     // TODO: let register(with registrar: FlutterPluginRegistrar) handle a default registration
     // TODO: provide a mechanism to register a custom scheme
@@ -17,8 +37,11 @@ public class SwiftGigyaFlutterPlugin<T: GigyaAccountProtocol>: NSObject, Flutter
 
     public static func registerForAccountProtocol<T: GigyaAccountProtocol>(registrar: FlutterPluginRegistrar, accountSchema: T.Type) {
         let channel = FlutterMethodChannel(name: "com.sap.gigya_flutter_plugin/methods", binaryMessenger: registrar.messenger())
+        let screenSetEventsChannel = FlutterEventChannel(name: "com.sap.gigya_flutter_plugin/screenSetEvents", binaryMessenger: registrar.messenger())
         let instance = SwiftGigyaFlutterPlugin(accountSchema: accountSchema)
+
         registrar.addMethodCallDelegate(instance, channel: channel)
+        screenSetEventsChannel.setStreamHandler(instance)
     }
 
     init(accountSchema: T.Type) {
@@ -68,7 +91,7 @@ public class SwiftGigyaFlutterPlugin<T: GigyaAccountProtocol>: NSObject, Flutter
         case .socialLogin:
             sdk?.socialLogin(arguments: args, result: result)
         case .showScreenSet:
-            sdk?.showScreenSet(arguments: args, result: result)
+            sdk?.showScreenSet(arguments: args, result: result, handler: self)
         case .addConnection:
             sdk?.addConnection(arguments: args, result: result)
         case .removeConnection:
