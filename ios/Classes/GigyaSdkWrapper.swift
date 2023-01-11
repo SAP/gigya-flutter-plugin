@@ -423,6 +423,9 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         }
         
         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+
+        // TODO: replace the binary messenger usage with a delegate
+        // TODO: the sink will always have an event with a type
         
         // Create streamer
         var screenSetsEventHandler: ScreenSetsStreamHandler? = ScreenSetsStreamHandler()
