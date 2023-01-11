@@ -25,7 +25,9 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
 
   /// The event channel that provides the stream of screen set events.
   @visibleForTesting
-  final EventChannel screenSetEvents = const EventChannel('screensetEvents');
+  final EventChannel screenSetEvents = const EventChannel(
+    'com.sap.gigya_flutter_plugin/screenSetEvents',
+  );
 
   @override
   InterruptionResolverFactory get interruptionResolverFactory {
