@@ -17,7 +17,7 @@ import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
 
 /** GigyaFlutterPlugin */
-class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, ScreenSetEventDelegate {
 
     companion object {
         private lateinit var sdk: GigyaSDKWrapper<*>
@@ -68,7 +68,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             "socialLogin" -> sdk.socialLogin(call.arguments, result)
             "addConnection" -> sdk.addConnection(call.arguments, result)
             "removeConnection" -> sdk.removeConnection(call.arguments, result)
-            "showScreenSet" -> sdk.showScreenSet(call.arguments, result, _messenger)
+            "showScreenSet" -> sdk.showScreenSet(call.arguments, result, this)
             "getConflictingAccounts" -> sdk.resolveGetConflictingAccounts(result)
             "linkToSite" -> sdk.resolveLinkToSite(call.arguments, result)
             "linkToSocial" -> sdk.resolveLinkToSocial(call.arguments, result)
@@ -117,5 +117,13 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
 
     override fun onDetachedFromActivity() {
         fidoResultHandler = null
+    }
+
+    override fun addScreenSetError(errorCode: String, errorMessage: String, errorDetails: Any?) {
+        screenSetsEventsSink?.error(errorCode, errorMessage, errorDetails)
+    }
+
+    override fun addScreenSetEvent(event: Map<String, Any?>) {
+        screenSetsEventsSink?.success(event)
     }
 }
