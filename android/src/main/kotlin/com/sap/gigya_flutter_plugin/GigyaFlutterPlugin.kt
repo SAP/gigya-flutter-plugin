@@ -11,7 +11,7 @@ import com.gigya.android.sdk.account.models.GigyaAccount
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
-import io.flutter.plugin.common.BinaryMessenger
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
@@ -28,26 +28,31 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         }
     }
 
-    /// The MethodChannel that will the communication between Flutter and native Android
-    ///
-    /// This local reference serves to register the plugin with the Flutter Engine and unregister it
-    /// when the Flutter Engine is detached from the Activity
     private lateinit var channel: MethodChannel
+    private lateinit var screenSetsEventChannel: EventChannel
+    private var screenSetsEventsSink: EventChannel.EventSink? = null
 
     private var fidoResultHandler: ActivityResultLauncher<IntentSenderRequest>? = null
 
-    private var _messenger: BinaryMessenger? = null
-
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
         init<GigyaAccount>(flutterPluginBinding.applicationContext as Application, GigyaAccount::class.java)
-        _messenger = flutterPluginBinding.binaryMessenger
         channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.sap.gigya_flutter_plugin/methods")
         channel.setMethodCallHandler(this)
+        screenSetsEventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "com.sap.gigya_flutter_plugin/screenSetEvents")
+        screenSetsEventChannel.setStreamHandler(object : EventChannel.StreamHandler {
+            override fun onListen(event: Any?, eventSink: EventChannel.EventSink?) {
+                screenSetsEventsSink = sink
+            }
+
+            override fun onCancel(event: Any?) {
+                screenSetsEventsSink = null
+            }
+        })
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
-        _messenger = null
+        screenSetsEventChannel.setStreamHandler(null)
     }
 
     /// Main channel call handler. Will initiate native wrapper.
