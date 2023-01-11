@@ -279,7 +279,7 @@ GigyaSdk.instance.login(loginId, password).then((result) {
       // Successfully logged in
     }).catchError((error) {
       // Interruption may have occurred.
-      if (error.getInterruption() == Interruption.conflictingAccounts) {
+      if(Interruption.fromErrorCode(error) == Interruption.conflictingAccounts) {
         // Reference the correct resolver
         LinkAccountResolver resolver = GigyaSdk.instance.resolverFactory.getResolver(error);
       } else {
