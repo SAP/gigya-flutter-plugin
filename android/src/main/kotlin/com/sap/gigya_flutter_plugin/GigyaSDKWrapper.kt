@@ -807,7 +807,6 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
         })
 
-        // Return void result. Streaming channel will handled plugin events.
         channelResult.success(null)
     }
 
