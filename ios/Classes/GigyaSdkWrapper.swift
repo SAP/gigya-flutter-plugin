@@ -415,7 +415,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      Show screensets call.
      */
     
-    func showScreenSet(arguments: [String: Any], result: @escaping FlutterResult) {
+    func showScreenSet(arguments: [String: Any], result: @escaping FlutterResult, handler: ScreenSetEventDelegate) {
         guard
             let viewController = getDisplayedViewController(),
             let screenSet = arguments["screenSet"] as? String else {
@@ -423,18 +423,6 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         }
         
         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
-
-        // TODO: replace the binary messenger usage with a delegate
-        // TODO: the sink will always have an event with a type
-        
-        // Create streamer
-        var screenSetsEventHandler: ScreenSetsStreamHandler? = ScreenSetsStreamHandler()
-        let eventChannel = FlutterEventChannel(name: "screensetEvents", binaryMessenger: SwiftGigyaFlutterPlugin.registrar!.messenger())
-        
-        eventChannel.setStreamHandler(screenSetsEventHandler)
-        
-        // Release the await request
-        result(nil)
         
         //TODO missing onAfterValidation in SDK.
         sdk?.showScreenSet(
@@ -443,41 +431,39 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             params: parameters) { [weak self] event in
                 switch event {
                 case .error(let event):
-                    screenSetsEventHandler?.sink?(["event":"onError", "data" : event])
+                    handler.addScreenSetEvent(["event":"onError", "data" : event])
                 case .onHide(let event):
-                    screenSetsEventHandler?.sink?(["event":"onHide", "data" : event])
-                    screenSetsEventHandler?.destroy()
-                    screenSetsEventHandler = nil
+                    handler.addScreenSetEvent(["event":"onHide", "data" : event])
                 case .onLogin(account: let account):
-                    screenSetsEventHandler?.sink?(["event":"onLogin", "data" : self?.mapObject(account) ?? [:]])
+                    handler.addScreenSetEvent(["event":"onLogin", "data" : self?.mapObject(account) ?? [:]])
                 case .onLogout:
-                    screenSetsEventHandler?.sink?(["event":"onLogout"])
+                    handler.addScreenSetEvent(["event":"onLogout"])
                 case .onConnectionAdded:
-                    screenSetsEventHandler?.sink?(["event":"onConnectionAdded"])
+                    handler.addScreenSetEvent(["event":"onConnectionAdded"])
                 case .onConnectionRemoved:
-                    screenSetsEventHandler?.sink?(["event":"onConnectionRemoved"])
+                    handler.addScreenSetEvent(["event":"onConnectionRemoved"])
                 case .onBeforeScreenLoad(let event):
-                    screenSetsEventHandler?.sink?(["event":"onBeforeScreenLoad", "data" : event])
+                    handler.addScreenSetEvent(["event":"onBeforeScreenLoad", "data" : event])
                 case .onAfterScreenLoad(let event):
-                    screenSetsEventHandler?.sink?(["event":"onAfterScreenLoad", "data" : event])
+                    handler.addScreenSetEvent(["event":"onAfterScreenLoad", "data" : event])
                 case .onBeforeValidation(let event):
-                    screenSetsEventHandler?.sink?(["event":"onBeforeValidation", "data" : event])
+                    handler.addScreenSetEvent(["event":"onBeforeValidation", "data" : event])
                 case .onAfterValidation(let event):
-                    screenSetsEventHandler?.sink?(["event":"onAfterValidation", "data" : event])
+                    handler.addScreenSetEvent(["event":"onAfterValidation", "data" : event])
                 case .onBeforeSubmit(let event):
-                    screenSetsEventHandler?.sink?(["event":"onBeforeSubmit", "data" : event])
+                    handler.addScreenSetEvent(["event":"onBeforeSubmit", "data" : event])
                 case .onSubmit(let event):
-                    screenSetsEventHandler?.sink?(["event":"onSubmit", "data" : event])
+                    handler.addScreenSetEvent(["event":"onSubmit", "data" : event])
                 case .onAfterSubmit(let event):
-                    screenSetsEventHandler?.sink?(["event":"onAfterSubmit", "data" : event])
+                    handler.addScreenSetEvent(["event":"onAfterSubmit", "data" : event])
                 case .onFieldChanged(let event):
-                    screenSetsEventHandler?.sink?(["event":"onFieldChanged", "data" : event])
+                    handler.addScreenSetEvent(["event":"onFieldChanged", "data" : event])
                 case .onCanceled:
-                    screenSetsEventHandler?.sink?(["event":"onCanceled", "data" : [:]])
-                    screenSetsEventHandler?.destroy()
-                    screenSetsEventHandler = nil
+                    handler.addScreenSetError(FlutterError(code: "200001", message: "Operation canceled", details: nil))
                 }
             }
+
+        result(nil)
     }
     
     
