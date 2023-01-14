@@ -431,35 +431,35 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             params: parameters) { [weak self] event in
                 switch event {
                 case .error(let event):
-                    handler.addScreenSetEvent(["event":"onError", "data" : event])
+                    handler.addScreenSetEvent(event: ["event":"onError", "data" : event])
                 case .onHide(let event):
-                    handler.addScreenSetEvent(["event":"onHide", "data" : event])
+                    handler.addScreenSetEvent(event: ["event":"onHide", "data" : event])
                 case .onLogin(account: let account):
-                    handler.addScreenSetEvent(["event":"onLogin", "data" : self?.mapObject(account) ?? [:]])
+                    handler.addScreenSetEvent(event: ["event":"onLogin", "data" : self?.mapObject(account) ?? [:]])
                 case .onLogout:
-                    handler.addScreenSetEvent(["event":"onLogout"])
+                    handler.addScreenSetEvent(event: ["event":"onLogout"])
                 case .onConnectionAdded:
-                    handler.addScreenSetEvent(["event":"onConnectionAdded"])
+                    handler.addScreenSetEvent(event: ["event":"onConnectionAdded"])
                 case .onConnectionRemoved:
-                    handler.addScreenSetEvent(["event":"onConnectionRemoved"])
+                    handler.addScreenSetEvent(event: ["event":"onConnectionRemoved"])
                 case .onBeforeScreenLoad(let event):
-                    handler.addScreenSetEvent(["event":"onBeforeScreenLoad", "data" : event])
+                    handler.addScreenSetEvent(event: ["event":"onBeforeScreenLoad", "data" : event])
                 case .onAfterScreenLoad(let event):
-                    handler.addScreenSetEvent(["event":"onAfterScreenLoad", "data" : event])
+                    handler.addScreenSetEvent(event: ["event":"onAfterScreenLoad", "data" : event])
                 case .onBeforeValidation(let event):
-                    handler.addScreenSetEvent(["event":"onBeforeValidation", "data" : event])
+                    handler.addScreenSetEvent(event: ["event":"onBeforeValidation", "data" : event])
                 case .onAfterValidation(let event):
-                    handler.addScreenSetEvent(["event":"onAfterValidation", "data" : event])
+                    handler.addScreenSetEvent(event: ["event":"onAfterValidation", "data" : event])
                 case .onBeforeSubmit(let event):
-                    handler.addScreenSetEvent(["event":"onBeforeSubmit", "data" : event])
+                    handler.addScreenSetEvent(event: ["event":"onBeforeSubmit", "data" : event])
                 case .onSubmit(let event):
-                    handler.addScreenSetEvent(["event":"onSubmit", "data" : event])
+                    handler.addScreenSetEvent(event: ["event":"onSubmit", "data" : event])
                 case .onAfterSubmit(let event):
-                    handler.addScreenSetEvent(["event":"onAfterSubmit", "data" : event])
+                    handler.addScreenSetEvent(event: ["event":"onAfterSubmit", "data" : event])
                 case .onFieldChanged(let event):
-                    handler.addScreenSetEvent(["event":"onFieldChanged", "data" : event])
+                    handler.addScreenSetEvent(event: ["event":"onFieldChanged", "data" : event])
                 case .onCanceled:
-                    handler.addScreenSetError(FlutterError(code: "200001", message: "Operation canceled", details: nil))
+                    handler.addScreenSetError(error: FlutterError(code: "200001", message: "Operation canceled", details: nil))
                 }
             }
 

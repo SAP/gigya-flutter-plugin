@@ -19,16 +19,16 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         screenSetsEventsSink?(error)
     }
 
-    func addScreenSetEvent(event: [String, Any?]) {
+    func addScreenSetEvent(event: [String: Any?]) {
         screenSetsEventsSink?(event)
     }
 
-    func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+    public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
         screenSetsEventsSink = events
         return nil
     }
 
-    func onCancel(withArguments arguments: Any?) -> FlutterError? {
+    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
         screenSetsEventsSink = nil
         return nil
     }
