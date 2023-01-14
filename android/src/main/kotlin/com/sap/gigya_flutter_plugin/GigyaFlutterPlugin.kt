@@ -41,7 +41,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Scre
         screenSetsEventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "com.sap.gigya_flutter_plugin/screenSetEvents")
         screenSetsEventChannel.setStreamHandler(object : EventChannel.StreamHandler {
             override fun onListen(event: Any?, eventSink: EventChannel.EventSink?) {
-                screenSetsEventsSink = sink
+                screenSetsEventsSink = eventSink
             }
 
             override fun onCancel(event: Any?) {
