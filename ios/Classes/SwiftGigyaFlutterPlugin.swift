@@ -18,7 +18,7 @@ public class SwiftGigyaFlutterPlugin: NSObject, FlutterPlugin {
     /// This schema is passed to the Gigya SDK during setup.
     ///
     /// See also: https://github.com/SAP/gigya-swift-sdk/blob/main/GigyaSwift/Models/User/GigyaAccount.swift
-    public static func registerForProtocol<T: GigyaAccountProtocol>(accountSchema: T.Type, registrar: FlutterPluginRegistrar) {
+    public static func register<T: GigyaAccountProtocol>(accountSchema: T.Type, registrar: FlutterPluginRegistrar) {
         let instance = SwiftGigyaFlutterPluginTyped(accountSchema: accountSchema)
         instance.register(with: registrar)
     }

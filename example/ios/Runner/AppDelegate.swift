@@ -10,8 +10,7 @@ import Gigya
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
-    // TODO: can we let `GeneratedPluginRegistrant.register(with: self)` use the default GigyaAccount protocol implementation?
-    SwiftGigyaFlutterPlugin.register(accountSchema: UserHost.self)
+    SwiftGigyaFlutterPlugin.register(accountSchema: UserHost.self, registrar: self)
 
     // Register social providers here, i.e. 
     // Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
