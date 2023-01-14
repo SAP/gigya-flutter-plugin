@@ -2,158 +2,37 @@ import Flutter
 import UIKit
 import Gigya
 
-public class SwiftGigyaFlutterPlugin<T: GigyaAccountProtocol>: NSObject, FlutterPlugin, FlutterStreamHandler, GigyaInstanceProtocol, ScreenSetEventDelegate {
-    var sdk: GigyaSdkWrapper<T>?
-
-    var screenSetsEventsSink: FlutterEventSink?
-
-    func addScreenSetError(error: FlutterError) {
-        screenSetsEventsSink?(error)
-    }
-
-    func addScreenSetEvent(event: [String, Any?]) {
-        screenSetsEventsSink?(event)
-    }
-
-    func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
-        screenSetsEventsSink = events
-        return nil
-    }
-
-    func onCancel(withArguments arguments: Any?) -> FlutterError? {
-        screenSetsEventsSink = nil
-        return nil
-    }
-
-    // TODO: let register(with registrar: FlutterPluginRegistrar) handle a default registration
-    // TODO: provide a mechanism to register a custom scheme
-
+public class SwiftGigyaFlutterPlugin: NSObject, FlutterPlugin {
+    /// A reference to the plugin registry
+    /// that is used to register a ``SwiftGigyaFlutterPluginTyped`` instance
+    /// with a specific ``GigyaAccountProtocol``.
+    ///
+    /// This reference is discarded after registration is complete.
+    static var registrar: FlutterPluginRegistrar?
+    
+    /// The ``FlutterPlugin.register()`` implementation of this plugin
+    /// only saves a reference to the plugin registry.
+    ///
+    /// To actually register an instance of the plugin,
+    /// call the ``registerForProtocol()`` method in your AppDelegate implementation.
     public static func register(with registrar: FlutterPluginRegistrar) {
-        // This method is a stub and does not actually register the plugin,
-        // as it needs a `GigyaAccountProtocol` type to be registered with.
-        // Instead, manually register the plugin using `registerForAccountProtocol`
-        // with your implementation of `GigyaAccountProtocol`. 
+        self.registrar = registrar
     }
+    
+    /// Register this plugin with Flutter's plugin registry.
+    ///
+    /// An ``accountSchema``, like the ``GigyaAccount`` implementation provided by the Gigya SDK,
+    /// is required for this registration.
+    ///
+    /// This schema is passed to the Gigya SDK during setup.
+    ///
+    /// See also: https://github.com/SAP/gigya-swift-sdk/blob/main/GigyaSwift/Models/User/GigyaAccount.swift
+    public static func registerForProtocol<T: GigyaAccountProtocol>(accountSchema: T.Type) {
+        guard let registrar = self.registrar else { return }
 
-    public static func registerForAccountProtocol<T: GigyaAccountProtocol>(registrar: FlutterPluginRegistrar, accountSchema: T.Type) {
-        let channel = FlutterMethodChannel(name: "com.sap.gigya_flutter_plugin/methods", binaryMessenger: registrar.messenger())
-        let screenSetEventsChannel = FlutterEventChannel(name: "com.sap.gigya_flutter_plugin/screenSetEvents", binaryMessenger: registrar.messenger())
-        let instance = SwiftGigyaFlutterPlugin(accountSchema: accountSchema)
+        self.registrar = nil // Discard the plugin registry reference.
 
-        registrar.addMethodCallDelegate(instance, channel: channel)
-        screenSetEventsChannel.setStreamHandler(instance)
-    }
-
-    init(accountSchema: T.Type) {
-        sdk = GigyaSdkWrapper(accountSchema: accountSchema)
-    }
-
-    public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        let method = GigyaMethods(rawValue: call.method)
-
-        // Methods without arguments.
-        switch method {
-        case .isLoggedIn:
-            sdk?.isLoggedIn(result: result)
-            return
-        case .logOut:
-            sdk?.logOut(result: result)
-            return
-        case .getConflictingAccounts:
-            sdk?.resolveGetConflictingAccounts(result: result)
-            return
-        case .getSession:
-            sdk?.getSession(result: result)
-            return
-        default:
-            break
-        }
-
-        // Methods with arguments.
-        guard let args = call.arguments as? [String: Any] else {
-            result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-            return
-        }
-
-        switch method {
-        case .sendRequest:
-            sdk?.sendRequest(arguments: args, result: result)
-        case .loginWithCredentials:
-            sdk?.loginWithCredentials(arguments: args, result: result)
-        case .registerWithCredentials:
-            sdk?.registerWithCredentials(arguments: args, result: result)
-        case .getAccount:
-            sdk?.getAccount(arguments: args, result: result)
-        case .setAccount:
-            sdk?.setAccount(arguments: args, result: result)
-        case .setSession:
-            sdk?.setSession(arguments: args, result: result)
-        case .socialLogin:
-            sdk?.socialLogin(arguments: args, result: result)
-        case .showScreenSet:
-            sdk?.showScreenSet(arguments: args, result: result, handler: self)
-        case .addConnection:
-            sdk?.addConnection(arguments: args, result: result)
-        case .removeConnection:
-            sdk?.removeConnection(arguments: args, result: result)
-        case .linkToSite:
-            sdk?.resolveLinkToSite(arguments: args, result: result)
-        case .linkToSocial:
-            sdk?.resolveLinkToSocial(arguments: args, result: result)
-        case .resolveSetAccount:
-            sdk?.resolveSetAccount(arguments: args, result: result)
-        case .forgotPassword:
-            sdk?.forgotPassword(arguments: args, result: result)
-        case .initSdk:
-            sdk?.initSdk(arguments: args, result: result)
-        case .sso:
-            sdk?.sso(arguments: args, result: result)
-        case .webAuthnLogin:
-            sdk?.webAuthnLogin(result: result)
-        case .webAuthnRegister:
-            sdk?.webAuthnRegister(result: result)
-        case .webAuthnRevoke:
-            sdk?.webAuthnRevoke(result: result)
-        case .otpLogin:
-            sdk?.otpLogin(arguments: args, result: result)
-        case .otpUpdate:
-            sdk?.otpUpdate(arguments: args, result: result)
-        case .otpVerify:
-            sdk?.verifyOtp(arguments: args, result: result)
-        default:
-            result(nil)
-        }
-    }
-
-    enum GigyaMethods: String {
-        case initSdk
-        case sendRequest
-        case loginWithCredentials
-        case registerWithCredentials
-        case isLoggedIn
-        case getAccount
-        case setAccount
-        case getSession
-        case setSession
-        case logOut
-        case socialLogin
-        case showScreenSet
-        case addConnection
-        case removeConnection
-        case sso
-        // interruption cases
-        case getConflictingAccounts
-        case linkToSite
-        case linkToSocial
-        case resolveSetAccount
-        case forgotPassword
-        // webauthn
-        case webAuthnLogin
-        case webAuthnRegister
-        case webAuthnRevoke
-        // otp
-        case otpLogin
-        case otpUpdate
-        case otpVerify
+        let instance = SwiftGigyaFlutterPluginTyped(accountSchema: accountSchema)
+        instance.register(with: registrar)
     }
 }
