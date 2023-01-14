@@ -10,7 +10,7 @@ import Gigya
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
     GeneratedPluginRegistrant.register(with: self)
-    SwiftGigyaFlutterPlugin.register(accountSchema: GigyaAccount.self, registrar: self)
+    SwiftGigyaFlutterPlugin.register(accountSchema: GigyaAccount.self)
 
     // Register social providers here, i.e. 
     // Gigya.sharedInstance(GigyaAccount.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
