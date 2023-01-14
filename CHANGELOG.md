@@ -48,7 +48,10 @@ iOS:
 * The `PendingOtpVerification` now uses a `String` for the code field in the `verify()` method. The unused response field has been removed as well.
 * The platform interface has been cleaned up, and it now uses `required` parameters where possible.
 * The `WebAuthnService` has been renamed to `WebAuthenticationService` and now uses an interface to abstract away the method channel.
-* The `InterruptionResolver` and `OtpService` now use an interface to abstract away the method channel. 
+* The `InterruptionResolver` and `OtpService` now use an interface to abstract away the method channel.
+* **iOS** The `SwiftGigyaFlutterPlugin.register()` method now requires a reference the the `FlutterPluginRegistrar` as a second argument.
+
+  See the example app for an updated example.
 
 # 0.2.1
 
