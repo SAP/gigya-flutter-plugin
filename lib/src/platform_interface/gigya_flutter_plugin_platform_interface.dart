@@ -31,13 +31,23 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }
 
   /// Get the interruption resolver factory provided by the Gigya SDK.
-  InterruptionResolverFactory get interruptionResolverFactory;
+  InterruptionResolverFactory get interruptionResolverFactory {
+    throw UnimplementedError(
+      'get interruptionResolverFactory is not implemented.',
+    );
+  }
 
   /// Get the One-Time-Password service provided by the Gigya SDK.
-  OtpService get otpService;
+  OtpService get otpService {
+    throw UnimplementedError('get otpService is not implemented.');
+  }
 
   /// Get the web authentication service provided by the Gigya SDK.
-  WebAuthenticationService get webAuthenticationService;
+  WebAuthenticationService get webAuthenticationService {
+    throw UnimplementedError(
+      'get webAuthenticationService is not implemented.',
+    );
+  }
 
   /// Add a social connection to an existing account.
   Future<Map<String, dynamic>> addConnection(SocialProvider provider) {
@@ -76,7 +86,7 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     required String apiKey,
     bool forceLogout = true,
   }) {
-    throw UnimplementedError('isLoggedIn() is not implemented.');
+    throw UnimplementedError('initSdk() is not implemented.');
   }
 
   /// Check whether the user is logged in.
