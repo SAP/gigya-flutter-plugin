@@ -20,6 +20,7 @@ Android:
 
 iOS:
 * Raise the minimum iOS version to 13.0
+* Rename the `GigyaMethods` enum to `GigyaSdkMethods` and move it to a different file
 
 **Breaking Changes**
 
