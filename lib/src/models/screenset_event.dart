@@ -10,5 +10,5 @@ class ScreensetEvent {
   final String type;
 
   /// Whether the screen set was canceled or closed.
-  bool get isCanceled => type == 'onCanceled' || type == 'onHide';
+  bool get isCanceled => type == 'onCancel' || type == 'onHide';
 }
