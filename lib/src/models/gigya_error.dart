@@ -57,6 +57,16 @@ class GigyaError implements Exception {
 
   /// The reason for the given [statusCode].
   final String? statusReason;
+
+  @override
+  String toString() {
+    return 'GigyaError('
+        'errorCode: $errorCode, '
+        'errorDetails: $errorDetails, '
+        'statusCode: $statusCode, '
+        'statusReason: $statusReason'
+        ')';
+  }
 }
 
 /// This class defines a timeout error for Gigya SDK API responses.
@@ -72,4 +82,13 @@ class GigyaTimeoutError implements Exception {
 
   /// The HTTP status code of the API request that timed out.
   final int statusCode = 500;
+
+  @override
+  String toString() {
+    return 'GigyaTimeoutError('
+        'errorCode: $errorCode, '
+        'message: $message, '
+        'statusCode: $statusCode'
+        ')';
+  }
 }
