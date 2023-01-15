@@ -51,7 +51,7 @@ abstract class PendingRegistrationResolver extends InterruptionResolver {
   }
 }
 
-/// The resolver for a pending verification interuption.
+/// The resolver for a pending verification interruption.
 class PendingVerificationResolver extends InterruptionResolver {
   /// The default constructor.
   const PendingVerificationResolver(this.registrationToken);

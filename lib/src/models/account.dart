@@ -28,7 +28,7 @@ class Account {
     this.verifiedTimestamp,
   });
 
-  /// COnstruct an account from the given [json].
+  /// Construct an account from the given [json].
   factory Account.fromJson(Map<String, dynamic> json) {
     final Map<String, dynamic>? emails =
         json['emails'] as Map<String, dynamic>?;

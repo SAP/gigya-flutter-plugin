@@ -66,7 +66,7 @@ class OidcData {
   /// The zone info of the user.
   final String? zoneInfo;
 
-  /// COnvert this object into a JSON object.
+  /// Convert this object into a JSON object.
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       if (address != null) 'address': address!.toJson(),
