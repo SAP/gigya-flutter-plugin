@@ -1,14 +1,32 @@
+import 'enums/screen_set_event_type.dart';
+
 /// This class represents a screenset event.
 class ScreensetEvent {
   /// The default constructor.
-  const ScreensetEvent(this.type, this.data);
+  factory ScreensetEvent(String type, Map<String, Object?> data) {
+    final ScreenSetEventType? resolvedType = _typesMap[type];
 
-  /// The data contained in the event.
-  final Object? data;
+    if (resolvedType == null) {
+      throw ArgumentError.value(
+        type,
+        'type',
+        'The name $type does not match a ScreenSetEventType',
+      );
+    }
+
+    return ScreensetEvent._(resolvedType, data);
+  }
+
+  /// The private constructor.
+  const ScreensetEvent._(this.type, this.data);
+
+  /// The internal map of [ScreenSetEventType]s mapped to their names.
+  static final Map<String, ScreenSetEventType> _typesMap =
+      ScreenSetEventType.values.asNameMap();
+
+  /// The data of the event.
+  final Map<String, Object?> data;
 
   /// The type of the event.
-  final String type;
-
-  /// Whether the screen set was canceled or closed.
-  bool get isCanceled => type == 'onCancel' || type == 'onHide';
+  final ScreenSetEventType type;
 }

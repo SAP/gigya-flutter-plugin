@@ -11,6 +11,7 @@ export 'src/models/certification.dart';
 export 'src/models/conflicting_accounts.dart';
 export 'src/models/education.dart';
 export 'src/models/emails.dart';
+export 'src/models/enums/screen_set_event_type.dart';
 export 'src/models/enums/social_provider.dart';
 export 'src/models/favorite.dart';
 export 'src/models/gigya_error.dart';
