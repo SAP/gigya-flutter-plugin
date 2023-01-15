@@ -15,10 +15,6 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
     /// The event sink for the ScreenSet events.
     var screenSetsEventsSink: FlutterEventSink?
 
-    func addScreenSetError(error: FlutterError) {
-        screenSetsEventsSink?(error)
-    }
-
     func addScreenSetEvent(event: [String: Any?]) {
         screenSetsEventsSink?(event)
     }

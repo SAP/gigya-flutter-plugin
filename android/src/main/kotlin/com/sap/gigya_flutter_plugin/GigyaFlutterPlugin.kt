@@ -119,10 +119,6 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Scre
         fidoResultHandler = null
     }
 
-    override fun addScreenSetError(errorCode: String, errorMessage: String, errorDetails: Any?) {
-        screenSetsEventsSink?.error(errorCode, errorMessage, errorDetails)
-    }
-
     override fun addScreenSetEvent(event: Map<String, Any?>) {
         screenSetsEventsSink?.success(event)
     }

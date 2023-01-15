@@ -459,7 +459,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 case .onFieldChanged(let event):
                     handler.addScreenSetEvent(event: ["event":"onFieldChanged", "data" : event])
                 case .onCanceled:
-                    handler.addScreenSetError(error: FlutterError(code: "200001", message: "Operation canceled", details: nil))
+                    handler.addScreenSetEvent(event: ["event": "onCancel", "data": ["errorCode" : "200001", "errorMessage":"Operation canceled"]])
                 }
             }
 

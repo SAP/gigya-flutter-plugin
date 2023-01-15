@@ -700,7 +700,15 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onCanceled() {
-                handler.addScreenSetError("200001", "Operation canceled", null)
+                handler.addScreenSetEvent(
+                    mapOf(
+                        "event" to "onCancel",
+                        "data" to mapOf(
+                            "errorCode" to "200001",
+                            "errorMessage" to "Operation canceled",
+                        )
+                    )
+                )
             }
 
             override fun onHide(event: GigyaPluginEvent, reason: String?) {
