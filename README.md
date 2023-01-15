@@ -216,4 +216,4 @@ To get started, view the [contribution guide](https://github.com/SAP/gigya-flutt
 - Web support has not yet been implemented
 
 ## Licensing
-Please see our [LICENSE](https://github.com/SAP/gigya-flutter-plugin/blob/main/LICENSE) for copyright and license information.
+Please see our [LICENSE](https://github.com/SAP/gigya-flutter-plugin/blob/main/LICENSES/Apache-2.0.txt) for copyright and license information.
