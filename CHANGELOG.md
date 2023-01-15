@@ -17,6 +17,7 @@ Android:
 * Specify Java version in compile options
 * Remove unused getPlatformVersion() method call
 * Fix deprecation for `PackageManager.getPackageInfo()` on API 33 and higher.
+* The `onHide` screen set event now includes the `reason` in its event data, rather than in an extra field.
 
 iOS:
 * Raise the minimum iOS version to 13.0
