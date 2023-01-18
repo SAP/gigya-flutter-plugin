@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
+
 import 'routes/home_page.dart';
+import 'routes/send_request_page.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +40,7 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
         '/': (_) => HomePage(sdk: widget.sdk),
+        '/send_request': (_) => SendRequestPage(sdk: widget.sdk),
       },
     );
   }
