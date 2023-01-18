@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
+import 'routes/home_page.dart';
 
 void main() async {
-  final GigyaSdk sdk = const GigyaSdk();
+  WidgetsFlutterBinding.ensureInitialized();
+
+  const GigyaSdk sdk = GigyaSdk();
 
   try {
     await sdk.initSdk(
@@ -34,27 +37,8 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       initialRoute: '/',
       routes: <String, WidgetBuilder>{
-        '/': (_) => Scaffold(
-              body: Center(
-                child: Text('test'),
-              ),
-            ),
+        '/': (_) => HomePage(sdk: widget.sdk),
       },
     );
-
-    /*
-    return MaterialApp(
-      
-      routes: <String, WidgetBuilder>{
-        '/': (_) => HomePageWidget(widget.sdk),
-        '/send_request': (_) => SendRequestPageWidget(widget.sdk),
-        '/login_credentials': (_) => LoginWidthCredentialsWidget(widget.sdk),
-        '/register_email': (_) => RegisterWithEmailWidget(widget.sdk),
-        '/account_information': (_) => AccountInformationWidget(widget.sdk),
-        '/manage_connections': (_) => ManageConnectionWidget(widget.sdk),
-        '/forgot_password': (_) => ForgotPasswordPageWidget(widget.sdk),
-        '/otp_phone_login': (_) => OTPLoginWidget(widget.sdk),
-      },
-    );*/
   }
 }
