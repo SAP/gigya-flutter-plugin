@@ -22,19 +22,19 @@ void main() async {
     print(error);
   }
 
-  runApp(MyApp(sdk));
+  runApp(const MyApp(sdk));
 }
 
 /// The example app.
 class MyApp extends StatefulWidget {
   /// The default constructor.
-  const MyApp(this.sdk);
+  const MyApp(this.sdk, {super.key});
 
   /// The initialized Gigya SDK.
   final GigyaSdk sdk;
 
   @override
-  _MyAppState createState() => _MyAppState();
+  State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {

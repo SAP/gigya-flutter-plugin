@@ -51,7 +51,7 @@ class _HomePageState extends State<HomePage> {
               setState(() {});
             }
           },
-          child: Text('Account information'),
+          child: const Text('Account information'),
         ),
       ),
       Padding(
@@ -66,7 +66,7 @@ class _HomePageState extends State<HomePage> {
               print('Logout error: $error');
             }
           },
-          child: Text('Log out'),
+          child: const Text('Log out'),
         ),
       ),
       ElevatedButton(
@@ -77,7 +77,7 @@ class _HomePageState extends State<HomePage> {
             setState(() {});
           }
         },
-        child: Text('Manage connections'),
+        child: const Text('Manage connections'),
       ),
     ];
   }
@@ -88,7 +88,7 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.only(bottom: 8),
         child: ElevatedButton(
           onPressed: _showScreenSet,
-          child: Text('Show Screenset (Default-RegistrationLogin)'),
+          child: const Text('Show Screenset (Default-RegistrationLogin)'),
         ),
       ),
       Padding(
@@ -99,7 +99,7 @@ class _HomePageState extends State<HomePage> {
 
             _refreshLogin();
           },
-          child: Text('Login with credentials'),
+          child: const Text('Login with credentials'),
         ),
       ),
       Padding(
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
 
             _refreshLogin();
           },
-          child: Text('Register with email address'),
+          child: const Text('Register with email address'),
         ),
       ),
       Padding(
@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
               print('SSO error: $error');
             }
           },
-          child: Text('SSO'),
+          child: const Text('SSO'),
         ),
       ),
       Padding(
@@ -145,7 +145,7 @@ class _HomePageState extends State<HomePage> {
               print('FIDO error: $error');
             }
           },
-          child: Text('Login with PassKey'),
+          child: const Text('Login with PassKey'),
         ),
       ),
       ElevatedButton(
@@ -154,16 +154,16 @@ class _HomePageState extends State<HomePage> {
 
           _refreshLogin();
         },
-        child: Text('One Time Password phone login'),
+        child: const Text('One Time Password phone login'),
       ),
     ];
   }
 
   void _showScreenSet() async {
-    final String screenSet = 'Default-RegistrationLogin';
+    const String screenSet = 'Default-RegistrationLogin';
 
     try {
-      screenSetSubscription = await widget.sdk.showScreenSet(screenSet).listen(
+      screenSetSubscription = widget.sdk.showScreenSet(screenSet).listen(
         (ScreensetEvent event) {
           print('event type: ${event.type}');
           print('event data: ${event.data}');
@@ -187,7 +187,7 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Home')),
+      appBar: AppBar(title: const Text('Home')),
       body: FutureBuilder<bool>(
         future: loggedInFuture,
         builder: (BuildContext context, AsyncSnapshot<bool> snapshot) {
@@ -197,10 +197,10 @@ class _HomePageState extends State<HomePage> {
             case ConnectionState.waiting:
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: const <Widget>[
                   CircularProgressIndicator(),
                   Padding(
-                    padding: const EdgeInsets.all(8),
+                    padding: EdgeInsets.all(8),
                     child: Text('Checking login status...'),
                   ),
                 ],
@@ -212,7 +212,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: <Widget>[
                     if (error != null) ...<Widget>[
-                      Flexible(
+                      const Flexible(
                         child: Text(
                           'Something went wrong while checking the login status.',
                         ),
@@ -234,7 +234,7 @@ class _HomePageState extends State<HomePage> {
 
                           _refreshLogin();
                         },
-                        child: Text('Check available login id'),
+                        child: const Text('Check available login id'),
                       ),
                     ),
                     Padding(
@@ -248,7 +248,7 @@ class _HomePageState extends State<HomePage> {
 
                           _refreshLogin();
                         },
-                        child: Text('Forgot password'),
+                        child: const Text('Forgot password'),
                       ),
                     ),
                     if (snapshot.data ?? false)

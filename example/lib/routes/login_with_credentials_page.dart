@@ -230,7 +230,7 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
                 ),
                 TextField(
                   controller: _linkPasswordController,
-                  decoration: InputDecoration(hintText: 'password'),
+                  decoration: const InputDecoration(hintText: 'password'),
                 ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 16),
@@ -320,11 +320,11 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
         child: Column(
           children: <Widget>[
             _inProgress
-                ? LinearProgressIndicator(minHeight: 4)
-                : SizedBox(height: 4),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: const Text(
+                ? const LinearProgressIndicator(minHeight: 4)
+                : const SizedBox(height: 4),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
+              child: Text(
                 'Testing simple login using credentials',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
               ),
@@ -333,7 +333,7 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 controller: _loginIdController,
-                decoration: InputDecoration(hintText: 'Enter login id'),
+                decoration: const InputDecoration(hintText: 'Enter login id'),
                 validator: (String? value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Login id is required';
@@ -347,7 +347,7 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(hintText: 'Enter password'),
+                decoration: const InputDecoration(hintText: 'Enter password'),
                 validator: (String? value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Password is required';
@@ -405,7 +405,7 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
             ),
             Text(
               _requestResult,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             )
           ],
         ),

@@ -59,18 +59,18 @@ class _SendRequestPageState extends State<SendRequestPage> {
       body: Column(
         children: <Widget>[
           _inProgress
-              ? LinearProgressIndicator(minHeight: 4)
-              : SizedBox(height: 4),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: const Text(
+              ? const LinearProgressIndicator(minHeight: 4)
+              : const SizedBox(height: 4),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text(
               'Testing endpoint: accounts.isAvailableLoginID',
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ),
           TextField(
             controller: _controller,
-            decoration: InputDecoration(hintText: 'Enter login id'),
+            decoration: const InputDecoration(hintText: 'Enter login id'),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
@@ -92,7 +92,7 @@ class _SendRequestPageState extends State<SendRequestPage> {
           ),
           Text(
             _requestResult,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           ),
         ],
       ),

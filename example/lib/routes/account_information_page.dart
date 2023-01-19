@@ -73,14 +73,14 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
       child: Column(
         children: <Widget>[
           _inProgress
-              ? LinearProgressIndicator(minHeight: 4)
-              : SizedBox(height: 4),
+              ? const LinearProgressIndicator(minHeight: 4)
+              : const SizedBox(height: 4),
           Padding(
             padding: const EdgeInsets.all(8.0),
             child: RichText(
               text: TextSpan(
                 children: <TextSpan>[
-                  TextSpan(
+                  const TextSpan(
                     text: 'Account UID: ',
                     style: TextStyle(
                       fontSize: 16.0,
@@ -97,7 +97,7 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
             child: RichText(
               text: TextSpan(
                 children: <TextSpan>[
-                  TextSpan(
+                  const TextSpan(
                     text: 'Account Email: ',
                     style: TextStyle(
                       fontSize: 16.0,
@@ -141,7 +141,7 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
           child: TextFormField(
             key: _firstNameKey,
             controller: _firstNameController,
-            decoration: InputDecoration(hintText: 'First Name'),
+            decoration: const InputDecoration(hintText: 'First Name'),
             validator: (String? value) {
               if (value == null || value.trim().isEmpty) {
                 return 'First name is required';
@@ -240,7 +240,7 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
             case ConnectionState.waiting:
               return Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
+                children: const <Widget>[
                   CircularProgressIndicator(),
                   Text('Fetching account...'),
                 ],
@@ -250,9 +250,9 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
                 return Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
-                    Icon(Icons.error, color: Colors.red),
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
+                    const Icon(Icons.error, color: Colors.red),
+                    const Padding(
+                      padding: EdgeInsets.all(8.0),
                       child: Text('Could not fetch account information'),
                     ),
                     ElevatedButton(
@@ -261,7 +261,7 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
 
                         setState(() {});
                       },
-                      child: Text('Retry'),
+                      child: const Text('Retry'),
                     ),
                   ],
                 );

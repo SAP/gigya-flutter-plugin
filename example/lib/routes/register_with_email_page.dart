@@ -57,10 +57,10 @@ class _RegisterWithEmailPageState extends State<RegisterWithEmailPage> {
         child: Column(
           children: <Widget>[
             _inProgress
-                ? LinearProgressIndicator(minHeight: 4)
-                : SizedBox(height: 4),
-            Padding(
-              padding: const EdgeInsets.all(8.0),
+                ? const LinearProgressIndicator(minHeight: 4)
+                : const SizedBox(height: 4),
+            const Padding(
+              padding: EdgeInsets.all(8.0),
               child: Text(
                 'Testing simple login using credentials',
                 style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
@@ -70,7 +70,7 @@ class _RegisterWithEmailPageState extends State<RegisterWithEmailPage> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 controller: _loginIdController,
-                decoration: InputDecoration(hintText: 'Email address'),
+                decoration: const InputDecoration(hintText: 'Email address'),
                 validator: (String? value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Email is required';
@@ -84,7 +84,7 @@ class _RegisterWithEmailPageState extends State<RegisterWithEmailPage> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 controller: _passwordController,
-                decoration: InputDecoration(hintText: 'Password'),
+                decoration: const InputDecoration(hintText: 'Password'),
                 validator: (String? value) {
                   if (value == null || value.trim().isEmpty) {
                     return 'Password is required';
@@ -109,12 +109,12 @@ class _RegisterWithEmailPageState extends State<RegisterWithEmailPage> {
                     password: _passwordController.text.trim(),
                   );
                 },
-                child: Text('Register'),
+                child: const Text('Register'),
               ),
             ),
             Text(
               _requestResult,
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+              style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
             ),
           ],
         ),

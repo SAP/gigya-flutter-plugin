@@ -78,7 +78,7 @@ class _OneTimePasswordLoginPageState extends State<OneTimePasswordLoginPage> {
               ),
               TextField(
                 controller: _verifyPasswordController,
-                decoration: InputDecoration(hintText: 'code'),
+                decoration: const InputDecoration(hintText: 'code'),
               ),
               ValueListenableBuilder<TextEditingValue>(
                 valueListenable: _verifyPasswordController,
@@ -134,13 +134,13 @@ class _OneTimePasswordLoginPageState extends State<OneTimePasswordLoginPage> {
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
-        title: Text('Login with One-Time-Password'),
+        title: const Text('Login with One-Time-Password'),
       ),
       body: Column(
         children: <Widget>[
           _inProgress
-              ? LinearProgressIndicator(minHeight: 4)
-              : SizedBox(height: 4),
+              ? const LinearProgressIndicator(minHeight: 4)
+              : const SizedBox(height: 4),
           const Text(
             'Testing One-Time-Password phone login',
             style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
@@ -149,7 +149,7 @@ class _OneTimePasswordLoginPageState extends State<OneTimePasswordLoginPage> {
             padding: const EdgeInsets.all(8.0),
             child: TextFormField(
               controller: _phoneNumberController,
-              decoration: InputDecoration(hintText: 'Phone number'),
+              decoration: const InputDecoration(hintText: 'Phone number'),
             ),
           ),
           Padding(
@@ -165,14 +165,14 @@ class _OneTimePasswordLoginPageState extends State<OneTimePasswordLoginPage> {
 
                 return ElevatedButton(
                   onPressed: phone.isEmpty ? null : () => _sendOtpCode(phone),
-                  child: Text('Send code to phone'),
+                  child: const Text('Send code to phone'),
                 );
               },
             ),
           ),
           Text(
             _requestResult,
-            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
+            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
           )
         ],
       ),
