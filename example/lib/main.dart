@@ -4,6 +4,7 @@ import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 import 'routes/account_information_page.dart';
 import 'routes/home_page.dart';
 import 'routes/login_with_credentials_page.dart';
+import 'routes/one_time_password_login_page.dart';
 import 'routes/register_with_email_page.dart';
 import 'routes/send_request_page.dart';
 
@@ -47,6 +48,7 @@ class _MyAppState extends State<MyApp> {
         '/login_credentials': (_) => LoginWithCredentialsPage(sdk: widget.sdk),
         '/register_email': (_) => RegisterWithEmailPage(sdk: widget.sdk),
         '/account_information': (_) => AccountInformationPage(sdk: widget.sdk),
+        '/otp_phone_login': (_) => OneTimePasswordLoginPage(sdk: widget.sdk),
       },
     );
   }
