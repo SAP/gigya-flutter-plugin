@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
 import 'routes/home_page.dart';
+import 'routes/login_with_credentials_page.dart';
 import 'routes/send_request_page.dart';
 
 void main() async {
@@ -41,6 +42,7 @@ class _MyAppState extends State<MyApp> {
       routes: <String, WidgetBuilder>{
         '/': (_) => HomePage(sdk: widget.sdk),
         '/send_request': (_) => SendRequestPage(sdk: widget.sdk),
+        '/login_credentials': (_) => LoginWithCredentialsPage(sdk: widget.sdk),
       },
     );
   }
