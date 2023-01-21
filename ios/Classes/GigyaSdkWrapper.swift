@@ -214,6 +214,14 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      Logout of existing session.
      */
     func logOut(result: @escaping FlutterResult) {
+        let isLoggedIn = sdk?.isLoggedIn() ?? false
+
+        if(!isLoggedIn) {
+            result(nil)
+
+            return
+        }
+
         sdk?.logout(completion: { gigyaResponse in
             switch gigyaResponse {
             case .success( _):
@@ -223,7 +231,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 case .gigyaError(let d):
                     result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
                 default:
-                    result(FlutterError(code: PluginErrors.generalError, message: error.localizedDescription, details: nil))
+                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
                 }
             }
         })
