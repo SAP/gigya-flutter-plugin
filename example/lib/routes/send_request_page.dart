@@ -68,9 +68,12 @@ class _SendRequestPageState extends State<SendRequestPage> {
               style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
             ),
           ),
-          TextField(
-            controller: _controller,
-            decoration: const InputDecoration(hintText: 'Enter login id'),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: TextField(
+              controller: _controller,
+              decoration: const InputDecoration(hintText: 'Enter login id'),
+            ),
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
