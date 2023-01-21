@@ -390,6 +390,12 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Logout of existing session.
      */
     fun logOut(channelResult: MethodChannel.Result) {
+        if(!sdk.isLoggedIn) {
+            channelResult.success(null)
+
+            return
+        }
+
         sdk.logout(object : GigyaCallback<GigyaApiResponse>() {
             override fun onSuccess(p0: GigyaApiResponse?) {
                 channelResult.success(null)
