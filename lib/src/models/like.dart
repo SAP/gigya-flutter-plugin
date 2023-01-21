@@ -5,9 +5,7 @@ class Like {
     this.category,
     this.id,
     this.name,
-    // TODO: what is the meaning of this parameter? timestamp is enough here
     this.time,
-    // TODO: this should either be an `int?` or a `DateTime?`, not a `double?`
     this.timestamp,
   });
 
@@ -32,10 +30,10 @@ class Like {
   final String? name;
 
   /// The formatted time of the like.
-  final String? time;
+  final String? time; // TODO: this parameter is redundant, timestamp is enough?
 
   /// The timestamp of the like.
-  final double? timestamp;
+  final double? timestamp; // TODO: this should be a `DateTime?`
 
   /// Convert this object into a JSON object.
   Map<String, dynamic> toJson() {

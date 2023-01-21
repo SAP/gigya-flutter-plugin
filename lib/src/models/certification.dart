@@ -24,7 +24,7 @@ class Certification {
   final String? authority;
 
   /// The end date of the validity of the certification.
-  final String? endDate;
+  final String? endDate; // TODO: this should be a DateTime?
 
   /// The name of the certification.
   final String? name;
@@ -33,7 +33,7 @@ class Certification {
   final String? number;
 
   /// The start date of the validity of the certification.
-  final String? startDate;
+  final String? startDate; // TODO: this should be a DateTime?
 
   /// Convert this object to a JSON object.
   Map<String, dynamic> toJson() {

@@ -3,11 +3,11 @@ class Education {
   /// The private constructor.
   Education._({
     this.degree,
-    this.endYear, // TODO: this should be a `DateTime?`
+    this.endYear,
     this.fieldOfStudy,
     this.school,
     this.schoolType,
-    this.startYear, // TODO: this should be a `DateTime?`
+    this.startYear,
   });
 
   /// The default constructor.
