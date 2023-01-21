@@ -21,7 +21,6 @@ import com.gigya.android.sdk.ui.plugin.GigyaPluginEvent
 import com.gigya.android.sdk.utils.CustomGSONDeserializer
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
-import io.flutter.plugin.common.BinaryMessenger
 import io.flutter.plugin.common.MethodChannel
 import java.util.*
 
@@ -49,7 +48,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             val pInfo: PackageInfo = getPackageInfo(application.packageManager, application.packageName)
             val version: String = pInfo.versionName
             val ref: IApiRequestFactory = Gigya.getContainer().get(IApiRequestFactory::class.java)
-            ref.setSDK("flutter_${version}_android_${(Gigya.VERSION).toLowerCase(Locale.ENGLISH)}")
+            ref.setSDK("flutter_${version}_android_${(Gigya.VERSION).lowercase(Locale.ENGLISH)}")
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
@@ -372,30 +371,20 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      */
     fun initSdk(arguments: Any, channelResult: MethodChannel.Result) {
         val apiKey: String? = (arguments as Map<*, *>)["apiKey"] as String?
-        if (apiKey == null) {
-            channelResult.success(mapOf("success" to false))
+        val apiDomain: String? = arguments["apiDomain"] as String?
 
-            currentResult!!.error(
+        if(apiKey == null || apiDomain == null) {
+            channelResult.error(
                 MISSING_PARAMETER_ERROR,
                 MISSING_PARAMETER_MESSAGE,
                 mapOf<String, Any>()
             )
             return
         }
-        val apiDomain: String? = (arguments as Map<*, *>)["apiDomain"] as String?
-        if (apiDomain == null) {
-            channelResult.success(mapOf("success" to false))
 
-            currentResult!!.error(
-                MISSING_PARAMETER_ERROR,
-                MISSING_PARAMETER_MESSAGE,
-                mapOf<String, Any>()
-            )
-            return
-        }
-        sdk.init(apiKey, apiDomain);
+        sdk.init(apiKey, apiDomain)
 
-        channelResult.success(mapOf("success" to true))
+        channelResult.success(null)
     }
 
     /**
