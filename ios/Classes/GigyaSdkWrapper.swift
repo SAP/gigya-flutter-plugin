@@ -728,24 +728,6 @@ extension GigyaSdkWrapper {
     }
 }
 
-extension GigyaSdkWrapper {
-    private func saveResolvesIfNeeded(interruption: GigyaInterruptions<T>?) {
-        guard let interruption = interruption else {
-            return
-        }
-        
-        switch interruption {
-        case .pendingRegistration(let resolver):
-            resolverHelper.pendingRegistrationResolver = resolver
-        case .pendingVerification(let regToken):
-            resolverHelper.regToken = regToken
-        case .conflitingAccount(let resolver):
-            resolverHelper.linkAccountResolver = resolver
-        default: break
-        }
-    }
-}
-
 class ResolverHelper<T: GigyaAccountProtocol> {
     var currentResult: FlutterResult?
     

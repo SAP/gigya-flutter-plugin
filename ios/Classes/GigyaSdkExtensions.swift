@@ -1,4 +1,5 @@
 import Foundation
+import Gigya
 
 extension Dictionary {
     /**
@@ -47,4 +48,24 @@ extension GigyaSdkWrapper {
         }
         return [:]
     }
+
+    /**
+    Save the resolver for the given interruption nto the resolver helper.
+    */
+    func saveResolvesIfNeeded(interruption: GigyaInterruptions<T>?) {
+        guard let interruption = interruption else {
+            return
+        }
+        
+        switch interruption {
+        case .pendingRegistration(let resolver):
+            resolverHelper.pendingRegistrationResolver = resolver
+        case .pendingVerification(let regToken):
+            resolverHelper.regToken = regToken
+        case .conflitingAccount(let resolver):
+            resolverHelper.linkAccountResolver = resolver
+        default: 
+            break
+        }
+    }    
 }
