@@ -1,4 +1,4 @@
-/// This class represents a section within the career of an individual.
+/// This class represents an employment within the career of an individual.
 class Work {
   /// The private constructor.
   Work._({
@@ -36,35 +36,34 @@ class Work {
     );
   }
 
-  /// The name of the company that the individual worked for.
+  /// The name of the company.
   final String? company;
 
-  /// The id of the company that the individual worked for.
+  /// The id of the company.
   final String? companyID;
 
   /// The size of the [company], in amount of employees.
   final int? companySize;
 
-  /// The description of this section within the career of the individual.
+  /// The description of this employment.
   final String? description;
 
-  /// The end date of this section within the career of the individual.
+  /// The date when this employment ended.
   final DateTime? endDate;
 
-  /// The name of the industry in which the individual was employed.
+  /// The name of the industry in which this employment is categorized.
   final String? industry;
 
-  /// Whether this section in the individual's career is equal
-  /// to the current employment of the individual.
+  /// Whether this employment is the current employment of the individual.
   final bool? isCurrent;
 
-  /// The location where this section of the career of the individual takes place.
+  /// The location where this employment occurs.
   final String? location;
 
-  /// The start date of this section within the career of the individual.
+  /// The date when this employment started.
   final DateTime? startDate;
 
-  /// The title of this section within the career of the individual.
+  /// The title of the employment.
   final String? title;
 
   /// Convert this object to a JSON object.

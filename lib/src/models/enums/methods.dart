@@ -3,7 +3,7 @@ enum Methods {
   /// The method that adds a connection to a user account.
   addConnection('addConnection'),
 
-  /// The method that triggers the screen set for the `Forgot Password` flow.
+  /// The method that starts the `Forgot Password` flow.
   forgotPassword('forgotPassword'),
 
   /// The method that gets a user account.

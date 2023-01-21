@@ -22,7 +22,7 @@ class Address {
     );
   }
 
-  /// The country in which the address resides.
+  /// The country in which the address is located.
   final String? country;
 
   /// The formatted address.
@@ -34,10 +34,10 @@ class Address {
   /// The postal code of the address.
   final String? postalCode;
 
-  /// The name of the region in which the address resides.
+  /// The name of the region in which the address is located.
   final String? region;
 
-  /// The street address of the address.
+  /// The street address part of this address.
   final String? streetAddress;
 
   /// Convert this object into a JSON object.

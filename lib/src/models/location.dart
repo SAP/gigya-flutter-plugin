@@ -39,7 +39,7 @@ class Location {
   /// The name of the country at the given [coordinates].
   final String? country;
 
-  /// The name of the state within the [country] to which the [city] belongs to.
+  /// The name of the state at the given [coordinates].
   final String? state;
 
   /// Convert this object to a JSON object.

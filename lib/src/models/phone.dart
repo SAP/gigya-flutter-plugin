@@ -21,7 +21,7 @@ class Phone {
   /// that is used as fallback if [number] was not specified.
   final String? defaultNumber;
 
-  /// The phone number of an indivual or organisation.
+  /// The phone number.
   final String? number;
 
   /// The type of phone number.

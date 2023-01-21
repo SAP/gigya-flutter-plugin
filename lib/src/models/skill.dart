@@ -1,4 +1,4 @@
-/// This class represents a skill of an individual.
+/// This class represents a skill.
 class Skill {
   /// The private constructor.
   Skill._({

@@ -216,7 +216,7 @@ class Profile {
   /// The person's likes.
   final List<Like> likes;
 
-  /// The language locale of the person's main language.
+  /// The language locale of the person's primary language.
   final String? locale;
 
   /// The person's full name.
@@ -246,8 +246,7 @@ class Profile {
   /// The url to the person's profile page.
   final String? profileUrl;
 
-  /// The person's proxy email address,
-  /// which is to be used when [email] is not directly available.
+  /// The person's proxy email address.
   final String? proxyEmail;
 
   /// The list of publications belonging to this person.
@@ -280,7 +279,7 @@ class Profile {
   /// The verified status of the person.
   final String? verified;
 
-  /// The different careers of the person.
+  /// The person's career, divided into the different employments.
   final List<Work> work;
 
   /// The ZIP code of the person's address.

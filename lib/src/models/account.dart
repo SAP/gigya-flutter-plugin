@@ -85,7 +85,10 @@ class Account {
   /// The timestamp of the last update.
   final Object? lastUpdatedTimestamp; // TODO: this should be a `DateTime?`.
 
-  /// The current login provider for this account.
+  /// The name of current login provider for this account.
+  ///
+  /// If the user logged in using a custom site login mechanism,
+  /// then the value of this attribute will be `site`.
   final String? loginProvider;
 
   /// The timestamp of the oldest data update.

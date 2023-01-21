@@ -37,7 +37,7 @@ class Favorite {
   }
 }
 
-/// This class represents a collection of [Favorites] for an indivudual.
+/// This class represents a collection of [Favorites].
 class Favorites {
   /// The private constructor.
   Favorites._({
@@ -68,22 +68,22 @@ class Favorites {
     );
   }
 
-  /// The favorite activities of the individual.
+  /// The favorite activities in the collection of favorites.
   final List<Favorite> activities;
 
-  /// The favorite books of the individual.
+  /// The favorite books in the collection of favorites.
   final List<Favorite> books;
 
-  /// The interests of the individual.
+  /// The interests in the collection of favorites.
   final List<Favorite> interests;
 
-  /// The favorite movies of the individual.
+  /// The favorite movies in the collection of favorites.
   final List<Favorite> movies;
 
-  /// The favorite music of the individual.
+  /// The favorite music in the collection of favorites.
   final List<Favorite> music;
 
-  /// The favorite television shows of the individual.
+  /// The favorite television shows in the collection of favorites.
   final List<Favorite> television;
 
   static List<Favorite> _favoritesFromList(List<String>? items) {
