@@ -125,8 +125,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      Check login status.
      */
     func isLoggedIn(result: @escaping FlutterResult) {
-        let logInState = sdk?.isLoggedIn() ?? false
-        result(logInState)
+        result(sdk?.isLoggedIn() ?? false)
     }
     
     /**
