@@ -124,13 +124,11 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
     required String apiKey,
     bool forceLogout = true,
   }) async {
-    try {
-      if (forceLogout) {
-        await logout();
-      }
+    Map<String, dynamic>? result;
 
-      final Map<String, dynamic>? result =
-          await methodChannel.invokeMapMethod<String, dynamic>(
+    // First, initialize the Gigya SDK.
+    try {
+      result = await methodChannel.invokeMapMethod<String, dynamic>(
         Methods.initSdk.methodName,
         <String, dynamic>{
           'apiKey': apiKey,
@@ -140,11 +138,16 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
         Methods.initSdk.timeout,
         onTimeout: () => throw const GigyaTimeoutError(),
       );
-
-      return result ?? const <String, dynamic>{};
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
     }
+
+    // Then logout if requested.
+    if (forceLogout) {
+      await logout();
+    }
+
+    return result ?? const <String, dynamic>{};
   }
 
   @override
