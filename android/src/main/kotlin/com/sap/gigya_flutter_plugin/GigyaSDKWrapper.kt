@@ -214,7 +214,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val parameters: MutableMap<String, Any> =
             arguments["parameters"] as MutableMap<String, Any>?
                 ?: mutableMapOf()
-        sdk.register(email, password, parameters!!, object : GigyaLoginCallback<T>() {
+        sdk.register(email, password, parameters, object : GigyaLoginCallback<T>() {
             override fun onSuccess(p0: T) {
                 resolverHelper.clear()
                 val mapped = mapObject(p0)
@@ -362,8 +362,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                     )
                 } ?: channelResult.notImplemented()
             }
-
-        });
+        })
     }
 
     /**
@@ -405,8 +404,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                     )
                 } ?: channelResult.notImplemented()
             }
-
-        });
+        })
     }
 
     /**
@@ -1037,7 +1035,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 )
                 return
             }
-            val password: String? = (arguments as Map<*, *>)["password"] as String?
+            val password: String? = arguments["password"] as String?
             if (password == null) {
                 channelResult.error(
                     MISSING_PARAMETER_ERROR,
@@ -1077,15 +1075,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     fun resolveSetAccount(arguments: Any, channelResult: MethodChannel.Result) {
         currentResult = channelResult
         resolverHelper.pendingRegistrationResolver?.let { resolver ->
-            val data: Map<String, Any>? = arguments as Map<String, Any>
-            if (data == null) {
-                channelResult.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
-                )
-                return
-            }
+            val data: Map<String, Any> = arguments as Map<String, Any>
             resolver.setAccount(data)
         } ?: channelResult.notImplemented()
     }
