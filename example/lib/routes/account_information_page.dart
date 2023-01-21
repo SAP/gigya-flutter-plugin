@@ -3,7 +3,7 @@ import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
 /// The account infromation page.
 class AccountInformationPage extends StatefulWidget {
-  /// Construct a [AccountInformationPage] widget using the given [sdk].
+  /// Construct an [AccountInformationPage] widget using the given [sdk].
   const AccountInformationPage({required this.sdk, super.key});
 
   /// The [GigyaSdk] instance that is used by this widget.

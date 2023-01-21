@@ -6,10 +6,7 @@ import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 /// The home page widget.
 class HomePage extends StatefulWidget {
   /// Construct a [HomePage] widget using the given [sdk].
-  const HomePage({
-    required this.sdk,
-    super.key,
-  });
+  const HomePage({required this.sdk, super.key});
 
   /// The [GigyaSdk] instance that is used by this widget.
   final GigyaSdk sdk;

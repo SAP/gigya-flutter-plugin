@@ -5,7 +5,7 @@ import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
 /// The One-Time-Password login page.
 class OneTimePasswordLoginPage extends StatefulWidget {
-  /// Construct a [OneTimePasswordLoginPage] with the given [sdk].
+  /// Construct an [OneTimePasswordLoginPage] with the given [sdk].
   const OneTimePasswordLoginPage({required this.sdk, super.key});
 
   /// The [GigyaSdk] instance that is used by this widget.
