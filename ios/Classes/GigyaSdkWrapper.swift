@@ -8,6 +8,8 @@ public class PluginErrors {
     static let generalErrorMessage = "general error"
     static let missingParameterError = "701"
     static let missingParameterMessage = "request parameter missing"
+    static let unsupportedError = "702"
+    static let unsupportedErrorMessage = "not supported in this iOS version"
 }
 
 public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
@@ -26,9 +28,8 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     // MARK: - Main instance
     
     /**
-     Send general/antonymous request
+     Send general/anonymous request
      */
-    
     func sendRequest(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let endpoint = arguments["endpoint"] as? String,
               let parameters = arguments["parameters"] as? [String:Any] else {
@@ -132,7 +133,6 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
      Request active account.
      */
     func getAccount(arguments: [String: Any], result: @escaping FlutterResult) {
-        // Optionals.
         let clearCache = arguments["invalidate"] as? Bool ?? false
         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
         sdk?.getAccount(clearCache, params: parameters) { [weak self] accountResult in
@@ -175,7 +175,6 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     /**
      Get current session
      */
-
     func getSession(result: @escaping FlutterResult) {
         let session = sdk?.getSession()
         if (session != nil) {
@@ -197,7 +196,6 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     /**
      Override exists session
      */
-    
     func setSession(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let token = arguments["sessionToken"] as? String,
               let secret = arguments["sessionSecret"] as? String,
@@ -255,7 +253,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         })
     }
-    
+
     /**
      Init SDK
      */
@@ -412,9 +410,8 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     }
     
     /**
-     Show screensets call.
+     Show screensets.
      */
-    
     func showScreenSet(arguments: [String: Any], result: @escaping FlutterResult, handler: ScreenSetEventDelegate) {
         guard
             let viewController = getDisplayedViewController(),
@@ -465,7 +462,6 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
 
         result(nil)
     }
-    
     
     func webAuthnLogin(result: @escaping FlutterResult) {
         guard
