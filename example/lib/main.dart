@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
 import 'routes/account_information_page.dart';
+import 'routes/forgot_password_page.dart';
 import 'routes/home_page.dart';
 import 'routes/login_with_credentials_page.dart';
 import 'routes/manage_connections_page.dart';
@@ -50,6 +51,7 @@ class _MyAppState extends State<MyApp> {
         '/register_email': (_) => RegisterWithEmailPage(sdk: widget.sdk),
         '/account_information': (_) => AccountInformationPage(sdk: widget.sdk),
         '/manage_connections': (_) => ManageConnectionsPage(sdk: widget.sdk),
+        '/forgot_password': (_) => ForgotPasswordPage(sdk: widget.sdk),
         '/otp_phone_login': (_) => OneTimePasswordLoginPage(sdk: widget.sdk),
       },
     );
