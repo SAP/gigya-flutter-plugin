@@ -205,54 +205,57 @@ class _HomePageState extends State<HomePage> {
             case ConnectionState.done:
               final Object? error = snapshot.error;
 
-              return SingleChildScrollView(
-                child: Column(
-                  children: <Widget>[
-                    if (error != null) ...<Widget>[
-                      const Flexible(
-                        child: Text(
-                          'Something went wrong while checking the login status.',
-                        ),
-                      ),
-                      Flexible(
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 8),
+              return Align(
+                alignment: Alignment.topCenter,
+                child: SingleChildScrollView(
+                  child: Column(
+                    children: <Widget>[
+                      if (error != null) ...<Widget>[
+                        const Flexible(
                           child: Text(
-                            error.toString(),
+                            'Something went wrong while checking the login status.',
                           ),
                         ),
+                        Flexible(
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 8),
+                            child: Text(
+                              error.toString(),
+                            ),
+                          ),
+                        ),
+                      ],
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await Navigator.pushNamed(context, '/send_request');
+
+                            _refreshLogin();
+                          },
+                          child: const Text('Check available login id'),
+                        ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(bottom: 8),
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            await Navigator.pushNamed(
+                              context,
+                              '/forgot_password',
+                            );
+
+                            _refreshLogin();
+                          },
+                          child: const Text('Forgot password'),
+                        ),
+                      ),
+                      if (snapshot.data ?? false)
+                        ..._buildLoggedInOptions(context)
+                      else
+                        ..._buildLoggedOutOptions(context),
                     ],
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await Navigator.pushNamed(context, '/send_request');
-
-                          _refreshLogin();
-                        },
-                        child: const Text('Check available login id'),
-                      ),
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 8),
-                      child: ElevatedButton(
-                        onPressed: () async {
-                          await Navigator.pushNamed(
-                            context,
-                            '/forgot_password',
-                          );
-
-                          _refreshLogin();
-                        },
-                        child: const Text('Forgot password'),
-                      ),
-                    ),
-                    if (snapshot.data ?? false)
-                      ..._buildLoggedInOptions(context)
-                    else
-                      ..._buildLoggedOutOptions(context),
-                  ],
+                  ),
                 ),
               );
           }
