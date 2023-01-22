@@ -20,7 +20,7 @@ class MethodChannelOtpService extends OtpService {
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
     try {
-      await _channel.invokeMapMethod<String, dynamic>(
+      await _channel.invokeMethod<void>(
         OtpMethods.login.methodName,
         <String, dynamic>{'phone': phone, 'parameters': parameters},
       ).timeout(
