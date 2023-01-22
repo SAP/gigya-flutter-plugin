@@ -352,13 +352,17 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
 
     yield* screenSetEvents.receiveBroadcastStream().map((dynamic event) {
       // The binary messenger sends things back as `dynamic`.
-      // First, cast to `Map<String, dynamic>` to recover the Map type.
-      final Map<String, dynamic> typedEvent = event as Map<String, dynamic>;
+      // If the event is a `Map`,
+      // it does not have type information and comes back as `Map<Object?, Object?>`.
+      // Cast it using `Map.cast()` to at least recover the type of the key.
+      // The values are still `Object?`, though.
+      final Map<String, Object?> typedEvent =
+          (event as Map<Object?, Object?>).cast<String, Object?>();
 
-      // Then grab the event data, and cast from `dynamic` to `Object?`.
-      // `dynamic` types don't get type checking and field promotion.
+      // Now grab the data of the event,
+      // using `Map.cast()` to recover the type of the keys.
       final Map<String, Object?>? data =
-          (typedEvent['data'] as Map<String, dynamic>?)
+          (typedEvent['data'] as Map<Object?, Object?>?)
               ?.cast<String, Object?>();
 
       return ScreensetEvent(
