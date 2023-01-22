@@ -110,7 +110,7 @@ class Account {
   final Object? signatureTimestamp; // TODO: this should be a `DateTime?`.
 
   /// The social providers linked to this account.
-  final String? socialProviders;
+  final String? socialProviders; // TODO: This should be a `List<String>`
 
   /// The UID of the account.
   final String? uid;
