@@ -119,16 +119,14 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>> initSdk({
+  Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
     bool forceLogout = true,
   }) async {
-    Map<String, dynamic>? result;
-
     // First, initialize the Gigya SDK.
     try {
-      result = await methodChannel.invokeMapMethod<String, dynamic>(
+      await methodChannel.invokeMethod<void>(
         Methods.initSdk.methodName,
         <String, dynamic>{
           'apiKey': apiKey,
@@ -146,8 +144,6 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
     if (forceLogout) {
       await logout();
     }
-
-    return result ?? const <String, dynamic>{};
   }
 
   @override

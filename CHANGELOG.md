@@ -33,6 +33,7 @@ iOS:
 * end and start date of the Work model class are now `DateTime?` instead of `String?`.
 * updatedAt of the OidcData model class has been changed to a `DateTime?` instead of `String?`.
 * zoneinfo of the OidcData model class has been renamed to `zoneInfo`.
+* The `initSdk()` method now returns a `Future<void>`, instead of a `Future<Map<String, dynamic>>` with a `{success: true}` value.
 * The `showScreenSet()` method now returns a `Stream<ScreenSetEvent>`.
 * The `expiresIn` field in `SessionInfo` is now an `int` instead of a `double`.
 * The `photoURL`, `profileURL` and `thumbnailURL` of the `Profile` class have been renamed to `photoUrl`, `profileUrl` and `thumbnailUrl`.

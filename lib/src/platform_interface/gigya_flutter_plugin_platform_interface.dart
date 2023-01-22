@@ -81,7 +81,7 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   /// Initialize the Gigya SDK with the given [apiKey] and [apiDomain].
   ///
   /// If [forceLogout] is true, the user will be logged out.
-  Future<Map<String, dynamic>> initSdk({
+  Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
     bool forceLogout = true,
