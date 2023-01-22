@@ -15,13 +15,23 @@ void main() async {
 
   const GigyaSdk sdk = GigyaSdk();
 
+  // Demonstrate explicit initialization before calling `runApp()`,
+  // using the configuration for the example app.
+  const String exampleAppApiKey =
+      '3_2OjecI3i6bj_uF0HNfHDEDUZSkmTZTPsxIqGeV0QyT_B7h1TvYC6jil3uvDZ2ziF';
+  const String exampleAppApiDomain = 'us1.gigya.com';
+
   try {
     await sdk.initSdk(
-      apiDomain: 'your_domain',
-      apiKey: 'your_api_key',
+      apiDomain: exampleAppApiDomain,
+      apiKey: exampleAppApiKey,
     );
-  } catch (error) {
+
+    print('Gigya SDK initialized.');
+  } catch (error, stackTrace) {
+    print('Failed to initialize the Gigya SDK.');
     print(error);
+    print(stackTrace);
   }
 
   runApp(const MyApp(sdk));
