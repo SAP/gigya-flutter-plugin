@@ -1,35 +1,38 @@
-# SAP Customer Data Cloud Plugin
-
-[![pub package](https://img.shields.io/pub/v/gigya_flutter_plugin)](https://pub.dev/packages/gigya_flutter_plugin)
+# Flutter plug-in for SAP Customer Data Cloud
 [![REUSE status](https://api.reuse.software/badge/github.com/SAP/gigya-flutter-plugin)](https://api.reuse.software/info/github.com/SAP/gigya-flutter-plugin)
 
-A Flutter plugin for iOS and Android that integrates the Gigya native SDK's into your Flutter application.
 
-| Android | iOS      | Web               | MacOS             | Windows           | Linux             |
-|---------|----------|-------------------|-------------------|-------------------|-------------------|
-| SDK 14+ | iOS 13+  | Not yet available | Not yet available | Not yet available | Not yet available |
+A [Flutter](https://flutter.dev) plugin for interfacing Gigya's native SDKs into a Flutter application using [Dart](https://dart.dev).
 
-## Features
+## Description
+Flutter plugin that provides an interface for the Gigya API.
 
-- Login / Registration using credentials
-- Login using a One-Time-Password
-- Login using a Social Provider (Google, Facebook, etc.)
-- Login / Registration using [FIDO](https://fidoalliance.org/)
-- Single-Sign-On
-- Query / Update account information
-- Query / Update session information
-- Adding or removing social connections
-- Showing a Screen Set
-- Sending custom requests using the `Send Request API`
+## Requirements
+Android SDK support requires SDK 14 and above.
 
-## Installation
+## Download and Installation
+Add the plugin in your **pubspec.yaml** fie.
 
-First, add `gigya_flutter_plugin` as a [dependency in your pubspec.yaml file](https://flutter.dev/using-packages/).
+## Setup & Gigya core integration
 
-### iOS
+### Android setup
 
-On iOS the plugin is not automatically registered with Flutter's plugin registry,
-and requires manual registration.
+Important:
+Make sure you have [configured](https://developers.gigya.com/display/GD/Android+SDK+v4#AndroidSDKv4-ViaJSONconfigurationfile:)
+the basic steps needed for integrating the Android SDK
+
+If you need custom scheme(**Optional**):
+```
+class MyApplication : FlutterApplication() {
+
+    override fun onCreate() {
+        super.onCreate()
+        GigyaFlutterPlugin.init(this, GigyaAccount::class.java)
+    }
+}
+```
+
+### iOS setup
 
 Navigate to **\<your project root\>/ios/Runner/AppDelegate.swift** and add the following:
 
@@ -44,162 +47,260 @@ import Gigya
     didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
   ) -> Bool {
 
+    // Copy this code to you Android app.
+    //
     GeneratedPluginRegistrant.register(with: self)
-
-    // Register the Gigya Flutter Plugin after all other plugins have been registered.
-    SwiftGigyaFlutterPlugin.register(accountSchema: GigyaAccount.self)
+    SwiftGigyaFlutterPlugin.register(accountSchema: UserHost.self)
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
 ```
 
-## Initializing the SDK
+Important:
+Make sure you have [configured](https://developers.gigya.com/display/GD/Swift+SDK#SwiftSDK-ImplicitInitialization) your *info.plist* file accordinglty.
 
-### Implicit initialization
+## Sending a simple request
 
-_You can skip this section if you use explicit initialization_
+Sending a request is available using the plugin **send** method.
+```
+GigyaSdk.instance.send('REQUEST-ENDPOINT', {PARAMETER-MAP}).then((result) {
+      debugPrint(json.encode(result));
+    }).catchError((error) {
+      debugPrint(error.errorDetails);
+    });
+```
+Example implementation is demonstrated in the *send_request.dart* class of the provided example application.
 
-By default the Gigya SDK will use a configuration file defined on the native side
-to initialize itself when first requested.
+## Business APIs
 
-#### Android
+The plugin provides an interface to these core SDK business APIs:
+**login, register, getAccount, getAccount, isLoggedIn ,logOut, addConnection, removeConnection**
+Implement them using the same request structure as shown above. 
+Example application includes the various implementations.
 
-Add a file called `gigyaSdkConfiguration.json` to your Android app's asset folder.
+## Social login
 
-This file should contain the following keys:
+Use the "socialLogin" interface in order to perform social login using supported providers.
+The Flutter plugin supports the same *providers supported by the Core Gigya SDK.
 
-```json
-{
-  "apiKey":"YOUR-API-KEY-HERE",
-  "apiDomain": "YOUR-API-DOMAIN-HERE",
-  "accountCacheTime": 1,
-  "sessionVerificationInterval": 60
-}
+Supported social login providers:
+google, facebook, line, wechat, apple, amazon, linkedin, yahoo.
+
+## Embedded social providers
+
+Specific social providers (Facebook, Google) require additional setup. This due to the their
+requirement for specific (embedded) SDKs.
+```
+Example for both Facebook & Google are implemented in the example application.
 ```
 
-See also: https://sap.github.io/gigya-android-sdk/sdk-core/#implicit-initialization
+### Facebook
 
-#### iOS
+Follow the core SDK documentation and instructions for setting Facebook login.
+[Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#facebook)
+[iOS documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#facebook)
 
-Add the following keys to your iOS app's Info.plist file:
-
-```xml
-	<key>GigyaApiKey</key>
-	<string>YOUR-API-KEY-HERE</string>
-	<key>GigyaApiDomain</key>
-	<string>YOUR-API-DOMAIN-HERE</string>
-```
-
-See also: https://sap.github.io/gigya-swift-sdk/GigyaSwift/#implicit-initialization
-
-### Explicit initialization
-
-If you want to use explicit initialization of the Gigya SDK,
-call the `GigyaSdk.initSdk()` method when required.
-
-Example:
-
-```dart
-import 'package:flutter/widgets.dart';
-import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-
-  const GigyaSdk sdk = GigyaSdk();
-
-  Map<String, dynamic> initializationResult = {};
-
-  try {
-    initializationResult = await sdk.initSdk(
-      apiDomain: 'your_domain',
-      apiKey: 'your_api_key',
-    );
-  } catch(error) {
-    print('Failed to initialize the Gigya SDK.');
-    print(error);
-  }
-
-  runApp(MyApp(sdk: sdk, initializationResult: initializationResult));
-}
-```
-
-### Using a Custom Scheme
-
-For most cases the default `GigyaAccount` scheme (provided by the Gigya SDK) should be sufficient.
-
-This section explains how to set up a custom scheme if the `GigyaAccount` scheme is not sufficient.
-
-#### Android
-
-To set up the Gigya SDK with a different scheme, subclass the [GigyaAccount](https://github.com/SAP/gigya-android-sdk/blob/main/sdk-core/src/main/java/com/gigya/android/sdk/account/models/GigyaAccount.java) class and pass your implementation to the Gigya SDK.
-
-```kotlin
-import com.gigya.android.sdk.account.models.GigyaAccount
-
-class MyAccountScheme : GigyaAccount {
-  // ...
-}
-```
-
-```kotlin
-import com.sap.gigya_flutter_plugin.GigyaFlutterPlugin
-
-class MyApplication : FlutterApplication() {
-  override fun onCreate() {
-    super.onCreate()
-    GigyaFlutterPlugin.init(this, MyAccountScheme::class.java)
-  }
-}
-```
-
-#### iOS
-
-To set up the Gigya SDK with a different scheme,
-implement the [GigyaAccountProtocol](https://github.com/SAP/gigya-swift-sdk/blob/main/GigyaSwift/Models/User/GigyaAccount.swift) protocol and pass your implementation to the Gigya SDK when registering the plugin in your `AppDelegate`.
-
+iOS: In addition add the following to your Runner's *AppDelegate.swift* file:
 ```swift
-import Foundation
-import Gigya
-
-struct MyAccount: GigyaAccountProtocol {
-  // ...
-}
+Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
 ```
 
+```
+Instead of adding the provider's sdk using gradle/cocoapods you are able to add
+the [flutter_facebook_login] plugin to your **pubspec.yaml** dependencies.
+```
+
+### Google
+
+Follow the core SDK documentation and instructions for setting Google login.
+[Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#google)
+[iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#google)
+
+iOS: In addition add the following to your Runner's *AppDelegate.swift* file:
 ```swift
-import gigya_flutter_plugin
-import Gigya
-
-@UIApplicationMain
-@objc class AppDelegate: FlutterAppDelegate {
-  override func application(
-    _ application: UIApplication,
-    didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?
-  ) -> Bool {
-
-    GeneratedPluginRegistrant.register(with: self)
-
-    // Register the Gigya Flutter Plugin after all other plugins have been registered.
-    SwiftGigyaFlutterPlugin.register(accountSchema: MyAccount.self)
-
-    return super.application(application, didFinishLaunchingWithOptions: launchOptions)
-  }
-}
+Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .google, wrapper: GoogleWrapper())
 ```
 
-## Usage
+```
+Instead of adding the provider's sdk using gradle/cocoapods you are able to add
+the [google_sign_in] plugin to your **pubspec.yaml** dependencies.
+```
 
-For an example on how to use the plugin, see the [example app](https://github.com/SAP/gigya-flutter-plugin/blob/main/example/).
-An in depth guide for specific API's is also provided [here](https://github.com/SAP/gigya-flutter-plugin/blob/main/USAGE_GUIDE.md).
+### LINE
 
-## Setting up a Social Provider
+In order to provider support for LINE provider, please follow the core SDK documentation.
+[Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#line)
+[iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#line)
 
-To use the `GigyaSdk.socialLogin()` API with a specific provider,
-that provider needs to be configured accordingly.
+### WeChat
 
-To get started with setting up a social provider, view the guide [here](https://github.com/SAP/gigya-flutter-plugin/blob/main/SOCIAL_PROVIDERS.md).
+In order to provider support for WeChat provider, please follow the core SDK documentation.
+[Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#wechat)
+[iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#wechat)
+
+
+## Using screen-sets
+
+The plugin supports the use of Web screen-sets using the following:
+```
+GigyaSdk.instance.showScreenSet("Default-RegistrationLogin", (event, map) {
+          debugPrint('Screen set event received: $event');
+          debugPrint('Screen set event data received: $map');
+});
+```
+Optional {parameters} map is available.
+
+As in the core SDKs the plugin provides a streaming channel that will stream the
+Screen-Sets events (event, map).
+
+event - actual event name.
+map - event data map.
+
+## Mobile SSO
+
+The plugin supports the native SDK's "Single Sign On feature".
+
+Documentation:
+
+[Andorid](https://sap.github.io/gigya-android-sdk/sdk-core/#sso-single-sign-on)
+
+[iOS](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#sso-single-sign-on)
+
+Please make sure to implement the necessary steps described for each platform.
+
+To initiate the flow run the following snippet.
+```
+ GigyaSdk.instance.sso().then((result) {
+ // Handle result here.
+ setState(() { });
+ }).catchError((error) {
+// Handle error here.
+ });
+```
+
+## FIDO/WebAuthn Authentication
+FIDO is a passwordless authentication method that allows password-only logins to be replaced with secure and fast login experiences across websites and apps.
+Our SDK provides an interface to register a passkey, login, and revoke passkeys created using FIDO/Passkeys, backed by our WebAuthn service.
+
+Please follow the platform implementation guides:
+[Swift](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#fidowebauthn-authentication)
+[Android](https://sap.github.io/gigya-android-sdk/sdk-core/#fidowebauthn-authentication)
+
+Additional setup for Android:
+To support FIDO operations in your application, it is required that the *MainActivity* class of the application
+extends the *FlutterFragmentActivity* class and not *FlutterActivity*.
+
+**Usage example**
+Login with FIDO/WebAuthn passkey:
+```
+_loginWithPasskey() async {
+    try {
+      GigyaSdk.instance.webAuthn.webAuthnLogin().then((result) {
+        setState(() {});
+      });
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FidoError", error.errorDetails);
+      }
+    }
+  }
+```
+Register a new FIDO/WebAuthn passkey:
+```
+_registerPasskey() async {
+    try {
+      var result = await GigyaSdk.instance.webAuthn.webAuthnRegister();
+      debugPrint(jsonEncode(result));
+      showAlert("FIDO success", "passkey registered");
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FIDO error", error.errorDetails);
+      }
+    }
+
+  }
+```
+Revoke an existing FIDO/WebAuthn passkey:
+```
+ _revokePasskey() async {
+    try {
+      var result = await GigyaSdk.instance.webAuthn.webAuthnRevoke();
+      debugPrint(jsonEncode(result));
+      showAlert("FIDO success", "passkey revoked");
+    } catch (error) {
+      if (error is GigyaResponse) {
+        showAlert("FIDO", error.errorDetails);
+      }
+    }
+  }
+```
+
+## Login using phone number (OTP)
+Users can now authenticate using a valid phone number.
+**Note: An SMS provider configuration setup is required for the partner**
+
+**Usage example**
+Begin phone authentication flow providing phone number.
+```
+GigyaSdk.instance.otp.login(phone).then((resolver) {
+      // Code is sent. A resolver object is available for code verification
+    }).catchError((error) {
+      // Handle error here.
+    });
+```
+
+Verify SMS code using obtained "resolver" object.
+```
+resolver.verify(code).then((res) {
+    // Parse account information.
+    final Account account = Account.fromJson(res);
+    }).catchError((error) {
+    // Handle error here.
+    });
+```
+
+[Additional information & limitations](https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/4137e1be70b21014bbc5a10ce4041860.html?q=accounts.otp.sendCode)
+
+## Resolving interruptions
+
+Much like the our core SDKs, resolving interruptions is available using the plugin.
+
+Current supporting interruptions:
+* pendingRegistration using the *PendingRegistrationResolver* class.
+* pendingVerification using the *PendingVerificationResolver* class.
+* conflictingAccounts using the *LinkAccountResolver* class.
+
+Example for resolving **conflictingAccounts** interruptions:
+```
+GigyaSdk.instance.login(loginId, password).then((result) {
+      debugPrint(json.encode(result));
+      final response = Account.fromJson(result);
+      // Successfully logged in
+    }).catchError((error) {
+      // Interruption may have occurred.
+      if (error.getInterruption() == Interruption.conflictingAccounts) {
+        // Reference the correct resolver
+        LinkAccountResolver resolver = GigyaSdk.instance.resolverFactory.getResolver(error);
+      } else {
+        setState(() {
+          _inProgress = false;
+          _requestResult = 'Register error\n\n${error.errorDetails}';
+        });
+      }
+    });
+```
+Once you reference your resolver, create your relevant UI to determine if a site or social linking is
+required (see example app for details) and use the relevant "resolve" method.
+
+Example of resolving link to site when trying to link a new social account to a site account.
+```
+final String password = _linkPasswordController.text.trim();
+resolver.linkToSite(loginId, password).then((res) {
+     final Account account = Account.fromJson(res);
+     // Account successfully linked.
+});
+```
 
 ## Known Issues
 None
@@ -209,11 +310,11 @@ None
 * [Via SAP standard support](https://help.sap.com/viewer/8b8d6fffe113457094a17701f63e3d6a/GIGYA/en-US/4167e8a470b21014bbc5a10ce4041860.html)
 
 ## Contributing
-Via pull requests to this repository.
-To get started, view the [contribution guide](https://github.com/SAP/gigya-flutter-plugin/blob/main/CONTRIBUTING.md).
+Via pull request to this repository.
+Please read CONTRIBUTING file for guidelines.
 
 ## To-Do (upcoming changes)
-- Web support has not yet been implemented
+None
 
 ## Licensing
 Please see our [LICENSE](https://github.com/SAP/gigya-flutter-plugin/blob/main/LICENSES/Apache-2.0.txt) for copyright and license information.
