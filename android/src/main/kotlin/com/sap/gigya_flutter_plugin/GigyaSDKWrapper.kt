@@ -25,6 +25,14 @@ import io.flutter.plugin.common.MethodChannel
 import java.util.*
 
 class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Class<T>) {
+    companion object {
+        const val GENERAL_ERROR = "700"
+        const val GENERAL_ERROR_MESSAGE = "general error"
+        const val MISSING_PARAMETER_ERROR = "701"
+        const val MISSING_PARAMETER_MESSAGE = "request parameter missing"
+        const val CANCELED_ERROR = "702"
+        const val CANCELED_ERROR_MESSAGE = "Operation canceled"
+    }
 
     private var sdk: Gigya<T>
 
@@ -1070,15 +1078,6 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      */
     private fun mapJson(jsonString: String): Map<String, Any> {
         return gson.fromJson(jsonString, object : TypeToken<Map<String, Any>>() {}.type)
-    }
-
-    companion object {
-        const val GENERAL_ERROR = "700"
-        const val GENERAL_ERROR_MESSAGE = "general error"
-        const val MISSING_PARAMETER_ERROR = "701"
-        const val MISSING_PARAMETER_MESSAGE = "request parameter missing"
-        const val CANCELED_ERROR = "702"
-        const val CANCELED_ERROR_MESSAGE = "Operation canceled"
     }
 }
 
