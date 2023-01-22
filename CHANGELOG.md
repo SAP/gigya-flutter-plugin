@@ -8,6 +8,7 @@ Developer preview 0.3.0 - Federated Plugin Rework
 * Add `publish_to: none` to example app pubspec
 * Add analysis_options.yaml lint config
 * Update the internal method & event channel names to use reverse domain notation & a suffix for the type of channel
+* Fix the `logout()` method failing if the user is not logged in.
 
 Android:
 * Update Gradle to 7.4
