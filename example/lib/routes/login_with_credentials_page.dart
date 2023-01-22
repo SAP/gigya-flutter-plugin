@@ -101,7 +101,12 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
         return;
       }
 
-      _setGenericError(error);
+      if (mounted) {
+        setState(() {
+          _inProgress = false;
+          _requestResult = 'Login canceled';
+        });
+      }
     } catch (error) {
       _setGenericError(error);
     }
