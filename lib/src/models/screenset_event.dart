@@ -7,11 +7,7 @@ class ScreensetEvent {
     final ScreenSetEventType? resolvedType = _typesMap[type];
 
     if (resolvedType == null) {
-      throw ArgumentError.value(
-        type,
-        'type',
-        'The name $type does not match a ScreenSetEventType',
-      );
+      throw ArgumentError.value(type, 'type');
     }
 
     return ScreensetEvent._(resolvedType, data);

@@ -165,10 +165,10 @@ class _HomePageState extends State<HomePage> {
           print('event type: ${event.type}');
           print('event data: ${event.data}');
 
-          if (event.type == ScreenSetEventType.cancel) {
+          if (event.type == ScreenSetEventType.onCancel) {
             screenSetSubscription?.cancel();
             screenSetSubscription = null;
-          } else if (event.type == ScreenSetEventType.login) {
+          } else if (event.type == ScreenSetEventType.onLogin) {
             _refreshLogin();
           }
         },

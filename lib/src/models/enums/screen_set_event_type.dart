@@ -1,47 +1,49 @@
 /// The event type for a screen set event.
+///
+/// Each [name] matches the name of a screenset event.
 enum ScreenSetEventType {
   /// The event that is fired after a screen has been loaded.
-  afterScreenLoad,
+  onAfterScreenLoad,
 
   /// The event that is fired after a submit.
-  afterSubmit,
+  onAfterSubmit,
 
   /// The event that is fired after validation.
-  afterValidation,
+  onAfterValidation,
 
   /// The event that is fired before a screen began loading.
-  beforeScreenLoad,
+  onBeforeScreenLoad,
 
   /// The event that is fired before a submit.
-  beforeSubmit,
+  onBeforeSubmit,
 
   /// The event that is fired before validation.
-  beforeValidation,
+  onBeforeValidation,
 
   /// The event that is fired when a screen set has been canceled.
-  cancel,
+  onCancel,
 
   /// The event that is fired after a connection has been added.
-  connectionAdded,
+  onConnectionAdded,
 
   /// The event that is fired after a connection has been removed.
-  connectionRemoved,
+  onConnectionRemoved,
 
   /// The event that is fired when an error occurred.
-  error,
+  onError,
 
   /// The event that is fired when a field has changed.
-  fieldChanged,
+  onFieldChanged,
 
   /// The event that is fired when a screen set was hidden.
-  hide,
+  onHide,
 
   /// The event that is fired when the user logged in.
-  login,
+  onLogin,
 
   /// The event that is fired when the user logged out.
-  logout,
+  onLogout,
 
   /// The event that is fired when a submit occurs.
-  submit,
+  onSubmit,
 }
