@@ -407,21 +407,24 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      */
     fun setSession(arguments: Any, channelResult: MethodChannel.Result) {
         val argumentMap: MutableMap<String, Any>? = arguments as MutableMap<String, Any>?
-        if (argumentMap != null) {
-            val sessionInfo = SessionInfo(
-                argumentMap["sessionSecret"] as String,
-                argumentMap["sessionToken"] as String,
-                argumentMap["expires_in"] as Long,
+
+        if (argumentMap == null) {
+            channelResult.error(
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
             )
-            sdk.setSession(sessionInfo)
-            channelResult.success(null)
+
             return
         }
-        channelResult.error(
-            MISSING_PARAMETER_ERROR,
-            MISSING_PARAMETER_MESSAGE,
-            mapOf<String, Any>()
+
+        val sessionInfo = SessionInfo(
+            argumentMap["sessionSecret"] as String,
+            argumentMap["sessionToken"] as String,
+            argumentMap["expires_in"] as Long,
         )
+        sdk.setSession(sessionInfo)
+        channelResult.success(null)
     }
 
     /**
@@ -880,6 +883,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 MISSING_PARAMETER_MESSAGE,
                 mapOf<String, Any>()
             )
+            return
         }
         var parameters: Map<String, Any>? = arguments["parameters"] as Map<String, Any>?
         if (parameters == null) {
@@ -927,6 +931,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 MISSING_PARAMETER_MESSAGE,
                 mapOf<String, Any>()
             )
+
+            return
         }
         var parameters: Map<String, Any>? = arguments["parameters"] as Map<String, Any>?
         if (parameters == null) {
@@ -974,8 +980,12 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 MISSING_PARAMETER_MESSAGE,
                 mapOf<String, Any>()
             )
+
+            return
         }
-        resolverHelper.otpResolver?.verify(code!!)
+        resolverHelper.otpResolver?.verify(code)
+
+        channelResult.success(null)
     }
 
     //endregion
@@ -998,16 +1008,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     fun resolveLinkToSite(arguments: Any, channelResult: MethodChannel.Result) {
         resolverHelper.linkAccountResolver?.let { resolver ->
             val loginId: String? = (arguments as Map<*, *>)["loginId"] as String?
-            if (loginId == null) {
-                channelResult.error(
-                    MISSING_PARAMETER_ERROR,
-                    MISSING_PARAMETER_MESSAGE,
-                    mapOf<String, Any>()
-                )
-                return
-            }
             val password: String? = arguments["password"] as String?
-            if (password == null) {
+            if (loginId == null || password == null) {
                 channelResult.error(
                     MISSING_PARAMETER_ERROR,
                     MISSING_PARAMETER_MESSAGE,
@@ -1017,7 +1019,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             resolver.linkToSite(loginId, password)
-
+            channelResult.success(null)
         } ?: channelResult.notImplemented()
     }
 
@@ -1044,10 +1046,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Pending registration - resolving missing account data.
      */
     fun resolveSetAccount(arguments: Any, channelResult: MethodChannel.Result) {
-        currentResult = channelResult
         resolverHelper.pendingRegistrationResolver?.let { resolver ->
             val data: Map<String, Any> = arguments as Map<String, Any>
             resolver.setAccount(data)
+            channelResult.success(null)
         } ?: channelResult.notImplemented()
     }
 
