@@ -112,7 +112,7 @@ Android core SDK update.
 Developer Preview 0.1.0
 Flutter 2 and Null-safety
 
-* Android [initialization](https://github.com/SAP/gigya-flutter-plugin#android-setup) update (custom schema) 
+* Android [initialization](https://github.com/SAP/gigya-flutter-plugin#android-setup) update (custom schema)
 * Migrated to Flutter 2 and Null-safety.
 * Added Forgot password feature (including example application implementation).
 * Added Google sign-in integration to the example application.
@@ -146,7 +146,7 @@ Example & documentation.
 * Documentation updates.
 
 # 0.0.1
-Inital release.
+Initial release.
 
 * Business APIs.
 * Social login (View documentation for supported providers).
