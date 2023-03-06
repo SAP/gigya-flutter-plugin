@@ -1,3 +1,7 @@
+# 0.2.2
+Updated Android Core SDK v6.2.1.
+Updated Swift Core SDK v1.5.1.
+
 # 0.2.1
 
 * Added support for phone number authentication (OTP).
@@ -54,8 +58,8 @@ Android core SDK update.
 
 # 0.1.0
 
-Developer Preview 0.1.0
-Flutter 2 and Null-safety
+# 0.1.4
+Developer Preview 0.1.4
 
 * Android [initialization](https://github.com/SAP/gigya-flutter-plugin#android-setup) update (custom schema)
 * Migrated to Flutter 2 and Null-safety.
@@ -97,3 +101,30 @@ Initial release.
 * Social login (View documentation for supported providers).
 * Web Screen-Sets.
 * Interruption handling.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
