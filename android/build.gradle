@@ -6,7 +6,6 @@ buildscript {
     repositories {
         google()
         mavenCentral()
-        jcenter() // TODO: remove JCenter as it is deprecated.
     }
 
     dependencies {
@@ -18,8 +17,8 @@ buildscript {
 rootProject.allprojects {
     repositories {
         google()
+        mavenCentral()
         maven { url 'https://jitpack.io' }
-        jcenter() // TODO: remove JCenter as it is deprecated.
     }
 }
 
@@ -53,9 +52,10 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
     
     // Gigya SDK core implementation.
-    api 'com.github.SAP.gigya-android-sdk:sdk-core:core-v6.1.0'
-    api 'com.github.SAP.gigya-android-sdk:gigya-android-auth:auth-v2.1.0'
+    api 'com.github.SAP.gigya-android-sdk:sdk-core:core-v6.2.1'
+    api 'com.github.SAP.gigya-android-sdk:sdk-auth:auth-v2.2.0'
 
     api 'com.google.code.gson:gson:2.8.9'
+
     api 'androidx.appcompat:appcompat:1.5.1'
 }

@@ -2,7 +2,7 @@ buildscript {
     ext.kotlin_version = '1.7.21'
     repositories {
         google()
-        jcenter() // TODO: remove JCenter as it is deprecated.
+        mavenCentral()
     }
 
     dependencies {
@@ -14,7 +14,7 @@ buildscript {
 allprojects {
     repositories {
         google()
-        jcenter() // TODO: remove JCenter as it is deprecated.
+        mavenCentral()
     }
 }
 

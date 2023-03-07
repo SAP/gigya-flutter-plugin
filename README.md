@@ -5,23 +5,21 @@
 A [Flutter](https://flutter.dev) plugin for interfacing Gigya's native SDKs into a Flutter application using [Dart](https://dart.dev).
 
 ## Description
-Flutter plugin that provides an interface for the Gigya API.
+A flutter plugin that provides an interface for the Gigya API.
 
 ## Requirements
-Android SDK support requires SDK 14 and above.
+Android SDK support requires SDK 14 and above. There is no specific requirement for iOS.
 
 ## Download and Installation
-Add the plugin in your **pubspec.yaml** fie.
+Add the Flutter plugin to your **pubspec.yaml** project configuration file.
 
 ## Setup & Gigya core integration
 
 ### Android setup
 
-Important:
-Make sure you have [configured](https://developers.gigya.com/display/GD/Android+SDK+v4#AndroidSDKv4-ViaJSONconfigurationfile:)
-the basic steps needed for integrating the Android SDK
+[Configure](https://sap.github.io/gigya-android-sdk/sdk-core/#153023-cdp-package-configuration) the basic elements needed for integrating the Android SDK.
 
-If you need custom scheme(**Optional**):
+If you need a custom scheme (**Optional**):
 ```
 class MyApplication : FlutterApplication() {
 
@@ -57,12 +55,12 @@ import Gigya
 }
 ```
 
-Important:
-Make sure you have [configured](https://developers.gigya.com/display/GD/Swift+SDK#SwiftSDK-ImplicitInitialization) your *info.plist* file accordinglty.
+**Important**:
+Make sure you have [configured](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#integrating-using-swift-package-manager) your *info.plist* file accordingly.
 
 ## Sending a simple request
 
-Sending a request is available using the plugin **send** method.
+Sending a request is available using the Flutter plugin's **send** method.
 ```
 GigyaSdk.instance.send('REQUEST-ENDPOINT', {PARAMETER-MAP}).then((result) {
       debugPrint(json.encode(result));
@@ -70,74 +68,90 @@ GigyaSdk.instance.send('REQUEST-ENDPOINT', {PARAMETER-MAP}).then((result) {
       debugPrint(error.errorDetails);
     });
 ```
-Example implementation is demonstrated in the *send_request.dart* class of the provided example application.
+Example implementation is demonstrated in the *send_request.dart* class of the example application in the Github code repository for this project.
 
 ## Business APIs
 
-The plugin provides an interface to these core SDK business APIs:
-**login, register, getAccount, getAccount, isLoggedIn ,logOut, addConnection, removeConnection**
-Implement them using the same request structure as shown above. 
-Example application includes the various implementations.
+The Flutter plugin provides an interface to these core SDK business APIs:
+
+- login
+- register
+- getAccount
+- getAccount
+- isLoggedIn
+- logOut
+- addConnection
+- removeConnection
+
+Implement them using the same request structure as shown above in the **Sending a simple request** section.
+
+The example application Github code repository for this project includes the various implementations.
 
 ## Social login
 
-Use the "socialLogin" interface in order to perform social login using supported providers.
-The Flutter plugin supports the same *providers supported by the Core Gigya SDK.
+Use the **socialLogin** interface in order to perform social login using supported providers.
+
+The Flutter plugin supports the same providers supported by the Core Gigya SDK.
 
 Supported social login providers:
-google, facebook, line, wechat, apple, amazon, linkedin, yahoo.
+
+- Google
+- Facebook
+- Line
+- WeChat
+- Apple
+- Amazon
+- LinkedIn
+- Yahoo
 
 ## Embedded social providers
 
-Specific social providers (Facebook, Google) require additional setup. This due to the their
-requirement for specific (embedded) SDKs.
+Specific social providers (currently Facebook and Google) require additional setup. This due to the their requirement for specific (embedded) SDKs.
 ```
-Example for both Facebook & Google are implemented in the example application.
+Note: Examples for both Facebook & Google are implemented in the example application in the Github code repository for this project.
 ```
 
 ### Facebook
 
-Follow the core SDK documentation and instructions for setting Facebook login.
-[Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#facebook)
-[iOS documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#facebook)
+Follow the core SDK documentation and instructions for configuring the Facebook login:
 
-iOS: In addition add the following to your Runner's *AppDelegate.swift* file:
+- [Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#facebook)
+- [iOS documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#facebook)
+
+iOS: In addition, add the following to your Runner's **AppDelegate.swift** file:
 ```swift
 Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
 ```
 
-```
-Instead of adding the provider's sdk using gradle/cocoapods you are able to add
-the [flutter_facebook_login] plugin to your **pubspec.yaml** dependencies.
-```
+Instead of adding the provider's SDK using gradle/cocoapods, you can add the [Flutter_Facebook_login](https://pub.dev/packages/flutter_facebook_login) plugin to your **pubspec.yaml** dependencies.
 
 ### Google
 
 Follow the core SDK documentation and instructions for setting Google login.
-[Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#google)
-[iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#google)
 
-iOS: In addition add the following to your Runner's *AppDelegate.swift* file:
+- [Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#google)
+- [iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#google)
+
+**iOS**: In addition, add the following to your Runner's **AppDelegate.swift** file:
 ```swift
 Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .google, wrapper: GoogleWrapper())
 ```
 
-```
-Instead of adding the provider's sdk using gradle/cocoapods you are able to add
-the [google_sign_in] plugin to your **pubspec.yaml** dependencies.
-```
+Instead of adding the provider's sdk using gradle/cocoapods you can add the [Google_sign_in](https://pub.dev/packages/google_sign_in) plugin to your **pubspec.yaml** dependencies.
 
 ### LINE
 
 In order to provider support for LINE provider, please follow the core SDK documentation.
-[Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#line)
-[iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#line)
+
+- [Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#line)
+- [iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#line)
 
 ### WeChat
 
 In order to provider support for WeChat provider, please follow the core SDK documentation.
-[Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#wechat)
-[iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#wechat)
+
+- [Android documentation](https://sap.github.io/gigya-android-sdk/sdk-core/#wechat)
+- [iOS documentation](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#wechat)
 
 
 ## Using screen-sets
@@ -149,27 +163,26 @@ GigyaSdk.instance.showScreenSet("Default-RegistrationLogin", (event, map) {
           debugPrint('Screen set event data received: $map');
 });
 ```
-Optional {parameters} map is available.
+An optional {parameters} map is available in the GigyaSdk.instance.showScreenSet interface, enabling you to add parameters in the function interface.
 
-As in the core SDKs the plugin provides a streaming channel that will stream the
-Screen-Sets events (event, map).
+As with the core SDKs, the Flutter plugin provides a streaming channel that will stream the Screen-Sets event name and event data map. The payload will contain:
 
-event - actual event name.
-map - event data map.
+- event - actual event name.
+- map - event data map.
 
 ## Mobile SSO
 
-The plugin supports the native SDK's "Single Sign On feature".
+The Flutter plugin supports the native SDK's "Single Sign On feature".
 
 Documentation:
 
-[Andorid](https://sap.github.io/gigya-android-sdk/sdk-core/#sso-single-sign-on)
+- [Android](https://sap.github.io/gigya-android-sdk/sdk-core/#sso-single-sign-on)
+- [iOS](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#sso-single-sign-on)
 
-[iOS](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#sso-single-sign-on)
-
-Please make sure to implement the necessary steps described for each platform.
-
-To initiate the flow run the following snippet.
+```
+Note: Implement the necessary steps described for each platform before initiating the SSO request.
+```
+To initiate the SSO request flow, run the following snippet.
 ```
  GigyaSdk.instance.sso().then((result) {
  // Handle result here.
@@ -181,15 +194,17 @@ To initiate the flow run the following snippet.
 
 ## FIDO/WebAuthn Authentication
 FIDO is a passwordless authentication method that allows password-only logins to be replaced with secure and fast login experiences across websites and apps.
+
 Our SDK provides an interface to register a passkey, login, and revoke passkeys created using FIDO/Passkeys, backed by our WebAuthn service.
 
 Please follow the platform implementation guides:
-[Swift](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#fidowebauthn-authentication)
-[Android](https://sap.github.io/gigya-android-sdk/sdk-core/#fidowebauthn-authentication)
+
+- [Swift](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#fidowebauthn-authentication)
+- [Android](https://sap.github.io/gigya-android-sdk/sdk-core/#fidowebauthn-authentication)
 
 Additional setup for Android:
 To support FIDO operations in your application, it is required that the *MainActivity* class of the application
-extends the *FlutterFragmentActivity* class and not *FlutterActivity*.
+extends the *FlutterFragmentActivity* class and not *FlutterActivity* class.
 
 **Usage example**
 Login with FIDO/WebAuthn passkey:
@@ -238,10 +253,12 @@ Revoke an existing FIDO/WebAuthn passkey:
 
 ## Login using phone number (OTP)
 Users can now authenticate using a valid phone number.
-**Note: An SMS provider configuration setup is required for the partner**
-
+```
+Note: An SMS provider configuration setup is required for the partner.
+```
 **Usage example**
-Begin phone authentication flow providing phone number.
+
+1. Begin the phone authentication flow by providing the phone number:
 ```
 GigyaSdk.instance.otp.login(phone).then((resolver) {
       // Code is sent. A resolver object is available for code verification
@@ -249,8 +266,7 @@ GigyaSdk.instance.otp.login(phone).then((resolver) {
       // Handle error here.
     });
 ```
-
-Verify SMS code using obtained "resolver" object.
+2. Verify the SMS code using the "resolver" object obtained in the previous step.
 ```
 resolver.verify(code).then((res) {
     // Parse account information.
@@ -260,18 +276,18 @@ resolver.verify(code).then((res) {
     });
 ```
 
-[Additional information & limitations](https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/4137e1be70b21014bbc5a10ce4041860.html?q=accounts.otp.sendCode)
+Please read about [Additional information & limitations](https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/4137e1be70b21014bbc5a10ce4041860.html?q=accounts.otp.sendCode) on OTP with the Flutter plugin.
 
 ## Resolving interruptions
 
-Much like the our core SDKs, resolving interruptions is available using the plugin.
+Much like the our core SDKs, resolving interruptions is available using the Flutter plugin.
 
-Current supporting interruptions:
+We currently support the following interruptions:
 * pendingRegistration using the *PendingRegistrationResolver* class.
 * pendingVerification using the *PendingVerificationResolver* class.
 * conflictingAccounts using the *LinkAccountResolver* class.
 
-Example for resolving **conflictingAccounts** interruptions:
+For example, to resolve **conflictingAccounts** interruptions, use the following code:
 ```
 GigyaSdk.instance.login(loginId, password).then((result) {
       debugPrint(json.encode(result));
@@ -290,10 +306,10 @@ GigyaSdk.instance.login(loginId, password).then((result) {
       }
     });
 ```
-Once you reference your resolver, create your relevant UI to determine if a site or social linking is
-required (see example app for details) and use the relevant "resolve" method.
+Once you reference your resolver object obtained in your interruption code, create your application UI to determine if a site or social linking is
+required (for details see the example application in this Github project repository) and use the required "resolve" method.
 
-Example of resolving link to site when trying to link a new social account to a site account.
+Example of resolving link to site when trying to link a new social account to a site account:
 ```
 final String password = _linkPasswordController.text.trim();
 resolver.linkToSite(loginId, password).then((res) {

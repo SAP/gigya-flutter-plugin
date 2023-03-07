@@ -53,6 +53,10 @@ iOS:
 * The `WebAuthnService` has been renamed to `WebAuthenticationService` and now uses an interface to abstract away the method channel.
 * The `InterruptionResolver` and `OtpService` now use an interface to abstract away the method channel.
 
+# 0.2.2
+Updated Android Core SDK v6.2.1.
+Updated Swift Core SDK v1.5.1.
+
 # 0.2.1
 
 * Added support for phone number authentication (OTP).
@@ -88,6 +92,10 @@ Developer Preview 0.1.4
 
 * Updated Android Core SDK v5.1.6
 * Added setSession interface.
+* Android [initialization](https://github.com/SAP/gigya-flutter-plugin#android-setup) update (custom schema)
+* Migrated to Flutter 2 and Null-safety.
+* Added Forgot password feature (including example application implementation).
+* Added Google sign-in integration to the example application.
 
 # 0.1.3
 Developer Preview 0.1.3
@@ -108,14 +116,6 @@ Android core SDK update.
 * Updated Android Core SDK v5.1.3
 
 # 0.1.0
-
-Developer Preview 0.1.0
-Flutter 2 and Null-safety
-
-* Android [initialization](https://github.com/SAP/gigya-flutter-plugin#android-setup) update (custom schema)
-* Migrated to Flutter 2 and Null-safety.
-* Added Forgot password feature (including example application implementation).
-* Added Google sign-in integration to the example application.
 
 # 0.0.6
 Account Model Patch
