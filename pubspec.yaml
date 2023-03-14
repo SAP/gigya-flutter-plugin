@@ -31,7 +31,7 @@ flutter:
         pluginClass: GigyaFlutterPlugin
       web:
         pluginClass: GigyaFlutterPluginWeb
-        fileName: src/platform_interface/gigya_flutter_plugin_web.dart
+        fileName: src/web/gigya_flutter_plugin_web.dart
 
 false_secrets:
   - example/android/app/src/main/res/values/strings.xml
