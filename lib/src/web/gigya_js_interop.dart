@@ -16,8 +16,12 @@ extension JSWindowExtension on JSWindow {
   external set onGigyaServiceReady(void Function(Object? arguments) onReady);
 }
 
+/// Get the `gigya` JavaScript object.
+@JS('window.gigya')
+external GigyaWebSdk get gigyaWebSdk;
+
 /// The static interop class for the `gigya` JavaScript object.
-@JS('gigya')
+@JS()
 @staticInterop
 class GigyaWebSdk {}
 
