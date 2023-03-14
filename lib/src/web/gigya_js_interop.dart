@@ -15,3 +15,12 @@ extension JSWindowExtension on JSWindow {
   /// This function is called when the Gigya Web SDK has been initialized.
   external set onGigyaServiceReady(void Function(Object? arguments) onReady);
 }
+
+/// The static interop class for the `gigya` JavaScript object.
+@JS('gigya')
+@staticInterop
+class GigyaWebSdk {}
+
+/// This extension defines the static interop definition
+/// for the [GigyaWebSdk] class.
+extension GigyaWebSdkExtension on GigyaWebSdk {}
