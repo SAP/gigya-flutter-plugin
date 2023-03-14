@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:html' as html;
+import 'dart:js_util';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
@@ -26,11 +27,11 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
     // Set `window.onGigyaServiceReady` before creating the script.
     // That function is called when the SDK has been initialized.
-    domWindow.onGigyaServiceReady = () {
+    domWindow.onGigyaServiceReady = allowInterop((Object? arguments) {
       if (!onGigyaServiceReadyCompleter.isCompleted) {
         onGigyaServiceReadyCompleter.complete();
       }
-    };
+    });
 
     final html.ScriptElement script = html.ScriptElement()
       ..async = true
@@ -38,7 +39,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
       ..type = 'text/javascript'
       ..lang = 'javascript'
       ..crossOrigin = 'anonymous'
-      ..src = 'cdns.$apiDomain/js/gigya.js?apikey=$apiKey';
+      ..src = 'https://cdns.$apiDomain/js/gigya.js?apikey=$apiKey';
 
     html.document.head!.append(script);
 

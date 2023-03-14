@@ -13,5 +13,5 @@ extension JSWindowExtension on JSWindow {
   /// Set the `onGigyaServiceReady` function on the [html.Window].
   ///
   /// This function is called when the Gigya Web SDK has been initialized.
-  external set onGigyaServiceReady(void Function() onReady);
+  external set onGigyaServiceReady(void Function(Object? arguments) onReady);
 }
