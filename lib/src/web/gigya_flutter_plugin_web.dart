@@ -1,6 +1,6 @@
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
-import 'gigya_flutter_plugin_platform_interface.dart';
+import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
 
 /// An implementation of [GigyaFlutterPluginPlatform] that uses JavaScript static interop.
 class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
