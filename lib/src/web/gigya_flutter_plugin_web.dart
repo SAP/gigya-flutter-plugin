@@ -51,4 +51,14 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
     return onGigyaServiceReadyCompleter.future;
   }
+
+  @override
+  Future<bool> isLoggedIn() {
+    return Future.value(false);
+  }
+
+  @override
+  Future<void> logout() {
+    return Future.value();
+  }
 }
