@@ -16,8 +16,7 @@ class MethodChannelWebAuthenticationService extends WebAuthenticationService {
   @override
   Future<Map<String, dynamic>> login() async {
     try {
-      final Map<String, dynamic>? result =
-          await _channel.invokeMapMethod<String, dynamic>(
+      final Map<String, dynamic>? result = await _channel.invokeMapMethod<String, dynamic>(
         WebAuthnMethods.login.methodName,
         <String, dynamic>{},
       ).timeout(
