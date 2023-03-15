@@ -18,6 +18,4 @@ class GigyaWebSdk {}
 extension GigyaWebSdkExtension on GigyaWebSdk {
   /// Get the accounts namespace in the Gigya Web SDK.
   external Accounts get accounts;
-
-  // TODO: socialize & sso namespace
 }
