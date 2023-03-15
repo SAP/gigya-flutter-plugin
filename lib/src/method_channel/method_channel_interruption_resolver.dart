@@ -17,6 +17,7 @@ class MethodChannelInterruptionResolverFactory
 
   @override
   InterruptionResolver? fromErrorCode(GigyaError exception) {
+    // TODO: create an enum for these error codes. See web_error_code.dart.
     switch (exception.errorCode) {
       case 403043:
         return _MethodChannelLinkAccountResolver(_channel);
