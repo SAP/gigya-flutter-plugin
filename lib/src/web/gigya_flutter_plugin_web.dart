@@ -4,8 +4,14 @@ import 'dart:js_util';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 
+import '../models/gigya_error.dart';
 import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
-import 'gigya_js_interop.dart';
+import 'static_interop/account.dart';
+import 'static_interop/gigya_method_parameters.dart';
+import 'static_interop/gigya_web_sdk.dart';
+import 'static_interop/response.dart';
+import 'static_interop/window.dart';
+import 'web_error_code.dart';
 
 /// An implementation of [GigyaFlutterPluginPlatform] that uses JavaScript static interop.
 class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
@@ -54,11 +60,65 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
   @override
   Future<bool> isLoggedIn() {
-    return Future.value(false);
+    final Completer<bool> completer = Completer<bool>();
+    final GigyaMethodParameters parameters = GigyaMethodParameters(
+      callback: (Response response) {
+        if (completer.isCompleted) {
+          return;
+        }
+
+        switch (WebErrorCode.fromErrorCode(response.errorCode)) {
+          case WebErrorCode.success:
+            completer.complete(true);
+            break;
+          case WebErrorCode.unauthorizedUser:
+            completer.complete(false);
+            break;
+          default:
+            completer.completeError(
+              GigyaError(
+                apiVersion: response.apiVersion,
+                callId: response.callId,
+                errorCode: response.errorCode,
+                errorDetails: response.errorDetails,
+              ),
+            );
+            break;
+        }
+      },
+    );
+
+    gigyaWebSdk.accounts.session.verify(parameters);
+
+    return completer.future;
   }
 
   @override
   Future<void> logout() {
-    return Future.value();
+    final Completer<void> completer = Completer<void>();
+    final GigyaMethodParameters parameters = GigyaMethodParameters(
+      callback: (Response response) {
+        if (completer.isCompleted) {
+          return;
+        }
+
+        if (response.errorCode == 0) {
+          completer.complete();
+        } else {
+          completer.completeError(
+            GigyaError(
+              apiVersion: response.apiVersion,
+              callId: response.callId,
+              errorCode: response.errorCode,
+              errorDetails: response.errorDetails,
+            ),
+          );
+        }
+      },
+    );
+
+    gigyaWebSdk.accounts.logout(parameters);
+
+    return completer.future;
   }
 }
