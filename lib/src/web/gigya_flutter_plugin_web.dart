@@ -62,7 +62,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   Future<bool> isLoggedIn() {
     final Completer<bool> completer = Completer<bool>();
     final GigyaMethodParameters parameters = GigyaMethodParameters(
-      callback: (Response response) {
+      callback: allowInterop((Response response) {
         if (completer.isCompleted) {
           return;
         }
@@ -85,7 +85,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
             );
             break;
         }
-      },
+      }),
     );
 
     gigyaWebSdk.accounts.session.verify(parameters);
@@ -97,7 +97,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   Future<void> logout() {
     final Completer<void> completer = Completer<void>();
     final GigyaMethodParameters parameters = GigyaMethodParameters(
-      callback: (Response response) {
+      callback: allowInterop((Response response) {
         if (completer.isCompleted) {
           return;
         }
@@ -114,7 +114,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
             ),
           );
         }
-      },
+      }),
     );
 
     gigyaWebSdk.accounts.logout(parameters);
