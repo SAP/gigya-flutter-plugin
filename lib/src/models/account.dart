@@ -5,9 +5,9 @@ import 'profile.dart';
 class Account {
   /// The default constructor.
   Account({
-    this.emails = const Emails(),
     this.created,
     this.data = const <String, dynamic>{},
+    this.emails = const Emails(),
     this.isActive,
     this.isRegistered,
     this.isVerified,
