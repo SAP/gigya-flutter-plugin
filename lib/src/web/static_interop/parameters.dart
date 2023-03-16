@@ -8,7 +8,10 @@ import 'response.dart';
 @anonymous
 class GigyaMethodParameters {
   /// Create a [GigyaMethodParameters] instance using the given [callback] and [context].
-  external factory GigyaMethodParameters({void Function(Response response) callback, Object? context});
+  external factory GigyaMethodParameters({
+    void Function(Response response) callback,
+    Object? context,
+  });
 }
 
 /// This class represents the parameters for the `accounts.login()` method.
@@ -16,5 +19,9 @@ class GigyaMethodParameters {
 @anonymous
 class LoginParameters {
   /// Create a new [LoginParameters] instance.
-  external factory LoginParameters({String loginID, String password, void Function(Response response) callback});
+  external factory LoginParameters({
+    String loginID,
+    String password,
+    void Function(LoginResponse response) callback,
+  });
 }
