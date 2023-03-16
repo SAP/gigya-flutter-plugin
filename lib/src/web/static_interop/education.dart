@@ -31,4 +31,19 @@ class Education {
 
   /// The year in which the education was started.
   external String? get startYear;
+
+  /// Convert the given [education] to a [Map].
+  ///
+  /// Since the [Education] class is an anonymous JavaScript type,
+  /// this has to be a static method instead of an instance method.
+  static Map<String, dynamic> toMap(Education education) {
+    return <String, dynamic>{
+      'degree': education.degree,
+      'endYear': education.endYear,
+      'fieldOfStudy': education.fieldOfStudy,
+      'school': education.school,
+      'schoolType': education.schoolType,
+      'startYear': education.startYear,
+    };
+  }
 }
