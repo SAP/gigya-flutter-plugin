@@ -35,4 +35,20 @@ class Patent {
 
   /// The url to the patent document.
   external String? get url;
+
+  /// Convert the given [patent] to a [Map].
+  ///
+  /// Since the [Patent] class is an anonymous JavaScript type,
+  /// this has to be a static method instead of an instance method.
+  static Map<String, dynamic> toMap(Patent patent) {
+    return <String, dynamic>{
+      'date': patent.date,
+      'number': patent.number,
+      'office': patent.office,
+      'status': patent.status,
+      'summary': patent.summary,
+      'title': patent.title,
+      'url': patent.url,
+    };
+  }
 }
