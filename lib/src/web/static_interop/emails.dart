@@ -1,7 +1,6 @@
 import 'package:js/js.dart';
 
-/// The static interop class for the emails object
-/// that is nested within a profile object.
+/// The static interop class for the emails object.
 @JS()
 @anonymous
 class Emails {
