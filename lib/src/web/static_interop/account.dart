@@ -1,6 +1,6 @@
 import 'package:js/js.dart';
 
-import 'gigya_method_parameters.dart';
+import 'parameters.dart';
 
 /// The static interop class for the `gigya.accounts` JavaScript object.
 ///
@@ -20,14 +20,6 @@ extension AccountsExtension on Accounts {
 
   /// Get the session namespace within the accounts namespace.
   external Session get session;
-}
-
-/// This class represents the parameters for the login method.
-@JS()
-@anonymous
-class LoginParameters {
-  /// Create a new [LoginParameters] instance.
-  external factory LoginParameters({String loginID, String password});
 }
 
 /// This class represents the session namespace in the [Accounts] class.
