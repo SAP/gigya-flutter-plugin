@@ -7,9 +7,10 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import '../models/gigya_error.dart';
 import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
 import 'static_interop/account.dart';
-import 'static_interop/gigya_method_parameters.dart';
 import 'static_interop/gigya_web_sdk.dart';
-import 'static_interop/response.dart';
+import 'static_interop/parameters.dart';
+import 'static_interop/response/login_response.dart';
+import 'static_interop/response/response.dart';
 import 'static_interop/window.dart';
 import 'web_error_code.dart';
 

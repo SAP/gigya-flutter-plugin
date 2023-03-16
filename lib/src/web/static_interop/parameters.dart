@@ -1,6 +1,7 @@
 import 'package:js/js.dart';
 
-import 'response.dart';
+import 'response/login_response.dart';
+import 'response/response.dart';
 
 /// This class represents the parameters object for the various Gigya Web SDK methods
 /// that use a callback function which provides a [Response], along with a `context` object.
