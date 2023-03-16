@@ -30,7 +30,6 @@ class Profile {
     String? industry,
     String? interests,
     String? languages,
-    Location? lastLoginLocation,
     String? lastName,
     List<Like> likes,
     String? locale,
@@ -125,9 +124,6 @@ class Profile {
 
   /// The different languages that the person is proficient in.
   external String? get languages;
-
-  /// The last location where the user was logged in.
-  external Location? get lastLoginLocation;
 
   /// The person's last name.
   external String? get lastName;
