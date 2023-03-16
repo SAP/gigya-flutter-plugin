@@ -27,4 +27,18 @@ class Publication {
 
   /// The url to the publication's document.
   external String? get url;
+
+  /// Convert the given [publication] to a [Map].
+  ///
+  /// Since the [Publication] class is an anonymous JavaScript type,
+  /// this has to be a static method instead of an instance method.
+  static Map<String, dynamic> toMap(Publication publication) {
+    return <String, dynamic>{
+      'date': publication.date,
+      'publisher': publication.publisher,
+      'summary': publication.summary,
+      'title': publication.title,
+      'url': publication.url,
+    };
+  }
 }
