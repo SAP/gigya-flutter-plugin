@@ -39,4 +39,21 @@ class Work {
 
   /// The user's title in the company.
   external String? get title;
+
+  /// Convert the given [work] to a [Map].
+  ///
+  /// Since the [Work] class is an anonymous JavaScript type,
+  /// this has to be a static method instead of an instance method.
+  static Map<String, dynamic> toMap(Work work) {
+    return <String, dynamic>{
+      'company': work.company,
+      'companyID': work.companyID,
+      'companySize': work.companySize,
+      'endDate': work.endDate,
+      'industry': work.industry,
+      'isCurrent': work.isCurrent,
+      'startDate': work.startDate,
+      'title': work.title,
+    };
+  }
 }
