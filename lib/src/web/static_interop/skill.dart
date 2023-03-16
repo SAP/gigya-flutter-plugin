@@ -15,4 +15,16 @@ class Skill {
 
   /// The years of the user's skill.
   external int? get years;
+
+  /// Convert the given [skill] to a [Map].
+  ///
+  /// Since the [Skill] class is an anonymous JavaScript type,
+  /// this has to be a static method instead of an instance method.
+  static Map<String, dynamic> toMap(Skill skill) {
+    return <String, dynamic>{
+      'level': skill.level,
+      'skill': skill.skill,
+      'years': skill.years,
+    };
+  }
 }
