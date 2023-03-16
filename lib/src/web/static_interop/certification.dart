@@ -27,4 +27,18 @@ class Certification {
 
   /// The date that the certification was issued.
   external String? get startDate;
+
+  /// Convert the given [certification] to a [Map].
+  ///
+  /// Since the [Certification] class is an anonymous JavaScript type,
+  /// this has to be a static method instead of an instance method.
+  static Map<String, dynamic> toMap(Certification certification) {
+    return <String, dynamic>{
+      'authority': certification.authority,
+      'endDate': certification.endDate,
+      'name': certification.name,
+      'number': certification.number,
+      'startDate': certification.startDate,
+    };
+  }
 }
