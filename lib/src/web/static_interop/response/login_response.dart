@@ -14,9 +14,26 @@ class LoginResponse {
   external factory LoginResponse({
     int? apiVersion,
     String callId,
+    String? createdTimestamp,
+    Emails? emails,
     int errorCode,
     String? errorDetails,
     String? errorMessage,
+    bool? isActive,
+    bool? isRegistered,
+    bool? isVerified,
+    String? lastLogin,
+    String? lastUpdated,
+    String? loginProvider,
+    String? oldestDataUpdated,
+    Profile? profile,
+    String? registered,
+    SessionInfo? sessionInfo,
+    Object? signatureTimestamp,
+    String? socialProviders,
+    String? UID, // ignore: non_constant_identifier_names
+    String? UIDSignature, // ignore: non_constant_identifier_names
+    String? verified,
   });
 
   /// The version of the Gigya API that was used.
@@ -29,7 +46,7 @@ class LoginResponse {
   external String? get createdTimestamp;
 
   /// The verified and unverified email addresses of the user.
-  external Emails get emails;
+  external Emails? get emails;
 
   /// The response error code.
   ///
@@ -54,7 +71,7 @@ class LoginResponse {
   /// Whether the user is verified.
   external bool? get isVerified;
 
-  /// The timestamp of the lat login of the user.
+  /// The timestamp of the last login of the user.
   external String? get lastLogin;
 
   /// The timestamp of the last update to the user's profile,
@@ -74,7 +91,7 @@ class LoginResponse {
   external String? get registered;
 
   /// The session info for the user's session.
-  external SessionInfo get sessionInfo;
+  external SessionInfo? get sessionInfo;
 
   /// The timestamp of the [UIDSignature].
   /// This value can be a [String] or a [num].
