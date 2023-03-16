@@ -12,4 +12,15 @@ class Phone {
 
   /// The type of phone number.
   external String? get type;
+
+  /// Convert the given [phone] to a [Map].
+  ///
+  /// Since the [Phone] class is an anonymous JavaScript type,
+  /// this has to be a static method instead of an instance method.
+  static Map<String, dynamic> toMap(Phone phone) {
+    return <String, dynamic>{
+      'number': phone.number,
+      'type': phone.type,
+    };
+  }
 }
