@@ -20,7 +20,7 @@ class Profile {
     List<Education> education,
     String? educationLevel,
     String? email,
-    List<Favorite> favorites,
+    Favorites favorites,
     String? firstName,
     int? followers,
     int? following,
@@ -96,7 +96,7 @@ class Profile {
   external String? get email;
 
   /// The person's favorites.
-  external List<Favorite> get favorites;
+  external Favorites get favorites;
 
   /// The person's first name.
   external String? get firstName;
