@@ -1,5 +1,6 @@
 import 'emails.dart';
 import 'profile.dart';
+import 'session_info.dart';
 
 /// This class represents an account.
 class Account {
@@ -17,6 +18,7 @@ class Account {
     this.oldestDataUpdated,
     this.profile,
     this.registered,
+    this.sessionInfo,
     this.signatureTimestamp,
     this.socialProviders = const <String>[],
     this.uid,
@@ -36,6 +38,9 @@ class Account {
     final String? oldestDataUpdated = json['oldestDataUpdated'] as String?;
     final String? registered = json['registered'] as String?;
     final String? verified = json['verified'] as String?;
+    final Map<String, dynamic>? session =
+        (json['sessionInfo'] as Map<Object?, Object?>?)
+            ?.cast<String, dynamic>();
     final String socialProviders = json['socialProviders'] as String? ?? '';
 
     // The signature timestamp can be either an ISO 8601 date,
@@ -62,6 +67,7 @@ class Account {
       oldestDataUpdated: DateTime.tryParse(oldestDataUpdated ?? ''),
       profile: profile == null ? null : Profile.fromJson(profile),
       registered: DateTime.tryParse(registered ?? ''),
+      sessionInfo: session == null ? null : SessionInfo.fromJson(session),
       signatureTimestamp: signatureTimestamp,
       socialProviders: socialProviders.split(','),
       uid: json['UID'] as String?,
@@ -110,6 +116,9 @@ class Account {
   /// The timestamp, in UTC, when the user was registered.
   final DateTime? registered;
 
+  /// The session info for the account.
+  final SessionInfo? sessionInfo;
+
   /// The timestamp of the [uidSignature], in UTC.
   /// This signature should be used for login validation.
   final DateTime? signatureTimestamp;
@@ -143,6 +152,7 @@ class Account {
       'oldestDataUpdated': oldestDataUpdated?.toIso8601String(),
       if (accountProfile != null) 'profile': accountProfile.toJson(),
       'registered': registered?.toIso8601String(),
+      if (sessionInfo != null) 'sessionInfo': sessionInfo!.toJson(),
       'signatureTimestamp': signatureTimestamp?.toIso8601String(),
       'socialProviders': socialProviders,
       'UID': uid,
