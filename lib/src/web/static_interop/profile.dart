@@ -36,7 +36,6 @@ class Profile {
     String? locale,
     String? name,
     String? nickname,
-    OidcData? oidcData,
     List<Patent> patents,
     List<Phone> phones,
     String? photoUrl,
@@ -144,9 +143,6 @@ class Profile {
 
   /// The person's nickname.
   external String? get nickname;
-
-  /// The OIDC data linked to this person.
-  external OidcData? get oidcData;
 
   /// The different patents that this person owns.
   external List<Patent> get patents;
