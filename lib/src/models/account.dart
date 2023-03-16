@@ -138,6 +138,7 @@ class Account {
   /// Convert this object into a JSON object.
   Map<String, dynamic> toJson() {
     final Profile? accountProfile = profile;
+    final SessionInfo? session = sessionInfo;
 
     return <String, dynamic>{
       'created': created?.toIso8601String(),
@@ -152,7 +153,7 @@ class Account {
       'oldestDataUpdated': oldestDataUpdated?.toIso8601String(),
       if (accountProfile != null) 'profile': accountProfile.toJson(),
       'registered': registered?.toIso8601String(),
-      if (sessionInfo != null) 'sessionInfo': sessionInfo!.toJson(),
+      if (session != null) 'sessionInfo': session.toJson(),
       'signatureTimestamp': signatureTimestamp?.toIso8601String(),
       'socialProviders': socialProviders,
       'UID': uid,
