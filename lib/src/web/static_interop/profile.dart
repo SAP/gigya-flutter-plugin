@@ -1,5 +1,15 @@
 import 'package:js/js.dart';
 
+import 'certification.dart';
+import 'education.dart';
+import 'favorites.dart';
+import 'like.dart';
+import 'patent.dart';
+import 'phone.dart';
+import 'publication.dart';
+import 'skill.dart';
+import 'work.dart';
+
 /// This class represents the static interop implementation
 /// for the profile object.
 @JS()
@@ -196,4 +206,68 @@ class Profile {
 
   /// The ZIP code of the person's address.
   external String? get zip;
+
+  /// Convert the given [profile] to a [Map].
+  ///
+  /// Since the [Profile] class is an anonymous JavaScript type,
+  /// this has to be a static method instead of an instance method.
+  static Map<String, dynamic> toMap(Profile profile) {
+    final List<Map<String, dynamic>> certs = profile.certifications.map(Certification.toMap).toList();
+    final List<Map<String, dynamic>> education = profile.education.map(Education.toMap).toList();
+    final List<Map<String, dynamic>> likes = profile.likes.map(Like.toMap).toList();
+    final List<Map<String, dynamic>> patents = profile.patents.map(Patent.toMap).toList();
+    final List<Map<String, dynamic>> phones = profile.phones.map(Phone.toMap).toList();
+    final List<Map<String, dynamic>> publications = profile.publications.map(Publication.toMap).toList();
+    final List<Map<String, dynamic>> skills = profile.skills.map(Skill.toMap).toList();
+    final List<Map<String, dynamic>> work = profile.work.map(Work.toMap).toList();
+
+    return <String, dynamic>{
+      'activities': profile.activities,
+      'address': profile.address,
+      'age': profile.age,
+      'bio': profile.bio,
+      'birthDay': profile.birthDay,
+      'birthMonth': profile.birthMonth,
+      'birthYear': profile.birthYear,
+      'certifications': certs,
+      'city': profile.city,
+      'country': profile.country,
+      'education': education,
+      'educationLevel': profile.educationLevel,
+      'email': profile.email,
+      'favorites': Favorites.toMap(profile.favorites),
+      'firstName': profile.firstName,
+      'followersCount': profile.followers,
+      'followingCount': profile.following,
+      'gender': profile.gender,
+      'hometown': profile.hometown,
+      'honors': profile.honors,
+      'industry': profile.industry,
+      'interests': profile.interests,
+      'languages': profile.languages,
+      'lastName': profile.lastName,
+      'likes': likes,
+      'locale': profile.locale,
+      'name': profile.name,
+      'nickname': profile.nickname,
+      'patents': patents,
+      'phones': phones,
+      'photoURL': profile.photoUrl,
+      'politicalView': profile.politicalView,
+      'professionalHeadline': profile.professionalHeadline,
+      'proxyEmail': profile.proxyEmail,
+      'publications': publications,
+      'relationshipStatus': profile.relationshipStatus,
+      'religion': profile.religion,
+      'skills': skills,
+      'specialities': profile.specialities,
+      'state': profile.state,
+      'thumbnailURL': profile.thumbnailUrl,
+      'timezone': profile.timezone,
+      'username': profile.username,
+      'verified': profile.verified,
+      'work': work,
+      'zip': profile.zip,
+    };
+  }
 }
