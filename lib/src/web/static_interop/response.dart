@@ -13,7 +13,7 @@ class Response {
     Object? context,
     int errorCode,
     String? errorDetails,
-    String errorMessage,
+    String? errorMessage,
   });
 
   /// The version of the Gigya API that was used.
@@ -37,5 +37,5 @@ class Response {
   external String? get errorDetails;
 
   /// The error message for the given [errorCode].
-  external String get errorMessage;
+  external String? get errorMessage;
 }
