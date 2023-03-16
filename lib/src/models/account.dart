@@ -1,5 +1,6 @@
 import 'emails.dart';
 import 'profile.dart';
+import 'session_info.dart';
 
 /// This class represents an account.
 class Account {
@@ -17,6 +18,7 @@ class Account {
     this.oldestDataUpdated,
     this.profile,
     this.registered,
+    this.sessionInfo,
     this.signatureTimestamp,
     this.socialProviders = const <String>[],
     this.uid,
@@ -31,6 +33,9 @@ class Account {
         (json['emails'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
     final Map<String, dynamic>? profile =
         (json['profile'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
+    final Map<String, dynamic>? session =
+        (json['sessionInfo'] as Map<Object?, Object?>?)
+            ?.cast<String, dynamic>();
     final String? lastLogin = json['lastLogin'] as String?;
     final String? lastUpdated = json['lastUpdated'] as String?;
     final String? oldestDataUpdated = json['oldestDataUpdated'] as String?;
@@ -62,6 +67,7 @@ class Account {
       oldestDataUpdated: DateTime.tryParse(oldestDataUpdated ?? ''),
       profile: profile == null ? null : Profile.fromJson(profile),
       registered: DateTime.tryParse(registered ?? ''),
+      sessionInfo: session == null ? null : SessionInfo.fromJson(session),
       signatureTimestamp: signatureTimestamp,
       socialProviders: socialProviders.split(','),
       uid: json['UID'] as String?,
@@ -110,6 +116,9 @@ class Account {
   /// The timestamp, in UTC, when the user was registered.
   final DateTime? registered;
 
+  /// The session info for the account.
+  final SessionInfo? sessionInfo;
+
   /// The timestamp of the [uidSignature], in UTC.
   /// This signature should be used for login validation.
   final DateTime? signatureTimestamp;
@@ -128,8 +137,6 @@ class Account {
 
   /// Convert this object into a JSON object.
   Map<String, dynamic> toJson() {
-    final Profile? accountProfile = profile;
-
     return <String, dynamic>{
       'created': created?.toIso8601String(),
       'data': data,
@@ -141,8 +148,9 @@ class Account {
       'lastUpdated': lastUpdated?.toIso8601String(),
       'loginProvider': loginProvider,
       'oldestDataUpdated': oldestDataUpdated?.toIso8601String(),
-      if (accountProfile != null) 'profile': accountProfile.toJson(),
+      if (profile != null) 'profile': profile!.toJson(),
       'registered': registered?.toIso8601String(),
+      if (sessionInfo != null) 'sessionInfo': sessionInfo!.toJson(),
       'signatureTimestamp': signatureTimestamp?.toIso8601String(),
       'socialProviders': socialProviders,
       'UID': uid,
