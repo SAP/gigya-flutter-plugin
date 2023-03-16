@@ -91,4 +91,38 @@ class LoginResponse {
 
   /// The timestamp when the user was verified.
   external String? get verified;
+
+  /// Convert the given [response] to a [Map].
+  ///
+  /// Since the [LoginResponse] class is an anonymous JavaScript type,
+  /// this has to be a static method instead of an instance method.
+  static Map<String, dynamic> toMap(LoginResponse response) {
+    final Profile? profile = response.profile;
+
+    return <String, dynamic>{
+      'createdTimestamp': response.createdTimestamp,
+      'emails': <String, dynamic>{
+        'unverified': response.emails.unverified,
+        'verified': response.emails.verified,
+      },
+      'isActive': response.isActive,
+      'isRegistered': response.isRegistered,
+      'isVerified': response.isVerified,
+      'lastLogin': response.lastLogin,
+      'lastUpdated': response.lastUpdated,
+      'loginProvider': response.loginProvider,
+      'oldestDataUpdated': response.oldestDataUpdated,
+      if (profile != null) 'profile': Profile.toMap(profile),
+      'registered': response.registered,
+      'sessionInfo': <String, dynamic>{
+        'cookieName': response.sessionInfo.cookieName,
+        'cookieValue': response.sessionInfo.cookieValue,
+      },
+      'signatureTimestamp': response.signatureTimestamp,
+      'socialProviders': response.socialProviders,
+      'UID': response.UID,
+      'UIDSignature': response.UIDSignature,
+      'verified': response.verified,
+    };
+  }
 }
