@@ -118,14 +118,18 @@ class LoginResponse {
   /// Since the [LoginResponse] class is an anonymous JavaScript type,
   /// this has to be a static method instead of an instance method.
   static Map<String, dynamic> toMap(LoginResponse response) {
+    final Emails? emails = response.emails;
+    final SessionInfo? sessionInfo = response.sessionInfo;
+
     final Profile? profile = response.profile;
 
     return <String, dynamic>{
       'createdTimestamp': response.createdTimestamp,
-      'emails': <String, dynamic>{
-        'unverified': response.emails.unverified,
-        'verified': response.emails.verified,
-      },
+      if (emails != null)
+        'emails': <String, dynamic>{
+          'unverified': emails.unverified,
+          'verified': emails.verified,
+        },
       'isActive': response.isActive,
       'isRegistered': response.isRegistered,
       'isVerified': response.isVerified,
@@ -135,10 +139,11 @@ class LoginResponse {
       'oldestDataUpdated': response.oldestDataUpdated,
       if (profile != null) 'profile': Profile.toMap(profile),
       'registered': response.registered,
-      'sessionInfo': <String, dynamic>{
-        'cookieName': response.sessionInfo.cookieName,
-        'cookieValue': response.sessionInfo.cookieValue,
-      },
+      if (sessionInfo != null)
+        'sessionInfo': <String, dynamic>{
+          'cookieName': sessionInfo.cookieName,
+          'cookieValue': sessionInfo.cookieValue,
+        },
       'signatureTimestamp': response.signatureTimestamp,
       'socialProviders': response.socialProviders,
       'UID': response.UID,
