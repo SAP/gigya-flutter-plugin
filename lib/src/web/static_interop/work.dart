@@ -3,6 +3,7 @@ import 'package:js/js.dart';
 /// The static interop class for the `Work` object.
 @JS()
 @anonymous
+@staticInterop
 class Work {
   /// Construct a new [Work] instance.
   external factory Work({
@@ -15,7 +16,11 @@ class Work {
     String? startDate,
     String? title,
   });
+}
 
+/// This extension defines the static interop definition
+/// for the [Work] class.
+extension WorkExtension on Work {
   /// The name of the company.
   external String? get company;
 
@@ -40,20 +45,17 @@ class Work {
   /// The user's title in the company.
   external String? get title;
 
-  /// Convert the given [work] to a [Map].
-  ///
-  /// Since the [Work] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Work work) {
+  /// Convert this work object into a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'company': work.company,
-      'companyID': work.companyID,
-      'companySize': work.companySize,
-      'endDate': work.endDate,
-      'industry': work.industry,
-      'isCurrent': work.isCurrent,
-      'startDate': work.startDate,
-      'title': work.title,
+      'company': company,
+      'companyID': companyID,
+      'companySize': companySize,
+      'endDate': endDate,
+      'industry': industry,
+      'isCurrent': isCurrent,
+      'startDate': startDate,
+      'title': title,
     };
   }
 }
