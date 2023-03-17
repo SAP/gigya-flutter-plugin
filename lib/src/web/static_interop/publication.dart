@@ -3,6 +3,7 @@ import 'package:js/js.dart';
 /// The static interop class for the `Publication` object.
 @JS()
 @anonymous
+@staticInterop
 class Publication {
   /// Construct a new [Publication] instance.
   external factory Publication({
@@ -12,7 +13,11 @@ class Publication {
     String? title,
     String? url,
   });
+}
 
+/// This extension defines the static interop definition
+/// for the [Publication] class.
+extension PublicationExtension on Publication {
   /// The publication date.
   external String? get date;
 
@@ -28,17 +33,14 @@ class Publication {
   /// The url to the publication's document.
   external String? get url;
 
-  /// Convert the given [publication] to a [Map].
-  ///
-  /// Since the [Publication] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Publication publication) {
+  /// Convert this publication into a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'date': publication.date,
-      'publisher': publication.publisher,
-      'summary': publication.summary,
-      'title': publication.title,
-      'url': publication.url,
+      'date': date,
+      'publisher': publisher,
+      'summary': summary,
+      'title': title,
+      'url': url,
     };
   }
 }
