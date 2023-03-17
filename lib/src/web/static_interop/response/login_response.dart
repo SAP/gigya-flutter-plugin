@@ -102,18 +102,14 @@ extension LoginResponseExtension on LoginResponse {
 
   /// Convert this response to a [Map].
   Map<String, dynamic> toMap() {
-    Map<String, dynamic>? profileAsMap;
+    final Map<String, dynamic>? profileAsMap = profile?.toMap();
 
-    if (profile != null) {
-      profileAsMap = Profile.toMap(profile!);
-
+    if (profileAsMap != null) {
       // The lastLoginLocation field is not in the profile
       // when using the Gigya Web SDK.
       // Instead, it is located inside the login response.
       // Add it to the profile map.
-      if (lastLoginLocation != null) {
-        profileAsMap['lastLoginLocation'] = lastLoginLocation!.toMap();
-      }
+      profileAsMap['lastLoginLocation'] = lastLoginLocation?.toMap();
     }
 
     return <String, dynamic>{

@@ -14,6 +14,7 @@ import 'work.dart';
 /// for the profile object.
 @JS()
 @anonymous
+@staticInterop
 class Profile {
   /// Construct a new [Profile] instance.
   external factory Profile({
@@ -65,7 +66,11 @@ class Profile {
     List<Work> work,
     String? zip,
   });
+}
 
+/// This extension defines the static interop definition
+/// for the [Profile] class.
+extension ProfileExtension on Profile {
   /// The person's activities.
   external String? get activities;
 
@@ -207,67 +212,55 @@ class Profile {
   /// The ZIP code of the person's address.
   external String? get zip;
 
-  /// Convert the given [profile] to a [Map].
-  ///
-  /// Since the [Profile] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Profile profile) {
-    final List<Map<String, dynamic>> certs = profile.certifications.map((Certification c) => c.toMap()).toList();
-    final List<Map<String, dynamic>> education = profile.education.map((Education e) => e.toMap()).toList();
-    final List<Map<String, dynamic>> likes = profile.likes.map((Like l) => l.toMap()).toList();
-    final List<Map<String, dynamic>> patents = profile.patents.map((Patent p) => p.toMap()).toList();
-    final List<Map<String, dynamic>> phones = profile.phones.map((Phone p) => p.toMap()).toList();
-    final List<Map<String, dynamic>> publications = profile.publications.map((Publication p) => p.toMap()).toList();
-    final List<Map<String, dynamic>> skills = profile.skills.map((Skill s) => s.toMap()).toList();
-    final List<Map<String, dynamic>> work = profile.work.map((Work w) => w.toMap()).toList();
-
+  /// Convert this profile into a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'activities': profile.activities,
-      'address': profile.address,
-      'age': profile.age,
-      'bio': profile.bio,
-      'birthDay': profile.birthDay,
-      'birthMonth': profile.birthMonth,
-      'birthYear': profile.birthYear,
-      'certifications': certs,
-      'city': profile.city,
-      'country': profile.country,
-      'education': education,
-      'educationLevel': profile.educationLevel,
-      'email': profile.email,
-      'favorites': profile.favorites.toMap(),
-      'firstName': profile.firstName,
-      'followersCount': profile.followers,
-      'followingCount': profile.following,
-      'gender': profile.gender,
-      'hometown': profile.hometown,
-      'honors': profile.honors,
-      'industry': profile.industry,
-      'interests': profile.interests,
-      'languages': profile.languages,
-      'lastName': profile.lastName,
-      'likes': likes,
-      'locale': profile.locale,
-      'name': profile.name,
-      'nickname': profile.nickname,
-      'patents': patents,
-      'phones': phones,
-      'photoURL': profile.photoUrl,
-      'politicalView': profile.politicalView,
-      'professionalHeadline': profile.professionalHeadline,
-      'proxyEmail': profile.proxyEmail,
-      'publications': publications,
-      'relationshipStatus': profile.relationshipStatus,
-      'religion': profile.religion,
-      'skills': skills,
-      'specialities': profile.specialities,
-      'state': profile.state,
-      'thumbnailURL': profile.thumbnailUrl,
-      'timezone': profile.timezone,
-      'username': profile.username,
-      'verified': profile.verified,
-      'work': work,
-      'zip': profile.zip,
+      'activities': activities,
+      'address': address,
+      'age': age,
+      'bio': bio,
+      'birthDay': birthDay,
+      'birthMonth': birthMonth,
+      'birthYear': birthYear,
+      'certifications': certifications.map((Certification c) => c.toMap()).toList(),
+      'city': city,
+      'country': country,
+      'education': education.map((Education e) => e.toMap()).toList(),
+      'educationLevel': educationLevel,
+      'email': email,
+      'favorites': favorites.toMap(),
+      'firstName': firstName,
+      'followersCount': followers,
+      'followingCount': following,
+      'gender': gender,
+      'hometown': hometown,
+      'honors': honors,
+      'industry': industry,
+      'interests': interests,
+      'languages': languages,
+      'lastName': lastName,
+      'likes': likes.map((Like l) => l.toMap()).toList(),
+      'locale': locale,
+      'name': name,
+      'nickname': nickname,
+      'patents': patents.map((Patent p) => p.toMap()).toList(),
+      'phones': phones.map((Phone p) => p.toMap()).toList(),
+      'photoURL': photoUrl,
+      'politicalView': politicalView,
+      'professionalHeadline': professionalHeadline,
+      'proxyEmail': proxyEmail,
+      'publications': publications.map((Publication p) => p.toMap()).toList(),
+      'relationshipStatus': relationshipStatus,
+      'religion': religion,
+      'skills': skills.map((Skill s) => s.toMap()).toList(),
+      'specialities': specialities,
+      'state': state,
+      'thumbnailURL': thumbnailUrl,
+      'timezone': timezone,
+      'username': username,
+      'verified': verified,
+      'work': work.map((Work w) => w.toMap()).toList(),
+      'zip': zip,
     };
   }
 }
