@@ -95,6 +95,42 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }
 
   @override
+  Future<Map<String, dynamic>> login({
+    required String loginId,
+    required String password,
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
+
+    final LoginParameters loginParameters = LoginParameters(
+      loginID: loginId,
+      password: password,
+      callback: allowInterop((LoginResponse response) {
+        if (completer.isCompleted) {
+          return;
+        }
+
+        if (response.errorCode == 0) {
+          completer.complete(LoginResponse.toMap(response));
+        } else {
+          completer.completeError(
+            GigyaError(
+              apiVersion: response.apiVersion,
+              callId: response.callId,
+              errorCode: response.errorCode,
+              errorDetails: response.errorDetails,
+            ),
+          );
+        }
+      }),
+    );
+
+    gigyaWebSdk.accounts.login(loginParameters);
+
+    return completer.future;
+  }
+
+  @override
   Future<void> logout() {
     final Completer<void> completer = Completer<void>();
     final GigyaMethodParameters parameters = GigyaMethodParameters(
