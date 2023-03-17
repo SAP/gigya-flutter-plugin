@@ -20,3 +20,10 @@ class ConflictingAccountResponse extends Response {
     String? errorMessage,
   });
 }
+
+/// This extension defines the static interop definition
+/// for the [ConflictingAccountResponse] class.
+extension ConflictingAccountResponseExtension on ConflictingAccountResponse {
+  /// Get the conflicting account that is included in the response.
+  external ConflictingAccount? get conflictingAccount;
+}
