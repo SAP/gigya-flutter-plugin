@@ -1,9 +1,9 @@
 import 'package:js/js.dart';
 
-import '../emails.dart';
-import '../location.dart';
-import '../profile.dart';
-import '../session_info.dart';
+import '../models/emails.dart';
+import '../models/location.dart';
+import '../models/profile.dart';
+import '../models/session_info.dart';
 import 'response.dart';
 
 /// The static interop class for the Gigya Login API response.
