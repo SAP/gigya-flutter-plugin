@@ -3,6 +3,7 @@ import 'package:js/js.dart';
 /// The static interop class for the `Like` object.
 @JS()
 @anonymous
+@staticInterop
 class Like {
   /// Create a new [Like] instance.
   external factory Like({
@@ -11,7 +12,11 @@ class Like {
     String? name,
     String? time,
   });
+}
 
+/// This extension defines the static interop definition
+/// for the [Like] class.
+extension LikeExtension on Like {
   /// The category of the like.
   external String? get category;
 
@@ -24,16 +29,13 @@ class Like {
   /// The timestamp, in UTC, on which the like was created.
   external String? get time;
 
-  /// Convert the given [like] to a [Map].
-  ///
-  /// Since the [Like] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Like like) {
+  /// Convert this like to a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'category': like.category,
-      'id': like.id,
-      'name': like.name,
-      'time': like.time,
+      'category': category,
+      'id': id,
+      'name': name,
+      'time': time,
     };
   }
 }
