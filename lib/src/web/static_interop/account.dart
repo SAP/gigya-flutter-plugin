@@ -12,6 +12,9 @@ class Accounts {}
 /// This extension defines the static interop definition
 /// for the [Accounts] class.
 extension AccountsExtension on Accounts {
+  /// Get the conflicting accounts of the user.
+  external void Function(ConflictingAccountParameters parameters) getConflictingAccount;
+
   /// Log in using the given parameters.
   external void Function(LoginParameters parameters) login;
 
