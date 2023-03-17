@@ -3,10 +3,15 @@ import 'package:js/js.dart';
 /// The static interop class for the `Skill` object.
 @JS()
 @anonymous
+@staticInterop
 class Skill {
   /// Construct a new [Skill] instance.
   external factory Skill({String? level, String? skill, int? years});
+}
 
+/// This extension defines the static interop definition
+/// for the [Skill] class.
+extension SkillExtension on Skill {
   /// The user's proficiency in the skill.
   external String? get level;
 
@@ -16,15 +21,12 @@ class Skill {
   /// The years of the user's skill.
   external int? get years;
 
-  /// Convert the given [skill] to a [Map].
-  ///
-  /// Since the [Skill] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Skill skill) {
+  /// Convert this skill to a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'level': skill.level,
-      'skill': skill.skill,
-      'years': skill.years,
+      'level': level,
+      'skill': skill,
+      'years': years,
     };
   }
 }

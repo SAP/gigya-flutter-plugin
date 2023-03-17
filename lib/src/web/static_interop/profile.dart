@@ -218,7 +218,7 @@ class Profile {
     final List<Map<String, dynamic>> patents = profile.patents.map((Patent p) => p.toMap()).toList();
     final List<Map<String, dynamic>> phones = profile.phones.map((Phone p) => p.toMap()).toList();
     final List<Map<String, dynamic>> publications = profile.publications.map((Publication p) => p.toMap()).toList();
-    final List<Map<String, dynamic>> skills = profile.skills.map(Skill.toMap).toList();
+    final List<Map<String, dynamic>> skills = profile.skills.map((Skill s) => s.toMap()).toList();
     final List<Map<String, dynamic>> work = profile.work.map(Work.toMap).toList();
 
     return <String, dynamic>{
