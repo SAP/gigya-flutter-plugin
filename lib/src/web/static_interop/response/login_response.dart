@@ -122,6 +122,21 @@ class LoginResponse {
     final SessionInfo? sessionInfo = response.sessionInfo;
 
     final Profile? profile = response.profile;
+    Map<String, dynamic>? profileAsMap;
+
+    if (profile != null) {
+      profileAsMap = Profile.toMap(profile);
+
+      // The lastLoginLocation field is not in the profile
+      // when using the Gigya Web SDK.
+      // Instead, it is located inside the login response.
+      // Add it to the profile map.
+      final Location? lastLoginLocation = response.lastLoginLocation;
+
+      if (lastLoginLocation != null) {
+        profileAsMap['lastLoginLocation'] = Location.toMap(lastLoginLocation);
+      }
+    }
 
     return <String, dynamic>{
       'createdTimestamp': response.createdTimestamp,
@@ -137,7 +152,7 @@ class LoginResponse {
       'lastUpdated': response.lastUpdated,
       'loginProvider': response.loginProvider,
       'oldestDataUpdated': response.oldestDataUpdated,
-      if (profile != null) 'profile': Profile.toMap(profile),
+      if (profileAsMap != null) 'profile': profileAsMap,
       'registered': response.registered,
       if (sessionInfo != null)
         'sessionInfo': <String, dynamic>{
