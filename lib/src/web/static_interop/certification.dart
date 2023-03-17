@@ -3,6 +3,7 @@ import 'package:js/js.dart';
 /// The static interop class for the Certification object.
 @JS()
 @anonymous
+@staticInterop
 class Certification {
   /// Create a new [Certification] instance.
   external factory Certification({
@@ -12,7 +13,11 @@ class Certification {
     String? number,
     String? startDate,
   });
+}
 
+/// This extension defines the static interop definition
+/// for the [Certification] class.
+extension CertificationExtension on Certification {
   /// The certification authority.
   external String? get authority;
 
@@ -28,17 +33,14 @@ class Certification {
   /// The date that the certification was issued.
   external String? get startDate;
 
-  /// Convert the given [certification] to a [Map].
-  ///
-  /// Since the [Certification] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Certification certification) {
+  /// Convert this certification to a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'authority': certification.authority,
-      'endDate': certification.endDate,
-      'name': certification.name,
-      'number': certification.number,
-      'startDate': certification.startDate,
+      'authority': authority,
+      'endDate': endDate,
+      'name': name,
+      'number': number,
+      'startDate': startDate,
     };
   }
 }
