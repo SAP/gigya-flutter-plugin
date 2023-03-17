@@ -3,6 +3,7 @@ import 'package:js/js.dart';
 /// The static interop class for the Education object.
 @JS()
 @anonymous
+@staticInterop
 class Education {
   /// Construct a new [Education] instance.
   external factory Education({
@@ -13,7 +14,11 @@ class Education {
     String? schoolType,
     String? startYear,
   });
+}
 
+/// This extension defines the static interop definition
+/// for the [Education] class.
+extension EducationExtension on Education {
   /// The degree for the education.
   external String? get degree;
 
@@ -32,18 +37,15 @@ class Education {
   /// The year in which the education was started.
   external String? get startYear;
 
-  /// Convert the given [education] to a [Map].
-  ///
-  /// Since the [Education] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Education education) {
+  /// Convert this education to a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'degree': education.degree,
-      'endYear': education.endYear,
-      'fieldOfStudy': education.fieldOfStudy,
-      'school': education.school,
-      'schoolType': education.schoolType,
-      'startYear': education.startYear,
+      'degree': degree,
+      'endYear': endYear,
+      'fieldOfStudy': fieldOfStudy,
+      'school': school,
+      'schoolType': schoolType,
+      'startYear': startYear,
     };
   }
 }
