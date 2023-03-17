@@ -1,6 +1,7 @@
 import 'package:js/js.dart';
 
 import '../emails.dart';
+import '../location.dart';
 import '../profile.dart';
 import '../session_info.dart';
 
