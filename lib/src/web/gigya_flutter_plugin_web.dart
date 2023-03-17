@@ -111,7 +111,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
         }
 
         if (response.errorCode == 0) {
-          completer.complete(LoginResponse.toMap(response));
+          completer.complete(response.toMap());
         } else {
           completer.completeError(
             GigyaError(

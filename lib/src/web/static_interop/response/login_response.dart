@@ -4,13 +4,15 @@ import '../emails.dart';
 import '../location.dart';
 import '../profile.dart';
 import '../session_info.dart';
+import 'response.dart';
 
 /// The static interop class for the Gigya Login API response.
 ///
 /// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/eb93d538b9ae45bfadd9a8aaa8806753.html#response-data
 @JS()
 @anonymous
-class LoginResponse {
+@staticInterop
+class LoginResponse extends Response {
   /// Construct a [LoginResponse] object.
   external factory LoginResponse({
     int? apiVersion,
@@ -37,32 +39,16 @@ class LoginResponse {
     String? UIDSignature, // ignore: non_constant_identifier_names
     String? verified,
   });
+}
 
-  /// The version of the Gigya API that was used.
-  external int? get apiVersion;
-
-  /// The unique identifier of the transaction.
-  external String get callId;
-
+/// This extension defines the static interop definition
+/// for the [LoginResponse] class.
+extension LoginResponseExtension on LoginResponse {
   /// The timestamp of the creation of the user.
   external String? get createdTimestamp;
 
   /// The verified and unverified email addresses of the user.
   external Emails? get emails;
-
-  /// The response error code.
-  ///
-  /// A value of zero indicates success.
-  /// Any other number indicates a failure.
-  ///
-  /// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/416d41b170b21014bbc5a10ce4041860.html
-  external int get errorCode;
-
-  /// The additional details of the encountered error.
-  external String? get errorDetails;
-
-  /// The error message for the given [errorCode].
-  external String? get errorMessage;
 
   /// Whether the user is active.
   external bool? get isActive;
@@ -114,57 +100,48 @@ class LoginResponse {
   /// The timestamp when the user was verified.
   external String? get verified;
 
-  /// Convert the given [response] to a [Map].
-  ///
-  /// Since the [LoginResponse] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(LoginResponse response) {
-    final Emails? emails = response.emails;
-    final SessionInfo? sessionInfo = response.sessionInfo;
-
-    final Profile? profile = response.profile;
+  /// Convert this response to a [Map].
+  Map<String, dynamic> toMap() {
     Map<String, dynamic>? profileAsMap;
 
     if (profile != null) {
-      profileAsMap = Profile.toMap(profile);
+      profileAsMap = Profile.toMap(profile!);
 
       // The lastLoginLocation field is not in the profile
       // when using the Gigya Web SDK.
       // Instead, it is located inside the login response.
       // Add it to the profile map.
-      final Location? lastLoginLocation = response.lastLoginLocation;
-
       if (lastLoginLocation != null) {
-        profileAsMap['lastLoginLocation'] = Location.toMap(lastLoginLocation);
+        profileAsMap['lastLoginLocation'] = Location.toMap(lastLoginLocation!);
       }
     }
 
     return <String, dynamic>{
-      'createdTimestamp': response.createdTimestamp,
+      'createdTimestamp': createdTimestamp,
       if (emails != null)
         'emails': <String, dynamic>{
-          'unverified': emails.unverified,
-          'verified': emails.verified,
+          'unverified': emails!.unverified,
+          'verified': emails!.verified,
         },
-      'isActive': response.isActive,
-      'isRegistered': response.isRegistered,
-      'isVerified': response.isVerified,
-      'lastLogin': response.lastLogin,
-      'lastUpdated': response.lastUpdated,
-      'loginProvider': response.loginProvider,
-      'oldestDataUpdated': response.oldestDataUpdated,
+      'isActive': isActive,
+      'isRegistered': isRegistered,
+      'isVerified': isVerified,
+      'lastLogin': lastLogin,
+      'lastUpdated': lastUpdated,
+      'loginProvider': loginProvider,
+      'oldestDataUpdated': oldestDataUpdated,
       if (profileAsMap != null) 'profile': profileAsMap,
-      'registered': response.registered,
+      'registered': registered,
       if (sessionInfo != null)
         'sessionInfo': <String, dynamic>{
-          'cookieName': sessionInfo.cookieName,
-          'cookieValue': sessionInfo.cookieValue,
+          'cookieName': sessionInfo!.cookieName,
+          'cookieValue': sessionInfo!.cookieValue,
         },
-      'signatureTimestamp': response.signatureTimestamp,
-      'socialProviders': response.socialProviders,
-      'UID': response.UID,
-      'UIDSignature': response.UIDSignature,
-      'verified': response.verified,
+      'signatureTimestamp': signatureTimestamp,
+      'socialProviders': socialProviders,
+      'UID': UID,
+      'UIDSignature': UIDSignature,
+      'verified': verified,
     };
   }
 }
