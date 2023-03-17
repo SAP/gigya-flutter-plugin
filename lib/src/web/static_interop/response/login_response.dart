@@ -112,7 +112,7 @@ extension LoginResponseExtension on LoginResponse {
       // Instead, it is located inside the login response.
       // Add it to the profile map.
       if (lastLoginLocation != null) {
-        profileAsMap['lastLoginLocation'] = Location.toMap(lastLoginLocation!);
+        profileAsMap['lastLoginLocation'] = lastLoginLocation!.toMap();
       }
     }
 

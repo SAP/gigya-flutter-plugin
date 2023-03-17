@@ -3,10 +3,15 @@ import 'package:js/js.dart';
 /// The static interop class for the `Coordinates` object.
 @JS()
 @anonymous
+@staticInterop
 class Coordinates {
   /// Construct a new [Coordinates] instance.
   external factory Coordinates({String? lat, String? lon});
+}
 
+/// This extension defines the static interop definition
+/// for the [Coordinates] class.
+extension CoordinatesExtension on Coordinates {
   /// The longitude of the coordinate.
   external double? get lat;
 
@@ -17,6 +22,7 @@ class Coordinates {
 /// The static interop class for the `Location` object.
 @JS()
 @anonymous
+@staticInterop
 class Location {
   /// Construct a new [Location] instance.
   external factory Location({
@@ -25,7 +31,11 @@ class Location {
     String? country,
     String? state,
   });
+}
 
+/// This extension defines the static interop definition
+/// for the [Location] class.
+extension LocationExtension on Location {
   /// The name of the city in which the location is located.
   external String? get city;
 
@@ -38,19 +48,16 @@ class Location {
   /// The state in which the location is located.
   external String? get state;
 
-  /// Convert the given [location] to a [Map].
-  ///
-  /// Since the [Location] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Location location) {
+  /// Convert this location to a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'city': location.city,
-      'country': location.country,
+      'city': city,
+      'country': country,
       'coordinates': <String, dynamic>{
-        'lat': location.coordinates?.lat,
-        'lon': location.coordinates?.lon,
+        'lat': coordinates?.lat,
+        'lon': coordinates?.lon,
       },
-      'state': location.state,
+      'state': state,
     };
   }
 }
