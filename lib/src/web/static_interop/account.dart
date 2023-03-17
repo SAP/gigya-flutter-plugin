@@ -1,6 +1,6 @@
 import 'package:js/js.dart';
 
-import 'parameters.dart';
+import 'parameters/basic.dart';
 import 'parameters/login.dart';
 
 /// The static interop class for the `gigya.accounts` JavaScript object.
@@ -20,7 +20,7 @@ extension AccountsExtension on Accounts {
   external void Function(LoginParameters parameters) login;
 
   /// Log out of the current session.
-  external void Function(GigyaMethodParameters parameters) logout;
+  external void Function(BasicParameters parameters) logout;
 
   /// Get the session namespace within the accounts namespace.
   external Session get session;
@@ -37,5 +37,5 @@ class Session {}
 /// for the [Session] class.
 extension SessionExtension on Session {
   /// Verify the current session.
-  external void Function(GigyaMethodParameters parameters) verify;
+  external void Function(BasicParameters parameters) verify;
 }

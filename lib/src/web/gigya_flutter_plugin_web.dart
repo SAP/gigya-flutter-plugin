@@ -8,7 +8,7 @@ import '../models/gigya_error.dart';
 import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
 import 'static_interop/account.dart';
 import 'static_interop/gigya_web_sdk.dart';
-import 'static_interop/parameters.dart';
+import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
 import 'static_interop/response/login_response.dart';
 import 'static_interop/response/response.dart';
@@ -63,7 +63,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   @override
   Future<bool> isLoggedIn() {
     final Completer<bool> completer = Completer<bool>();
-    final GigyaMethodParameters parameters = GigyaMethodParameters(
+    final BasicParameters parameters = BasicParameters(
       callback: allowInterop((Response response) {
         if (completer.isCompleted) {
           return;
@@ -134,7 +134,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   @override
   Future<void> logout() {
     final Completer<void> completer = Completer<void>();
-    final GigyaMethodParameters parameters = GigyaMethodParameters(
+    final BasicParameters parameters = BasicParameters(
       callback: allowInterop((Response response) {
         if (completer.isCompleted) {
           return;
