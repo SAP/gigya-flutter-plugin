@@ -3,6 +3,7 @@ import 'package:js/js.dart';
 /// The static interop class for the `Favorite` object.
 @JS()
 @anonymous
+@staticInterop
 class Favorite {
   /// Construct a new [Favorite] instance.
   external factory Favorite({
@@ -10,7 +11,11 @@ class Favorite {
     String? id,
     String? name,
   });
+}
 
+/// This extension defines the static interop definition
+/// for the [Favorite] class.
+extension FavoriteExtension on Favorite {
   /// The category of the favorite.
   external String? get category;
 
@@ -20,15 +25,12 @@ class Favorite {
   /// The name of the favorite.
   external String? get name;
 
-  /// Convert the given [favorite] to a [Map].
-  ///
-  /// Since the [Favorite] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Favorite favorite) {
+  /// Convert this favorite to a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'id': favorite.id,
-      'name': favorite.name,
-      'category': favorite.category,
+      'id': id,
+      'name': name,
+      'category': category,
     };
   }
 }
@@ -36,6 +38,7 @@ class Favorite {
 /// The static interop class for the `Favorites` object.
 @JS()
 @anonymous
+@staticInterop
 class Favorites {
   /// Construct a new [Favorites] instance.
   external factory Favorites({
@@ -46,7 +49,11 @@ class Favorites {
     List<Favorite> music,
     List<Favorite> television,
   });
+}
 
+/// This extension defines the static interop definition
+/// for the [Favorites] class.
+extension FavoritesExtension on Favorites {
   /// The user's favorite activities.
   external List<Favorite> get activities;
 
@@ -65,18 +72,15 @@ class Favorites {
   /// The user's favorite television programmes.
   external List<Favorite> get television;
 
-  /// Convert the given [favorites] to a [Map].
-  ///
-  /// Since the [Favorites] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Favorites favorites) {
+  /// Convert this favorites object to a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'activities': favorites.activities.map(Favorite.toMap).toList(),
-      'books': favorites.books.map(Favorite.toMap).toList(),
-      'interests': favorites.interests.map(Favorite.toMap).toList(),
-      'movies': favorites.movies.map(Favorite.toMap).toList(),
-      'music': favorites.music.map(Favorite.toMap).toList(),
-      'television': favorites.television.map(Favorite.toMap).toList(),
+      'activities': activities.map((Favorite f) => f.toMap()).toList(),
+      'books': books.map((Favorite f) => f.toMap()).toList(),
+      'interests': interests.map((Favorite f) => f.toMap()).toList(),
+      'movies': movies.map((Favorite f) => f.toMap()).toList(),
+      'music': music.map((Favorite f) => f.toMap()).toList(),
+      'television': television.map((Favorite f) => f.toMap()).toList(),
     };
   }
 }

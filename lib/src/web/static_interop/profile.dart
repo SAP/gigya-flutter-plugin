@@ -235,7 +235,7 @@ class Profile {
       'education': education,
       'educationLevel': profile.educationLevel,
       'email': profile.email,
-      'favorites': Favorites.toMap(profile.favorites),
+      'favorites': profile.favorites.toMap(),
       'firstName': profile.firstName,
       'followersCount': profile.followers,
       'followingCount': profile.following,
