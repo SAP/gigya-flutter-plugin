@@ -14,7 +14,7 @@ class ConflictingAccountResponse extends Response {
   external factory ConflictingAccountResponse({
     int? apiVersion,
     String callId,
-    ConflictingAccount? conflictingAccount,
+    JsConflictingAccount? conflictingAccount,
     int errorCode,
     String? errorDetails,
     String? errorMessage,
@@ -25,5 +25,5 @@ class ConflictingAccountResponse extends Response {
 /// for the [ConflictingAccountResponse] class.
 extension ConflictingAccountResponseExtension on ConflictingAccountResponse {
   /// Get the conflicting account that is included in the response.
-  external ConflictingAccount? get conflictingAccount;
+  external JsConflictingAccount? get conflictingAccount;
 }
