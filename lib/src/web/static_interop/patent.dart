@@ -3,6 +3,7 @@ import 'package:js/js.dart';
 /// The static interop class for the `Patent` object.
 @JS()
 @anonymous
+@staticInterop
 class Patent {
   /// Construct a new [Patent] instance.
   external factory Patent({
@@ -14,7 +15,11 @@ class Patent {
     String? title,
     String? url,
   });
+}
 
+/// This extension defines the static interop definition
+/// for the [Patent] class.
+extension PatentExtension on Patent {
   /// The issue date of the patent.
   external String? get date;
 
@@ -36,19 +41,16 @@ class Patent {
   /// The url to the patent document.
   external String? get url;
 
-  /// Convert the given [patent] to a [Map].
-  ///
-  /// Since the [Patent] class is an anonymous JavaScript type,
-  /// this has to be a static method instead of an instance method.
-  static Map<String, dynamic> toMap(Patent patent) {
+  /// Convert this patent into a [Map].
+  Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      'date': patent.date,
-      'number': patent.number,
-      'office': patent.office,
-      'status': patent.status,
-      'summary': patent.summary,
-      'title': patent.title,
-      'url': patent.url,
+      'date': date,
+      'number': number,
+      'office': office,
+      'status': status,
+      'summary': summary,
+      'title': title,
+      'url': url,
     };
   }
 }
