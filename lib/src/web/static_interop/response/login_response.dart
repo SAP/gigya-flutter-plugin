@@ -23,6 +23,7 @@ class LoginResponse {
     bool? isRegistered,
     bool? isVerified,
     String? lastLogin,
+    Location? lastLoginLocation,
     String? lastUpdated,
     String? loginProvider,
     String? oldestDataUpdated,
@@ -73,6 +74,9 @@ class LoginResponse {
 
   /// The timestamp of the last login of the user.
   external String? get lastLogin;
+
+  /// The last login location of the user.
+  external Location? get lastLoginLocation;
 
   /// The timestamp of the last update to the user's profile,
   /// preferences or subscriptions data.
