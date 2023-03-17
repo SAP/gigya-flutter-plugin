@@ -9,6 +9,7 @@ import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
 import 'static_interop/account.dart';
 import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/parameters.dart';
+import 'static_interop/parameters/login.dart';
 import 'static_interop/response/login_response.dart';
 import 'static_interop/response/response.dart';
 import 'static_interop/window.dart';

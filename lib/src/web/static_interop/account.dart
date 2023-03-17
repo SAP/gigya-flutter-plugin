@@ -1,6 +1,7 @@
 import 'package:js/js.dart';
 
 import 'parameters.dart';
+import 'parameters/login.dart';
 
 /// The static interop class for the `gigya.accounts` JavaScript object.
 ///
