@@ -10,7 +10,6 @@ class Response {
   external factory Response({
     int? apiVersion,
     String callId,
-    Object? context,
     int errorCode,
     String? errorDetails,
     String? errorMessage,
@@ -21,9 +20,6 @@ class Response {
 
   /// The unique identifier of the transaction.
   external String get callId;
-
-  /// The context that was passed to the method that responded with this [Response].
-  external Object? get context;
 
   /// The response error code.
   ///
