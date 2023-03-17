@@ -5,7 +5,7 @@ import 'package:js/js.dart';
 @anonymous
 class Coordinates {
   /// Construct a new [Coordinates] instance.
-  external factory Coordinates(String? lat, String? lon);
+  external factory Coordinates({String? lat, String? lon});
 
   /// The longitude of the coordinate.
   external double? get lat;
