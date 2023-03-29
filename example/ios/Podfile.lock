@@ -18,10 +18,10 @@ PODS:
     - FBSDKCoreKit (~> 13.0.0)
     - FBSDKLoginKit (~> 13.0.0)
     - Flutter
-  - Gigya (1.4.0)
+  - Gigya (1.5.1)
   - gigya_flutter_plugin (0.3.0):
     - Flutter
-    - Gigya (>= 1.4.0)
+    - Gigya (>= 1.5.1)
     - GigyaAuth (>= 1.1.1)
   - GigyaAuth (1.1.1):
     - Gigya (>= 1.2.0)
@@ -74,8 +74,8 @@ SPEC CHECKSUMS:
   FBSDKLoginKit: 66ff4ddf372d9c3fc360e65ae048a47a482c29b9
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
   flutter_facebook_auth: c0a8473f857cf44b0a27bfe752facf1d5fedd863
-  Gigya: e1a40d775051b7d2067cc581549ed75f0d2b30c6
-  gigya_flutter_plugin: be7f8ac7d8b4731c4678045eae3d36269da01024
+  Gigya: 535b3dc1b4c635f2a95ae058049b012fa1fa3e94
+  gigya_flutter_plugin: b879d1c1dd7df637001ce19e84a3b14ee9572e6c
   GigyaAuth: 0ffdf8aea1f562fc09d34ded9930b57e41308fd7
   google_sign_in: f669f45933dad48cd218dc3e189726bced3d19f4
   GoogleSignIn: 7137d297ddc022a7e0aa4619c86d72c909fa7213
@@ -84,4 +84,4 @@ SPEC CHECKSUMS:
 
 PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
 
-COCOAPODS: 1.11.2
+COCOAPODS: 1.12.0
