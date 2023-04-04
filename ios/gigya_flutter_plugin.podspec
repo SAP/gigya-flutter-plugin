@@ -4,7 +4,7 @@
 #
 Pod::Spec.new do |s|
   s.name             = 'gigya_flutter_plugin'
-  s.version          = '0.3.0'
+  s.version          = '1.0.0'
   s.summary          = 'SAP Gigya Flutter plugin'
   s.description      = <<-DESC
   SAP Gigya Flutter plugin
