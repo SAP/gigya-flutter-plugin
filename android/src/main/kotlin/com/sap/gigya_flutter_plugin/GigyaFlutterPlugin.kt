@@ -11,14 +11,13 @@ import com.gigya.android.sdk.account.models.GigyaAccount
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.embedding.engine.plugins.activity.ActivityAware
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding
-import io.flutter.plugin.common.BinaryMessenger
+import io.flutter.plugin.common.EventChannel
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
 import io.flutter.plugin.common.MethodChannel.MethodCallHandler
-import io.flutter.plugin.common.MethodChannel.Result
 
 /** GigyaFlutterPlugin */
-class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
+class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, ScreenSetEventDelegate {
 
     companion object {
         private lateinit var sdk: GigyaSDKWrapper<*>
@@ -29,30 +28,36 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         }
     }
 
-    /// Main communication method channel.
     private lateinit var channel: MethodChannel
+    private lateinit var screenSetsEventChannel: EventChannel
+    private var screenSetsEventsSink: EventChannel.EventSink? = null
 
     private var fidoResultHandler: ActivityResultLauncher<IntentSenderRequest>? = null
 
-    private var _messenger: BinaryMessenger? = null
-
     override fun onAttachedToEngine(@NonNull flutterPluginBinding: FlutterPlugin.FlutterPluginBinding) {
-        init(flutterPluginBinding.applicationContext as Application, GigyaAccount::class.java)
-        _messenger = flutterPluginBinding.binaryMessenger
-        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "gigya_flutter_plugin")
+        init<GigyaAccount>(flutterPluginBinding.applicationContext as Application, GigyaAccount::class.java)
+        channel = MethodChannel(flutterPluginBinding.binaryMessenger, "com.sap.gigya_flutter_plugin/methods")
         channel.setMethodCallHandler(this)
+        screenSetsEventChannel = EventChannel(flutterPluginBinding.binaryMessenger, "com.sap.gigya_flutter_plugin/screenSetEvents")
+        screenSetsEventChannel.setStreamHandler(object : EventChannel.StreamHandler {
+            override fun onListen(event: Any?, eventSink: EventChannel.EventSink?) {
+                screenSetsEventsSink = eventSink
+            }
+
+            override fun onCancel(event: Any?) {
+                screenSetsEventsSink = null
+            }
+        })
     }
 
     override fun onDetachedFromEngine(@NonNull binding: FlutterPlugin.FlutterPluginBinding) {
         channel.setMethodCallHandler(null)
-        _messenger = null
+        screenSetsEventChannel.setStreamHandler(null)
     }
 
-
     /// Main channel call handler. Will initiate native wrapper.
-    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: Result) {
+    override fun onMethodCall(@NonNull call: MethodCall, @NonNull result: MethodChannel.Result) {
         when (call.method) {
-            "getPlatformVersion" -> result.success("Android ${android.os.Build.VERSION.RELEASE}")
             "sendRequest" -> sdk.sendRequest(call.arguments, result)
             "loginWithCredentials" -> sdk.loginWithCredentials(call.arguments, result)
             "registerWithCredentials" -> sdk.registerWithCredentials(call.arguments, result)
@@ -63,7 +68,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
             "socialLogin" -> sdk.socialLogin(call.arguments, result)
             "addConnection" -> sdk.addConnection(call.arguments, result)
             "removeConnection" -> sdk.removeConnection(call.arguments, result)
-            "showScreenSet" -> sdk.showScreenSet(call.arguments, result, _messenger)
+            "showScreenSet" -> sdk.showScreenSet(call.arguments, result, this)
             "getConflictingAccounts" -> sdk.resolveGetConflictingAccounts(result)
             "linkToSite" -> sdk.resolveLinkToSite(call.arguments, result)
             "linkToSocial" -> sdk.resolveLinkToSocial(call.arguments, result)
@@ -106,17 +111,15 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware {
         }
     }
 
-    override fun onDetachedFromActivityForConfigChanges() {
+    override fun onDetachedFromActivityForConfigChanges() {}
 
-    }
-
-    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {
-
-    }
+    override fun onReattachedToActivityForConfigChanges(binding: ActivityPluginBinding) {}
 
     override fun onDetachedFromActivity() {
         fidoResultHandler = null
     }
 
-
+    override fun addScreenSetEvent(event: Map<String, Any?>) {
+        screenSetsEventsSink?.success(event)
+    }
 }

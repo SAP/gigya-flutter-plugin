@@ -2,65 +2,55 @@ import Flutter
 import UIKit
 import Gigya
 
-@available(iOS 13.0, *)
-public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, FlutterPlugin, GigyaInstanceProtocol {
-    
-    enum GigyaMethods: String {
-        case getPlatformVersion
-        case initSdk
-        case sendRequest
-        case loginWithCredentials
-        case registerWithCredentials
-        case isLoggedIn
-        case getAccount
-        case setAccount
-        case getSession
-        case setSession
-        case logOut
-        case socialLogin
-        case showScreenSet
-        case addConnection
-        case removeConnection
-        case sso
-        // intteruptions cases
-        case getConflictingAccounts
-        case linkToSite
-        case linkToSocial
-        case resolveSetAccount
-        case forgotPassword
-        // webauthn
-        case webAuthnLogin
-        case webAuthnRegister
-        case webAuthnRevoke
-        // otp
-        case otpLogin
-        case otpUpdate
-        case otpVerify
-    }
+public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, FlutterPlugin, FlutterStreamHandler, GigyaInstanceProtocol, ScreenSetEventDelegate {
+    /// The internal Gigya SDK instance.
     var sdk: GigyaSdkWrapper<T>?
-    
-    public static func register(with registrar: FlutterPluginRegistrar) {
-        // Stub. Not used.
-        // Registering using non static register method.
-    }
-    
-    public func register(with registrar: FlutterPluginRegistrar) {
-        let channel = FlutterMethodChannel(name: "gigya_flutter_plugin", binaryMessenger: registrar.messenger())
-        registrar.addMethodCallDelegate(self, channel: channel)
-    }
-    
+
     init(accountSchema: T.Type) {
         sdk = GigyaSdkWrapper(accountSchema: accountSchema)
+    }    
+
+    // MARK: - ScreenSet events
+
+    /// The event sink for the ScreenSet events.
+    var screenSetsEventsSink: FlutterEventSink?
+
+    func addScreenSetEvent(event: [String: Any?]) {
+        screenSetsEventsSink?(event)
     }
-    
+
+    public func onListen(withArguments arguments: Any?, eventSink events: @escaping FlutterEventSink) -> FlutterError? {
+        screenSetsEventsSink = events
+        return nil
+    }
+
+    public func onCancel(withArguments arguments: Any?) -> FlutterError? {
+        screenSetsEventsSink = nil
+        return nil
+    }
+
+    // MARK: - Plugin Registration
+
+    public static func register(with registrar: FlutterPluginRegistrar) {
+        // This method is a stub and does not register the plugin with the plugin registry.
+        // To register the plugin, call the `register()` instance method on an instance of this class.
+    }
+
+    public func register(with registrar: FlutterPluginRegistrar) {
+        let methodChannel = FlutterMethodChannel(name: "com.sap.gigya_flutter_plugin/methods", binaryMessenger: registrar.messenger())
+        let screenSetEventsChannel = FlutterEventChannel(name: "com.sap.gigya_flutter_plugin/screenSetEvents", binaryMessenger: registrar.messenger())
+
+        registrar.addMethodCallDelegate(self, channel: methodChannel)
+        screenSetEventsChannel.setStreamHandler(self)
+    }
+
+    // MARK: - Method Call Handler implementation
+
     public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-        let method = GigyaMethods(rawValue: call.method)
-        
-        // Methods without arguments
+        let method = GigyaSdkMethods(rawValue: call.method)
+
+        // Methods without arguments.
         switch method {
-        case .getPlatformVersion:
-            result("iOS " + UIDevice.current.systemVersion)
-            return
         case .isLoggedIn:
             sdk?.isLoggedIn(result: result)
             return
@@ -76,13 +66,13 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         default:
             break
         }
-        
-        // Methods with arguments
+
+        // Methods with arguments.
         guard let args = call.arguments as? [String: Any] else {
             result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
             return
         }
-        
+
         switch method {
         case .sendRequest:
             sdk?.sendRequest(arguments: args, result: result)
@@ -99,7 +89,7 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case .socialLogin:
             sdk?.socialLogin(arguments: args, result: result)
         case .showScreenSet:
-            sdk?.showScreenSet(arguments: args, result: result)
+            sdk?.showScreenSet(arguments: args, result: result, handler: self)
         case .addConnection:
             sdk?.addConnection(arguments: args, result: result)
         case .removeConnection:
@@ -130,13 +120,6 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.verifyOtp(arguments: args, result: result)
         default:
             result(nil)
-        }
-        
-    }
-    
-    
-    
-    deinit {
-        print("[SwiftGigyaFlutterPluginTyped deinit]")
+        }                  
     }
 }
