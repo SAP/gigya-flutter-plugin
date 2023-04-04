@@ -19,7 +19,6 @@ class Account {
     this.profile,
     this.registered,
     this.registeredTimestamp,
-    this.sessionInfo,
     this.signatureTimestamp,
     this.socialProviders,
     this.uid,
@@ -30,12 +29,8 @@ class Account {
 
   /// Construct an account from the given [json].
   factory Account.fromJson(Map<String, dynamic> json) {
-    final Map<String, dynamic>? emails =
-        json['emails'] as Map<String, dynamic>?;
-    final Map<String, dynamic>? profile =
-        json['profile'] as Map<String, dynamic>?;
-    final Map<String, dynamic>? session =
-        json['sessionInfo'] as Map<String, dynamic>?;
+    final Map<String, dynamic>? emails = json['emails'] == null ? null : json['emails'].cast<String, dynamic>() as Map<String, dynamic>;
+    final Map<String, dynamic>? profile = json['profile'] == null ? null : json['profile'].cast<String, dynamic>() as Map<String, dynamic>;
 
     return Account(
       emails: emails == null ? const Emails() : Emails.fromJson(emails),
@@ -51,7 +46,6 @@ class Account {
       profile: profile == null ? null : Profile.fromJson(profile),
       registered: json['registered'] as String?,
       registeredTimestamp: json['registeredTimestamp'] as Object?,
-      sessionInfo: session == null ? null : SessionInfo.fromJson(session),
       signatureTimestamp: json['signatureTimestamp'] as Object?,
       socialProviders: json['socialProviders'] as String?,
       uid: json['UID'] as String?,
@@ -103,9 +97,6 @@ class Account {
   /// The timestamp of the account registration.
   final Object? registeredTimestamp; // TODO: this should be a `DateTime?`.
 
-  /// The session info for the account.
-  final SessionInfo? sessionInfo;
-
   /// The timestamp of the [uidSignature].
   final Object? signatureTimestamp; // TODO: this should be a `DateTime?`.
 
@@ -127,7 +118,6 @@ class Account {
   /// Convert this object into a JSON object.
   Map<String, dynamic> toJson() {
     final Profile? accountProfile = profile;
-    final SessionInfo? session = sessionInfo;
 
     return <String, dynamic>{
       'created': created,
@@ -143,7 +133,6 @@ class Account {
       if (accountProfile != null) 'profile': accountProfile.toJson(),
       'registered': registered,
       'registeredTimestamp': registeredTimestamp?.toString(),
-      if (session != null) 'sessionInfo': session.toJson(),
       'signatureTimestamp': signatureTimestamp?.toString(),
       'socialProviders': socialProviders,
       'UID': uid,

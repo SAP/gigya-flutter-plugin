@@ -34,7 +34,6 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
         loginId: loginId,
         password: password,
       );
-
       final Account account = Account.fromJson(result);
 
       _setLoginSuccess(account);
