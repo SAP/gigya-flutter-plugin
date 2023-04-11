@@ -14,6 +14,17 @@ extension type Certification._(JSObject _) {
     String? startDate,
   });
 
+  /// Create a new [Certification] instance from the given [map].
+  factory Certification.fromMap(Map<String, dynamic> map) {
+    return Certification(
+      authority: map['authority'] as String?,
+      endDate: map['endDate'] as String?,
+      name: map['name'] as String?,
+      number: map['number'] as String?,
+      startDate: map['startDate'] as String?,
+    );
+  }
+
   /// The certification authority.
   external String? get authority;
 
