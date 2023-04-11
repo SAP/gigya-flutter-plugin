@@ -12,6 +12,15 @@ extension type Skill._(JSObject _) {
     int? years,
   });
 
+  /// Create a new [Skill] instance from the given [map].
+  factory Skill.fromMap(Map<String, dynamic> map) {
+    return Skill(
+      level: map['level'] as String?,
+      skill: map['skill'] as String?,
+      years: map['years'] as int?,
+    );
+  }  
+
   /// The user's proficiency in the skill.
   external String? get level;
 
