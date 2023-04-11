@@ -9,17 +9,7 @@ import 'response.dart';
 @JS()
 @anonymous
 @staticInterop
-class ConflictingAccountResponse extends Response {
-  /// Construct a [ConflictingAccountResponse] object.
-  external factory ConflictingAccountResponse({
-    int? apiVersion,
-    String callId,
-    JsConflictingAccount? conflictingAccount,
-    int errorCode,
-    String? errorDetails,
-    String? errorMessage,
-  });
-}
+class ConflictingAccountResponse extends Response {}
 
 /// This extension defines the static interop definition
 /// for the [ConflictingAccountResponse] class.

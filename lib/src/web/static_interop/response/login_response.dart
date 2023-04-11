@@ -12,34 +12,7 @@ import 'response.dart';
 @JS()
 @anonymous
 @staticInterop
-class LoginResponse extends Response {
-  /// Construct a [LoginResponse] object.
-  external factory LoginResponse({
-    int? apiVersion,
-    String callId,
-    String? createdTimestamp,
-    Emails? emails,
-    int errorCode,
-    String? errorDetails,
-    String? errorMessage,
-    bool? isActive,
-    bool? isRegistered,
-    bool? isVerified,
-    String? lastLogin,
-    Location? lastLoginLocation,
-    String? lastUpdated,
-    String? loginProvider,
-    String? oldestDataUpdated,
-    Profile? profile,
-    String? registered,
-    SessionInfo? sessionInfo,
-    Object? signatureTimestamp,
-    String? socialProviders,
-    String? UID, // ignore: non_constant_identifier_names
-    String? UIDSignature, // ignore: non_constant_identifier_names
-    String? verified,
-  });
-}
+class LoginResponse extends Response {}
 
 /// This extension defines the static interop definition
 /// for the [LoginResponse] class.

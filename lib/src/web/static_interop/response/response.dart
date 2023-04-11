@@ -12,16 +12,7 @@ export 'login_response.dart';
 @JS()
 @anonymous
 @staticInterop
-class Response {
-  /// Construct a [Response] object.
-  external factory Response({
-    int? apiVersion,
-    String callId,
-    int errorCode,
-    String? errorDetails,
-    String? errorMessage,
-  });
-}
+class Response {}
 
 /// This extension defines the static interop definition
 /// for the [Response] class.
