@@ -15,58 +15,7 @@ import 'work.dart';
 @JS()
 @anonymous
 @staticInterop
-class Profile {
-  /// Construct a new [Profile] instance.
-  external factory Profile({
-    String? activities,
-    String? address,
-    int? age,
-    String? bio,
-    int? birthDay,
-    int? birthMonth,
-    int birthYear,
-    List<Certification> certifications,
-    String? city,
-    String? country,
-    List<Education> education,
-    String? educationLevel,
-    String? email,
-    Favorites favorites,
-    String? firstName,
-    int? followers,
-    int? following,
-    String? gender,
-    String? hometown,
-    String? honors,
-    String? industry,
-    String? interests,
-    String? languages,
-    String? lastName,
-    List<Like> likes,
-    String? locale,
-    String? name,
-    String? nickname,
-    List<Patent> patents,
-    List<Phone> phones,
-    String? photoUrl,
-    String? politicalView,
-    String? professionalHeadline,
-    String? profileUrl,
-    String? proxyEmail,
-    List<Publication> publications,
-    String? relationshipStatus,
-    String? religion,
-    List<Skill> skills,
-    String? specialities,
-    String? state,
-    String? thumbnailUrl,
-    String? timezone,
-    String? username,
-    String? verified,
-    List<Work> work,
-    String? zip,
-  });
-}
+class Profile {}
 
 /// This extension defines the static interop definition
 /// for the [Profile] class.

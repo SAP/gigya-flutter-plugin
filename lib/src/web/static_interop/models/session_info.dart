@@ -4,13 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class SessionInfo {
-  /// Construct a new [SessionInfo] instance.
-  external factory SessionInfo({
-    String? cookieName,
-    String? cookieValue,
-  });
-}
+class SessionInfo {}
 
 /// This extension defines the static interop definition
 /// for the [SessionInfo] class.

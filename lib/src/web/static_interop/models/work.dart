@@ -4,19 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Work {
-  /// Construct a new [Work] instance.
-  external factory Work({
-    String? company,
-    int? companySize,
-    String? companyID,
-    String? endDate,
-    String? industry,
-    bool? isCurrent,
-    String? startDate,
-    String? title,
-  });
-}
+class Work {}
 
 /// This extension defines the static interop definition
 /// for the [Work] class.

@@ -4,18 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Patent {
-  /// Construct a new [Patent] instance.
-  external factory Patent({
-    String? date,
-    String? number,
-    String? office,
-    String? status,
-    String? summary,
-    String? title,
-    String? url,
-  });
-}
+class Patent {}
 
 /// This extension defines the static interop definition
 /// for the [Patent] class.

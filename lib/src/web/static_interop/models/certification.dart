@@ -4,16 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Certification {
-  /// Create a new [Certification] instance.
-  external factory Certification({
-    String? authority,
-    String? endDate,
-    String? name,
-    String? number,
-    String? startDate,
-  });
-}
+class Certification {}
 
 /// This extension defines the static interop definition
 /// for the [Certification] class.

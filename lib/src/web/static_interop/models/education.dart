@@ -4,17 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Education {
-  /// Construct a new [Education] instance.
-  external factory Education({
-    String? degree,
-    String? endYear,
-    String? fieldOfStudy,
-    String? school,
-    String? schoolType,
-    String? startYear,
-  });
-}
+class Education {}
 
 /// This extension defines the static interop definition
 /// for the [Education] class.

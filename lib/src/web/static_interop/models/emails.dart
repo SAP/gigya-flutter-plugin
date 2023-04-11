@@ -4,13 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Emails {
-  /// Create a new [Emails] instance.
-  external factory Emails({
-    List<dynamic> unverified,
-    List<dynamic> verified,
-  });
-}
+class Emails {}
 
 /// This extension defines the static interop definition
 /// for the [Emails] class.

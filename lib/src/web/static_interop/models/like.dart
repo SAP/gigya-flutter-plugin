@@ -4,15 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Like {
-  /// Create a new [Like] instance.
-  external factory Like({
-    String? category,
-    String? id,
-    String? name,
-    String? time,
-  });
-}
+class Like {}
 
 /// This extension defines the static interop definition
 /// for the [Like] class.

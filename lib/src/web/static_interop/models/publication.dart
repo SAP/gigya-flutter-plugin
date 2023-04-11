@@ -4,16 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Publication {
-  /// Construct a new [Publication] instance.
-  external factory Publication({
-    String? date,
-    String? publisher,
-    String? summary,
-    String? title,
-    String? url,
-  });
-}
+class Publication {}
 
 /// This extension defines the static interop definition
 /// for the [Publication] class.

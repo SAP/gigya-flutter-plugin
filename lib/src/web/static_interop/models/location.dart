@@ -4,10 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Coordinates {
-  /// Construct a new [Coordinates] instance.
-  external factory Coordinates({String? lat, String? lon});
-}
+class Coordinates {}
 
 /// This extension defines the static interop definition
 /// for the [Coordinates] class.
@@ -23,15 +20,7 @@ extension CoordinatesExtension on Coordinates {
 @JS()
 @anonymous
 @staticInterop
-class Location {
-  /// Construct a new [Location] instance.
-  external factory Location({
-    String? city,
-    Coordinates? coordinates,
-    String? country,
-    String? state,
-  });
-}
+class Location {}
 
 /// This extension defines the static interop definition
 /// for the [Location] class.

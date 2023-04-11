@@ -4,13 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class JsConflictingAccount {
-  /// Construct a new [JsConflictingAccount] instance.
-  external factory JsConflictingAccount({
-    String? loginID,
-    List<String>? loginProviders,
-  });
-}
+class JsConflictingAccount {}
 
 /// This extension defines the static interop definition
 /// for the [JsConflictingAccount] class.

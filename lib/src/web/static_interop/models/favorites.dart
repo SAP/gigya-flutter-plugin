@@ -4,14 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Favorite {
-  /// Construct a new [Favorite] instance.
-  external factory Favorite({
-    String? category,
-    String? id,
-    String? name,
-  });
-}
+class Favorite {}
 
 /// This extension defines the static interop definition
 /// for the [Favorite] class.
@@ -39,17 +32,7 @@ extension FavoriteExtension on Favorite {
 @JS()
 @anonymous
 @staticInterop
-class Favorites {
-  /// Construct a new [Favorites] instance.
-  external factory Favorites({
-    List<Favorite> activities,
-    List<Favorite> books,
-    List<Favorite> interests,
-    List<Favorite> movies,
-    List<Favorite> music,
-    List<Favorite> television,
-  });
-}
+class Favorites {}
 
 /// This extension defines the static interop definition
 /// for the [Favorites] class.

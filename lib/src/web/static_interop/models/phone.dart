@@ -4,10 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Phone {
-  /// Construct a new [Phone] instance.
-  external factory Phone({String? number, String? type});
-}
+class Phone {}
 
 /// This extension defines the static interop definition
 /// for the [Phone] class.

@@ -4,10 +4,7 @@ import 'package:js/js.dart';
 @JS()
 @anonymous
 @staticInterop
-class Skill {
-  /// Construct a new [Skill] instance.
-  external factory Skill({String? level, String? skill, int? years});
-}
+class Skill {}
 
 /// This extension defines the static interop definition
 /// for the [Skill] class.
