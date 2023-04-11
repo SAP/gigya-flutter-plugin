@@ -23,7 +23,7 @@ extension type Profile._(JSObject _) {
     String? bio,
     int? birthDay,
     int? birthMonth,
-    int birthYear,
+    int? birthYear,
     JSArray certifications,
     String? city,
     String? country,
