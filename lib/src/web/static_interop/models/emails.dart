@@ -9,9 +9,15 @@ class Emails {}
 /// This extension defines the static interop definition
 /// for the [Emails] class.
 extension EmailsExtension on Emails {
+  @JS('unverified')
+  external List<dynamic> get _unverified;
+
+  @JS('verified')
+  external List<dynamic> get _verified;
+
   /// The list of unverified email addresses.
-  external List<dynamic> get unverified;
+  List<String> get unverified => _unverified.cast<String>();
 
   /// The list of verified email addresses.
-  external List<dynamic> get verified;
+  List<String> get verified => _verified.cast<String>();
 }
