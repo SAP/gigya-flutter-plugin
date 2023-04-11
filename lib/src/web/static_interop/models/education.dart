@@ -15,6 +15,18 @@ extension type Education._(JSObject _) {
     String? startYear,
   });
 
+  /// Create a new [Education] instance from the given [map].
+  factory Education.fromMap(Map<String, dynamic> map) {
+    return Education(
+      degree: map['degree'] as String?,
+      endYear: map['endYear'] as String?,
+      fieldOfStudy: map['fieldOfStudy'] as String?,
+      school: map['school'] as String?,
+      schoolType: map['schoolType'] as String?,
+      startYear: map['startYear'] as String?,
+    );
+  }
+
   /// The degree for the education.
   external String? get degree;
 
