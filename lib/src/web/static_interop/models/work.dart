@@ -4,7 +4,7 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Work._(JSObject _) {
+extension type Work._(JSObject _) implements JSObject {
   /// Construct a new [Work] instance.
   external factory Work({
     String? company,

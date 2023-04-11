@@ -64,7 +64,80 @@ extension type Profile._(JSObject _) {
     String? verified,
     JSArray work,
     String? zip,
-  });  
+  });
+
+  /// Create a new [Profile] instance from the given [map].
+  factory Profile.fromMap(Map<String, dynamic> map) {
+    final List<Map<String, dynamic>> certifications =
+        map['certifications'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> education =
+        map['education'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> likes =
+        map['likes'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> patents =
+        map['patents'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> phones =
+        map['phones'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> publications =
+        map['publications'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> skills =
+        map['skills'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> work =
+        map['work'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+
+    return Profile(
+      activities: map['activities'] as String?,
+      address: map['address'] as String?,
+      age: map['age'] as int?,
+      bio: map['bio'] as String?,
+      birthDay: map['birthDay'] as int?,
+      birthMonth: map['birthMonth'] as int?,
+      birthYear: map['birthYear'] as int?,
+      certifications: certifications.map(Certification.fromMap).toList().toJS,
+      city: map['city'] as String?,
+      country: map['country'] as String?,
+      education: education.map(Education.fromMap).toList().toJS,
+      educationLevel: map['educationLevel'] as String?,
+      email: map['email'] as String?,
+      favorites: Favorites.fromMap(
+        map['favorites'] as Map<String, dynamic>? ?? const <String, dynamic>{},
+      ),
+      firstName: map['firstName'] as String?,
+      followers: map['followers'] as int?,
+      following: map['following'] as int?,
+      gender: map['gender'] as String?,
+      hometown: map['hometown'] as String?,
+      honors: map['honors'] as String?,
+      industry: map['industry'] as String?,
+      interests: map['interests'] as String?,
+      languages: map['languages'] as String?,
+      lastName: map['lastName'] as String?,
+      likes: likes.map(Like.fromMap).toList().toJS,
+      locale: map['locale'] as String?,
+      name: map['name'] as String?,
+      nickname: map['nickname'] as String?,
+      patents: patents.map(Patent.fromMap).toList().toJS,
+      phones: phones.map(Phone.fromMap).toList().toJS,
+      photoUrl: map['photoUrl'] as String?,
+      politicalView: map['politicalView'] as String?,
+      professionalHeadline: map['professionalHeadline'] as String?,
+      profileUrl: map['profileUrl'] as String?,
+      proxyEmail: map['proxyEmail'] as String?,
+      publications: publications.map(Publication.fromMap).toList().toJS,
+      relationshipStatus: map['relationshipStatus'] as String?,
+      religion: map['religion'] as String?,
+      skills: skills.map(Skill.fromMap).toList().toJS,
+      specialities: map['specialities'] as String?,
+      state: map['state'] as String?,
+      thumbnailUrl: map['thumbnailUrl'] as String?,
+      timezone: map['timezone'] as String?,
+      username: map['username'] as String?,
+      verified: map['verified'] as String?,
+      work: work.map(Work.fromMap).toList().toJS,
+      zip: map['zip'] as String?,
+    );
+  }
+
   /// The person's activities.
   external String? get activities;
 

@@ -4,7 +4,7 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Like._(JSObject _) {
+extension type Like._(JSObject _) implements JSObject {
   /// Create a new [Like] instance.
   external factory Like({
     String? category,

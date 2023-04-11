@@ -4,7 +4,7 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Publication._(JSObject _) {
+extension type Publication._(JSObject _) implements JSObject {
   /// Construct a new [Publication] instance.
   external factory Publication({
     String? date,

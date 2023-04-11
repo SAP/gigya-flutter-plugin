@@ -4,7 +4,7 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Phone._(JSObject _) {
+extension type Phone._(JSObject _) implements JSObject {
   /// Construct a new [Phone] instance.
   external factory Phone({
     String? number,
