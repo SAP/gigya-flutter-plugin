@@ -4,7 +4,17 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Education(JSObject _) {
+extension type Education._(JSObject _) {
+  /// Construct a new [Education] instance.
+  external factory Education({
+    String? degree,
+    String? endYear,
+    String? fieldOfStudy,
+    String? school,
+    String? schoolType,
+    String? startYear,
+  });
+
   /// The degree for the education.
   external String? get degree;
 

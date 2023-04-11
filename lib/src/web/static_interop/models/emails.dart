@@ -4,7 +4,13 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Emails(JSObject _) {
+extension type Emails._(JSObject _) {
+  /// Create a new [Emails] instance.
+  external factory Emails({
+    JSArray unverified,
+    JSArray verified,
+  });
+
   @JS('unverified')
   external JSArray? get _unverified;
 

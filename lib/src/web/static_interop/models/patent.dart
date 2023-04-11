@@ -4,7 +4,18 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Patent(JSObject _) {
+extension type Patent._(JSObject _) {
+  /// Construct a new [Patent] instance.
+  external factory Patent({
+    String? date,
+    String? number,
+    String? office,
+    String? status,
+    String? summary,
+    String? title,
+    String? url,
+  });
+  
   /// The issue date of the patent.
   external String? get date;
 

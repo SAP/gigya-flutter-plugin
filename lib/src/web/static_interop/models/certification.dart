@@ -4,7 +4,16 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Certification(JSObject _) {  
+extension type Certification._(JSObject _) {
+  /// Create a new [Certification] instance.
+  external factory Certification({
+    String? authority,
+    String? endDate,
+    String? name,
+    String? number,
+    String? startDate,
+  });
+
   /// The certification authority.
   external String? get authority;
 

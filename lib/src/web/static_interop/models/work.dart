@@ -4,7 +4,19 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Work(JSObject _) {
+extension type Work._(JSObject _) {
+  /// Construct a new [Work] instance.
+  external factory Work({
+    String? company,
+    int? companySize,
+    String? companyID,
+    String? endDate,
+    String? industry,
+    bool? isCurrent,
+    String? startDate,
+    String? title,
+  });
+
   /// The name of the company.
   external String? get company;
 

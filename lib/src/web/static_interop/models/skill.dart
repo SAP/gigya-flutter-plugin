@@ -4,7 +4,14 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Skill(JSObject _) {
+extension type Skill._(JSObject _) {
+  /// Construct a new [Skill] instance.
+  external factory Skill({
+    String? level,
+    String? skill,
+    int? years,
+  });
+
   /// The user's proficiency in the skill.
   external String? get level;
 

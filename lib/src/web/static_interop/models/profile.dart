@@ -14,7 +14,57 @@ import 'work.dart';
 @JS()
 @anonymous
 @staticInterop
-extension type Profile(JSObject _) {
+extension type Profile._(JSObject _) {
+  /// Construct a new [Profile] instance.
+  external factory Profile({
+    String? activities,
+    String? address,
+    int? age,
+    String? bio,
+    int? birthDay,
+    int? birthMonth,
+    int birthYear,
+    JSArray certifications,
+    String? city,
+    String? country,
+    JSArray education,
+    String? educationLevel,
+    String? email,
+    Favorites favorites,
+    String? firstName,
+    int? followers,
+    int? following,
+    String? gender,
+    String? hometown,
+    String? honors,
+    String? industry,
+    String? interests,
+    String? languages,
+    String? lastName,
+    JSArray likes,
+    String? locale,
+    String? name,
+    String? nickname,
+    JSArray patents,
+    JSArray phones,
+    String? photoUrl,
+    String? politicalView,
+    String? professionalHeadline,
+    String? profileUrl,
+    String? proxyEmail,
+    JSArray publications,
+    String? relationshipStatus,
+    String? religion,
+    JSArray skills,
+    String? specialities,
+    String? state,
+    String? thumbnailUrl,
+    String? timezone,
+    String? username,
+    String? verified,
+    JSArray work,
+    String? zip,
+  });  
   /// The person's activities.
   external String? get activities;
 

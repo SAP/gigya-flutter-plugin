@@ -4,7 +4,14 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Favorite(JSObject _) {
+extension type Favorite._(JSObject _) {
+  /// Construct a new [Favorite] instance.
+  external factory Favorite({
+    String? category,
+    String? id,
+    String? name,
+  });
+
   /// The category of the favorite.
   external String? get category;
 
@@ -28,7 +35,17 @@ extension type Favorite(JSObject _) {
 @JS()
 @anonymous
 @staticInterop
-extension type Favorites(JSObject _) {
+extension type Favorites._(JSObject _) {
+  /// Construct a new [Favorites] instance.
+  external factory Favorites({
+    JSArray activities,
+    JSArray books,
+    JSArray interests,
+    JSArray movies,
+    JSArray music,
+    JSArray television,
+  });
+  
   @JS('activities')
   external JSArray? get _activities;
 

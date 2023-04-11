@@ -4,7 +4,16 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Publication(JSObject _) {
+extension type Publication._(JSObject _) {
+  /// Construct a new [Publication] instance.
+  external factory Publication({
+    String? date,
+    String? publisher,
+    String? summary,
+    String? title,
+    String? url,
+  });
+
   /// The publication date.
   external String? get date;
 
