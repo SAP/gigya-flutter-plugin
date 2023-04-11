@@ -10,6 +10,14 @@ extension type Phone._(JSObject _) {
     String? number,
     String? type,
   });
+
+  /// Create a new [Phone] instance from the given [map].
+  factory Phone.fromMap(Map<String, dynamic> map) {
+    return Phone(
+      number: map['number'] as String?,
+      type: map['type'] as String?,
+    );
+  }  
   
   /// The value of the phone number.
   external String? get number;
