@@ -41,8 +41,11 @@ extension ProfileExtension on Profile {
   /// The person's birth year.
   external int? get birthYear;
 
+  @JS('certifications')
+  external List<dynamic> get _certifications;
+
   /// The person's certifications.
-  external List<Certification> get certifications;
+  List<Certification> get certifications => _certifications.cast<Certification>();
 
   /// The city in which the person resides.
   external String? get city;
@@ -50,8 +53,11 @@ extension ProfileExtension on Profile {
   /// The country in which the person resides.
   external String? get country;
 
+  @JS('education')
+  external List<dynamic> get _education;
+
   /// The different educations of the person.
-  external List<Education> get education;
+  List<Education> get education => _education.cast<Education>();
 
   /// The education level of the person.
   external String? get educationLevel;
@@ -92,8 +98,11 @@ extension ProfileExtension on Profile {
   /// The person's last name.
   external String? get lastName;
 
+  @JS('likes')
+  external List<dynamic> get _likes;
+
   /// The person's likes.
-  external List<Like> get likes;
+  List<Like> get likes => _likes.cast<Like>();
 
   /// The language locale of the person's primary language.
   external String? get locale;
@@ -104,11 +113,17 @@ extension ProfileExtension on Profile {
   /// The person's nickname.
   external String? get nickname;
 
+  @JS('patents')
+  external List<dynamic> get _patents;
+
   /// The different patents that this person owns.
-  external List<Patent> get patents;
+  List<Patent> get patents => _patents.cast<Patent>();
+
+  @JS('phones')
+  external List<dynamic> get _phones;
 
   /// The different phone numbers belonging to this person.
-  external List<Phone> get phones;
+  List<Phone> get phones => _phones.cast<Phone>();
 
   /// The url to the person's photo.
   external String? get photoUrl;
@@ -125,8 +140,11 @@ extension ProfileExtension on Profile {
   /// The person's proxy email address.
   external String? get proxyEmail;
 
+  @JS('publications')
+  external List<dynamic> get _publications;
+
   /// The list of publications belonging to this person.
-  external List<Publication> get publications;
+  List<Publication> get publications => _publications.cast<Publication>();
 
   /// The person's relationship status.
   external String? get relationshipStatus;
@@ -134,8 +152,11 @@ extension ProfileExtension on Profile {
   /// The person's religion.
   external String? get religion;
 
+  @JS('skills')
+  external List<dynamic> get _skills;
+
   /// The different skills of the person.
-  external List<Skill> get skills;
+  List<Skill> get skills => _skills.cast<Skill>();
 
   /// The person's specialities.
   external String? get specialities;
@@ -155,8 +176,11 @@ extension ProfileExtension on Profile {
   /// The verified status of the person.
   external String? get verified;
 
+  @JS('work')
+  external List<dynamic> get _work;
+
   /// The person's career, divided into the different employments.
-  external List<Work> get work;
+  List<Work> get work => _work.cast<Work>();
 
   /// The ZIP code of the person's address.
   external String? get zip;
