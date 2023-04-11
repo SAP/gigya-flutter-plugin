@@ -10,8 +10,11 @@ import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
 import '../services/interruption_resolver.dart';
 import 'enums/web_error_code.dart';
 import 'static_interop/gigya_web_sdk.dart';
+import 'static_interop/models/profile.dart';
 import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
+import 'static_interop/parameters/registration.dart';
+import 'static_interop/response/registration_response.dart';
 import 'static_interop/response/response.dart';
 import 'static_interop/window.dart';
 import 'web_interruption_resolver.dart';
@@ -208,5 +211,89 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     );
 
     return completer.future;
+  }
+
+  @override
+  Future<Map<String, dynamic>> register({
+    required String loginId,
+    required String password,
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) async {
+    final Completer<String> initRegistrationCompleter = Completer<String>();
+
+    gigyaWebSdk.accounts.initRegistration(
+      InitRegistrationParameters(
+        isLite: parameters['isLite'] as bool?,
+        callback: allowInterop((InitRegistrationResponse response) {
+          if (initRegistrationCompleter.isCompleted) {
+            return;
+          }
+
+          final String regToken = response.regToken ?? '';
+
+          if (response.errorCode == 0 && regToken.isNotEmpty) {
+            initRegistrationCompleter.complete(regToken);
+          } else {
+            // If the registration token is empty, the next step will fail.
+            // Abort with an error instead.
+            initRegistrationCompleter.completeError(
+              GigyaError(
+                apiVersion: response.apiVersion,
+                callId: response.callId,
+                errorCode: response.errorCode,
+                errorDetails: response.errorDetails,
+                registrationToken: response.regToken,
+              ),
+            );
+          }
+        }),
+      ),
+    );
+
+    final String registrationToken = await initRegistrationCompleter.future;
+    final Map<String, dynamic>? profile = parameters['profile'] as Map<String, dynamic>?;
+
+    final Completer<Map<String, dynamic>> registrationCompleter = Completer<Map<String, dynamic>>();
+
+    gigyaWebSdk.accounts.register(
+      RegistrationParameters(
+        // Explicitly finalize using the register endpoint.
+        // This way, calling `finalizeRegistration` is not needed.
+        finalizeRegistration: true,
+        regToken: registrationToken,
+        email: loginId,
+        password: password,
+        captchaToken: parameters['captchaToken'] as String?,
+        include: parameters['include'] as String?,
+        lang: parameters['lang'] as String?,
+        profile: profile == null ? null : Profile.fromMap(profile),
+        regSource: parameters['regSource'] as String?,
+        secretAnswer: parameters['secretAnswer'] as String?,
+        secretQuestion: parameters['secretQuestion'] as String?,
+        sessionExpiration: parameters['sessionExpiration'] as int?,
+        siteUID: parameters['siteUID'] as String?,
+        callback: allowInterop((LoginResponse response) {
+          if (registrationCompleter.isCompleted) {
+            return;
+          }
+
+          if (response.errorCode == 0) {
+            registrationCompleter.complete(response.toMap());
+          } else {
+            registrationCompleter.completeError(
+              GigyaError(
+                apiVersion: response.apiVersion,
+                callId: response.callId,
+                errorCode: response.errorCode,
+                errorDetails: response.errorDetails,
+                registrationToken: registrationToken,
+              ),
+            );
+          }
+        }),
+      ),
+    );
+
+    return registrationCompleter.future;
   }
 }
