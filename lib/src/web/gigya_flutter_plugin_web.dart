@@ -110,6 +110,12 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     final LoginParameters loginParameters = LoginParameters(
       loginID: loginId,
       password: password,
+      captchaToken: parameters['captchaToken'] as String?,
+      include: parameters['include'] as String?,
+      loginMode: parameters['loginMode'] as String?,
+      redirectURL: parameters['redirectURL'] as String?,
+      regToken: parameters['regToken'] as String?,
+      sessionExpiration: parameters['sessionExpiration'] as int?,
       callback: allowInterop((LoginResponse response) {
         if (completer.isCompleted) {
           return;

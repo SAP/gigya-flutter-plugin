@@ -9,8 +9,14 @@ import '../response/login_response.dart';
 class LoginParameters {
   /// Create a new [LoginParameters] instance.
   external factory LoginParameters({
-    String loginID,
-    String password,
     void Function(LoginResponse response) callback,
+    String? captchaToken,
+    String? include,
+    String loginID,
+    String? loginMode,
+    String password,
+    String? redirectURL,
+    String? regToken,
+    int? sessionExpiration,
   });
 }
