@@ -12,7 +12,17 @@ extension type Like._(JSObject _) {
     String? name,
     String? time,
   });
-  
+
+  /// Create a new [Like] instance from the given [map].
+  factory Like.fromMap(Map<String, dynamic> map) {
+    return Like(
+      category: map['category'] as String?,
+      id: map['id'] as String?,
+      name: map['name'] as String?,
+      time: map['time'] as String?,
+    );
+  }
+
   /// The category of the like.
   external String? get category;
 
