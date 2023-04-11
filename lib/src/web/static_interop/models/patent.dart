@@ -15,7 +15,20 @@ extension type Patent._(JSObject _) {
     String? title,
     String? url,
   });
-  
+
+  /// Create a new [Patent] instance from the given [map].
+  factory Patent.fromMap(Map<String, dynamic> map) {
+    return Patent(
+      date: map['date'] as String?,
+      number: map['number'] as String?,
+      office: map['office'] as String?,
+      status: map['status'] as String?,
+      summary: map['summary'] as String?,
+      title: map['title'] as String?,
+      url: map['url'] as String?,
+    );
+  }
+
   /// The issue date of the patent.
   external String? get date;
 
