@@ -13,6 +13,9 @@ extension ConflictingAccountExtension on JsConflictingAccount {
   /// of the user that has a conflicting account.
   external String? get loginID;
 
+  @JS('loginProviders')
+  external List<dynamic>? get _loginProviders;
+
   /// The login providers for the that has a conflicting account.
-  external List<String>? get loginProviders;
+  List<String>? get loginProviders => _loginProviders?.cast<String>();
 }
