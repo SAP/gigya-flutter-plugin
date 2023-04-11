@@ -4,6 +4,7 @@ import './session.dart';
 import 'parameters/basic.dart';
 import 'parameters/conflicting_account.dart';
 import 'parameters/login.dart';
+import 'parameters/registration.dart';
 
 /// The extension type for the `gigya.accounts` JavaScript object.
 ///
@@ -17,6 +18,12 @@ extension type Accounts(JSObject _) {
   /// and has [JSVoid] as return type.
   external JSFunction getConflictingAccount;
 
+  /// Start a registration.
+  /// 
+  /// This function receives an [InitRegistrationParameters] instance as argument,
+  /// and has [JSVoid] as return type.
+  external JSFunction initRegistration;  
+  
   /// Log the user in.
   /// 
   /// This function receives a [LoginParameters] instance as argument,
@@ -28,6 +35,12 @@ extension type Accounts(JSObject _) {
   /// This function receives a [BasicParameters] instance as argument,
   /// and has [JSVoid] as return type.
   external JSFunction logout;
+
+  /// Register a new user using the given parameters.
+  /// 
+  /// This function receives a [RegistrationParameters] instance as argument,
+  /// and has [JSVoid] as return type.
+  external JSFunction register;  
 
   /// Get the `gigya.accounts.session` namespace.
   external Session get session;
