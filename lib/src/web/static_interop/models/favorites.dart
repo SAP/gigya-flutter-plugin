@@ -37,23 +37,41 @@ class Favorites {}
 /// This extension defines the static interop definition
 /// for the [Favorites] class.
 extension FavoritesExtension on Favorites {
+  @JS('activities')
+  external List<dynamic> get _activities;
+
+  @JS('books')
+  external List<dynamic> get _books;
+
+  @JS('interests')
+  external List<dynamic> get _interests;
+
+  @JS('movies')
+  external List<dynamic> get _movies;
+
+  @JS('music')
+  external List<dynamic> get _music;
+
+  @JS('television')
+  external List<dynamic> get _television;
+
   /// The user's favorite activities.
-  external List<Favorite> get activities;
+  List<Favorite> get activities => _activities.cast<Favorite>();
 
   /// The user's favorite books.
-  external List<Favorite> get books;
+  List<Favorite> get books => _books.cast<Favorite>();
 
   /// The user's interests.
-  external List<Favorite> get interests;
+  List<Favorite> get interests => _interests.cast<Favorite>();
 
   /// The user's favorite movies.
-  external List<Favorite> get movies;
+  List<Favorite> get movies => _movies.cast<Favorite>();
 
   /// The user's favorite music.
-  external List<Favorite> get music;
+  List<Favorite> get music => _music.cast<Favorite>();
 
   /// The user's favorite television programmes.
-  external List<Favorite> get television;
+  List<Favorite> get television => _television.cast<Favorite>();
 
   /// Convert this favorites object to a [Map].
   Map<String, dynamic> toMap() {
