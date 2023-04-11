@@ -4,13 +4,22 @@ import 'dart:js_interop';
 @JS()
 @anonymous
 @staticInterop
-extension type Favorite._(JSObject _) {
+extension type Favorite._(JSObject _) implements JSObject {
   /// Construct a new [Favorite] instance.
   external factory Favorite({
     String? category,
     String? id,
     String? name,
   });
+
+  /// Create a new [Favorite] instance from the given [map].
+  factory Favorite.fromMap(Map<String, dynamic> map) {
+    return Favorite(
+      category: map['category'] as String?,
+      id: map['id'] as String?,
+      name: map['name'] as String?,
+    );
+  }
 
   /// The category of the favorite.
   external String? get category;
@@ -45,6 +54,31 @@ extension type Favorites._(JSObject _) {
     JSArray music,
     JSArray television,
   });
+
+  /// Create a new [Favorites] instance from the given [map].
+  factory Favorites.fromMap(Map<String, dynamic> map) {
+    final List<Map<String, dynamic>> activities =
+        map['activities'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> books =
+        map['books'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> interests =
+        map['interests'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> movies =
+        map['movies'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> music =
+        map['music'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+    final List<Map<String, dynamic>> television =
+        map['television'] as List<Map<String, dynamic>>? ?? const <Map<String, dynamic>>[];
+
+    return Favorites(
+      activities: activities.map(Favorite.fromMap).toList().toJS,
+      books: books.map(Favorite.fromMap).toList().toJS,
+      interests: interests.map(Favorite.fromMap).toList().toJS,
+      movies: movies.map(Favorite.fromMap).toList().toJS,
+      music: music.map(Favorite.fromMap).toList().toJS,
+      television: television.map(Favorite.fromMap).toList().toJS,
+    );
+  }  
   
   @JS('activities')
   external JSArray? get _activities;
