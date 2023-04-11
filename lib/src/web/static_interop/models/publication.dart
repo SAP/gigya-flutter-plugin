@@ -14,6 +14,17 @@ extension type Publication._(JSObject _) {
     String? url,
   });
 
+  /// Create a new [Publication] instance from the given [map].
+  factory Publication.fromMap(Map<String, dynamic> map) {
+    return Publication(
+      date: map['date'] as String?,
+      publisher: map['publisher'] as String?,
+      summary: map['summary'] as String?,
+      title: map['title'] as String?,
+      url: map['url'] as String?,
+    );
+  }
+
   /// The publication date.
   external String? get date;
 
