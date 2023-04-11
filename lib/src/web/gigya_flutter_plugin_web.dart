@@ -1,8 +1,8 @@
 import 'dart:async';
 import 'dart:html' as html;
-import 'dart:js_util';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
+import 'package:js/js.dart';
 
 import '../models/gigya_error.dart';
 import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
