@@ -12,7 +12,7 @@ class InitRegistrationParameters {
   /// Create a new [InitRegistrationParameters] instance.
   external factory InitRegistrationParameters({
     void Function(InitRegistrationResponse response) callback,
-    bool isLite,
+    bool? isLite,
   });
 }
 
