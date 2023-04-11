@@ -17,6 +17,20 @@ extension type Work._(JSObject _) {
     String? title,
   });
 
+  /// Create a new [Work] instance from the given [map].
+  factory Work.fromMap(Map<String, dynamic> map) {
+    return Work(
+      company: map['company'] as String?,
+      companyID: map['companyID'] as String?,
+      companySize: map['companySize'] as int?,
+      endDate: map['endDate'] as String?,
+      industry: map['industry'] as String?,
+      isCurrent: map['isCurrent'] as bool?,
+      startDate: map['startDate'] as String?,
+      title: map['title'] as String?,
+    );
+  }
+
   /// The name of the company.
   external String? get company;
 
