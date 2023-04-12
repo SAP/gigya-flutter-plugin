@@ -14,6 +14,8 @@ import 'response.dart';
 @staticInterop
 class LoginResponse extends Response {}
 
+// TODO: preferences, subscriptions should be in the login response
+
 /// This extension defines the static interop definition
 /// for the [LoginResponse] class.
 extension LoginResponseExtension on LoginResponse {
