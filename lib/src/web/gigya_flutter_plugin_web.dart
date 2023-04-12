@@ -5,6 +5,7 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:js/js_util.dart' show allowInterop;
 import 'package:web/web.dart' as web;
 
+import '../models/enums/social_provider.dart';
 import '../models/gigya_error.dart';
 import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
 import '../services/interruption_resolver.dart';
@@ -205,6 +206,52 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     GigyaWebSdk.instance.accounts.logout.callAsFunction(
       null,
       parameters,
+    );
+
+    return completer.future;
+  }
+
+  @override
+  Future<Map<String, dynamic>> socialLogin(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
+
+    gigyaWebSdk.accounts.socialLogin(
+      SocialLoginParameters(
+        authFlow: parameters['authFlow'] as String?,
+        conflictHandling: parameters['conflictHandling'] as String?,
+        extraFields: parameters['extraFields'] as String?,
+        facebookExtraPermissions: parameters['facebookExtraPermissions'] as String?,
+        forceAuthentication: parameters['forceAuthentication'] as bool?,
+        googleExtraPermissions: parameters['googleExtraPermissions'] as String?,
+        loginMode: parameters['loginMode'] as String?,
+        provider: provider.name,
+        redirectMethod: parameters['redirectMethod'] as String?,
+        redirectURL: parameters['redirectURL'] as String?,
+        regToken: parameters['regToken'] as String?,
+        sessionExpiration: parameters['sessionExpiration'] as int?,
+        callback: allowInterop((LoginResponse response) {
+          if (completer.isCompleted) {
+            return;
+          }
+
+          if (response.errorCode == 0) {
+            completer.complete(response.toMap());
+          } else {
+            completer.completeError(
+              GigyaError(
+                apiVersion: response.apiVersion,
+                callId: response.callId,
+                errorCode: response.errorCode,
+                errorDetails: response.errorDetails,
+                registrationToken: response.regToken,
+              ),
+            );
+          }
+        }),
+      ),
     );
 
     return completer.future;
