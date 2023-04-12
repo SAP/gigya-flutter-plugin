@@ -31,4 +31,7 @@ extension type Accounts(JSObject _) {
 
   /// Get the `gigya.accounts.session` namespace.
   external Session get session;
+
+  /// Login using a social provider.
+  external void Function(SocialLoginParameters parameters) socialLogin;
 }

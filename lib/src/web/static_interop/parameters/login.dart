@@ -23,3 +23,26 @@ extension type LoginParameters._(JSObject _) implements JSObject {
     int? sessionExpiration,
   });
 }
+
+/// This class represents the parameters for the `Accounts.socialLogin` method.
+@JS()
+@anonymous
+@staticInterop
+class SocialLoginParameters {
+  /// Create a new [SocialLoginParameters] instance.
+  external factory SocialLoginParameters({
+    String? authFlow,
+    void Function(LoginResponse response) callback,
+    String? conflictHandling,
+    String? extraFields,
+    String? facebookExtraPermissions,
+    bool? forceAuthentication,
+    String? googleExtraPermissions,
+    String? loginMode,
+    String provider,
+    String? redirectMethod,
+    String? redirectURL,
+    String? regToken,
+    int? sessionExpiration,
+  });
+}
