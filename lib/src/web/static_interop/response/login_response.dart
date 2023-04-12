@@ -26,6 +26,9 @@ extension LoginResponseExtension on LoginResponse {
   /// Whether the user is active.
   external bool? get isActive;
 
+  /// Whether the user that is logging in is a new user.
+  external bool? get isNewUser;
+
   /// Whether the user is registered.
   external bool? get isRegistered;
 
@@ -53,6 +56,12 @@ extension LoginResponseExtension on LoginResponse {
 
   /// The timestamp when the user was registered.
   external String? get registered;
+
+  /// The source of the registration.
+  external String? get regSource;
+
+  /// The registration token.
+  external String? get regToken;
 
   /// The session info for the user's session.
   external SessionInfo? get sessionInfo;
@@ -93,6 +102,7 @@ extension LoginResponseExtension on LoginResponse {
           'verified': emails!.verified,
         },
       'isActive': isActive,
+      'isNewUser': isNewUser,
       'isRegistered': isRegistered,
       'isVerified': isVerified,
       'lastLogin': lastLogin,
@@ -101,6 +111,8 @@ extension LoginResponseExtension on LoginResponse {
       'oldestDataUpdated': oldestDataUpdated,
       if (profileAsMap != null) 'profile': profileAsMap,
       'registered': registered,
+      'regSource': regSource,
+      'regToken': regToken,
       if (sessionInfo != null)
         'sessionInfo': <String, dynamic>{
           'cookieName': sessionInfo!.cookieName,
