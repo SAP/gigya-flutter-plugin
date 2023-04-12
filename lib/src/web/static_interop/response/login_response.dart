@@ -20,7 +20,7 @@ class LoginResponse extends Response {}
 /// for the [LoginResponse] class.
 extension LoginResponseExtension on LoginResponse {
   /// The timestamp of the creation of the user.
-  external String? get createdTimestamp;
+  external String? get created;
 
   /// The verified and unverified email addresses of the user.
   external Emails? get emails;
@@ -97,7 +97,7 @@ extension LoginResponseExtension on LoginResponse {
     }
 
     return <String, dynamic>{
-      'createdTimestamp': createdTimestamp,
+      'created': created,
       if (emails != null)
         'emails': <String, dynamic>{
           'unverified': emails!.unverified,
