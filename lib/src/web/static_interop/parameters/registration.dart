@@ -4,6 +4,24 @@ import '../models/profile.dart';
 import '../response/login_response.dart';
 import '../response/registration_response.dart';
 
+// TODO: convert registration params to extension types
+
+/*
+
+/// This class represents the parameters for the `Accounts.finalizeRegistration` method.
+@JS()
+@anonymous
+@staticInterop
+class FinalizeRegistrationParameters {
+  /// Create a new [FinalizeRegistrationParameters] instance.
+  external factory FinalizeRegistrationParameters({
+    void Function(LoginResponse response) callback,
+    bool allowAccountsLinking,
+    String? include,
+    String regToken,
+  });
+}
+
 /// This class represents the parameters for the `Accounts.initRegistration` method.
 @JS()
 @anonymous
@@ -39,3 +57,4 @@ class RegistrationParameters {
     String? siteUID,
   });
 }
+*/

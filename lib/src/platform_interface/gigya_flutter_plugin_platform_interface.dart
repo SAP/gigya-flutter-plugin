@@ -57,6 +57,15 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError('addConnection() is not implemented.');
   }
 
+  /// Finalize a pending registration.
+  Future<Map<String, dynamic>> finalizeRegistration(
+    String registrationToken, {
+    String? include,
+    bool allowAccountsLinking = false,
+  }) {
+    throw UnimplementedError('finalizeRegistration() is not implemented.');
+  }
+
   /// Start the forgot password flow for the given [loginId].
   Future<Map<String, dynamic>> forgotPassword(String loginId) {
     throw UnimplementedError('forgotPassword() is not implemented.');

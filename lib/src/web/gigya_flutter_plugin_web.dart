@@ -34,6 +34,44 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }
 
   @override
+  Future<Map<String, dynamic>> finalizeRegistration(
+    String registrationToken, {
+    String? include,
+    bool allowAccountsLinking = false,
+  }) {
+    final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
+
+    gigyaWebSdk.accounts.finalizeRegistration(
+      FinalizeRegistrationParameters(
+        allowAccountsLinking: allowAccountsLinking,
+        include: include,
+        regToken: registrationToken,
+        callback: allowInterop((LoginResponse response) {
+          if (completer.isCompleted) {
+            return;
+          }
+
+          if (response.errorCode == 0) {
+            completer.complete(response.toMap());
+          } else {
+            completer.completeError(
+              GigyaError(
+                apiVersion: response.apiVersion,
+                callId: response.callId,
+                errorCode: response.errorCode,
+                errorDetails: response.errorDetails,
+                registrationToken: registrationToken,
+              ),
+            );
+          }
+        }),
+      ),
+    );
+
+    return completer.future;
+  }
+
+  @override
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,

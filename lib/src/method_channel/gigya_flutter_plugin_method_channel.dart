@@ -61,6 +61,15 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
+  Future<Map<String, dynamic>> finalizeRegistration(
+    String registrationToken, {
+    String? include,
+    bool allowAccountsLinking = false,
+  }) {
+    throw UnsupportedError('Calling finalizeRegistration() is only supported on the web.');
+  }
+
+  @override
   Future<Map<String, dynamic>> forgotPassword(String loginId) async {
     try {
       final Map<String, dynamic>? result =

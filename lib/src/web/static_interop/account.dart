@@ -12,6 +12,12 @@ import 'parameters/registration.dart';
 @JS()
 @staticInterop
 extension type Accounts(JSObject _) {
+  /// Finalize a pending registration.
+  /// 
+  /// This function receives a [FinalizeRegistrationParameters] instance as argument,
+  /// and has [JSVoid] as return type.
+  external JSFunction finalizeRegistration;
+
   /// Get the conflicting accounts of the user.
   /// 
   /// This function receives a [ConflictingAccountParameters] instance as argument,
