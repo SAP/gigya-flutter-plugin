@@ -72,10 +72,10 @@ extension ProfileExtension on Profile {
   external String? get firstName;
 
   /// The amount of followers of this person.
-  external int? get followers;
+  external int? get followersCount;
 
   /// The amount of people that this person is following.
-  external int? get following;
+  external int? get followingCount;
 
   /// The person's gender.
   external String? get gender;
@@ -126,7 +126,7 @@ extension ProfileExtension on Profile {
   List<Phone> get phones => _phones.cast<Phone>();
 
   /// The url to the person's photo.
-  external String? get photoUrl;
+  external String? get photoURL;
 
   /// The person's political view.
   external String? get politicalView;
@@ -203,8 +203,8 @@ extension ProfileExtension on Profile {
       'email': email,
       'favorites': favorites.toMap(),
       'firstName': firstName,
-      'followersCount': followers,
-      'followingCount': following,
+      'followersCount': followersCount,
+      'followingCount': followingCount,
       'gender': gender,
       'hometown': hometown,
       'honors': honors,
@@ -218,7 +218,7 @@ extension ProfileExtension on Profile {
       'nickname': nickname,
       'patents': patents.map((Patent p) => p.toMap()).toList(),
       'phones': phones.map((Phone p) => p.toMap()).toList(),
-      'photoURL': photoUrl,
+      'photoURL': photoURL,
       'politicalView': politicalView,
       'professionalHeadline': professionalHeadline,
       'proxyEmail': proxyEmail,
