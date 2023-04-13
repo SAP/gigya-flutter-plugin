@@ -392,4 +392,46 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
     return registrationCompleter.future;
   }
+
+  @override
+  Future<Map<String, dynamic>> setAccount(Map<String, dynamic> account) {
+    final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
+
+    final Map<String, dynamic>? profile = account['profile'] as Map<String, dynamic>?;
+
+    gigyaWebSdk.accounts.setAccountInfo(
+      SetAccountParameters(
+        addLoginEmails: account['addLoginEmails'] as String?,
+        conflictHandling: account['conflictHandling'] as String?,
+        newPassword: account['newPassword'] as String?,
+        password: account['password'] as String?,
+        profile: profile == null ? null : Profile.fromMap(profile),
+        removeLoginEmails: account['removeLoginEmails'] as String?,
+        requirePasswordChange: account['requirePasswordChange'] as bool?,
+        secretAnswer: account['secretAnswer'] as String?,
+        secretQuestion: account['secretQuestion'] as String?,
+        username: account['username'] as String?,
+        callback: allowInterop((SetAccountResponse response) {
+          if (completer.isCompleted) {
+            return;
+          }
+
+          if (response.errorCode == 0) {
+            completer.complete(StaticInteropUtils.responseToMap(response));
+          } else {
+            completer.completeError(
+              GigyaError(
+                apiVersion: response.apiVersion,
+                callId: response.callId,
+                errorCode: response.errorCode,
+                errorDetails: response.errorDetails,
+              ),
+            );
+          }
+        }),
+      ),
+    );
+
+    return completer.future;
+  }
 }
