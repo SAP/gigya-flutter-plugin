@@ -184,7 +184,7 @@ extension ProfileExtension on Profile {
   external String? get state;
 
   /// The url to the person's thumbnail image.
-  external String? get thumbnailUrl;
+  external String? get thumbnailURL;
 
   /// The person's timezone.
   external String? get timezone;
@@ -253,7 +253,7 @@ extension ProfileExtension on Profile {
       'skills': skills.map((Skill s) => s.toMap()).toList(),
       'specialities': specialities,
       'state': state,
-      'thumbnailURL': thumbnailUrl,
+      'thumbnailURL': thumbnailURL,
       'timezone': timezone,
       'username': username,
       'verified': verified,
