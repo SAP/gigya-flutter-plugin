@@ -11,6 +11,7 @@ import '../services/interruption_resolver.dart';
 import 'enums/web_error_code.dart';
 import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/models/profile.dart';
+import 'static_interop/parameters/account.dart';
 import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
 import 'static_interop/parameters/registration.dart';
@@ -105,6 +106,41 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     );
 
     return initRegistrationCompleter.future;
+  }
+
+  @override
+  Future<Map<String, dynamic>> getAccount({
+    bool invalidate = false,
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) async {
+    final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
+
+    gigyaWebSdk.accounts.getAccountInfo(
+      GetAccountParameters(
+        extraProfileFields: parameters['extraProfileFields'] as String?,
+        include: parameters['include'] as String?,
+        callback: allowInterop((AccountInfoResponse response) {
+          if (completer.isCompleted) {
+            return;
+          }
+
+          if (response.errorCode == 0) {
+            completer.complete(StaticInteropUtils.responseToMap(response));
+          } else {
+            completer.completeError(
+              GigyaError(
+                apiVersion: response.apiVersion,
+                callId: response.callId,
+                errorCode: response.errorCode,
+                errorDetails: response.errorDetails,
+              ),
+            );
+          }
+        }),
+      ),
+    );
+
+    return completer.future;
   }
 
   @override
