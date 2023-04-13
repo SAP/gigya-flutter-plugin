@@ -44,13 +44,13 @@ class SocialProvider {
   /// The social provider for Google.
   static const SocialProvider google = SocialProvider._('google');
 
-  /// The social provider for Google+.
+  /// The social provider for GooglePlus.
   static const SocialProvider googleplus = SocialProvider._('googleplus');
 
   /// The social provider for Kakao.
   static const SocialProvider kakao = SocialProvider._('kakao');
 
-  /// The social provider for Line.
+  /// The social provider for LINE.
   static const SocialProvider line = SocialProvider._('line');
 
   /// The social provider for LinkedIn.
@@ -59,10 +59,10 @@ class SocialProvider {
   /// The social provider for Livedoor.
   static const SocialProvider livedoor = SocialProvider._('livedoor');
 
-  /// The social provider for Facebook Messenger.
+  /// The social provider for Messenger.
   static const SocialProvider messenger = SocialProvider._('messenger');
 
-  /// The social provider for Mixi.
+  /// The social provider for mixi.
   static const SocialProvider mixi = SocialProvider._('mixi');
 
   /// The social provider for Naver.
@@ -77,13 +77,13 @@ class SocialProvider {
   /// The social provider for Paypal.
   static const SocialProvider paypal = SocialProvider._('paypaloauth');
 
-  /// The social provider for QQ.
+  /// The social provider for TencentQQ.
   static const SocialProvider qq = SocialProvider._('qq');
 
-  /// The social provider for Renren.
+  /// The social provider for renren.
   static const SocialProvider renren = SocialProvider._('renren');
 
-  /// The social provider for Sina.
+  /// The social provider for SinaWeibo.
   static const SocialProvider sina = SocialProvider._('sina');
 
   /// The social provider for Spiceworks.
@@ -104,9 +104,9 @@ class SocialProvider {
   /// The social provider for Xing.
   static const SocialProvider xing = SocialProvider._('xing');
 
-  /// The social provider for Yahoo.
+  /// The social provider for Yahoo!.
   static const SocialProvider yahoo = SocialProvider._('yahoo');
 
-  /// The social provider for Yahoo Japan.
+  /// The social provider for Yahoo! Japan.
   static const SocialProvider yahooJapan = SocialProvider._('yahoojapan');
 }
