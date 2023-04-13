@@ -1,5 +1,6 @@
 import 'dart:js_interop';
 
+export 'account_response.dart';
 export 'conflicting_account_response.dart';
 export 'login_response.dart';
 
