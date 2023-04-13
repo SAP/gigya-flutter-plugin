@@ -56,4 +56,7 @@ extension type Accounts(JSObject _) {
 
   /// Get the `gigya.accounts.session` namespace.
   external Session get session;
+
+  /// Update the user's account info.
+  external void Function(SetAccountParameters parameters) setAccountInfo;
 }
