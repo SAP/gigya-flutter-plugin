@@ -7,7 +7,7 @@ import '../models/gigya_error.dart';
 import '../services/interruption_resolver.dart';
 import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/models/conflicting_account.dart';
-import 'static_interop/parameters/conflicting_account.dart';
+import 'static_interop/parameters/account.dart';
 import 'static_interop/response/response.dart';
 
 // TODO: implement linkToSite & linkToSocial in _LinkAccountResolver
