@@ -44,6 +44,7 @@ extension type SetAccountParameters._(JSObject _) implements JSObject {
   /// Create a [SetAccountParameters] instance.
   external factory SetAccountParameters({
     String? addLoginEmails,
+    void Function(SetAccountResponse response) callback,
     String? conflictHandling,
     String? newPassword,
     String? password,
