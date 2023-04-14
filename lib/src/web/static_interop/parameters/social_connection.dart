@@ -1,6 +1,6 @@
 import 'package:js/js.dart';
 
-import '../response/social_connection.dart';
+import '../response/social_connection_response.dart';
 
 /// This class represents the parameters for the `Socialize.addConnection` method.
 ///

@@ -3,6 +3,7 @@ import 'dart:js_interop';
 export 'account_response.dart';
 export 'conflicting_account_response.dart';
 export 'login_response.dart';
+export 'social_connection_response.dart';
 
 /// The extension type for the Gigya `Response` class.
 ///
