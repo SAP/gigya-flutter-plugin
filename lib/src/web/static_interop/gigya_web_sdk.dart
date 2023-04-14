@@ -3,6 +3,7 @@ import 'dart:js_interop';
 import 'package:web/web.dart' as web;
 
 import 'account.dart';
+import 'socialize.dart';
 import 'window.dart';
 
 /// The static interop extension type for the `gigya` JavaScript object.
@@ -29,4 +30,7 @@ extension type GigyaWebSdk(JSObject _) implements JSObject {
 
   /// Whether the Gigya Web SDK is ready.
   external bool get isReady;
+  
+  /// Get the socialize namespace in the Gigya Web SDK.
+  external Socialize get socialize;
 }
