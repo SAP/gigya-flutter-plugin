@@ -43,7 +43,10 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>> addConnection(SocialProvider provider) async {
+  Future<Map<String, dynamic>> addConnection(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) async {
     try {
       final Map<String, dynamic>? result =
           await methodChannel.invokeMapMethod<String, dynamic>(
@@ -262,7 +265,10 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>> removeConnection(SocialProvider provider) async {
+  Future<Map<String, dynamic>> removeConnection(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) async {
     try {
       final Map<String, dynamic>? result =
           await methodChannel.invokeMapMethod<String, dynamic>(
