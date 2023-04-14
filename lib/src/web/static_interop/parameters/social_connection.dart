@@ -23,3 +23,20 @@ class AddSocialConnectionParameters {
     int? sessionExpiration,
   });
 }
+
+/// This class represents the parameters for the `Socialize.removeConnection` method.
+///
+/// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/4177c60370b21014bbc5a10ce4041860.html#parameters
+@JS()
+@anonymous
+@staticInterop
+class RemoveSocialConnectionParameters {
+  /// Create a new [RemoveSocialConnectionParameters] instance.
+  external factory RemoveSocialConnectionParameters({
+    void Function(SocialConnectionResponse response) callback,
+    String provider,
+    bool? forceProvidersLogout,
+    String? lastIdentityHandling,
+    bool? removeLoginID,
+  });
+}

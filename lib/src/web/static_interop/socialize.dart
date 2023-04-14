@@ -14,5 +14,9 @@ extension type Socialize(JSObject _) {
   /// and has [JSVoid] as return type.
   external JSFunction addConnection;
 
-  // TODO: remove connection  
+  /// Remove a social connection.
+  /// 
+  /// This function receives a [RemoveSocialConnectionParameters] argument,
+  /// and has [JSVoid] as return type.
+  external JSFunction removeConnection;
 }
