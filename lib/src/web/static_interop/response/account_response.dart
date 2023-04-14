@@ -1,4 +1,5 @@
 import 'package:js/js.dart';
+import 'package:js/js_util.dart';
 
 import '../models/account_login_id.dart';
 import '../models/emails.dart';
@@ -21,6 +22,19 @@ class BaseAccountResponse extends Response {}
 extension BaseAccountResponseExtension on BaseAccountResponse {
   /// The timestamp of the creation of the user.
   external String? get created;
+
+  @JS('data')
+  external Object? get _data;
+
+  /// The custom user data that is not part of the [profile].
+  ///
+  /// Any [List] or [Map] values within this map will have `Object?` as type argument(s).
+  Map<String, dynamic>? get data {
+    // The underlying structure of `data` is a flexible, user-defined definition
+    // and does not fit within a specific static interop definition.
+    // Instead use `dartify` to convert the Javascript Object into a Map.
+    return (dartify(_data) as Map<Object?, Object?>?)?.cast<String, dynamic>();
+  }
 
   /// The verified and unverified email addresses of the user.
   external Emails? get emails;
