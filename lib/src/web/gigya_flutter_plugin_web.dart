@@ -413,6 +413,43 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }
 
   @override
+  Future<Map<String, dynamic>> removeConnection(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
+
+    gigyaWebSdk.socialize.removeConnection(
+      RemoveSocialConnectionParameters(
+        forceProvidersLogout: parameters['forceProvidersLogout'] as bool?,
+        lastIdentityHandling: parameters['lastIdentityHandling'] as String?,
+        provider: provider.name,
+        removeLoginID: parameters['removeLoginID'] as bool?,
+        callback: allowInterop((SocialConnectionResponse response) {
+          if (completer.isCompleted) {
+            return;
+          }
+
+          if (response.errorCode == 0) {
+            completer.complete(StaticInteropUtils.responseToMap(response));
+          } else {
+            completer.completeError(
+              GigyaError(
+                apiVersion: response.apiVersion,
+                callId: response.callId,
+                errorCode: response.errorCode,
+                errorDetails: response.errorDetails,
+              ),
+            );
+          }
+        }),
+      ),
+    );
+
+    return completer.future;
+  }
+
+  @override
   Future<Map<String, dynamic>> setAccount(Map<String, dynamic> account) {
     return _accountDelegate.setAccount(account);
   }
