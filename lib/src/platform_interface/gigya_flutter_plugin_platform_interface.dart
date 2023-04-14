@@ -53,7 +53,10 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }
 
   /// Add a social connection to an existing account.
-  Future<Map<String, dynamic>> addConnection(SocialProvider provider) {
+  Future<Map<String, dynamic>> addConnection(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
     throw UnimplementedError('addConnection() is not implemented.');
   }
 
@@ -155,7 +158,10 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }
 
   /// Remove a social connection from an existing account.
-  Future<Map<String, dynamic>> removeConnection(SocialProvider provider) {
+  Future<Map<String, dynamic>> removeConnection(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
     throw UnimplementedError('removeConnection() is not implemented.');
   }
 

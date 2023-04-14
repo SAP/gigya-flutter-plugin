@@ -51,8 +51,11 @@ class GigyaSdk {
   }
 
   /// Add a social connection to an existing account.
-  Future<Map<String, dynamic>> addConnection(SocialProvider provider) {
-    return GigyaFlutterPluginPlatform.instance.addConnection(provider);
+  Future<Map<String, dynamic>> addConnection(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.addConnection(provider, parameters: parameters);
   }
 
   /// Start the forgot password flow for the given [loginId].
@@ -145,8 +148,11 @@ class GigyaSdk {
   }
 
   /// Remove a social connection from an existing account.
-  Future<Map<String, dynamic>> removeConnection(SocialProvider provider) {
-    return GigyaFlutterPluginPlatform.instance.removeConnection(provider);
+  Future<Map<String, dynamic>> removeConnection(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.removeConnection(provider, parameters: parameters);
   }
 
   /// Send a request to the Gigya SDK.
