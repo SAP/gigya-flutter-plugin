@@ -5,6 +5,7 @@ import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:js/js_util.dart' show allowInterop;
 import 'package:web/web.dart' as web;
 
+import '../models/enums/social_provider.dart';
 import '../models/gigya_error.dart';
 import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
 import '../services/interruption_resolver.dart';
@@ -35,6 +36,48 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }
 
   final WebAccountDelegate _accountDelegate = const WebAccountDelegate();
+
+  @override
+  Future<Map<String, dynamic>> addConnection(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
+
+    gigyaWebSdk.socialize.addConnection(
+      AddSocialConnectionParameters(
+        authFlow: parameters['authFlow'] as String?,
+        extraFields: parameters['extraFields'] as String?,
+        facebookExtraPermissions: parameters['facebookExtraPermissions'] as String?,
+        forceAuthentication: parameters['forceAuthentication'] as bool?,
+        googleExtraPermissions: parameters['googleExtraPermissions'] as String?,
+        provider: provider.name,
+        redirectMethod: parameters['redirectMethod'] as String?,
+        redirectURL: parameters['redirectURL'] as String?,
+        sessionExpiration: parameters['sessionExpiration'] as int?,
+        callback: allowInterop((SocialConnectionResponse response) {
+          if (completer.isCompleted) {
+            return;
+          }
+
+          if (response.errorCode == 0) {
+            completer.complete(StaticInteropUtils.responseToMap(response));
+          } else {
+            completer.completeError(
+              GigyaError(
+                apiVersion: response.apiVersion,
+                callId: response.callId,
+                errorCode: response.errorCode,
+                errorDetails: response.errorDetails,
+              ),
+            );
+          }
+        }),
+      ),
+    );
+
+    return completer.future;
+  }
 
   @override
   Future<Map<String, dynamic>> finalizeRegistration(
