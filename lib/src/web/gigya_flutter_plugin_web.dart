@@ -57,11 +57,17 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
     await script.onLoad.first;
 
+    // If `onGigyaServiceReady` takes too long to be called
+    // (for instance if the network is unavailable, or Gigya does not initialize properly),
+    // exit with a timeout error.
+    await onGigyaServiceReadyCompleter.future.timeout(
+      const Duration(seconds: 5),
+      onTimeout: () => throw const GigyaTimeoutError(),
+    );
+
     if (forceLogout) {
       await logout();
     }
-
-    return onGigyaServiceReadyCompleter.future;
   }
 
   @override
