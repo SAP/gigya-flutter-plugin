@@ -5,6 +5,7 @@ import 'parameters/add_event_handlers_parameters.dart';
 import 'parameters/basic.dart';
 import 'parameters/conflicting_account.dart';
 import 'parameters/login.dart';
+import 'parameters/show_screenset_parameters.dart';
 
 /// The extension type for the `gigya.accounts` JavaScript object.
 ///
@@ -38,4 +39,7 @@ extension type Accounts(JSObject _) {
 
   /// Get the `gigya.accounts.session` namespace.
   external Session get session;
+
+  /// Show a screen set.
+  external void Function(ShowScreensetParameters parameters) showScreenSet;
 }
