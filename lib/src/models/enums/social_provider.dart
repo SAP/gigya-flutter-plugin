@@ -58,8 +58,12 @@ class SocialProvider {
   /// The social provider for Livedoor.
   static const SocialProvider livedoor = SocialProvider._('livedoor');
 
-  /// The social provider for Messenger.
+  /// The social provider for Microsoft Messenger.
+  @Deprecated('Use SocialProvider.microsoft instead.')
   static const SocialProvider messenger = SocialProvider._('messenger');
+
+  /// The social provider for Microsoft Messenger.
+  static const SocialProvider microsoft = SocialProvider._('microsoft');
 
   /// The social provider for mixi.
   static const SocialProvider mixi = SocialProvider._('mixi');
