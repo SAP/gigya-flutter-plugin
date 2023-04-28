@@ -23,7 +23,6 @@ import '../response/response.dart';
 class AddEventHandlersParameters {
   /// Construct a new [AddEventHandlersParameters] instance.
   external factory AddEventHandlersParameters({
-    void Function(Response response) callback,
     // TODO: the documentation does not specify the structure of `onAfterResponse` response.
     void Function(Object? response)? onAfterResponse,
     void Function(LoginGlobalEventResponse response)? onLogin,
