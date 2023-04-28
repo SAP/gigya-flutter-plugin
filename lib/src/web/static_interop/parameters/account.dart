@@ -42,10 +42,14 @@ extension type SetAccountParameters._(JSObject _) implements JSObject {
   // TODO: add preferences and subscriptions object once the static interop definition is ready
 
   /// Create a [SetAccountParameters] instance.
+  /// 
+  /// The [callback] receives a [SetAccountResponse] as argument,
+  /// and has [JSVoid] as return type.
   external factory SetAccountParameters({
     String? addLoginEmails,
-    void Function(SetAccountResponse response) callback,
+    JSFunction callback,
     String? conflictHandling,
+    JSAny? data,
     String? newPassword,
     String? password,
     Profile? profile,

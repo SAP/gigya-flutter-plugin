@@ -398,11 +398,13 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
 
     final Map<String, dynamic>? profile = account['profile'] as Map<String, dynamic>?;
+    final Map<String, dynamic>? data = account['data'] as Map<String, dynamic>?;
 
     gigyaWebSdk.accounts.setAccountInfo(
       SetAccountParameters(
         addLoginEmails: account['addLoginEmails'] as String?,
         conflictHandling: account['conflictHandling'] as String?,
+        data: data.jsify(),
         newPassword: account['newPassword'] as String?,
         password: account['password'] as String?,
         profile: profile == null ? null : Profile.fromMap(profile),
