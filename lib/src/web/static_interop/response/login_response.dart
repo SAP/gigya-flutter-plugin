@@ -145,4 +145,16 @@ extension LoginGlobalEventResponseExtension on LoginGlobalEventResponse {
 
   /// The signature that should be used for login verification.
   external String get UIDSignature; // ignore: non_constant_identifier_names
+
+  /// Convert this object to a map.
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'loginMode': loginMode,
+      'provider': provider,
+      'signatureTimestamp': signatureTimestamp,
+      'user': user.toMap(),
+      'UID': UID,
+      'UIDSignature': UIDSignature,
+    };
+  }
 }
