@@ -5,7 +5,7 @@ import 'parameters/add_event_handlers_parameters.dart';
 import 'parameters/basic.dart';
 import 'parameters/conflicting_account.dart';
 import 'parameters/login.dart';
-import 'parameters/show_screenset_parameters.dart';
+import 'parameters/screenset_parameters.dart';
 
 /// The extension type for the `gigya.accounts` JavaScript object.
 ///
@@ -25,6 +25,10 @@ extension type Accounts(JSObject _) {
   /// and has [JSVoid] as return type.
   external JSFunction getConflictingAccount;
 
+  // TODO: fix function handle
+  /// Hide a screen set.
+  external void Function(HideScreensetParameters parameters) hideScreenSet;  
+
   /// Log the user in.
   /// 
   /// This function receives a [LoginParameters] instance as argument,
@@ -40,6 +44,7 @@ extension type Accounts(JSObject _) {
   /// Get the `gigya.accounts.session` namespace.
   external Session get session;
 
+  // TODO: fix function handle
   /// Show a screen set.
   external void Function(ShowScreensetParameters parameters) showScreenSet;
 }
