@@ -31,6 +31,7 @@ class ShowScreensetParameters {
     bool Function(BeforeSubmitEvent event) onBeforeSubmit,
     Object? Function(BeforeValidationEvent event) onBeforeValidation,
     Object? Function(ErrorEvent event) onError,
+    void Function(SubmitEvent event) onSubmit,
     String? redirectMethod,
     String? redirectURL,
     String? regSource,

@@ -327,6 +327,11 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
             return jsify(handler?.call(screensetEvent));
           }),
+          onSubmit: allowInterop((SubmitEvent event) {
+            if (!controller.isClosed) {
+              controller.add(event.serialize());
+            }
+          }),
         ),
       );
     }, onCancel: () {
