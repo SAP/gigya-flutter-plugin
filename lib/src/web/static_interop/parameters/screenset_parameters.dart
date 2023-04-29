@@ -1,6 +1,7 @@
 import 'package:js/js.dart';
 
 // TODO: refactor to extension type
+import '../../static_interop/screenset_event/screenset_events.dart';
 
 /// This class represents the parameters for the `Accounts.hideScreenset` method.
 @JS()

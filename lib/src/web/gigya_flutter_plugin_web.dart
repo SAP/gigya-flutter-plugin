@@ -16,7 +16,7 @@ import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
 import 'static_interop/parameters/screenset_parameters.dart';
 import 'static_interop/response/response.dart';
-import 'static_interop/screenset_event/error_event.dart';
+import 'static_interop/screenset_event/screenset_events.dart';
 import 'static_interop/window.dart';
 import 'web_interruption_resolver.dart';
 
