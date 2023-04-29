@@ -3,6 +3,11 @@ import 'package:js/js_util.dart';
 
 import '../../../models/screenset_event.dart';
 
+/// This typedef defines the function signature for the handler of the screenset error event.
+///
+/// This function may return a [Map] with a `nextScreen` key.
+typedef ErrorEventHandler = Map<String, dynamic>? Function(ScreensetEvent event);
+
 /// The static interop class for the error event of the `Account.showScreenset` event stream.
 ///
 /// See: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/413a5b7170b21014bbc5a10ce4041860.html?locale=en-US#onerror-event-data

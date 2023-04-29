@@ -16,6 +16,7 @@ import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
 import 'static_interop/parameters/screenset_parameters.dart';
 import 'static_interop/response/response.dart';
+import 'static_interop/screenset_event/error_event.dart';
 import 'static_interop/window.dart';
 import 'web_interruption_resolver.dart';
 
@@ -248,7 +249,6 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
       GigyaWebSdk.instance.accounts.showScreenSet(
         ShowScreensetParameters(
-          // Basic parameters first.
           authFlow: parameters['authFlow'] as String? ?? 'popup',
           communicationLangByScreenSet: parameters['communicationLangByScreenSet'] as bool? ?? true,
           deviceType: parameters['deviceType'] as String? ?? 'desktop',
@@ -264,6 +264,23 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
           screenSet: name,
           sessionExpiration: parameters['sessionExpiration'] as int?,
           startScreen: parameters['startScreen'] as String?,
+          // Each event handler is wrapped in `allowInterop` since it is called in Javascript.
+          // The `event` of each handler is a static interop type,
+          // as it is constructed in Javascript.
+          // If `parameters` has a handler function, it is invoked and its result
+          // is passed back to Javascript after being converted to a Javascript Object using `jsify`.
+          onError: allowInterop((ErrorEvent event) {
+            if (controller.isClosed) {
+              return;
+            }
+
+            final ErrorEventHandler? handler = parameters['onError'] as ErrorEventHandler?;
+            final ScreensetEvent screensetEvent = event.serialize();
+
+            controller.add(screensetEvent);
+
+            return jsify(handler?.call(screensetEvent));
+          }),
         ),
       );
     }, onCancel: () {
