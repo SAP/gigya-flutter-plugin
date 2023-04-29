@@ -27,7 +27,7 @@ extension BeforeValidationEventExtension on BeforeValidationEvent {
   /// The name of the event.
   external String get eventName;
 
-  /// The ID of the form that failed.
+  /// The ID of the form.
   external String get form;
 
   /// An object containing the properties of the form fields.
@@ -36,7 +36,7 @@ extension BeforeValidationEventExtension on BeforeValidationEvent {
   /// The profile object for the user. This will be empty if the user is not logged in.
   external Profile? get profile;
 
-  /// The name of the screen on which the form was submitted.
+  /// The name of the screen.
   external String get screen;
 
   /// The source plugin that generated this event.

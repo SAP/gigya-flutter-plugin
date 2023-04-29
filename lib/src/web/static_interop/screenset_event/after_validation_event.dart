@@ -21,13 +21,13 @@ extension AfterValidationEventExtension on AfterValidationEvent {
   /// The name of the event.
   external String get eventName;
 
-  /// The ID of the form that failed.
+  /// The ID of the form.
   external String get form;
 
   /// The profile object for the user. This will be empty if the user is not logged in.
   external Profile? get profile;
 
-  /// The ID of the screen that submitted the form.
+  /// The name of the screen.
   external String get screen;
 
   /// The source plugin that generated this event.

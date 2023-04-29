@@ -22,13 +22,13 @@ extension ErrorEventExtension on ErrorEvent {
   /// The name of the event.
   external String get eventName;
 
-  /// The ID of the form that failed.
+  /// The ID of the form.
   external String get form;
 
   /// The response of the encapsulated API call that failed.
   external Object? get response;
 
-  /// The ID of the screen that contains the form that failed.
+  /// The name of the screen.
   external String get screen;
 
   /// The source plugin that generated this event.
