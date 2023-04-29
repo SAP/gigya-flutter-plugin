@@ -2,6 +2,7 @@ import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
 import '../../../models/screenset_event.dart';
+import '../models/profile.dart';
 
 /// This typedef defines the function signature for the handler of the screenset before validation event.
 ///
@@ -33,7 +34,7 @@ extension BeforeValidationEventExtension on BeforeValidationEvent {
   external Object? get formData;
 
   /// The profile object for the user. This will be empty if the user is not logged in.
-  external Object? get profile;
+  external Profile? get profile;
 
   /// The name of the screen on which the form was submitted.
   external String get screen;
@@ -54,7 +55,7 @@ extension BeforeValidationEventExtension on BeforeValidationEvent {
         'data': dartify(data),
         'form': form,
         'formData': dartify(formData),
-        'profile': dartify(profile),
+        'profile': profile?.toMap(),
         'screen': screen,
         'source': source,
         'subscriptions': dartify(subscriptions),

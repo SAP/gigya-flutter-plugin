@@ -2,6 +2,7 @@ import 'package:js/js.dart';
 import 'package:js/js_util.dart';
 
 import '../../../models/screenset_event.dart';
+import '../models/profile.dart';
 
 /// The static interop class for the after validation event of the `Account.showScreenset` event stream.
 ///
@@ -24,7 +25,7 @@ extension AfterValidationEventExtension on AfterValidationEvent {
   external String get form;
 
   /// The profile object for the user. This will be empty if the user is not logged in.
-  external Object? get profile;
+  external Profile? get profile;
 
   /// The ID of the screen that submitted the form.
   external String get screen;
@@ -47,7 +48,7 @@ extension AfterValidationEventExtension on AfterValidationEvent {
       <String, dynamic>{
         'data': dartify(data),
         'form': form,
-        'profile': dartify(profile),
+        'profile': profile?.toMap(),
         'screen': screen,
         'source': source,
         'subscriptions': dartify(subscriptions),
