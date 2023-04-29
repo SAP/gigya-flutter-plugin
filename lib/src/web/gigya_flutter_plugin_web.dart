@@ -370,6 +370,11 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
               controller.add(event.serialize());
             }
           }),
+          onHide: allowInterop((HideEvent event) {
+            if (!controller.isClosed) {
+              controller.add(event.serialize());
+            }
+          }),
           onSubmit: allowInterop((SubmitEvent event) {
             if (!controller.isClosed) {
               controller.add(event.serialize());
