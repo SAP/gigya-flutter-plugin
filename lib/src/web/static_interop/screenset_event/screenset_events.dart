@@ -1,5 +1,6 @@
 export './after_screen_load_event.dart';
 export './after_submit_event.dart';
+export './after_validation_event.dart';
 export './before_screen_load_event.dart';
 export './before_submit_event.dart';
 export './before_validation_event.dart';

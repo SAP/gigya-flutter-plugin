@@ -270,6 +270,11 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
           // as it is constructed in Javascript.
           // If `parameters` has a handler function, it is invoked and its result
           // is passed back to Javascript after being converted to a Javascript Object using `jsify`.
+          onAfterValidation: allowInterop((AfterValidationEvent event) {
+            if (!controller.isClosed) {
+              controller.add(event.serialize());
+            }
+          }),
           onBeforeValidation: allowInterop((BeforeValidationEvent event) {
             if (controller.isClosed) {
               return null;
