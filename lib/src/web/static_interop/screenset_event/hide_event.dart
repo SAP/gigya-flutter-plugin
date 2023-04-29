@@ -1,5 +1,6 @@
 import 'package:js/js.dart';
 
+import '../../../models/enums/screen_set_event_type.dart';
 import '../../../models/screenset_event.dart';
 
 /// The static interop class for the hide event of the `Account.showScreenset` event stream.
@@ -26,12 +27,18 @@ extension HideEventExtension on HideEvent {
 
   /// Serialize this event into a [ScreensetEvent].
   ScreensetEvent serialize() {
-    return ScreensetEvent(
-      eventName,
-      <String, dynamic>{
-        'reason': reason,
-        'source': source,
-      },
-    );
+    switch (reason) {
+      case 'canceled':
+        return ScreensetEvent(
+          ScreenSetEventType.onCancel.name,
+          <String, dynamic>{'source': source},
+        );
+      case 'finished':
+      default:
+        return ScreensetEvent(
+          ScreenSetEventType.onHide.name,
+          <String, dynamic>{'source': source},
+        );
+    }
   }
 }
