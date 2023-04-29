@@ -27,6 +27,7 @@ class ShowScreensetParameters {
     String? googlePlayAppID,
     String? lang,
     String? mobileScreenSet,
+    void Function(AfterSubmitEvent event) onAfterSubmit,
     void Function(AfterValidationEvent event) onAfterValidation,
     bool Function(BeforeSubmitEvent event) onBeforeSubmit,
     Object? Function(BeforeValidationEvent event) onBeforeValidation,
