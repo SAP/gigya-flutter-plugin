@@ -365,6 +365,11 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
             return jsify(handler?.call(screensetEvent));
           }),
+          onFieldChanged: allowInterop((FieldChangedEvent event) {
+            if (!controller.isClosed) {
+              controller.add(event.serialize());
+            }
+          }),
           onSubmit: allowInterop((SubmitEvent event) {
             if (!controller.isClosed) {
               controller.add(event.serialize());
