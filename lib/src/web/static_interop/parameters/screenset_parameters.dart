@@ -29,6 +29,7 @@ class ShowScreensetParameters {
     String? mobileScreenSet,
     void Function(AfterSubmitEvent event) onAfterSubmit,
     void Function(AfterValidationEvent event) onAfterValidation,
+    Object? Function(BeforeScreenLoadEvent event) onBeforeScreenLoad,
     bool Function(BeforeSubmitEvent event) onBeforeSubmit,
     Object? Function(BeforeValidationEvent event) onBeforeValidation,
     Object? Function(ErrorEvent event) onError,

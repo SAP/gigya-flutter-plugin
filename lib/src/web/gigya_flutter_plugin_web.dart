@@ -280,6 +280,34 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
               controller.add(event.serialize());
             }
           }),
+          onBeforeScreenLoad: allowInterop((BeforeScreenLoadEvent event) {
+            if (controller.isClosed) {
+              return false; // Abort the screen load if the controller was closed.
+            }
+
+            final BeforeScreenLoadEventHandler? handler =
+                parameters['onBeforeScreenLoad'] as BeforeScreenLoadEventHandler?;
+
+            final ScreensetEvent screensetEvent = event.serialize();
+
+            controller.add(screensetEvent);
+
+            final Object? result = handler?.call(screensetEvent);
+
+            if (result == null) {
+              return true; // Just continue loading the next screen if there is no handler.
+            }
+
+            if (result is bool) {
+              return result;
+            }
+
+            if (result is Map<String, dynamic>) {
+              return jsify(result);
+            }
+
+            return true; // Just continue loading the next screen if the result is not a bool or map.
+          }),
           onBeforeSubmit: allowInterop((BeforeSubmitEvent event) {
             if (controller.isClosed) {
               return false; // Abort the submission if the controller was closed.
