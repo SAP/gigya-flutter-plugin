@@ -27,6 +27,7 @@ class ShowScreensetParameters {
     String? googlePlayAppID,
     String? lang,
     String? mobileScreenSet,
+    Object? Function(BeforeValidationEvent event) onBeforeValidation,
     Object? Function(ErrorEvent event) onError,
     String? redirectMethod,
     String? redirectURL,

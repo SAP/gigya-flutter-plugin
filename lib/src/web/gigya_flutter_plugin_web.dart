@@ -15,6 +15,7 @@ import 'static_interop/parameters/add_event_handlers_parameters.dart';
 import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
 import 'static_interop/parameters/screenset_parameters.dart';
+import 'static_interop/promise.dart';
 import 'static_interop/response/response.dart';
 import 'static_interop/screenset_event/screenset_events.dart';
 import 'static_interop/window.dart';
@@ -269,6 +270,33 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
           // as it is constructed in Javascript.
           // If `parameters` has a handler function, it is invoked and its result
           // is passed back to Javascript after being converted to a Javascript Object using `jsify`.
+          onBeforeValidation: allowInterop((BeforeValidationEvent event) {
+            if (controller.isClosed) {
+              return null;
+            }
+
+            final BeforeValidationEventHandler? handler =
+                parameters['onBeforeValidation'] as BeforeValidationEventHandler?;
+            final ScreensetEvent screensetEvent = event.serialize();
+
+            controller.add(screensetEvent);
+
+            if (handler == null) {
+              return null;
+            }
+
+            return Promise(
+              allowInterop((Promise? Function(Object?) resolve, _) async {
+                try {
+                  resolve(jsify(await handler(screensetEvent)));
+                } catch (error) {
+                  // The handler should never reject.
+                  // Instead resolve with null, as a last resort.
+                  resolve(null);
+                }
+              }),
+            );
+          }),
           onError: allowInterop((ErrorEvent event) {
             if (controller.isClosed) {
               return;
