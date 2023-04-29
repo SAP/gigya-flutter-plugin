@@ -275,6 +275,19 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
               controller.add(event.serialize());
             }
           }),
+          onBeforeSubmit: allowInterop((BeforeSubmitEvent event) {
+            if (controller.isClosed) {
+              return false; // Abort the submission if the controller was closed.
+            }
+
+            final BeforeSubmitEventHandler? handler = parameters['onBeforeSubmit'] as BeforeSubmitEventHandler?;
+            final ScreensetEvent screensetEvent = event.serialize();
+
+            controller.add(screensetEvent);
+
+            // If there is no handler, do not abort the submission.
+            return handler?.call(screensetEvent) ?? true;
+          }),
           onBeforeValidation: allowInterop((BeforeValidationEvent event) {
             if (controller.isClosed) {
               return null;
