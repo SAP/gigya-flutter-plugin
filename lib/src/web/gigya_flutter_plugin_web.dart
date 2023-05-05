@@ -148,7 +148,11 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  Future<void> logout() {
+  Future<void> logout() async {
+    if (!await isLoggedIn()) {
+      return;
+    }
+
     final Completer<void> completer = Completer<void>();
     final BasicParameters parameters = BasicParameters(
       callback: allowInterop((Response response) {
