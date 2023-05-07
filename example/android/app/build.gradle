@@ -31,14 +31,12 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
-    lintOptions {
-        disable 'InvalidPackage'
-    }
-
     packagingOptions {
-        exclude 'META-INF/com.android.tools/proguard/coroutines.pro'
+        resources {
+            excludes += ['META-INF/com.android.tools/proguard/coroutines.pro']
+        }
     }
+
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -62,6 +60,10 @@ android {
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
         }
+    }
+    namespace 'com.sap.gigya_flutter_plugin_example'
+    lint {
+        disable 'InvalidPackage'
     }
 }
 
