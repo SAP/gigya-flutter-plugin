@@ -30,7 +30,7 @@ extension type GigyaWebSdk(JSObject _) implements JSObject {
 
   /// Whether the Gigya Web SDK is ready.
   external bool get isReady;
-  
+
   /// Get the socialize namespace in the Gigya Web SDK.
   external Socialize get socialize;
 }
