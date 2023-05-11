@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:html' as html;
+import 'dart:js_interop';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:js/js.dart';
@@ -45,17 +46,27 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
       }
     });
 
-    final html.ScriptElement script = html.ScriptElement()
-      ..async = true
-      ..defer = false
-      ..type = 'text/javascript'
-      ..lang = 'javascript'
-      ..crossOrigin = 'anonymous'
-      ..src = 'https://cdns.$apiDomain/js/gigya.js?apikey=$apiKey';
+    // If the Gigya SDK is ready beforehand, complete directly.
+    // This is the case when doing a Hot Reload, where the application starts from scratch,
+    // even though the Gigya SDK script is still attached to the DOM and ready.
+    // See https://docs.flutter.dev/tools/hot-reload#how-to-perform-a-hot-reload
+    if (gigyaWebSdk.isDefinedAndNotNull && gigyaWebSdk.isReady) {
+      if (!onGigyaServiceReadyCompleter.isCompleted) {
+        onGigyaServiceReadyCompleter.complete();
+      }
+    } else {
+      final html.ScriptElement script = html.ScriptElement()
+        ..async = true
+        ..defer = false
+        ..type = 'text/javascript'
+        ..lang = 'javascript'
+        ..crossOrigin = 'anonymous'
+        ..src = 'https://cdns.$apiDomain/js/gigya.js?apikey=$apiKey';
 
-    html.document.head!.append(script);
+      html.document.head!.append(script);
 
-    await script.onLoad.first;
+      await script.onLoad.first;
+    }
 
     // If `onGigyaServiceReady` takes too long to be called
     // (for instance if the network is unavailable, or Gigya does not initialize properly),

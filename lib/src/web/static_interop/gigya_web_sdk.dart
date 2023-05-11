@@ -18,4 +18,7 @@ class GigyaWebSdk {}
 extension GigyaWebSdkExtension on GigyaWebSdk {
   /// Get the accounts namespace in the Gigya Web SDK.
   external Accounts get accounts;
+
+  /// Whether the Gigya Web SDK is ready.
+  external bool get isReady;
 }
