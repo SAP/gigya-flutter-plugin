@@ -70,7 +70,7 @@ extension ProfileExtension on Profile {
   external String? get email;
 
   /// The person's favorites.
-  external Favorites get favorites;
+  external Favorites? get favorites;
 
   /// The person's first name.
   external String? get firstName;
@@ -226,7 +226,7 @@ extension ProfileExtension on Profile {
       'education': education.map((Education e) => e.toMap()).toList(),
       'educationLevel': educationLevel,
       'email': email,
-      'favorites': favorites.toMap(),
+      'favorites': favorites?.toMap(),
       'firstName': firstName,
       'followersCount': followersCount,
       'followingCount': followingCount,
