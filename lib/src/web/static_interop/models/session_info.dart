@@ -13,5 +13,5 @@ extension SessionInfoExtension on SessionInfo {
   external String? get cookieName;
 
   /// The value of the session cookie.
-  external String get cookieValue;
+  external String? get cookieValue;
 }
