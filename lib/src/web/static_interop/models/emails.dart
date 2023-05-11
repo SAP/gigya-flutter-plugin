@@ -10,14 +10,14 @@ class Emails {}
 /// for the [Emails] class.
 extension EmailsExtension on Emails {
   @JS('unverified')
-  external List<dynamic> get _unverified;
+  external List<dynamic>? get _unverified;
 
   @JS('verified')
-  external List<dynamic> get _verified;
+  external List<dynamic>? get _verified;
 
   /// The list of unverified email addresses.
-  List<String> get unverified => _unverified.cast<String>();
+  List<String> get unverified => _unverified?.cast<String>() ?? <String>[];
 
   /// The list of verified email addresses.
-  List<String> get verified => _verified.cast<String>();
+  List<String> get verified => _verified?.cast<String>() ?? <String>[];
 }

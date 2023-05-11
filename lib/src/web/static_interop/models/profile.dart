@@ -42,10 +42,12 @@ extension ProfileExtension on Profile {
   external int? get birthYear;
 
   @JS('certifications')
-  external List<dynamic> get _certifications;
+  external List<dynamic>? get _certifications;
 
   /// The person's certifications.
-  List<Certification> get certifications => _certifications.cast<Certification>();
+  List<Certification> get certifications {
+    return _certifications?.cast<Certification>() ?? <Certification>[];
+  }
 
   /// The city in which the person resides.
   external String? get city;
@@ -54,10 +56,12 @@ extension ProfileExtension on Profile {
   external String? get country;
 
   @JS('education')
-  external List<dynamic> get _education;
+  external List<dynamic>? get _education;
 
   /// The different educations of the person.
-  List<Education> get education => _education.cast<Education>();
+  List<Education> get education {
+    return _education?.cast<Education>() ?? <Education>[];
+  }
 
   /// The education level of the person.
   external String? get educationLevel;
@@ -105,10 +109,10 @@ extension ProfileExtension on Profile {
   external String? get lastName;
 
   @JS('likes')
-  external List<dynamic> get _likes;
+  external List<dynamic>? get _likes;
 
   /// The person's likes.
-  List<Like> get likes => _likes.cast<Like>();
+  List<Like> get likes => _likes?.cast<Like>() ?? <Like>[];
 
   /// The language locale of the person's primary language.
   external String? get locale;
@@ -127,16 +131,16 @@ extension ProfileExtension on Profile {
   external String? get nickname;
 
   @JS('patents')
-  external List<dynamic> get _patents;
+  external List<dynamic>? get _patents;
 
   /// The different patents that this person owns.
-  List<Patent> get patents => _patents.cast<Patent>();
+  List<Patent> get patents => _patents?.cast<Patent>() ?? <Patent>[];
 
   @JS('phones')
-  external List<dynamic> get _phones;
+  external List<dynamic>? get _phones;
 
   /// The different phone numbers belonging to this person.
-  List<Phone> get phones => _phones.cast<Phone>();
+  List<Phone> get phones => _phones?.cast<Phone>() ?? <Phone>[];
 
   /// The url to the person's photo.
   external String? get photoURL;
@@ -151,19 +155,21 @@ extension ProfileExtension on Profile {
   external String? get profileURL;
 
   @JS('providers')
-  external List<dynamic> get _providers;
+  external List<dynamic>? get _providers;
 
   /// The names of the providers to which the user is connected/logged in.
-  List<String> get providers => _providers.cast<String>();
+  List<String> get providers => _providers?.cast<String>() ?? <String>[];
 
   /// The person's proxy email address.
   external String? get proxyEmail;
 
   @JS('publications')
-  external List<dynamic> get _publications;
+  external List<dynamic>? get _publications;
 
   /// The list of publications belonging to this person.
-  List<Publication> get publications => _publications.cast<Publication>();
+  List<Publication> get publications {
+    return _publications?.cast<Publication>() ?? <Publication>[];
+  }
 
   /// The person's relationship status.
   external String? get relationshipStatus;
@@ -172,10 +178,10 @@ extension ProfileExtension on Profile {
   external String? get religion;
 
   @JS('skills')
-  external List<dynamic> get _skills;
+  external List<dynamic>? get _skills;
 
   /// The different skills of the person.
-  List<Skill> get skills => _skills.cast<Skill>();
+  List<Skill> get skills => _skills?.cast<Skill>() ?? <Skill>[];
 
   /// The person's specialities.
   external String? get specialities;
@@ -196,10 +202,10 @@ extension ProfileExtension on Profile {
   external String? get verified;
 
   @JS('work')
-  external List<dynamic> get _work;
+  external List<dynamic>? get _work;
 
   /// The person's career, divided into the different employments.
-  List<Work> get work => _work.cast<Work>();
+  List<Work> get work => _work?.cast<Work>() ?? <Work>[];
 
   /// The ZIP code of the person's address.
   external String? get zip;
