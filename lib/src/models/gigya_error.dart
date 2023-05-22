@@ -15,26 +15,21 @@ class GigyaError implements Exception {
 
   /// Construct a [GigyaError] from the given [exception].
   factory GigyaError.fromPlatformException(PlatformException exception) {
-    // Upcast to Object? because with dynamic there are no type checks,
-    // which also prevents type promotion.
-    final Object? details = exception.details as Object?;
+    final Object? details = exception.details;
 
-    if (details is Map<String, dynamic>) {
-      final String? errorDetails = details['errorDetails'] as String?;
-      final String? localizedMessage = details['localizedMessage'] as String?;
-
-      return GigyaError(
-        apiVersion: details['apiVersion'] as int?,
-        callId: details['callId']?.toString(),
-        errorCode: details['errorCode'] as int?,
-        errorDetails: errorDetails ?? localizedMessage,
-        registrationToken: details['regToken'] as String?,
-        statusCode: details['statusCode'] as int?,
-        statusReason: details['statusReason'] as String?,
-      );
+    if (details is! Map<Object?, Object?>) {
+      return const GigyaError();
     }
 
-    return const GigyaError();
+    return GigyaError(
+      apiVersion: details['apiVersion'] as int,
+      callId: details['callId'] as String?,
+      errorCode: details['errorCode'] as int?,
+      errorDetails: details['errorDetails'] as String?,
+      registrationToken: details['regToken'] as String?,
+      statusCode: details['statusCode'] as int?,
+      statusReason: details['statusReason'] as String?,
+    );
   }
 
   /// The version number of the Gigya API.
