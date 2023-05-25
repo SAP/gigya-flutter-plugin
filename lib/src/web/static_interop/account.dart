@@ -5,6 +5,8 @@ import 'parameters/account.dart';
 import 'parameters/basic.dart';
 import 'parameters/login.dart';
 import 'parameters/registration.dart';
+import 'parameters/reset_password.dart';
+import 'response/reset_password_response.dart';
 
 /// The extension type for the `gigya.accounts` JavaScript object.
 ///
@@ -52,7 +54,13 @@ extension type Accounts(JSObject _) {
   /// 
   /// This function receives a [RegistrationParameters] instance as argument,
   /// and has [JSVoid] as return type.
-  external JSFunction register;  
+  external JSFunction register;
+
+  /// Reset the user's password.
+  /// 
+  /// This function receives a [ResetPasswordParameters] instance as argument,
+  /// and has [ResetPasswordResponse] as return type.
+  external JSFunction resetPassword;
 
   /// Get the `gigya.accounts.session` namespace.
   external Session get session;
