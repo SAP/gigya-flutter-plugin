@@ -56,8 +56,16 @@ class GigyaSdk {
   }
 
   /// Start the forgot password flow for the given [loginId].
-  Future<Map<String, dynamic>> forgotPassword(String loginId) {
-    return GigyaFlutterPluginPlatform.instance.forgotPassword(loginId);
+  ///
+  /// On the web, an empty [loginId] is treated as `null`.
+  Future<Map<String, dynamic>> forgotPassword(
+    String loginId, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.forgotPassword(
+      loginId,
+      parameters: parameters,
+    );
   }
 
   /// Get a user account.

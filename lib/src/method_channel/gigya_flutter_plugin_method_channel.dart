@@ -70,7 +70,10 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  Future<Map<String, dynamic>> forgotPassword(String loginId) async {
+  Future<Map<String, dynamic>> forgotPassword(
+    String loginId, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) async {
     try {
       final Map<String, dynamic>? result =
           await methodChannel.invokeMapMethod<String, dynamic>(

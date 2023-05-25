@@ -67,7 +67,10 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }
 
   /// Start the forgot password flow for the given [loginId].
-  Future<Map<String, dynamic>> forgotPassword(String loginId) {
+  Future<Map<String, dynamic>> forgotPassword(
+    String loginId, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
     throw UnimplementedError('forgotPassword() is not implemented.');
   }
 
