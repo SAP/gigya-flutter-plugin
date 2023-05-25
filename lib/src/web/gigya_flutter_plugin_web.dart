@@ -14,7 +14,9 @@ import 'static_interop/models/profile.dart';
 import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
 import 'static_interop/parameters/registration.dart';
+import 'static_interop/parameters/reset_password.dart';
 import 'static_interop/response/registration_response.dart';
+import 'static_interop/response/reset_password_response.dart';
 import 'static_interop/response/response.dart';
 import 'static_interop/window.dart';
 import 'web_account_delegate.dart';
@@ -74,6 +76,41 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     );
 
     return completer.future;
+  }
+
+  @override
+  Future<Map<String, dynamic>> forgotPassword(
+    String loginId, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) async {
+    final String? passwordResetToken = parameters['passwordResetToken'] as String?;
+    final String? newPassword = parameters['newPassword'] as String?;
+
+    // Either login id or password reset token is required.
+    if (loginId.isNotEmpty && passwordResetToken != null) {
+      throw ArgumentError('Either loginId or passwordResetToken should be specified.');
+    }
+
+    // If the password reset token is present, the new password should also be present.
+    if (passwordResetToken != null && newPassword == null) {
+      throw ArgumentError.notNull('newPassword');
+    }
+
+    final ResetPasswordResponse response = gigyaWebSdk.accounts.resetPassword(
+      ResetPasswordParameters(
+        email: parameters['email'] as String?,
+        ignoreInterruptions: parameters['ignoreInterruptions'] as bool? ?? false,
+        lang: parameters['lang'] as String?,
+        // Treat an empty login id as null.
+        loginID: loginId.isEmpty ? null : loginId,
+        newPassword: newPassword,
+        passwordResetToken: passwordResetToken,
+        secretAnswer: parameters['secretAnswer'] as String?,
+        securityFields: parameters['securityFields'] as String?,
+      ),
+    );
+
+    return StaticInteropUtils.responseToMap(response);
   }
 
   @override
