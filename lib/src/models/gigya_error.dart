@@ -6,11 +6,9 @@ class GigyaError implements Exception {
   const GigyaError({
     this.apiVersion,
     this.callId,
+    this.details = const <String, Object?>{},
     this.errorCode,
-    this.errorDetails,
-    this.registrationToken,
-    this.statusCode,
-    this.statusReason,
+    this.errorMessage,
   });
 
   /// Construct a [GigyaError] from the given [exception].
@@ -21,14 +19,19 @@ class GigyaError implements Exception {
       return const GigyaError();
     }
 
+    // Remove the specific error details, to avoid including them twice.
+    final int apiVersion = details.remove('apiVersion') as int;
+    final String? callId = details.remove('callId') as String?;
+    final int? errorCode = details.remove('errorCode') as int?;
+    final String? errorMessage = details.remove('errorMessage') as String? ??
+        details.remove('errorDetails') as String?;
+
     return GigyaError(
-      apiVersion: details['apiVersion'] as int,
-      callId: details['callId'] as String?,
-      errorCode: details['errorCode'] as int?,
-      errorDetails: details['errorDetails'] as String?,
-      registrationToken: details['regToken'] as String?,
-      statusCode: details['statusCode'] as int?,
-      statusReason: details['statusReason'] as String?,
+      apiVersion: apiVersion,
+      callId: callId,
+      details: details.cast<String, Object?>(),
+      errorCode: errorCode,
+      errorMessage: errorMessage,
     );
   }
 
@@ -38,28 +41,33 @@ class GigyaError implements Exception {
   /// The call id of the response.
   final String? callId;
 
+  /// The additional error details.
+  final Map<String, Object?> details;
+
   /// The Gigya error code of the response.
   final int? errorCode;
 
-  /// The error details of the response.
-  final String? errorDetails;
+  /// The error message for the given [errorCode].
+  ///
+  /// This is typically only an error message.
+  ///
+  /// This will contain the `errorMessage` from the underlying error,
+  /// or the `errorDetails` if the error message is not available.
+  final String? errorMessage;
 
-  /// The registration token.
-  final String? registrationToken;
-
-  /// The response status code.
-  final int? statusCode;
-
-  /// The reason for the given [statusCode].
-  final String? statusReason;
+  /// Get the registration token from the error.
+  ///
+  /// This is null if the registration token is not available.
+  String? get registrationToken => details['regToken'] as String?;
 
   @override
   String toString() {
     return 'GigyaError('
+        'apiVersion: $apiVersion, '
+        'callId: $callId, '
+        'details: $details, '
         'errorCode: $errorCode, '
-        'errorDetails: $errorDetails, '
-        'statusCode: $statusCode, '
-        'statusReason: $statusReason'
+        'errorMessage: $errorMessage, '
         ')';
   }
 }
