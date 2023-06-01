@@ -10,6 +10,36 @@ public class PluginErrors {
     static let missingParameterMessage = "request parameter missing"
     static let unsupportedError = "702"
     static let unsupportedErrorMessage = "not supported in this iOS version"
+    
+    /**
+        Wrap the given ``error`` in a ``FlutterError``.
+     */
+    static func wrapNetworkError(error: NetworkError) -> FlutterError {
+        switch error {
+        case .gigyaError(data: let data):
+            var details: [String: Any] = [
+                "callId": data.callId,
+                "statusCode": data.statusCode.rawValue,
+            ]
+            
+            // Append the `requestData`.
+            for (key, value) in data.toDictionary() {
+                details[key] = value
+            }
+            
+            return FlutterError(code: "\(data.errorCode)", message: data.errorMessage, details: details)
+        case .providerError(data: let data):
+            return FlutterError(code: PluginErrors.generalError, message: data, details: nil)
+        case .networkError(error: let error):
+            return FlutterError(code: PluginErrors.generalError, message: error.localizedDescription, details: nil)
+        case .emptyResponse:
+            return FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil)
+        case .jsonParsingError(error: let error):
+            return FlutterError(code: PluginErrors.generalError, message: error.localizedDescription, details: nil)
+        case .createURLRequestFailed:
+            return FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil)
+        }
+    }
 }
 
 public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
@@ -20,7 +50,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     
     init(accountSchema: T.Type) {
         // Initializing the Gigya SDK instance.
-        GigyaDefinitions.versionPrefix = "flutter_0.3.0_"
+        GigyaDefinitions.versionPrefix = "flutter_1.0.1_"
         sdk = Gigya.sharedInstance(accountSchema)
         GigyaAuth.shared.register(scheme: accountSchema)
     }
@@ -43,12 +73,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 let json = data.mapValues { $0.value }.asJson
                 result(json)
             case .failure(let error):
-                switch error {
-                case .gigyaError(let ge):
-                    result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                }
+                result(PluginErrors.wrapNetworkError(error: error))
             }
         }
     }
@@ -73,12 +98,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             case .failure(let error):
                 self?.saveResolvesIfNeeded(interruption: error.interruption)
                 
-                switch error.error {
-                case .gigyaError(let ge):
-                    result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                }
+                result(PluginErrors.wrapNetworkError(error: error.error))
             }
         }
     }
@@ -103,12 +123,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             case .failure(let error):
                 self?.saveResolvesIfNeeded(interruption: error.interruption)
                 
-                switch error.error {
-                case .gigyaError(let ge):
-                    result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                }
+                result(PluginErrors.wrapNetworkError(error: error.error))
             }
         }
     }
@@ -132,12 +147,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 let mapped = self?.mapObject(data)
                 result(mapped)
             case .failure(let error):
-                switch error {
-                case .gigyaError(let ge):
-                    result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                }
+                result(PluginErrors.wrapNetworkError(error: error))
             }
         }
     }
@@ -153,12 +163,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 let mapped = self?.mapObject(data)
                 result(mapped)
             case .failure(let error):
-                switch error {
-                case .gigyaError(let ge):
-                    result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                }
+                result(PluginErrors.wrapNetworkError(error: error))
             }
         })
     }
@@ -219,12 +224,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             case .success( _):
                 result(nil)
             case .failure(let error):
-                switch error {
-                case .gigyaError(let d):
-                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                }
+                result(PluginErrors.wrapNetworkError(error: error))
             }
         })
     }
@@ -243,12 +243,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 let mapped = self?.mapObject(data)
                 result(mapped)
             case .failure(let error):
-                switch error {
-                case .gigyaError(let d):
-                    result(FlutterError(code: "\(d.errorCode)", message: d.errorMessage, details: d.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                }
+                result(PluginErrors.wrapNetworkError(error: error))
             }
         })
     }
@@ -304,12 +299,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 case .failure(let error):
                     self?.saveResolvesIfNeeded(interruption: error.interruption)
                     
-                    switch error.error {
-                    case .gigyaError(let ge):
-                        result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                    default:
-                        result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                    }
+                    result(PluginErrors.wrapNetworkError(error: error.error))
                 }
             }
     }
@@ -340,12 +330,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 case .failure(let error):
                     self?.saveResolvesIfNeeded(interruption: error.interruption)
                     
-                    switch error.error {
-                    case .gigyaError(let ge):
-                        result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                    default:
-                        result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                    }
+                    result(PluginErrors.wrapNetworkError(error: error.error))
                 }
             }
     }
@@ -380,12 +365,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                     let mapped = self?.mapObject(data)
                     result(mapped)
                 case .failure(let error):
-                    switch error {
-                    case .gigyaError(let ge):
-                        result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                    default:
-                        result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                    }
+                    result(PluginErrors.wrapNetworkError(error: error))
                 }
             }
     }
@@ -409,12 +389,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 let returnData = data.mapValues { $0.value }
                 result(returnData)
             case .failure(let error):
-                switch error {
-                case .gigyaError(let ge):
-                    result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                }
+                result(PluginErrors.wrapNetworkError(error: error))
             }
         }
     }
@@ -488,7 +463,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         
         if #available(iOS 16.0.0, *) {            
             Task { [weak self] in
-                guard let loginResult = await sdk?.webAuthn.login(viewController: viewController)
+                guard let loginResult = await self?.sdk?.webAuthn.login(viewController: viewController)
                 else {
                     result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
                     return
@@ -503,12 +478,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 case .failure(let error):
                     self?.saveResolvesIfNeeded(interruption: error.interruption)
                     
-                    switch error.error {
-                    case .gigyaError(let ge):
-                        result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                    default:
-                        result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                    }
+                    result(PluginErrors.wrapNetworkError(error: error.error))
                 }
             }
         } else {
@@ -536,12 +506,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                     let json = data.mapValues { $0.value }.asJson
                     result(json)
                 case .failure(let error):
-                    switch error {
-                    case .gigyaError(let ge):
-                        result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                    default:
-                        result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                    }
+                    result(PluginErrors.wrapNetworkError(error: error))
                 }
             }
         } else {
@@ -563,12 +528,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                     let json = data.mapValues { $0.value }.asJson
                     result(json)
                 case .failure(let error):
-                    switch error {
-                    case .gigyaError(let ge):
-                        result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                    default:
-                        result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                    }
+                    result(PluginErrors.wrapNetworkError(error: error))
                 }
             }
         } else {
@@ -676,12 +636,7 @@ extension GigyaSdkWrapper {
             case .failure(let error):
                 self.saveResolvesIfNeeded(interruption: error.interruption)
 
-                switch error.error {
-                case .gigyaError(let ge):
-                    result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                }
+                result(PluginErrors.wrapNetworkError(error: error.error))
             case .pendingOtpVerification(resolver: let resolver):
                 self.resolverHelper.pendingOtpResolver = resolver
                 let data = resolver.data?.mapValues { value in ((value as? AnyCodable) ?? AnyCodable.init("")).value }
@@ -710,12 +665,7 @@ extension GigyaSdkWrapper {
             case .failure(let error):
                 self.saveResolvesIfNeeded(interruption: error.interruption)
 
-                switch error.error {
-                case .gigyaError(let ge):
-                    result(FlutterError(code: "\(ge.errorCode)", message: ge.errorMessage, details: ge.toDictionary()))
-                default:
-                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
-                }
+                result(PluginErrors.wrapNetworkError(error: error.error))
             case .pendingOtpVerification(resolver: let resolver):
                 self.resolverHelper.pendingOtpResolver = resolver
 
