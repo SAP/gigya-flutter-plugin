@@ -1,6 +1,12 @@
-# 1.0.0
+# 1.0.1
+1.0.1
 
-Developer preview 1.0.0 - Federated Plugin Rework
+* Fixed session not retaining after SdkInit.
+* Fix GigyaError with null values.
+* Fix ClassCastException with setSession() - Android.
+
+# 1.0.0
+1.0.0 - Federated Plugin Rework
 
 * Raised the minimum Flutter version to 3.3.0 and minimum Dart version to 2.18.0.
 * Removed the duplicate Apache license. To view the license, see the ‘LICENSE’ file.
@@ -51,12 +57,16 @@ iOS:
 * The ‘WebAuthnService’ has been renamed to ‘WebAuthenticationService’, and now uses an interface to abstract away the method channel.
 * The ‘InterruptionResolver’ and ‘OtpService’ classes now use an interface to abstract away the method channel.
 
-
 # 0.2.2
+
+Developer Preview 0.2.2
+
 Updated Android Core SDK v6.2.1.
 Updated Swift Core SDK v1.5.1.
 
 # 0.2.1
+
+Developer Preview 0.2.1
 
 * Added support for phone number authentication (OTP).
 
