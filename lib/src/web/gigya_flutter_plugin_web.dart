@@ -102,8 +102,8 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
               GigyaError(
                 apiVersion: response.apiVersion,
                 callId: response.callId,
+                details: response.details,
                 errorCode: response.errorCode,
-                errorDetails: response.errorDetails,
               ),
             );
             break;
@@ -145,8 +145,8 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
             GigyaError(
               apiVersion: response.apiVersion,
               callId: response.callId,
+              details: response.details,
               errorCode: response.errorCode,
-              errorDetails: response.errorDetails,
             ),
           );
         }
@@ -178,8 +178,8 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
             GigyaError(
               apiVersion: response.apiVersion,
               callId: response.callId,
+              details: response.details,
               errorCode: response.errorCode,
-              errorDetails: response.errorDetails,
             ),
           );
         }

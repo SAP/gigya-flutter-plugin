@@ -71,8 +71,8 @@ class _StaticInteropLinkAccountResolver extends LinkAccountResolver {
             GigyaError(
               apiVersion: response.apiVersion,
               callId: response.callId,
+              details: response.details,
               errorCode: response.errorCode,
-              errorDetails: response.errorDetails,
             ),
           );
         }

@@ -23,6 +23,13 @@ extension ResponseExtension on Response {
   /// The unique identifier of the transaction.
   external String get callId;
 
+  /// Get the error details.
+  Map<String, Object?> get details {
+    return <String, Object?>{
+      'errorDetails': errorDetails,
+    };
+  }
+
   /// The response error code.
   ///
   /// A value of zero indicates success.
