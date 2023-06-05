@@ -76,7 +76,7 @@ class OidcData {
       'name': name,
       'phone_number': phoneNumber,
       'phone_number_verified': phoneNumberVerified,
-      'updated_at': updatedAt?.toString(),
+      'updated_at': updatedAt?.toIso8601String(),
       'website': website,
       'zoneinfo': zoneInfo,
     };

@@ -13,10 +13,10 @@ class Certification {
   factory Certification.fromJson(Map<String, dynamic> json) {
     return Certification._(
       authority: json['authority'] as String?,
-      endDate: json['endDate'] as String?,
+      endDate: DateTime.tryParse(json['endDate'] as String? ?? ''),
       name: json['name'] as String?,
       number: json['number'] as String?,
-      startDate: json['startDate'] as String?,
+      startDate: DateTime.tryParse(json['startDate'] as String? ?? ''),
     );
   }
 
@@ -24,7 +24,7 @@ class Certification {
   final String? authority;
 
   /// The end date of the validity of the certification.
-  final String? endDate; // TODO: this should be a DateTime?
+  final DateTime? endDate;
 
   /// The name of the certification.
   final String? name;
@@ -33,16 +33,16 @@ class Certification {
   final String? number;
 
   /// The start date of the validity of the certification.
-  final String? startDate; // TODO: this should be a DateTime?
+  final DateTime? startDate;
 
   /// Convert this object to a JSON object.
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
       'authority': authority,
-      'endDate': endDate,
+      'endDate': endDate?.toIso8601String(),
       'name': name,
       'number': number,
-      'startDate': startDate,
+      'startDate': startDate?.toIso8601String(),
     };
   }
 }

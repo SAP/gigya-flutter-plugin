@@ -16,22 +16,22 @@ class Work {
 
   /// The default constructor.
   factory Work.fromJson(Map<String, dynamic> json) {
-    final String? endDate = json['endDate'] as String?;
-    final String? startDate = json['startDate'] as String?;
-
-    // TODO: company size should be an int, not a double.
-    final double? companySize = json['companySize'] as double?;
+    final int? companySize = switch (json['companySize']) {
+      final int size => size,
+      final double size => size.toInt(),
+      _ => null,
+    };
 
     return Work._(
       company: json['company'] as String?,
       companyID: json['companyID'] as String?,
-      companySize: companySize?.toInt(),
+      companySize: companySize,
       description: json['description'] as String?,
-      endDate: endDate == null ? null : DateTime.tryParse(endDate),
+      endDate: DateTime.tryParse(json['endDate'] as String? ?? ''),
       industry: json['industry'] as String?,
       isCurrent: json['isCurrent'] as bool?,
       location: json['location'] as String?,
-      startDate: startDate == null ? null : DateTime.tryParse(startDate),
+      startDate: DateTime.tryParse(json['startDate'] as String? ?? ''),
       title: json['title'] as String?,
     );
   }
@@ -71,14 +71,13 @@ class Work {
     return <String, dynamic>{
       'company': company,
       'companyID': companyID,
-      // TODO: company size should be an int, not a double.
-      'companySize': companySize?.toDouble(),
+      'companySize': companySize,
       'description': description,
-      'endDate': endDate?.toString(),
+      'endDate': endDate?.toIso8601String(),
       'industry': industry,
       'isCurrent': isCurrent,
       'location': location,
-      'startDate': startDate?.toString(),
+      'startDate': startDate?.toIso8601String(),
       'title': title,
     };
   }
