@@ -26,11 +26,14 @@ class Account {
   /// Construct an account from the given [json].
   factory Account.fromJson(Map<String, dynamic> json) {
     final String? createdTimestamp = json['createdTimestamp'] as String?;
-    final Map<String, dynamic>? emails = (json['emails'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
-    final Map<String, dynamic>? profile = (json['profile'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
+    final Map<String, dynamic>? emails =
+        (json['emails'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
+    final Map<String, dynamic>? profile =
+        (json['profile'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
     final String? lastLoginTimestamp = json['lastLogin'] as String?;
     final String? lastUpdatedTimestamp = json['lastUpdated'] as String?;
-    final String? oldestDataUpdateTimestamp = json['oldestDataUpdated'] as String?;
+    final String? oldestDataUpdateTimestamp =
+        json['oldestDataUpdated'] as String?;
     final String? registeredTimestamp = json['registered'] as String?;
     final String? verifiedTimestamp = json['verified'] as String?;
     final String socialProviders = json['socialProviders'] as String? ?? '';
@@ -39,8 +42,10 @@ class Account {
     // or the number of seconds since the UNIX epoch (1 Jan 1970).
     final DateTime? signatureTimestamp = switch (json['signatureTimestamp']) {
       final String timestamp => DateTime.parse(timestamp),
-      final int timestamp => DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
-      final double timestamp => DateTime.fromMillisecondsSinceEpoch(timestamp.toInt() * 1000),
+      final int timestamp =>
+        DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
+      final double timestamp =>
+        DateTime.fromMillisecondsSinceEpoch(timestamp.toInt() * 1000),
       _ => null,
     };
 
@@ -53,7 +58,8 @@ class Account {
       lastLoginTimestamp: DateTime.tryParse(lastLoginTimestamp ?? ''),
       lastUpdatedTimestamp: DateTime.tryParse(lastUpdatedTimestamp ?? ''),
       loginProvider: json['loginProvider'] as String?,
-      oldestDataUpdateTimestamp: DateTime.tryParse(oldestDataUpdateTimestamp ?? ''),
+      oldestDataUpdateTimestamp:
+          DateTime.tryParse(oldestDataUpdateTimestamp ?? ''),
       profile: profile == null ? null : Profile.fromJson(profile),
       registeredTimestamp: DateTime.tryParse(registeredTimestamp ?? ''),
       signatureTimestamp: signatureTimestamp,
@@ -130,7 +136,8 @@ class Account {
       'lastLoginTimestamp': lastLoginTimestamp?.toIso8601String(),
       'lastUpdatedTimestamp': lastUpdatedTimestamp?.toIso8601String(),
       'loginProvider': loginProvider,
-      'oldestDataUpdatedTimestamp': oldestDataUpdateTimestamp?.toIso8601String(),
+      'oldestDataUpdatedTimestamp':
+          oldestDataUpdateTimestamp?.toIso8601String(),
       if (accountProfile != null) 'profile': accountProfile.toJson(),
       'registeredTimestamp': registeredTimestamp?.toIso8601String(),
       'signatureTimestamp': signatureTimestamp?.toIso8601String(),

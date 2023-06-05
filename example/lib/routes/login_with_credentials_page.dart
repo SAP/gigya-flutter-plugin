@@ -112,7 +112,8 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
   }
 
   void _resolveLinkAccount(LinkAccountResolver resolver) async {
-    final ConflictingAccount? conflictingAccount = await resolver.conflictingAccount;
+    final ConflictingAccount? conflictingAccount =
+        await resolver.conflictingAccount;
 
     if (!mounted || conflictingAccount == null) {
       return;
