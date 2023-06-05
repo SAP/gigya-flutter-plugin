@@ -36,11 +36,15 @@ class Profile {
     this.honors,
     this.industry,
     this.interests,
+    this.isConnected,
+    this.isSiteUser,
     this.languages,
     this.lastLoginLocation,
     this.lastName,
     this.likes = const <Like>[],
     this.locale,
+    this.loginProvider,
+    this.loginProviderUID,
     this.name,
     this.nickname,
     this.oidcData,
@@ -50,6 +54,7 @@ class Profile {
     this.politicalView,
     this.professionalHeadline,
     this.profileUrl,
+    this.providers = const <String>[],
     this.proxyEmail,
     this.publications = const <Publication>[],
     this.relationshipStatus,
@@ -98,13 +103,15 @@ class Profile {
       email: json['email'] as String?,
       favorites: _listFromJson<Favorite>(favorites, Favorite.fromJson),
       firstName: json['firstName'] as String?,
-      followers: json['followersCounts'] as int?,
+      followers: json['followersCount'] as int?,
       following: json['followingCount'] as int?,
       gender: json['gender'] as String?,
       hometown: json['hometown'] as String?,
       honors: json['honors'] as String?,
       industry: json['industry'] as String?,
       interests: json['interests'] as String?,
+      isConnected: json['isConnected'] as bool?,
+      isSiteUser: json['isSiteUser'] as bool?,
       languages: json['languages'] as String?,
       lastLoginLocation: lastLoginLocation == null
           ? null
@@ -112,6 +119,8 @@ class Profile {
       lastName: json['lastName'] as String?,
       likes: _listFromJson<Like>(likes, Like.fromJson),
       locale: json['locale'] as String?,
+      loginProvider: json['loginProvider'] as String?,
+      loginProviderUID: json['loginProviderUID'] as String?,
       name: json['name'] as String?,
       nickname: json['nickname'] as String?,
       oidcData: oidcStruct == null ? null : OidcData.fromJson(oidcStruct),
@@ -121,6 +130,7 @@ class Profile {
       politicalView: json['politicalView'] as String?,
       professionalHeadline: json['professionalHeadline'] as String?,
       profileUrl: json['profileURL'] as String?,
+      providers: json['providers'] as List<String>? ?? const <String>[],
       proxyEmail: json['proxyEmail'] as String?,
       publications:
           _listFromJson<Publication>(publications, Publication.fromJson),
@@ -204,6 +214,12 @@ class Profile {
   /// The person's interests.
   final String? interests;
 
+  /// Whether the user is connected to any available provider.
+  final bool? isConnected;
+
+  /// Whether the current user is a user of the site.
+  final bool? isSiteUser;
+
   /// The different languages that the person is proficient in.
   final String? languages;
 
@@ -218,6 +234,12 @@ class Profile {
 
   /// The language locale of the person's primary language.
   final String? locale;
+
+  /// The name of the provider that the user used in order to log in.
+  final String? loginProvider;
+
+  /// The user's ID from the login provider.
+  final String? loginProviderUID;
 
   /// The person's full name.
   final String? name;
@@ -245,6 +267,9 @@ class Profile {
 
   /// The url to the person's profile page.
   final String? profileUrl;
+
+  /// The names of the providers to which the user is connected/logged in.
+  final List<String> providers;
 
   /// The person's proxy email address.
   final String? proxyEmail;
@@ -323,18 +348,22 @@ class Profile {
       if (favorites.isNotEmpty)
         'favorites': favorites.map((Favorite f) => f.toJson()).toList(),
       'firstName': firstName,
-      'followersCounts': followers,
+      'followersCount': followers,
       'followingCount': following,
       'gender': gender,
       'hometown': hometown,
       'honors': honors,
       'industry': industry,
       'interests': interests,
+      'isConnected': isConnected,
+      'isSiteUser': isSiteUser,
       'languages': languages,
       if (lastLogin != null) 'lastLoginLocation': lastLogin.toJson(),
       'lastName': lastName,
       if (likes.isNotEmpty) 'likes': likes.map((Like l) => l.toJson()).toList(),
       'locale': locale,
+      'loginProvider': loginProvider,
+      'loginProviderUID': loginProviderUID,
       'name': name,
       'nickname': nickname,
       if (oidcStruct != null) 'oidcData': oidcStruct.toJson(),
@@ -346,6 +375,7 @@ class Profile {
       'politicalView': politicalView,
       'professionalHeadline': professionalHeadline,
       'profileURL': profileUrl,
+      'providers': providers,
       'proxyEmail': proxyEmail,
       if (publications.isNotEmpty)
         'publications':
