@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart' show MethodChannel, PlatformException;
-import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
-import '../../models/enums/methods.dart';
+import '../../gigya_flutter_plugin.dart';
+import '../models/enums/methods.dart';
 
 /// This class represents a [WebAuthenticationService] that uses a [MethodChannel]
 /// for its implementation.

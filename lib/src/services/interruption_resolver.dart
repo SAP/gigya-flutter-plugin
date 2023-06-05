@@ -1,6 +1,6 @@
-import '../../models/conflicting_accounts.dart';
-import '../../models/enums/social_provider.dart';
-import '../../models/gigya_error.dart';
+import '../models/conflicting_account.dart';
+import '../models/enums/social_provider.dart';
+import '../models/gigya_error.dart';
 
 /// This interface represents the base interruption resolver.
 abstract class InterruptionResolver {
@@ -22,7 +22,7 @@ abstract class InterruptionResolverFactory {
 /// The resolver for a link account flow interruption.
 abstract class LinkAccountResolver extends InterruptionResolver {
   /// Get the conflicting accounts of the user.
-  Future<ConflictingAccounts>? get conflictingAccounts {
+  Future<ConflictingAccount>? get conflictingAccount {
     throw UnimplementedError('conflictingAccounts is not implemented.');
   }
 

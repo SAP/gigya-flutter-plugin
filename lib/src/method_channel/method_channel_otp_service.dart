@@ -1,8 +1,8 @@
 import 'package:flutter/services.dart' show MethodChannel, PlatformException;
 
-import '../../models/enums/methods.dart';
-import '../../models/gigya_error.dart';
-import 'otp_service.dart';
+import '../models/enums/methods.dart';
+import '../models/gigya_error.dart';
+import '../services/otp_service.dart';
 
 /// This class represents an [OtpService] that uses a [MethodChannel]
 /// for its implementation.

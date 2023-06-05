@@ -1,12 +1,12 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
+import '../method_channel/gigya_flutter_plugin_method_channel.dart';
 import '../models/enums/social_provider.dart';
 import '../models/screenset_event.dart';
 import '../services/biometric_service/biometric_service.dart';
-import '../services/interruption_resolver/interruption_resolver.dart';
-import '../services/otp_service/otp_service.dart';
-import '../services/web_authentication_service/web_authentication_service.dart';
-import 'gigya_flutter_plugin_method_channel.dart';
+import '../services/interruption_resolver.dart';
+import '../services/otp_service.dart';
+import '../services/web_authentication_service.dart';
 
 /// The platform interface for the Gigya Flutter Plugin.
 abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
@@ -15,8 +15,7 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static GigyaFlutterPluginPlatform _instance =
-      MethodChannelGigyaFlutterPlugin();
+  static GigyaFlutterPluginPlatform _instance = MethodChannelGigyaFlutterPlugin();
 
   /// The default instance of [GigyaFlutterPluginPlatform] to use.
   ///
