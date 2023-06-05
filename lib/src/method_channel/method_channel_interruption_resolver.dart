@@ -1,10 +1,10 @@
 import 'package:flutter/services.dart' show MethodChannel, PlatformException;
 
-import '../../models/conflicting_accounts.dart';
-import '../../models/enums/methods.dart';
-import '../../models/enums/social_provider.dart';
-import '../../models/gigya_error.dart';
-import 'interruption_resolver.dart';
+import '../models/conflicting_account.dart';
+import '../models/enums/methods.dart';
+import '../models/enums/social_provider.dart';
+import '../models/gigya_error.dart';
+import '../services/interruption_resolver.dart';
 
 /// This class represents an [InterruptionResolver] that uses a [MethodChannel]
 /// for its implementation.
@@ -32,25 +32,25 @@ class MethodChannelInterruptionResolverFactory
 
 class _MethodChannelLinkAccountResolver extends LinkAccountResolver {
   _MethodChannelLinkAccountResolver(this._channel) {
-    _conflictingAccounts = _getConflictingAccounts();
+    _conflictingAccount = _getConflictingAccount();
   }
 
   final MethodChannel _channel;
 
-  late final Future<ConflictingAccounts>? _conflictingAccounts;
+  late final Future<ConflictingAccount>? _conflictingAccount;
 
   @override
-  Future<ConflictingAccounts>? get conflictingAccounts => _conflictingAccounts;
+  Future<ConflictingAccount>? get conflictingAccount => _conflictingAccount;
 
-  /// Get the conflicting accounts for the user.
-  Future<ConflictingAccounts> _getConflictingAccounts() async {
+  /// Get the conflicting account for the user.
+  Future<ConflictingAccount> _getConflictingAccount() async {
     try {
       final Map<String, dynamic>? result =
           await _channel.invokeMapMethod<String, dynamic>(
         Methods.getConflictingAccounts.methodName,
       );
 
-      return ConflictingAccounts.fromJson(result ?? const <String, dynamic>{});
+      return ConflictingAccount.fromJson(result ?? const <String, dynamic>{});
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
     }

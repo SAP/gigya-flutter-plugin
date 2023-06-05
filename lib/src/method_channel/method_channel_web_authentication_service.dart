@@ -1,9 +1,9 @@
 import 'dart:convert';
 
 import 'package:flutter/services.dart' show MethodChannel, PlatformException;
-import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
-import '../../models/enums/methods.dart';
+import '../../gigya_flutter_plugin.dart';
+import '../models/enums/methods.dart';
 
 /// This class represents a [WebAuthenticationService] that uses a [MethodChannel]
 /// for its implementation.
@@ -16,8 +16,7 @@ class MethodChannelWebAuthenticationService extends WebAuthenticationService {
   @override
   Future<Map<String, dynamic>> login() async {
     try {
-      final Map<String, dynamic>? result =
-          await _channel.invokeMapMethod<String, dynamic>(
+      final Map<String, dynamic>? result = await _channel.invokeMapMethod<String, dynamic>(
         WebAuthnMethods.login.methodName,
         <String, dynamic>{},
       ).timeout(
