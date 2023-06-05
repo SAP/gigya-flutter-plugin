@@ -238,9 +238,9 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
             case ConnectionState.active:
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return Column(
+              return const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   CircularProgressIndicator(),
                   Text('Fetching account...'),
                 ],

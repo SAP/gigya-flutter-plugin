@@ -66,7 +66,7 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
     if (mounted) {
       setState(() {
         _inProgress = false;
-        _requestResult = 'Login success: \n\n ${account.uid}';
+        _requestResult = 'Login success: \n\n ${account.toJson()}';
       });
     }
   }
@@ -112,15 +112,14 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
   }
 
   void _resolveLinkAccount(LinkAccountResolver resolver) async {
-    final ConflictingAccounts? conflictingAccounts =
-        await resolver.conflictingAccounts;
+    final ConflictingAccount? conflictingAccount = await resolver.conflictingAccount;
 
-    if (!mounted || conflictingAccounts == null) {
+    if (!mounted || conflictingAccount == null) {
       return;
     }
 
-    if (conflictingAccounts.loginProviders.contains('site')) {
-      _showLinkToSiteBottomSheet(conflictingAccounts.loginID, resolver);
+    if (conflictingAccount.loginProviders.contains('site')) {
+      _showLinkToSiteBottomSheet(conflictingAccount.loginID, resolver);
     } else {
       _showLinkToSocialBottomSheet(resolver);
     }
@@ -234,6 +233,7 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
                 ),
                 TextField(
                   controller: _linkPasswordController,
+                  obscureText: true,
                   decoration: const InputDecoration(hintText: 'password'),
                 ),
                 Padding(
@@ -351,6 +351,7 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
               padding: const EdgeInsets.all(8.0),
               child: TextFormField(
                 controller: _passwordController,
+                obscureText: true,
                 decoration: const InputDecoration(hintText: 'Enter password'),
                 validator: (String? value) {
                   if (value == null || value.trim().isEmpty) {
