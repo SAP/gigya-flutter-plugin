@@ -79,9 +79,9 @@ class _ManageConnectionsPageState extends State<ManageConnectionsPage> {
             case ConnectionState.none:
             case ConnectionState.active:
             case ConnectionState.waiting:
-              return Column(
+              return const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   CircularProgressIndicator(),
                   Text('Fetching account...'),
                 ],
@@ -109,19 +109,21 @@ class _ManageConnectionsPageState extends State<ManageConnectionsPage> {
               }
 
               final Account account = snapshot.data!;
-              final String socialProviders = account.socialProviders ?? '';
 
               return Column(
                 children: <Widget>[
                   const Text('Social connections for this account'),
                   Expanded(
-                    child: socialProviders.isEmpty
+                    child: account.socialProviders.isEmpty
                         ? const Center(
                             child: Text(
                               'No social connections for this account',
                             ),
                           )
-                        : Text(socialProviders),
+                        : ListView.builder(
+                            itemBuilder: (_, int index) => Text(account.socialProviders[index]),
+                            itemCount: account.socialProviders.length,
+                          ),
                   ),
                   Padding(
                     padding: const EdgeInsets.symmetric(vertical: 16),
