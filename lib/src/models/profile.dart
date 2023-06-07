@@ -82,6 +82,7 @@ class Profile {
         json['oidcData'] as Map<String, dynamic>?;
     final List<dynamic>? patents = json['patents'] as List<dynamic>?;
     final List<dynamic>? phones = json['phones'] as List<dynamic>?;
+    final List<dynamic>? providers = json['providers'] as List<dynamic>?;
     final List<dynamic>? publications = json['publications'] as List<dynamic>?;
     final List<dynamic>? skills = json['skills'] as List<dynamic>?;
     final List<dynamic>? work = json['work'] as List<dynamic>?;
@@ -130,7 +131,7 @@ class Profile {
       politicalView: json['politicalView'] as String?,
       professionalHeadline: json['professionalHeadline'] as String?,
       profileUrl: json['profileURL'] as String?,
-      providers: json['providers'] as List<String>? ?? const <String>[],
+      providers: providers?.cast<String>() ?? const <String>[],
       proxyEmail: json['proxyEmail'] as String?,
       publications:
           _listFromJson<Publication>(publications, Publication.fromJson),
