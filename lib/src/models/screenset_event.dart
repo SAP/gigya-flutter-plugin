@@ -13,6 +13,19 @@ class ScreensetEvent {
     return ScreensetEvent._(resolvedType, data);
   }
 
+  /// Construct a new [ScreensetEvent] from the given, loosely-typed [map].
+  ///
+  /// The map is expected to have an `event` key, denoting the name of the event.
+  /// The map can have a `data` key, which is a [Map] that contains any data for the event.
+  factory ScreensetEvent.fromMap(Map<Object?, Object?> map) {
+    final Map<Object?, Object?>? data = map['data'] as Map<Object?, Object?>?;
+
+    return ScreensetEvent(
+      map['event'] as String,
+      data?.cast<String, Object?>() ?? const <String, Object?>{},
+    );
+  }
+
   /// The private constructor.
   const ScreensetEvent._(this.type, this.data);
 
