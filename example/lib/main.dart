@@ -23,9 +23,10 @@ void main() async {
 
   try {
     await sdk.initSdk(
-        apiDomain: exampleAppApiDomain,
-        apiKey: exampleAppApiKey,
-        cname: exampleCname);
+      apiDomain: exampleAppApiDomain,
+      apiKey: exampleAppApiKey,
+      cname: exampleCname,
+    );
 
     print('Gigya SDK initialized.');
   } catch (error, stackTrace) {
