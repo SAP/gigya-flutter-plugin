@@ -88,11 +88,13 @@ class GigyaSdk {
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
+    String? cname,
     bool forceLogout = false,
   }) {
     return GigyaFlutterPluginPlatform.instance.initSdk(
       apiDomain: apiDomain,
       apiKey: apiKey,
+      cname: cname,
       forceLogout: forceLogout,
     );
   }

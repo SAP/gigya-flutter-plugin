@@ -355,8 +355,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     fun initSdk(arguments: Any, channelResult: MethodChannel.Result) {
         val apiKey: String? = (arguments as Map<*, *>)["apiKey"] as String?
         val apiDomain: String? = arguments["apiDomain"] as String?
+        val cname: String? = arguments["cname"] as String?
 
-        if(apiKey == null || apiDomain == null) {
+        if (apiKey == null || apiDomain == null) {
             channelResult.error(
                 MISSING_PARAMETER_ERROR,
                 MISSING_PARAMETER_MESSAGE,
@@ -365,7 +366,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             return
         }
 
-        sdk.init(apiKey, apiDomain)
+        if (cname != null) sdk.init(apiKey, apiDomain, cname)
+        else sdk.init(apiKey, apiDomain)
 
         channelResult.success(null)
     }
@@ -374,7 +376,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Logout of existing session.
      */
     fun logOut(channelResult: MethodChannel.Result) {
-        if(!sdk.isLoggedIn) {
+        if (!sdk.isLoggedIn) {
             channelResult.success(null)
 
             return
