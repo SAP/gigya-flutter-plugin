@@ -219,4 +219,34 @@ class GigyaSdk {
   }) {
     return GigyaFlutterPluginPlatform.instance.sso(parameters: parameters);
   }
+
+  /// Check isLocked by biometrics.
+  Future<bool> isLocked() {
+    return GigyaFlutterPluginPlatform.instance.isLocked();
+  }
+
+  /// Check isOptIn to biometrics.
+  Future<bool> isOptIn() {
+    return GigyaFlutterPluginPlatform.instance.isOptIn();
+  }
+
+  /// Opt into biometrics.
+  Future<bool> optIn() {
+    return GigyaFlutterPluginPlatform.instance.optIn();
+  }
+
+  /// Opt out of biometrics.
+  Future<bool> optOut() {
+    return GigyaFlutterPluginPlatform.instance.optOut();
+  }
+
+  /// Lock session with biometrics.
+  Future<bool> lockSession() {
+    return GigyaFlutterPluginPlatform.instance.lockSession();
+  }
+
+  /// Unlock session biometrics.
+  Future<bool> unlockSession() {
+    return GigyaFlutterPluginPlatform.instance.unlockSession();
+  }
 }

@@ -418,4 +418,112 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
       throw GigyaError.fromPlatformException(exception);
     }
   }
+
+  @override
+  Future<bool> isLocked() async {
+    try {
+      final bool? result = await methodChannel
+          .invokeMethod<bool>(
+            Methods.isLocked.methodName,
+          )
+          .timeout(
+            Methods.isLocked.timeout,
+            onTimeout: () => throw const GigyaTimeoutError(),
+          );
+
+      return result ?? false;
+    } on PlatformException catch (exception) {
+      throw GigyaError.fromPlatformException(exception);
+    }
+  }
+
+  @override
+  Future<bool> isOptIn() async {
+    try {
+      final bool? result = await methodChannel
+          .invokeMethod<bool>(
+            Methods.isOptIn.methodName,
+          )
+          .timeout(
+            Methods.isOptIn.timeout,
+            onTimeout: () => throw const GigyaTimeoutError(),
+          );
+
+      return result ?? false;
+    } on PlatformException catch (exception) {
+      throw GigyaError.fromPlatformException(exception);
+    }
+  }
+
+  @override
+  Future<bool> optIn() async {
+    try {
+      final bool? result = await methodChannel
+          .invokeMethod<bool>(
+            Methods.optIn.methodName,
+          )
+          .timeout(
+            Methods.optIn.timeout,
+            onTimeout: () => throw const GigyaTimeoutError(),
+          );
+
+      return result ?? false;
+    } on PlatformException catch (exception) {
+      throw GigyaError.fromPlatformException(exception);
+    }
+  }
+
+  @override
+  Future<bool> optOut() async {
+    try {
+      final bool? result = await methodChannel
+          .invokeMethod<bool>(
+            Methods.optOut.methodName,
+          )
+          .timeout(
+            Methods.optOut.timeout,
+            onTimeout: () => throw const GigyaTimeoutError(),
+          );
+
+      return result ?? false;
+    } on PlatformException catch (exception) {
+      throw GigyaError.fromPlatformException(exception);
+    }
+  }
+
+  @override
+  Future<bool> lockSession() async {
+    try {
+      final bool? result = await methodChannel
+          .invokeMethod<bool>(
+            Methods.lockSession.methodName,
+          )
+          .timeout(
+            Methods.lockSession.timeout,
+            onTimeout: () => throw const GigyaTimeoutError(),
+          );
+
+      return result ?? false;
+    } on PlatformException catch (exception) {
+      throw GigyaError.fromPlatformException(exception);
+    }
+  }
+
+  @override
+  Future<bool> unlockSession() async {
+    try {
+      final bool? result = await methodChannel
+          .invokeMethod<bool>(
+            Methods.unlockSession.methodName,
+          )
+          .timeout(
+            Methods.unlockSession.timeout,
+            onTimeout: () => throw const GigyaTimeoutError(),
+          );
+
+      return result ?? false;
+    } on PlatformException catch (exception) {
+      throw GigyaError.fromPlatformException(exception);
+    }
+  }
 }

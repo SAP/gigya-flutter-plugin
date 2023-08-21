@@ -191,4 +191,34 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }) {
     throw UnimplementedError('sso() is not implemented.');
   }
+
+  /// Check isLocked by biometrics.
+  Future<bool> isLocked() {
+    throw UnimplementedError('isLocked() is not implemented.');
+  }
+
+  /// Check isOptIn to biometrics.
+  Future<bool> isOptIn() {
+    throw UnimplementedError('isOptIn() is not implemented.');
+  }
+
+  /// Opt into biometrics.
+  Future<bool> optIn() {
+    throw UnimplementedError('optIn() is not implemented.');
+  }
+
+  /// Opt out of biometrics.
+  Future<bool> optOut() {
+    throw UnimplementedError('optOut() is not implemented.');
+  }
+
+  /// Lock session with biometrics.
+  Future<bool> lockSession() {
+    throw UnimplementedError('lockSession() is not implemented.');
+  }
+
+  /// Unlock session biometrics.
+  Future<bool> unlockSession() {
+    throw UnimplementedError('unlockSession() is not implemented.');
+  }
 }

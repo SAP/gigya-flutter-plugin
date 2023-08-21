@@ -58,7 +58,26 @@ enum Methods {
   socialLogin('socialLogin'),
 
   /// The method that starts Single-Sign-On.
-  sso('sso');
+  sso('sso'),
+
+  /// The method that returns isLocked from Biometrics.
+  isLocked('isLocked'),
+
+  /// The method that returns isOptIn from Biometrics.
+  isOptIn('isOptIn'),
+
+  /// The method that encrypts session with Biometrics.
+  optIn('optIn'),
+
+  /// The method that decrypts session with Biometrics.
+  optOut('optOut'),
+
+  /// The method that Decrypt session and save as default.
+  unlockSession('unlockSession'),
+
+  /// The method that clears current heap session.
+  /// Does not require biometric authentication.
+  lockSession('lockSession');
 
   /// The default constructor.
   const Methods(this.methodName);
