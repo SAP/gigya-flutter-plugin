@@ -63,6 +63,24 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case .getSession:
             sdk?.getSession(result: result)
             return
+        case .isLocked:
+            sdk?.isLocked(result: result)
+            return
+        case .isOptIn:
+            sdk?.isOptIn(result: result)
+            return
+        case .optIn:
+            sdk?.optIn(result: result)
+            return
+        case .optOut:
+            sdk?.optOut(result: result)
+            return
+        case .lockSession:
+            sdk?.lockSession(result: result)
+            return
+        case .unlockSession:
+            sdk?.unlockSession(result: result)
+            return
         default:
             break
         }

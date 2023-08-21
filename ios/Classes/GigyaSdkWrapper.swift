@@ -688,6 +688,72 @@ extension GigyaSdkWrapper {
 
         result(nil)
     }
+
+    /**
+     Biometrics.
+     */
+
+    func isLocked(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        
+        result(sdk.biometric.isLocked)
+    }
+    
+    func isOptIn(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        
+        result(sdk.biometric.isOptIn)
+    }
+    
+    func optIn(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        
+        sdk.biometric.optIn(completion: { biometricResult in
+            result(biometricResult == GigyaBiometricResult.success ? true : false)
+        })
+    }
+    
+    func optOut(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        
+        sdk.biometric.optOut(completion: { biometricResult in
+            result(biometricResult)
+        })
+    }
+    
+    func lockSession(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+        
+        sdk.biometric.lockSession(completion: { biometricResult in
+            result(biometricResult)
+        })
+    }
+    
+    func unlockSession(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+        }
+
+        sdk.biometric.unlockSession(completion: { biometricResult in
+            result(biometricResult == GigyaBiometricResult.success ? true : false)
+        })
+    }
 }
 
 class ResolverHelper<T: GigyaAccountProtocol> {    
