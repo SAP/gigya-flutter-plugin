@@ -231,12 +231,34 @@ class GigyaSdk {
   }
 
   /// Opt into biometrics.
-  Future<bool> optIn() {
+  ///
+  /// @parameters The parameters passed in here is for the GigyaInfoPrompt.
+  /// The Map that needs to be passed is as follows:
+  ///
+  /// {
+  ///   'title': SampleTitle,
+  ///   'subtitle': SampleSubtitle,
+  ///   'description': SampleDescription,
+  ///  }
+  Future<bool> optIn({
+    Map<String, String> parameters = const <String, String>{},
+  }) {
     return GigyaFlutterPluginPlatform.instance.optIn();
   }
 
   /// Opt out of biometrics.
-  Future<bool> optOut() {
+  ///
+  /// @parameters The parameters passed in here is for the GigyaInfoPrompt.
+  /// The Map that needs to be passed is as follows:
+  ///
+  /// {
+  ///   'title': 'SampleTitle',
+  ///   'subtitle': 'SampleSubtitle',
+  ///   'description': 'SampleDescription',
+  ///  }
+  Future<bool> optOut({
+    Map<String, String> parameters = const <String, String>{},
+  }) {
     return GigyaFlutterPluginPlatform.instance.optOut();
   }
 
@@ -245,8 +267,19 @@ class GigyaSdk {
     return GigyaFlutterPluginPlatform.instance.lockSession();
   }
 
-  /// Unlock session biometrics.
-  Future<bool> unlockSession() {
+  /// Unlock session using biometrics.
+  ///
+  /// @parameters The parameters passed in here is for the GigyaInfoPrompt.
+  /// The Map that needs to be passed is as follows:
+  ///
+  /// {
+  ///   'title': 'SampleTitle',
+  ///   'subtitle': 'SampleSubtitle',
+  ///   'description': 'SampleDescription',
+  ///  }
+  Future<bool> unlockSession({
+    Map<String, String> parameters = const <String, String>{},
+  }) {
     return GigyaFlutterPluginPlatform.instance.unlockSession();
   }
 }
