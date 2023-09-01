@@ -92,12 +92,19 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Scre
             "otpLogin" -> sdk.otpLogin(call.arguments, result)
             "otpUpdate" -> sdk.otpUpdate(call.arguments, result)
             "otpVerify" -> sdk.otpVerify(call.arguments, result)
+            "isLocked" -> sdk.isLocked(result)
+            "isOptIn" -> sdk.isOptIn(result)
+            "optIn" -> sdk.optIn(call.arguments, result)
+            "optOut" -> sdk.optOut(call.arguments, result)
+            "lockSession" -> sdk.lockSession(result)
+            "unlockSession" -> sdk.unlockSession(call.arguments, result)
             else -> result.notImplemented()
         }
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         val activity = binding.activity
+        sdk.setActivity(activity)
         if (activity is ComponentActivity) {
             fidoResultHandler = activity.registerForActivityResult(
                 ActivityResultContracts.StartIntentSenderForResult()
