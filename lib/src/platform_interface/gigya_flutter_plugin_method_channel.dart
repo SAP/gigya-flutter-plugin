@@ -432,8 +432,8 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
           );
 
       return result ?? false;
-    } on PlatformException catch (exception) {
-      throw GigyaError.fromPlatformException(exception);
+    } on PlatformException catch (_) {
+      rethrow;
     }
   }
 
@@ -450,17 +450,20 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
           );
 
       return result ?? false;
-    } on PlatformException catch (exception) {
-      throw GigyaError.fromPlatformException(exception);
+    } on PlatformException catch (_) {
+      rethrow;
     }
   }
 
   @override
-  Future<bool> optIn() async {
+  Future<bool> optIn({
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) async {
     try {
       final bool? result = await methodChannel
           .invokeMethod<bool>(
             Methods.optIn.methodName,
+            parameters,
           )
           .timeout(
             Methods.optIn.timeout,
@@ -468,17 +471,20 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
           );
 
       return result ?? false;
-    } on PlatformException catch (exception) {
-      throw GigyaError.fromPlatformException(exception);
+    } on PlatformException catch (_) {
+      rethrow;
     }
   }
 
   @override
-  Future<bool> optOut() async {
+  Future<bool> optOut({
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) async {
     try {
       final bool? result = await methodChannel
           .invokeMethod<bool>(
             Methods.optOut.methodName,
+            parameters,
           )
           .timeout(
             Methods.optOut.timeout,
@@ -486,8 +492,8 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
           );
 
       return result ?? false;
-    } on PlatformException catch (exception) {
-      throw GigyaError.fromPlatformException(exception);
+    } on PlatformException catch (_) {
+      rethrow;
     }
   }
 
@@ -504,17 +510,20 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
           );
 
       return result ?? false;
-    } on PlatformException catch (exception) {
-      throw GigyaError.fromPlatformException(exception);
+    } on PlatformException catch (_) {
+      rethrow;
     }
   }
 
   @override
-  Future<bool> unlockSession() async {
+  Future<bool> unlockSession({
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) async {
     try {
       final bool? result = await methodChannel
           .invokeMethod<bool>(
             Methods.unlockSession.methodName,
+            parameters,
           )
           .timeout(
             Methods.unlockSession.timeout,
@@ -522,8 +531,8 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
           );
 
       return result ?? false;
-    } on PlatformException catch (exception) {
-      throw GigyaError.fromPlatformException(exception);
+    } on PlatformException catch (_) {
+      rethrow;
     }
   }
 }

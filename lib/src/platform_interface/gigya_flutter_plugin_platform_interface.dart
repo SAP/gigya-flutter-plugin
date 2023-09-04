@@ -203,12 +203,16 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }
 
   /// Opt into biometrics.
-  Future<bool> optIn() {
+  Future<bool> optIn({
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
     throw UnimplementedError('optIn() is not implemented.');
   }
 
   /// Opt out of biometrics.
-  Future<bool> optOut() {
+  Future<bool> optOut({
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
     throw UnimplementedError('optOut() is not implemented.');
   }
 
@@ -218,7 +222,9 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }
 
   /// Unlock session biometrics.
-  Future<bool> unlockSession() {
+  Future<bool> unlockSession({
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
     throw UnimplementedError('unlockSession() is not implemented.');
   }
 }
