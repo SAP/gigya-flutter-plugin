@@ -85,4 +85,8 @@ dependencies {
     // Facebook (Optional)
     implementation 'com.facebook.android:facebook-android-sdk:14.1.1'
 
+    // Google (Optional)
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
+
+
 }
