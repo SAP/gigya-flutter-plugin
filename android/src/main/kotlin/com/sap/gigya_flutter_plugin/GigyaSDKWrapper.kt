@@ -52,7 +52,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     private var resolverHelper: ResolverHelper = ResolverHelper()
 
-    lateinit private var activity: Activity
+    private var activity: Activity? = null;
 
     private val gson = GsonBuilder().registerTypeAdapter(
         object : TypeToken<Map<String?, Any?>?>() {}.type,
@@ -75,7 +75,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         }
     }
 
-    fun setActivity(activity: Activity) {
+    fun setActivity(activity: Activity?) {
         this.activity = activity;
     }
 

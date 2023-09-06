@@ -124,6 +124,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Scre
 
     override fun onDetachedFromActivity() {
         fidoResultHandler = null
+        sdk.setActivity(null);
     }
 
     override fun addScreenSetEvent(event: Map<String, Any?>) {
