@@ -232,34 +232,38 @@ class GigyaSdk {
 
   /// Opt into biometrics.
   ///
-  /// @parameters The parameters passed in here is for the GigyaInfoPrompt.
+  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
   /// The Map that needs to be passed is as follows:
   ///
   /// {
   ///   'title': SampleTitle,
   ///   'subtitle': SampleSubtitle,
   ///   'description': SampleDescription,
-  ///  }
+  /// }
+  ///
+  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
   Future<bool> optIn({
     Map<String, String> parameters = const <String, String>{},
   }) {
-    return GigyaFlutterPluginPlatform.instance.optIn();
+    return GigyaFlutterPluginPlatform.instance.optIn(parameters: parameters);
   }
 
   /// Opt out of biometrics.
   ///
-  /// @parameters The parameters passed in here is for the GigyaInfoPrompt.
+  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
   /// The Map that needs to be passed is as follows:
   ///
   /// {
   ///   'title': 'SampleTitle',
   ///   'subtitle': 'SampleSubtitle',
   ///   'description': 'SampleDescription',
-  ///  }
+  /// }
+  ///
+  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
   Future<bool> optOut({
     Map<String, String> parameters = const <String, String>{},
   }) {
-    return GigyaFlutterPluginPlatform.instance.optOut();
+    return GigyaFlutterPluginPlatform.instance.optOut(parameters: parameters);
   }
 
   /// Lock session with biometrics.
@@ -269,17 +273,19 @@ class GigyaSdk {
 
   /// Unlock session using biometrics.
   ///
-  /// @parameters The parameters passed in here is for the GigyaInfoPrompt.
+  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
   /// The Map that needs to be passed is as follows:
-  ///
   /// {
   ///   'title': 'SampleTitle',
   ///   'subtitle': 'SampleSubtitle',
   ///   'description': 'SampleDescription',
-  ///  }
+  /// }
+  ///
+  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
   Future<bool> unlockSession({
     Map<String, String> parameters = const <String, String>{},
   }) {
-    return GigyaFlutterPluginPlatform.instance.unlockSession();
+    return GigyaFlutterPluginPlatform.instance
+        .unlockSession(parameters: parameters);
   }
 }
