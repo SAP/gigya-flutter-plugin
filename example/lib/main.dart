@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
-import 'package:gigya_flutter_plugin_example/routes/biometrics_page.dart';
 
 import 'routes/account_information_page.dart';
+import 'routes/biometrics_page.dart';
 import 'routes/forgot_password_page.dart';
 import 'routes/home_page.dart';
 import 'routes/login_with_credentials_page.dart';
