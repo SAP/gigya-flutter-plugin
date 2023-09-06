@@ -1106,7 +1106,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 channelResult.error(
                     GENERAL_ERROR,
                     "Operation Failed: $reason",
-                    mapOf<String, Any>()
+                    null
                 )
             }
 
@@ -1114,7 +1114,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 channelResult.error(
                     CANCELED_ERROR,
                     CANCELED_ERROR_MESSAGE,
-                    mapOf<String, Any>()
+                    null
                 )
             }
         })
@@ -1134,7 +1134,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                     channelResult.error(
                         GENERAL_ERROR,
                         reason,
-                        mapOf<String, Any>()
+                        null
                     )
                 }
 
@@ -1142,7 +1142,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                     channelResult.error(
                         CANCELED_ERROR,
                         CANCELED_ERROR_MESSAGE,
-                        mapOf<String, Any>()
+                        null
                     )
                 }
             })
@@ -1159,7 +1159,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                     channelResult.error(
                         GENERAL_ERROR,
                         reason,
-                        mapOf<String, Any>()
+                        null
                     )
                 }
 
@@ -1167,7 +1167,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                     channelResult.error(
                         CANCELED_ERROR,
                         CANCELED_ERROR_MESSAGE,
-                        mapOf<String, Any>()
+                        null
                     )
                 }
             })
@@ -1187,7 +1187,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                     channelResult.error(
                         GENERAL_ERROR,
                         reason,
-                        mapOf<String, Any>()
+                        null
                     )
                 }
 
@@ -1195,7 +1195,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                     channelResult.error(
                         CANCELED_ERROR,
                         CANCELED_ERROR_MESSAGE,
-                        mapOf<String, Any>()
+                        null
                     )
                 }
             })
