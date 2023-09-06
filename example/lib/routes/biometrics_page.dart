@@ -21,17 +21,19 @@ class _BiometricsPageState extends State<BiometricsPage> {
   String errorMessage = '';
 
   void _isOptIn() async {
-    final bool isOptIn = await widget.sdk.isOptIn();
-    setState(() {
-      this.isOptIn = isOptIn;
-    });
+    isOptIn = await widget.sdk.isOptIn();
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _isLocked() async {
-    final bool isLocked = await widget.sdk.isLocked();
-    setState(() {
-      this.isLocked = isLocked;
-    });
+    isLocked = await widget.sdk.isLocked();
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
