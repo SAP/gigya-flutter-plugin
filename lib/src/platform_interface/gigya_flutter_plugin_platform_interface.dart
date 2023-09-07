@@ -203,6 +203,17 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }
 
   /// Opt into biometrics.
+  ///
+  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
+  /// The Map that needs to be passed is as follows:
+  ///
+  /// {
+  ///   'title': SampleTitle,
+  ///   'subtitle': SampleSubtitle,
+  ///   'description': SampleDescription,
+  /// }
+  ///
+  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
   Future<bool> optIn({
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) {
@@ -210,6 +221,17 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }
 
   /// Opt out of biometrics.
+  ///
+  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
+  /// The Map that needs to be passed is as follows:
+  ///
+  /// {
+  ///   'title': 'SampleTitle',
+  ///   'subtitle': 'SampleSubtitle',
+  ///   'description': 'SampleDescription',
+  /// }
+  ///
+  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
   Future<bool> optOut({
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) {
@@ -221,7 +243,17 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError('lockSession() is not implemented.');
   }
 
-  /// Unlock session biometrics.
+  /// Unlock session using biometrics.
+  ///
+  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
+  /// The Map that needs to be passed is as follows:
+  /// {
+  ///   'title': 'SampleTitle',
+  ///   'subtitle': 'SampleSubtitle',
+  ///   'description': 'SampleDescription',
+  /// }
+  ///
+  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
   Future<bool> unlockSession({
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) {
