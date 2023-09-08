@@ -30,6 +30,9 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     _instance = instance;
   }
 
+  // TODO(navaronbracke): Move the Biometrics service to `src/method_channel/method_channel_biometrics_service.dart`
+  // during the next rebase. See https://github.com/SAP/gigya-flutter-plugin/pull/77
+
   /// Get the interruption resolver factory provided by the Gigya SDK.
   InterruptionResolverFactory get interruptionResolverFactory {
     throw UnimplementedError(
