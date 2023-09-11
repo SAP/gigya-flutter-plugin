@@ -50,10 +50,11 @@ public enum GigyaSdkMethods: String {
     case resolveSetAccount
     
     // Biometrics.
-    case isLocked
-    case isOptIn
-    case optIn
-    case optOut
-    case lockSession
-    case unlockSession
+    case biometricIsAvailable
+    case biometricIsLocked
+    case biometricIsOptIn
+    case biometricOptIn
+    case biometricOptOut
+    case biometricLockSession
+    case biometricUnlockSession
 }
