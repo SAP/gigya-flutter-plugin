@@ -20,20 +20,15 @@ class _BiometricsPageState extends State<BiometricsPage> {
   bool isLocked = false;
   String errorMessage = '';
 
-  void _isOptIn() async {
+  void initializeBiometricState() async {
+    isLocked = await widget.sdk.biometricService.isLocked();
     isOptIn = await widget.sdk.biometricService.isOptIn();
-
-    if (mounted) {
-      setState(() {});
-    }
   }
 
-  void _isLocked() async {
-    isLocked = await widget.sdk.biometricService.isLocked();
-
-    if (mounted) {
-      setState(() {});
-    }
+  @override
+  void initState() {
+    super.initState();
+    initializeBiometricState();
   }
 
   void _handleOptIn() async {
@@ -104,8 +99,6 @@ class _BiometricsPageState extends State<BiometricsPage> {
 
   @override
   Widget build(BuildContext context) {
-    _isOptIn();
-    _isLocked();
     return Scaffold(
       key: _scaffoldKey,
       appBar: AppBar(
@@ -124,16 +117,14 @@ class _BiometricsPageState extends State<BiometricsPage> {
             trailing: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
-                Switch(
-                  value: isOptIn,
-                  onChanged: (bool isOn) async {
-                    if (isOn) {
-                      _handleOptIn();
-                    } else {
-                      _handleOptOut();
-                    }
-                  },
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Switch(
+                    value: isOptIn,
+                    onChanged: (bool isOn) async {
+                      isOn ? _handleOptIn() : _handleOptOut();
+                    },
+                  ),
                 ),
               ],
             ),
@@ -149,16 +140,14 @@ class _BiometricsPageState extends State<BiometricsPage> {
             trailing: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
               children: [
-                const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
-                Switch(
-                  value: isLocked,
-                  onChanged: (bool isOn) async {
-                    if (isOn) {
-                      _handleLockSession();
-                    } else {
-                      _handleUnlockSession();
-                    }
-                  },
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Switch(
+                    value: isLocked,
+                    onChanged: (bool isOn) async {
+                      isOn ? _handleLockSession() : _handleUnlockSession();
+                    },
+                  ),
                 ),
               ],
             ),
