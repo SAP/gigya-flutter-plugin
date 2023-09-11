@@ -7,6 +7,8 @@ import '../models/enums/methods.dart';
 import '../models/enums/social_provider.dart';
 import '../models/gigya_error.dart';
 import '../models/screenset_event.dart';
+import '../services/biometric_service/biometric_service.dart';
+import '../services/biometric_service/method_channel_biometric_service.dart';
 import '../services/interruption_resolver/interruption_resolver.dart';
 import '../services/interruption_resolver/method_channel_interruption_resolver.dart';
 import '../services/otp_service/method_channel_otp_service.dart';
@@ -40,6 +42,11 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   @override
   WebAuthenticationService get webAuthenticationService {
     return MethodChannelWebAuthenticationService(methodChannel);
+  }
+
+  @override
+  BiometricService get biometricService {
+    return MethodChannelBiometricService(methodChannel);
   }
 
   @override
@@ -416,123 +423,6 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
       return result ?? const <String, dynamic>{};
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
-    }
-  }
-
-  @override
-  Future<bool> isLocked() async {
-    try {
-      final bool? result = await methodChannel
-          .invokeMethod<bool>(
-            Methods.isLocked.methodName,
-          )
-          .timeout(
-            Methods.isLocked.timeout,
-            onTimeout: () => throw const GigyaTimeoutError(),
-          );
-
-      return result ?? false;
-    } on PlatformException catch (_) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<bool> isOptIn() async {
-    try {
-      final bool? result = await methodChannel
-          .invokeMethod<bool>(
-            Methods.isOptIn.methodName,
-          )
-          .timeout(
-            Methods.isOptIn.timeout,
-            onTimeout: () => throw const GigyaTimeoutError(),
-          );
-
-      return result ?? false;
-    } on PlatformException catch (_) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<bool> optIn({
-    Map<String, dynamic> parameters = const <String, dynamic>{},
-  }) async {
-    try {
-      final bool? result = await methodChannel
-          .invokeMethod<bool>(
-            Methods.optIn.methodName,
-            parameters,
-          )
-          .timeout(
-            Methods.optIn.timeout,
-            onTimeout: () => throw const GigyaTimeoutError(),
-          );
-
-      return result ?? false;
-    } on PlatformException catch (_) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<bool> optOut({
-    Map<String, dynamic> parameters = const <String, dynamic>{},
-  }) async {
-    try {
-      final bool? result = await methodChannel
-          .invokeMethod<bool>(
-            Methods.optOut.methodName,
-            parameters,
-          )
-          .timeout(
-            Methods.optOut.timeout,
-            onTimeout: () => throw const GigyaTimeoutError(),
-          );
-
-      return result ?? false;
-    } on PlatformException catch (_) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<bool> lockSession() async {
-    try {
-      final bool? result = await methodChannel
-          .invokeMethod<bool>(
-            Methods.lockSession.methodName,
-          )
-          .timeout(
-            Methods.lockSession.timeout,
-            onTimeout: () => throw const GigyaTimeoutError(),
-          );
-
-      return result ?? false;
-    } on PlatformException catch (_) {
-      rethrow;
-    }
-  }
-
-  @override
-  Future<bool> unlockSession({
-    Map<String, dynamic> parameters = const <String, dynamic>{},
-  }) async {
-    try {
-      final bool? result = await methodChannel
-          .invokeMethod<bool>(
-            Methods.unlockSession.methodName,
-            parameters,
-          )
-          .timeout(
-            Methods.unlockSession.timeout,
-            onTimeout: () => throw const GigyaTimeoutError(),
-          );
-
-      return result ?? false;
-    } on PlatformException catch (_) {
-      rethrow;
     }
   }
 }

@@ -2,6 +2,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
 import '../models/enums/social_provider.dart';
 import '../models/screenset_event.dart';
+import '../services/biometric_service/biometric_service.dart';
 import '../services/interruption_resolver/interruption_resolver.dart';
 import '../services/otp_service/otp_service.dart';
 import '../services/web_authentication_service/web_authentication_service.dart';
@@ -47,6 +48,11 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError(
       'get webAuthenticationService is not implemented.',
     );
+  }
+
+  /// Get the Biometric service provided by the Gigya SDK.
+  BiometricService get biometricService {
+    throw UnimplementedError('get biometricService is not implemented.');
   }
 
   /// Add a social connection to an existing account.
@@ -190,73 +196,5 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) {
     throw UnimplementedError('sso() is not implemented.');
-  }
-
-  /// Check isLocked by biometrics.
-  Future<bool> isLocked() {
-    throw UnimplementedError('isLocked() is not implemented.');
-  }
-
-  /// Check isOptIn to biometrics.
-  Future<bool> isOptIn() {
-    throw UnimplementedError('isOptIn() is not implemented.');
-  }
-
-  /// Opt into biometrics.
-  ///
-  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
-  /// The Map that needs to be passed is as follows:
-  ///
-  /// {
-  ///   'title': SampleTitle,
-  ///   'subtitle': SampleSubtitle,
-  ///   'description': SampleDescription,
-  /// }
-  ///
-  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
-  Future<bool> optIn({
-    Map<String, dynamic> parameters = const <String, dynamic>{},
-  }) {
-    throw UnimplementedError('optIn() is not implemented.');
-  }
-
-  /// Opt out of biometrics.
-  ///
-  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
-  /// The Map that needs to be passed is as follows:
-  ///
-  /// {
-  ///   'title': 'SampleTitle',
-  ///   'subtitle': 'SampleSubtitle',
-  ///   'description': 'SampleDescription',
-  /// }
-  ///
-  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
-  Future<bool> optOut({
-    Map<String, dynamic> parameters = const <String, dynamic>{},
-  }) {
-    throw UnimplementedError('optOut() is not implemented.');
-  }
-
-  /// Lock session with biometrics.
-  Future<bool> lockSession() {
-    throw UnimplementedError('lockSession() is not implemented.');
-  }
-
-  /// Unlock session using biometrics.
-  ///
-  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
-  /// The Map that needs to be passed is as follows:
-  /// {
-  ///   'title': 'SampleTitle',
-  ///   'subtitle': 'SampleSubtitle',
-  ///   'description': 'SampleDescription',
-  /// }
-  ///
-  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
-  Future<bool> unlockSession({
-    Map<String, dynamic> parameters = const <String, dynamic>{},
-  }) {
-    throw UnimplementedError('unlockSession() is not implemented.');
   }
 }
