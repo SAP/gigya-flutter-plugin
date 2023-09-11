@@ -58,26 +58,7 @@ enum Methods {
   socialLogin('socialLogin'),
 
   /// The method that starts Single-Sign-On.
-  sso('sso'),
-
-  /// The method that returns isLocked from Biometrics.
-  isLocked('isLocked'),
-
-  /// The method that returns isOptIn from Biometrics.
-  isOptIn('isOptIn'),
-
-  /// The method that encrypts session with Biometrics.
-  optIn('optIn'),
-
-  /// The method that decrypts session with Biometrics.
-  optOut('optOut'),
-
-  /// The method that Decrypt session and save as default.
-  unlockSession('unlockSession'),
-
-  /// The method that clears current heap session.
-  /// Does not require biometric authentication.
-  lockSession('lockSession');
+  sso('sso');
 
   /// The default constructor.
   const Methods(this.methodName);
@@ -132,4 +113,44 @@ enum WebAuthnMethods {
 
   /// The name of the method.
   final String methodName;
+}
+
+/// This enum defines the different biometric methods
+/// used by the biometric service.
+enum BiometricMethods {
+  /// The method that returns if Biometrics is available on the device.
+  isAvailable('biometricIsAvailable'),
+
+  /// The method that returns isLocked from Biometrics.
+  isLocked('biometricIsLocked'),
+
+  /// The method that returns isOptIn from Biometrics.
+  isOptIn('biometricIsOptIn'),
+
+  /// The method that encrypts session with Biometrics.
+  optIn('biometricOptIn'),
+
+  /// The method that decrypts session with Biometrics.
+  optOut('biometricOptOut'),
+
+  /// The method that unlocks the session, using biometrics.
+  unlockSession('biometricUnlockSession'),
+
+  /// The method that locks the current session, using Biometric authentication.
+  /// Does not require biometric authentication.
+  lockSession('biometricLockSession');
+
+  /// The default constructor.
+  const BiometricMethods(this.methodName);
+
+  /// The name of the method.
+  final String methodName;
+
+  /// Get the timeout for this specific method.
+  Duration get timeout {
+    switch (this) {
+      default:
+        return const Duration(seconds: 15);
+    }
+  }
 }
