@@ -1,6 +1,7 @@
 import 'src/models/enums/social_provider.dart';
 import 'src/models/screenset_event.dart';
 import 'src/platform_interface/gigya_flutter_plugin_platform_interface.dart';
+import 'src/services/biometric_service/biometric_service.dart';
 import 'src/services/interruption_resolver/interruption_resolver.dart';
 import 'src/services/otp_service/otp_service.dart';
 import 'src/services/web_authentication_service/web_authentication_service.dart';
@@ -48,6 +49,11 @@ class GigyaSdk {
   /// Get the web authentication service provided by the Gigya SDK.
   WebAuthenticationService get webAuthenticationService {
     return GigyaFlutterPluginPlatform.instance.webAuthenticationService;
+  }
+
+  /// Get the biometric service provided by the Gigya SDK.
+  BiometricService get biometricService {
+    return GigyaFlutterPluginPlatform.instance.biometricService;
   }
 
   /// Add a social connection to an existing account.
@@ -218,74 +224,5 @@ class GigyaSdk {
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) {
     return GigyaFlutterPluginPlatform.instance.sso(parameters: parameters);
-  }
-
-  /// Check isLocked by biometrics.
-  Future<bool> isLocked() {
-    return GigyaFlutterPluginPlatform.instance.isLocked();
-  }
-
-  /// Check isOptIn to biometrics.
-  Future<bool> isOptIn() {
-    return GigyaFlutterPluginPlatform.instance.isOptIn();
-  }
-
-  /// Opt into biometrics.
-  ///
-  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
-  /// The Map that needs to be passed is as follows:
-  ///
-  /// {
-  ///   'title': SampleTitle,
-  ///   'subtitle': SampleSubtitle,
-  ///   'description': SampleDescription,
-  /// }
-  ///
-  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
-  Future<bool> optIn({
-    Map<String, String> parameters = const <String, String>{},
-  }) {
-    return GigyaFlutterPluginPlatform.instance.optIn(parameters: parameters);
-  }
-
-  /// Opt out of biometrics.
-  ///
-  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
-  /// The Map that needs to be passed is as follows:
-  ///
-  /// {
-  ///   'title': 'SampleTitle',
-  ///   'subtitle': 'SampleSubtitle',
-  ///   'description': 'SampleDescription',
-  /// }
-  ///
-  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
-  Future<bool> optOut({
-    Map<String, String> parameters = const <String, String>{},
-  }) {
-    return GigyaFlutterPluginPlatform.instance.optOut(parameters: parameters);
-  }
-
-  /// Lock session with biometrics.
-  Future<bool> lockSession() {
-    return GigyaFlutterPluginPlatform.instance.lockSession();
-  }
-
-  /// Unlock session using biometrics.
-  ///
-  /// The [parameters] passed in here is for the GigyaInfoPrompt. (Only for Android)
-  /// The Map that needs to be passed is as follows:
-  /// {
-  ///   'title': 'SampleTitle',
-  ///   'subtitle': 'SampleSubtitle',
-  ///   'description': 'SampleDescription',
-  /// }
-  ///
-  /// For more details, see [Android Documentation](https://sap.github.io/gigya-android-sdk/sdk-biometric/#gigyapromptinfo-class)
-  Future<bool> unlockSession({
-    Map<String, String> parameters = const <String, String>{},
-  }) {
-    return GigyaFlutterPluginPlatform.instance
-        .unlockSession(parameters: parameters);
   }
 }
