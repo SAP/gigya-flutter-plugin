@@ -693,6 +693,10 @@ extension GigyaSdkWrapper {
      Biometrics.
      */
 
+    func isAvailable(result: @escaping FlutterResult) {
+        result(true)
+    }
+
     func isLocked(result: @escaping FlutterResult) {
         guard let sdk = self.sdk else {
             result(FlutterError(code: PluginErrors.missingParameterError, message: "SDK is not initialised", details: nil))

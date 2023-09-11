@@ -1084,6 +1084,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     //region BIOMETRIC
 
+    fun isAvailable(channelResult: MethodChannel.Result) {
+        channelResult.success(sdkBiometric.isAvailable)
+    }
+
     fun isLocked(channelResult: MethodChannel.Result) {
         channelResult.success(sdkBiometric.isLocked)
     }
