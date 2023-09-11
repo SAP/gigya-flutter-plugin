@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
-/// The One-Time-Password login page.
+/// The Biometrics page.
 class BiometricsPage extends StatefulWidget {
-  /// Construct an [BiometricsPage] with the given [sdk].
+  /// Construct a [BiometricsPage] with the given [sdk].
   const BiometricsPage({required this.sdk, super.key});
 
   /// The [GigyaSdk] instance that is used by this widget.
@@ -21,7 +21,7 @@ class _BiometricsPageState extends State<BiometricsPage> {
   String errorMessage = '';
 
   void _isOptIn() async {
-    isOptIn = await widget.sdk.isOptIn();
+    isOptIn = await widget.sdk.biometricService.isOptIn();
 
     if (mounted) {
       setState(() {});
@@ -29,10 +29,76 @@ class _BiometricsPageState extends State<BiometricsPage> {
   }
 
   void _isLocked() async {
-    isLocked = await widget.sdk.isLocked();
+    isLocked = await widget.sdk.biometricService.isLocked();
 
     if (mounted) {
       setState(() {});
+    }
+  }
+
+  void _handleOptIn() async {
+    try {
+      await widget.sdk.biometricService.optIn(
+        parameters: <String, String>{
+          'title': 'SampleTitle',
+          'subtitle': 'SampleSubtitle',
+          'description': 'SampleDescription',
+        },
+      );
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          errorMessage = error.toString();
+        });
+      }
+    }
+  }
+
+  void _handleOptOut() async {
+    try {
+      await widget.sdk.biometricService.optOut(
+        parameters: <String, String>{
+          'title': 'SampleTitle',
+          'subtitle': 'SampleSubtitle',
+          'description': 'SampleDescription',
+        },
+      );
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          errorMessage = error.toString();
+        });
+      }
+    }
+  }
+
+  void _handleLockSession() async {
+    try {
+      await widget.sdk.biometricService.lockSession();
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          errorMessage = error.toString();
+        });
+      }
+    }
+  }
+
+  void _handleUnlockSession() async {
+    try {
+      await widget.sdk.biometricService.unlockSession(
+        parameters: <String, String>{
+          'title': 'SampleTitle',
+          'subtitle': 'SampleSubtitle',
+          'description': 'SampleDescription',
+        },
+      );
+    } catch (error) {
+      if (mounted) {
+        setState(() {
+          errorMessage = error.toString();
+        });
+      }
     }
   }
 
@@ -55,41 +121,21 @@ class _BiometricsPageState extends State<BiometricsPage> {
             subtitle: const Text(
               'Opt-in/Opt-out the existing session to use biometric authentication.',
             ),
-            trailing: SizedBox(
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
-                  Switch(
-                    value: isOptIn,
-                    onChanged: (bool isOn) async {
-                      if (isOn) {
-                        await widget.sdk.optIn(parameters: <String, String>{
-                          'title': 'SampleTitle',
-                          'subtitle': 'SampleSubtitle',
-                          'description': 'SampleDescription',
-                        }).onError((error, stackTrace) {
-                          setState(() {
-                            errorMessage = error.toString();
-                          });
-                          return false;
-                        });
-                      } else {
-                        await widget.sdk.optOut(parameters: <String, String>{
-                          'title': 'SampleTitle',
-                          'subtitle': 'SampleSubtitle',
-                          'description': 'SampleDescription',
-                        }).onError((error, stackTrace) {
-                          setState(() {
-                            errorMessage = error.toString();
-                          });
-                          return false;
-                        });
-                      }
-                    },
-                  ),
-                ],
-              ),
+            trailing: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
+                Switch(
+                  value: isOptIn,
+                  onChanged: (bool isOn) async {
+                    if (isOn) {
+                      _handleOptIn();
+                    } else {
+                      _handleOptOut();
+                    }
+                  },
+                ),
+              ],
             ),
           ),
           ListTile(
@@ -100,40 +146,21 @@ class _BiometricsPageState extends State<BiometricsPage> {
             subtitle: const Text(
               'Locks the existing session until unlocking it. No authentication based actions can be done while the session is locked.',
             ),
-            trailing: SizedBox(
-              child: Wrap(
-                crossAxisAlignment: WrapCrossAlignment.center,
-                children: [
-                  const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
-                  Switch(
-                    value: isLocked,
-                    onChanged: (bool isOn) async {
-                      if (isOn) {
-                        await widget.sdk
-                            .lockSession()
-                            .onError((error, stackTrace) {
-                          setState(() {
-                            errorMessage = error.toString();
-                          });
-                          return false;
-                        });
-                      } else {
-                        await widget.sdk
-                            .unlockSession(parameters: <String, String>{
-                          'title': 'SampleTitle',
-                          'subtitle': 'SampleSubtitle',
-                          'description': 'SampleDescription',
-                        }).onError((error, stackTrace) {
-                          setState(() {
-                            errorMessage = error.toString();
-                          });
-                          return false;
-                        });
-                      }
-                    },
-                  ),
-                ],
-              ),
+            trailing: Wrap(
+              crossAxisAlignment: WrapCrossAlignment.center,
+              children: [
+                const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
+                Switch(
+                  value: isLocked,
+                  onChanged: (bool isOn) async {
+                    if (isOn) {
+                      _handleLockSession();
+                    } else {
+                      _handleUnlockSession();
+                    }
+                  },
+                ),
+              ],
             ),
           ),
           Text(errorMessage == '' ? '' : 'Error: - $errorMessage')
