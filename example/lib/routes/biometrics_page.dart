@@ -23,10 +23,6 @@ class _BiometricsPageState extends State<BiometricsPage> {
   void initializeBiometricState() async {
     isLocked = await widget.sdk.biometricService.isLocked();
     isOptIn = await widget.sdk.biometricService.isOptIn();
-
-    if (mounted) {
-      setState(() {});
-    }
   }
 
   @override
@@ -44,6 +40,11 @@ class _BiometricsPageState extends State<BiometricsPage> {
           'description': 'SampleDescription',
         },
       );
+
+      isOptIn = await widget.sdk.biometricService.isOptIn();
+      if (mounted) {
+        setState(() {});
+      }
     } catch (error) {
       if (mounted) {
         setState(() {
@@ -62,6 +63,11 @@ class _BiometricsPageState extends State<BiometricsPage> {
           'description': 'SampleDescription',
         },
       );
+
+      isOptIn = await widget.sdk.biometricService.isOptIn();
+      if (mounted) {
+        setState(() {});
+      }
     } catch (error) {
       if (mounted) {
         setState(() {
@@ -74,6 +80,11 @@ class _BiometricsPageState extends State<BiometricsPage> {
   void _handleLockSession() async {
     try {
       await widget.sdk.biometricService.lockSession();
+
+      isLocked = await widget.sdk.biometricService.isLocked();
+      if (mounted) {
+        setState(() {});
+      }
     } catch (error) {
       if (mounted) {
         setState(() {
@@ -92,6 +103,11 @@ class _BiometricsPageState extends State<BiometricsPage> {
           'description': 'SampleDescription',
         },
       );
+
+      isLocked = await widget.sdk.biometricService.isLocked();
+      if (mounted) {
+        setState(() {});
+      }
     } catch (error) {
       if (mounted) {
         setState(() {
