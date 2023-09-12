@@ -27,6 +27,7 @@ export 'src/models/screenset_event.dart';
 export 'src/models/session_info.dart';
 export 'src/models/skill.dart';
 export 'src/models/work.dart';
+export 'src/services/biometric_service/biometric_service.dart';
 export 'src/services/interruption_resolver/interruption_resolver.dart';
 export 'src/services/otp_service/otp_service.dart';
 export 'src/services/web_authentication_service/web_authentication_service.dart';
