@@ -23,6 +23,10 @@ class _BiometricsPageState extends State<BiometricsPage> {
   void initializeBiometricState() async {
     isLocked = await widget.sdk.biometricService.isLocked();
     isOptIn = await widget.sdk.biometricService.isOptIn();
+
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   @override
@@ -47,6 +51,9 @@ class _BiometricsPageState extends State<BiometricsPage> {
         });
       }
     }
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _handleOptOut() async {
@@ -65,6 +72,9 @@ class _BiometricsPageState extends State<BiometricsPage> {
         });
       }
     }
+    if (mounted) {
+      setState(() {});
+    }
   }
 
   void _handleLockSession() async {
@@ -76,6 +86,9 @@ class _BiometricsPageState extends State<BiometricsPage> {
           errorMessage = error.toString();
         });
       }
+    }
+    if (mounted) {
+      setState(() {});
     }
   }
 
@@ -94,6 +107,9 @@ class _BiometricsPageState extends State<BiometricsPage> {
           errorMessage = error.toString();
         });
       }
+    }
+    if (mounted) {
+      setState(() {});
     }
   }
 
