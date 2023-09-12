@@ -64,25 +64,25 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.getSession(result: result)
             return
         case .biometricIsAvailable:
-            sdk?.isAvailable(result: result)
+            sdk?.biometricIsAvailable(result: result)
             return
         case .biometricIsLocked:
-            sdk?.isLocked(result: result)
+            sdk?.biometricIsLocked(result: result)
             return
         case .biometricIsOptIn:
-            sdk?.isOptIn(result: result)
+            sdk?.biometricIsOptIn(result: result)
             return
         case .biometricOptIn:
-            sdk?.optIn(result: result)
+            sdk?.biometricOptIn(result: result)
             return
         case .biometricOptOut:
-            sdk?.optOut(result: result)
+            sdk?.biometricOptOut(result: result)
             return
         case .biometricLockSession:
-            sdk?.lockSession(result: result)
+            sdk?.biometricLockSession(result: result)
             return
         case .biometricUnlockSession:
-            sdk?.unlockSession(result: result)
+            sdk?.biometricUnlockSession(result: result)
             return
         default:
             break

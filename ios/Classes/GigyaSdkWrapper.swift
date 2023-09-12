@@ -693,11 +693,11 @@ extension GigyaSdkWrapper {
      Biometrics.
      */
 
-    func isAvailable(result: @escaping FlutterResult) {
+    func biometricIsAvailable(result: @escaping FlutterResult) {
         result(true)
     }
 
-    func isLocked(result: @escaping FlutterResult) {
+    func biometricIsLocked(result: @escaping FlutterResult) {
         guard let sdk = self.sdk else {
             result(FlutterError(code: PluginErrors.missingParameterError,
                                 message: "SDK is not initialised",
@@ -708,7 +708,7 @@ extension GigyaSdkWrapper {
         result(sdk.biometric.isLocked)
     }
     
-    func isOptIn(result: @escaping FlutterResult) {
+    func biometricIsOptIn(result: @escaping FlutterResult) {
         guard let sdk = self.sdk else {
             result(FlutterError(code: PluginErrors.missingParameterError,
                                 message: "SDK is not initialised",
@@ -719,7 +719,7 @@ extension GigyaSdkWrapper {
         result(sdk.biometric.isOptIn)
     }
     
-    func optIn(result: @escaping FlutterResult) {
+    func biometricOptIn(result: @escaping FlutterResult) {
         guard let sdk = self.sdk else {
             result(FlutterError(code: PluginErrors.missingParameterError,
                                 message: "SDK is not initialised",
@@ -736,7 +736,7 @@ extension GigyaSdkWrapper {
         })
     }
     
-    func optOut(result: @escaping FlutterResult) {
+    func biometricOptOut(result: @escaping FlutterResult) {
         guard let sdk = self.sdk else {
             result(FlutterError(code: PluginErrors.missingParameterError,
                                 message: "SDK is not initialised",
@@ -753,7 +753,7 @@ extension GigyaSdkWrapper {
         })
     }
     
-    func lockSession(result: @escaping FlutterResult) {
+    func biometricLockSession(result: @escaping FlutterResult) {
         guard let sdk = self.sdk else {
             result(FlutterError(code: PluginErrors.missingParameterError,
                                 message: "SDK is not initialised",
@@ -770,7 +770,7 @@ extension GigyaSdkWrapper {
         })
     }
     
-    func unlockSession(result: @escaping FlutterResult) {
+    func biometricUnlockSession(result: @escaping FlutterResult) {
         guard let sdk = self.sdk else {
             result(FlutterError(code: PluginErrors.missingParameterError,
                                 message: "SDK is not initialised",

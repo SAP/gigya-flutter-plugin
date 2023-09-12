@@ -1084,19 +1084,19 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     //region BIOMETRIC
 
-    fun isAvailable(channelResult: MethodChannel.Result) {
+    fun biometricIsAvailable(channelResult: MethodChannel.Result) {
         channelResult.success(sdkBiometric.isAvailable)
     }
 
-    fun isLocked(channelResult: MethodChannel.Result) {
+    fun biometricIsLocked(channelResult: MethodChannel.Result) {
         channelResult.success(sdkBiometric.isLocked)
     }
     
-    fun isOptIn(channelResult: MethodChannel.Result) {
+    fun biometricIsOptIn(channelResult: MethodChannel.Result) {
         channelResult.success(sdkBiometric.isOptIn)
     }
 
-    fun optIn(arguments: Any, channelResult: MethodChannel.Result) {
+    fun biometricOptIn(arguments: Any, channelResult: MethodChannel.Result) {
         val argumentMap = arguments as Map<*, *>;
         sdkBiometric.optIn(activity, GigyaPromptInfo(argumentMap["title"] as String?,
             argumentMap["subtitle"] as String?,
@@ -1124,7 +1124,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         })
     }
 
-    fun optOut(arguments: Any, channelResult: MethodChannel.Result) {
+    fun biometricOptOut(arguments: Any, channelResult: MethodChannel.Result) {
         val argumentMap = arguments as Map<*, *>;
         sdkBiometric.optOut(activity, GigyaPromptInfo(argumentMap["title"] as String?,
             argumentMap["subtitle"] as String?,
@@ -1152,7 +1152,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             })
     }
 
-    fun lockSession(channelResult: MethodChannel.Result) {
+    fun biometricLockSession(channelResult: MethodChannel.Result) {
         sdkBiometric.lock(
             object : IGigyaBiometricCallback {
                 override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
@@ -1177,7 +1177,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             })
     }
 
-    fun unlockSession(arguments: Any, channelResult: MethodChannel.Result) {
+    fun biometricUnlockSession(arguments: Any, channelResult: MethodChannel.Result) {
         val argumentMap = arguments as Map<*, *>;
         sdkBiometric.unlock(activity, GigyaPromptInfo(argumentMap["title"] as String?,
             argumentMap["subtitle"] as String?,
