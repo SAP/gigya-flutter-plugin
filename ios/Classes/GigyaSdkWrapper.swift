@@ -729,7 +729,7 @@ extension GigyaSdkWrapper {
         
         sdk.biometric.optIn(completion: { biometricResult in
             biometricResult == GigyaBiometricResult.success ?
-            result(true) :
+            result(nil) :
             result(FlutterError(code: PluginErrors.generalError,
                                 message: "Biometric opt in failed",
                                 details: nil))
@@ -746,7 +746,7 @@ extension GigyaSdkWrapper {
         
         sdk.biometric.optOut(completion: { biometricResult in
             biometricResult == GigyaBiometricResult.success ?
-            result(true) :
+            result(nil) :
             result(FlutterError(code: PluginErrors.generalError,
                                 message: "Biometric opt out failed",
                                 details: nil))
@@ -763,7 +763,7 @@ extension GigyaSdkWrapper {
         
         sdk.biometric.lockSession(completion: { biometricResult in
             biometricResult == GigyaBiometricResult.success ?
-            result(true) :
+            result(nil) :
             result(FlutterError(code: PluginErrors.generalError,
                                 message: "Biometric lock session failed",
                                 details: nil))
@@ -780,7 +780,7 @@ extension GigyaSdkWrapper {
 
         sdk.biometric.unlockSession(completion: { biometricResult in
             biometricResult == GigyaBiometricResult.success ?
-            result(true) :
+            result(nil) :
             result(FlutterError(code: PluginErrors.generalError,
                                 message: "Biometric unlock session failed",
                                 details: nil))

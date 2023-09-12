@@ -1103,7 +1103,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             argumentMap["description"] as String?),
         object : IGigyaBiometricCallback {
             override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
-                channelResult.success(true)
+                channelResult.success(null)
             }
 
             override fun onBiometricOperationFailed(reason: String?) {
@@ -1131,7 +1131,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             argumentMap["description"] as String?),
             object : IGigyaBiometricCallback {
                 override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
-                    channelResult.success(true)
+                    channelResult.success(null)
                 }
 
                 override fun onBiometricOperationFailed(reason: String?) {
@@ -1156,7 +1156,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         sdkBiometric.lock(
             object : IGigyaBiometricCallback {
                 override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
-                    channelResult.success(true)
+                    channelResult.success(null)
                 }
 
                 override fun onBiometricOperationFailed(reason: String?) {
@@ -1184,7 +1184,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             argumentMap["description"] as String?),
             object : IGigyaBiometricCallback {
                 override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
-                    channelResult.success(true)
+                    channelResult.success(null)
                 }
 
                 override fun onBiometricOperationFailed(reason: String?) {
