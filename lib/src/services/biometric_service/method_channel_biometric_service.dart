@@ -2,7 +2,6 @@ import 'package:flutter/services.dart' show MethodChannel, PlatformException;
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
 import '../../models/enums/methods.dart';
-import 'biometric_service.dart';
 
 /// This class represents a [BiometricService] that uses a [MethodChannel]
 /// for its implementation.
@@ -52,12 +51,12 @@ class MethodChannelBiometricService extends BiometricService {
   }
 
   @override
-  Future<bool> optIn({
+  Future<void> optIn({
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
     try {
-      final bool? result = await _channel
-          .invokeMethod<bool>(
+      return await _channel
+          .invokeMethod<void>(
             BiometricMethods.optIn.methodName,
             parameters,
           )
@@ -65,20 +64,18 @@ class MethodChannelBiometricService extends BiometricService {
             BiometricMethods.optIn.timeout,
             onTimeout: () => throw const GigyaTimeoutError(),
           );
-
-      return result ?? false;
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
     }
   }
 
   @override
-  Future<bool> optOut({
+  Future<void> optOut({
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
     try {
-      final bool? result = await _channel
-          .invokeMethod<bool>(
+      return await _channel
+          .invokeMethod<void>(
             BiometricMethods.optOut.methodName,
             parameters,
           )
@@ -86,33 +83,29 @@ class MethodChannelBiometricService extends BiometricService {
             BiometricMethods.optOut.timeout,
             onTimeout: () => throw const GigyaTimeoutError(),
           );
-
-      return result ?? false;
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
     }
   }
 
   @override
-  Future<bool> lockSession() async {
+  Future<void> lockSession() async {
     try {
-      final bool? result = await _channel.invokeMethod<bool>(
+      return await _channel.invokeMethod<void>(
         BiometricMethods.lockSession.methodName,
       );
-
-      return result ?? false;
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
     }
   }
 
   @override
-  Future<bool> unlockSession({
+  Future<void> unlockSession({
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
     try {
-      final bool? result = await _channel
-          .invokeMethod<bool>(
+      return await _channel
+          .invokeMethod<void>(
             BiometricMethods.unlockSession.methodName,
             parameters,
           )
@@ -120,8 +113,6 @@ class MethodChannelBiometricService extends BiometricService {
             BiometricMethods.unlockSession.timeout,
             onTimeout: () => throw const GigyaTimeoutError(),
           );
-
-      return result ?? false;
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
     }
