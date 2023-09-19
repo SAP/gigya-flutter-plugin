@@ -11,6 +11,10 @@ analyzer:
     strict-inference: true
     strict-raw-types: true
 
+  # TODO: remove this once it is no longer an experiment
+  enable-experiment:
+  - inline-class    
+
 linter:
   rules:
     always_declare_return_types: true
