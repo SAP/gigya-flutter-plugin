@@ -50,7 +50,9 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     // This is the case when doing a Hot Reload, where the application starts from scratch,
     // even though the Gigya SDK script is still attached to the DOM and ready.
     // See https://docs.flutter.dev/tools/hot-reload#how-to-perform-a-hot-reload
-    if (gigyaWebSdk.isDefinedAndNotNull && gigyaWebSdk.isReady) {
+    final bool sdkIsReady = GigyaWebSdk.instance.isDefinedAndNotNull && GigyaWebSdk.instance.isReady;
+
+    if (sdkIsReady) {
       if (!onGigyaServiceReadyCompleter.isCompleted) {
         onGigyaServiceReadyCompleter.complete();
       }
@@ -111,7 +113,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
       }),
     );
 
-    gigyaWebSdk.accounts.session.verify(parameters);
+    GigyaWebSdk.instance.accounts.session.verify(parameters);
 
     return completer.future;
   }
@@ -153,7 +155,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
       }),
     );
 
-    gigyaWebSdk.accounts.login(loginParameters);
+    GigyaWebSdk.instance.accounts.login(loginParameters);
 
     return completer.future;
   }
@@ -186,7 +188,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
       }),
     );
 
-    gigyaWebSdk.accounts.logout(parameters);
+    GigyaWebSdk.instance.accounts.logout(parameters);
 
     return completer.future;
   }

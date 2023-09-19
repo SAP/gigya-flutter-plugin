@@ -79,7 +79,7 @@ class _StaticInteropLinkAccountResolver extends LinkAccountResolver {
       },
     );
 
-    gigyaWebSdk.accounts.getConflictingAccount(parameters);
+    GigyaWebSdk.instance.accounts.getConflictingAccount(parameters);
 
     return completer.future;
   }
