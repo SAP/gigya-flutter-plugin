@@ -33,7 +33,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
-    bool forceLogout = true,
+    bool forceLogout = false,
   }) async {
     final Completer<void> onGigyaServiceReadyCompleter = Completer<void>();
     final GigyaWindow domWindow = GigyaWindow(web.window);

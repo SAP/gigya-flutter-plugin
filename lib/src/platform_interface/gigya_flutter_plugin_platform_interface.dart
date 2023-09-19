@@ -87,7 +87,7 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
-    bool forceLogout = true,
+    bool forceLogout = false,
   }) {
     throw UnimplementedError('initSdk() is not implemented.');
   }
