@@ -9,7 +9,9 @@ import 'gigya_web_sdk.dart';
 @staticInterop
 extension type GigyaWindow(Window window) {
   /// Get the `gigya` JavaScript object on the [Window].
-  external GigyaWebSdk get gigya;
+  /// 
+  /// If `window.gigya` is null or undefined, this getter returns null.
+  external GigyaWebSdk? get gigya;
 
   /// Set the `onGigyaServiceReady` function on the [Window].
   ///

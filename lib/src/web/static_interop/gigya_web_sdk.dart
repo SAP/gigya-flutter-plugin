@@ -12,7 +12,17 @@ import 'window.dart';
 @staticInterop
 extension type GigyaWebSdk(JSObject _) implements JSObject {
   /// Get the Gigya Web SDK instance from the window.
-  static GigyaWebSdk get instance => GigyaWindow(web.window).gigya;
+  /// 
+  /// Throws a [StateError] if the Gigya Web SDK instance is null.
+  static GigyaWebSdk get instance {
+    final GigyaWebSdk? gigya = GigyaWindow(web.window).gigya;
+
+    if (gigya == null) {
+      throw StateError('The Gigya Web SDK is null.');
+    }
+
+    return gigya;
+  }
 
   /// Get the accounts namespace in the Gigya Web SDK.
   external Accounts get accounts;

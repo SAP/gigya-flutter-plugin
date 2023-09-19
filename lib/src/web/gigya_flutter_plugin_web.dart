@@ -50,7 +50,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     // This is the case when doing a Hot Reload, where the application starts from scratch,
     // even though the Gigya SDK script is still attached to the DOM and ready.
     // See https://docs.flutter.dev/tools/hot-reload#how-to-perform-a-hot-reload
-    final bool sdkIsReady = GigyaWebSdk.instance.isDefinedAndNotNull && GigyaWebSdk.instance.isReady;
+    final bool sdkIsReady = domWindow.gigya != null && GigyaWebSdk.instance.isReady;
 
     if (sdkIsReady) {
       if (!onGigyaServiceReadyCompleter.isCompleted) {
