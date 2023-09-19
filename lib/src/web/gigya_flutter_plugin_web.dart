@@ -40,11 +40,11 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
     // Set `window.onGigyaServiceReady` before creating the script.
     // That function is called when the SDK has been initialized.
-    domWindow.onGigyaServiceReady = allowInterop((Object? arguments) {
+    domWindow.onGigyaServiceReady = allowInterop((JSAny? _) {
       if (!onGigyaServiceReadyCompleter.isCompleted) {
         onGigyaServiceReadyCompleter.complete();
       }
-    });
+    }).toJS;
 
     // If the Gigya SDK is ready beforehand, complete directly.
     // This is the case when doing a Hot Reload, where the application starts from scratch,
@@ -59,14 +59,14 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     } else {
       final Completer<void> scriptLoadCompleter = Completer<void>();
 
-      final web.HTMLScriptElement script = web.HTMLScriptElement()
+      final web.HTMLScriptElement script = (web.document.createElement('script') as web.HTMLScriptElement)
         ..async = true
         ..defer = false
         ..type = 'text/javascript'
         ..lang = 'javascript'
         ..crossOrigin = 'anonymous'
         ..src = 'https://cdns.$apiDomain/js/gigya.js?apikey=$apiKey'
-        ..onload = allowInterop(() {
+        ..onload = allowInterop((JSAny _) {
           if (!scriptLoadCompleter.isCompleted) {
             scriptLoadCompleter.complete();
           }
