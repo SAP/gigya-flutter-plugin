@@ -1,9 +1,9 @@
 import 'dart:async';
-import 'dart:html' as html;
 import 'dart:js_interop';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:js/js.dart';
+import 'package:web/web.dart' as web;
 
 import '../models/gigya_error.dart';
 import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
@@ -36,7 +36,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     bool forceLogout = true,
   }) async {
     final Completer<void> onGigyaServiceReadyCompleter = Completer<void>();
-    final JSWindow domWindow = html.window as JSWindow;
+    final GigyaWindow domWindow = GigyaWindow(web.window);
 
     // Set `window.onGigyaServiceReady` before creating the script.
     // That function is called when the SDK has been initialized.
@@ -57,17 +57,24 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
         onGigyaServiceReadyCompleter.complete();
       }
     } else {
-      final html.ScriptElement script = html.ScriptElement()
+      final Completer<void> scriptLoadCompleter = Completer<void>();
+
+      final web.HTMLScriptElement script = web.HTMLScriptElement()
         ..async = true
         ..defer = false
         ..type = 'text/javascript'
         ..lang = 'javascript'
         ..crossOrigin = 'anonymous'
-        ..src = 'https://cdns.$apiDomain/js/gigya.js?apikey=$apiKey';
+        ..src = 'https://cdns.$apiDomain/js/gigya.js?apikey=$apiKey'
+        ..onload = allowInterop(() {
+          if (!scriptLoadCompleter.isCompleted) {
+            scriptLoadCompleter.complete();
+          }
+        }).toJS;
 
-      html.document.head!.append(script);
+      web.document.head!.append(script);
 
-      await script.onLoad.first;
+      await scriptLoadCompleter.future;
     }
 
     // If `onGigyaServiceReady` takes too long to be called
