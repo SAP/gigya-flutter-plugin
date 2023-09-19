@@ -1,6 +1,5 @@
 import 'dart:js_interop';
 
-import 'package:js/js.dart';
 import 'package:web/web.dart' as web;
 
 import 'account.dart';

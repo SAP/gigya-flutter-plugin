@@ -1,4 +1,5 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
+
 import 'package:web/web.dart' show Window;
 
 import 'gigya_web_sdk.dart';
