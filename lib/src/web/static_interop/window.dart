@@ -1,16 +1,16 @@
-import 'dart:html' as html;
-
 import 'package:js/js.dart';
+import 'package:web/web.dart' show Window;
 
-/// The static interop class for [html.Window].
+import 'gigya_web_sdk.dart';
+
+/// The static interop extension type for the [Window].
 @JS()
 @staticInterop
-class JSWindow {}
+extension type GigyaWindow(Window window) {
+  /// Get the `gigya` JavaScript object on the [Window].
+  external GigyaWebSdk get gigya;
 
-/// This extension defines the static interop definition
-/// for the [html.Window] class.
-extension JSWindowExtension on JSWindow {
-  /// Set the `onGigyaServiceReady` function on the [html.Window].
+  /// Set the `onGigyaServiceReady` function on the [Window].
   ///
   /// This function is called when the Gigya Web SDK has been initialized.
   external set onGigyaServiceReady(void Function(Object? arguments) onReady);
