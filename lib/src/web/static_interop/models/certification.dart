@@ -1,14 +1,10 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the Certification object.
+/// The extension type for the Certification object.
 @JS()
 @anonymous
 @staticInterop
-class Certification {}
-
-/// This extension defines the static interop definition
-/// for the [Certification] class.
-extension CertificationExtension on Certification {
+extension type Certification(JSObject _) {  
   /// The certification authority.
   external String? get authority;
 
