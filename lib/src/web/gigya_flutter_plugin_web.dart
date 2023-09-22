@@ -15,7 +15,7 @@ import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
 import 'static_interop/response/response.dart';
 import 'static_interop/window.dart';
-import 'static_interop_interruption_resolver.dart';
+import 'web_interruption_resolver.dart';
 
 /// An implementation of [GigyaFlutterPluginPlatform] that uses JavaScript static interop.
 class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
@@ -27,7 +27,9 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  InterruptionResolverFactory get interruptionResolverFactory => const StaticInteropInterruptionResolverFactory();
+  InterruptionResolverFactory get interruptionResolverFactory {
+    return const WebInterruptionResolverFactory();
+  }
 
   @override
   Future<void> initSdk({

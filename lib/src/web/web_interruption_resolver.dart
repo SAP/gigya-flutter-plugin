@@ -17,16 +17,16 @@ import 'static_interop/response/response.dart';
 /// that uses static interop for its implementation.
 ///
 /// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/416d41b170b21014bbc5a10ce4041860.html#error-code-definitions-table
-class StaticInteropInterruptionResolverFactory extends InterruptionResolverFactory {
+class WebInterruptionResolverFactory extends InterruptionResolverFactory {
   /// The default constructor.
-  const StaticInteropInterruptionResolverFactory();
+  const WebInterruptionResolverFactory();
 
   @override
   InterruptionResolver? fromErrorCode(GigyaError exception) {
     // TODO: what is the error code for the `_StaticInteropLinkAccountResolver`?
     switch (exception.errorCode) {
       case 206001:
-        return const _StaticInteropPendingRegistrationResolver();
+        return const _PendingRegistrationResolver();
       case 206002:
         return PendingVerificationResolver(exception.registrationToken ?? '');
       default:
@@ -35,8 +35,8 @@ class StaticInteropInterruptionResolverFactory extends InterruptionResolverFacto
   }
 }
 
-class _StaticInteropLinkAccountResolver extends LinkAccountResolver {
-  _StaticInteropLinkAccountResolver({required this.registrationToken}) {
+class _LinkAccountResolver extends LinkAccountResolver {
+  _LinkAccountResolver({required this.registrationToken}) {
     _conflictingAccounts = _getConflictingAccounts();
   }
 
@@ -85,6 +85,6 @@ class _StaticInteropLinkAccountResolver extends LinkAccountResolver {
   }
 }
 
-class _StaticInteropPendingRegistrationResolver extends PendingRegistrationResolver {
-  const _StaticInteropPendingRegistrationResolver();
+class _PendingRegistrationResolver extends PendingRegistrationResolver {
+  const _PendingRegistrationResolver();
 }
