@@ -1,18 +1,14 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the `Work` object.
+/// The extension type for the `Work` object.
 @JS()
 @anonymous
 @staticInterop
-class Work {}
-
-/// This extension defines the static interop definition
-/// for the [Work] class.
-extension WorkExtension on Work {
+extension type Work(JSObject _) {
   /// The name of the company.
   external String? get company;
 
-  /// The size of the company in number of employees.
+  /// The size of the [company] in number of employees.
   external int? get companySize;
 
   /// The id of the company.
@@ -30,7 +26,7 @@ extension WorkExtension on Work {
   /// The date the user started working at the company.
   external String? get startDate;
 
-  /// The user's title in the company.
+  /// The user's title in the [company].
   external String? get title;
 
   /// Convert this work object into a [Map].
