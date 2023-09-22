@@ -8,6 +8,7 @@ import 'package:web/web.dart' as web;
 import '../models/gigya_error.dart';
 import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
 import '../services/interruption_resolver.dart';
+import 'enums/web_error_code.dart';
 import 'static_interop/account.dart';
 import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/parameters/basic.dart';
@@ -15,7 +16,6 @@ import 'static_interop/parameters/login.dart';
 import 'static_interop/response/response.dart';
 import 'static_interop/window.dart';
 import 'static_interop_interruption_resolver.dart';
-import 'web_error_code.dart';
 
 /// An implementation of [GigyaFlutterPluginPlatform] that uses JavaScript static interop.
 class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
