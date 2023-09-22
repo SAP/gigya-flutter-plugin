@@ -1,17 +1,21 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the session info object.
+/// The extension type for the session info object.
 @JS()
 @anonymous
 @staticInterop
-class SessionInfo {}
-
-/// This extension defines the static interop definition
-/// for the [SessionInfo] class.
-extension SessionInfoExtension on SessionInfo {
+extension type SessionInfo(JSObject _) {
   /// The name of the session cookie.
-  external String? get cookieName;
+  external String get cookieName;
 
   /// The value of the session cookie.
-  external String? get cookieValue;
+  external String get cookieValue;
+
+  /// Convert this session info into a [Map].
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'cookieName': cookieName,
+      'cookieValue': cookieValue,
+    };
+  }
 }

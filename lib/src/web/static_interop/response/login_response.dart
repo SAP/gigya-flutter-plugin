@@ -110,11 +110,7 @@ extension type LoginResponse(Response baseResponse) {
       'registered': registered,
       'regSource': regSource,
       'regToken': regToken,
-      if (sessionInfo != null)
-        'sessionInfo': <String, dynamic>{
-          'cookieName': sessionInfo!.cookieName,
-          'cookieValue': sessionInfo!.cookieValue,
-        },
+      if (sessionInfo != null) 'sessionInfo': sessionInfo!.toMap(),
       'signatureTimestamp': signatureTimestamp,
       'socialProviders': socialProviders,
       'UID': UID,
