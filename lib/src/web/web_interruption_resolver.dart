@@ -3,7 +3,6 @@ import 'dart:async';
 import '../models/conflicting_account.dart';
 import '../models/gigya_error.dart';
 import '../services/interruption_resolver.dart';
-import 'static_interop/account.dart';
 import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/models/conflicting_account.dart';
 import 'static_interop/parameters/conflicting_account.dart';
@@ -58,7 +57,7 @@ class _LinkAccountResolver extends LinkAccountResolver {
         }
 
         if (response.errorCode == 0) {
-          final JsConflictingAccount? account = response.conflictingAccount;
+          final WebConflictingAccount? account = response.conflictingAccount;
 
           completer.complete(
             ConflictingAccount(

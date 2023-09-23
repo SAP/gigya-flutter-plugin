@@ -11,5 +11,5 @@ import 'response.dart';
 @staticInterop
 extension type ConflictingAccountResponse(Response baseResponse) {
   /// Get the conflicting account that is included in the response.
-  external ConflictingAccount? get conflictingAccount;
+  external WebConflictingAccount? get conflictingAccount;
 }

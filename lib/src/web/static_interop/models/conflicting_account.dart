@@ -1,10 +1,13 @@
 import 'dart:js_interop';
 
 /// The extension type for the `Conflicting Account` object.
+/// 
+/// The name of this extension type is `WebConflictingAccount`,
+/// to prevent collisions with the existing `ConflictingAccount` class.
 @JS()
 @anonymous
 @staticInterop
-extension type ConflictingAccount(JSObject _) {
+extension type WebConflictingAccount(JSObject _) {
   /// The username or email address
   /// of the user that has a conflicting account.
   external String? get loginID;
