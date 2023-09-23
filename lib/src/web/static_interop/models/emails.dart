@@ -1,23 +1,31 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the emails object.
+/// The extension type for the emails object.
 @JS()
 @anonymous
 @staticInterop
-class Emails {}
-
-/// This extension defines the static interop definition
-/// for the [Emails] class.
-extension EmailsExtension on Emails {
+extension type Emails(JSObject _) {
   @JS('unverified')
-  external List<dynamic>? get _unverified;
+  external JSArray? get _unverified;
 
   @JS('verified')
-  external List<dynamic>? get _verified;
+  external JSArray? get _verified;
 
   /// The list of unverified email addresses.
-  List<String> get unverified => _unverified?.cast<String>() ?? <String>[];
+  List<String> get unverified {
+    return _unverified?.toDart.cast<String>() ?? const <String>[];
+  }
 
   /// The list of verified email addresses.
-  List<String> get verified => _verified?.cast<String>() ?? <String>[];
+  List<String> get verified {
+    return _verified?.toDart.cast<String>() ?? const <String>[];
+  }
+
+  /// Convert this object to a [Map].
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'unverified': unverified,
+      'verified': verified,
+    };
+  }
 }

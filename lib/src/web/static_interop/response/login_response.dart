@@ -93,11 +93,7 @@ extension type LoginResponse(Response baseResponse) {
 
     return <String, dynamic>{
       'created': created,
-      if (emails != null)
-        'emails': <String, dynamic>{
-          'unverified': emails!.unverified,
-          'verified': emails!.verified,
-        },
+      if (emails != null) 'emails': emails.toMap(),
       'isActive': isActive,
       'isNewUser': isNewUser,
       'isRegistered': isRegistered,
