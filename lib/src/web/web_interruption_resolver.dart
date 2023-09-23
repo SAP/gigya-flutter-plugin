@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:js_interop';
+import 'package:js/js.dart';
 
 import '../models/conflicting_account.dart';
 import '../models/gigya_error.dart';
@@ -51,12 +53,12 @@ class _LinkAccountResolver extends LinkAccountResolver {
     final Completer<ConflictingAccount> completer = Completer<ConflictingAccount>();
     final ConflictingAccountParameters parameters = ConflictingAccountParameters(
       regToken: registrationToken,
-      callback: (ConflictingAccountResponse response) {
+      callback: allowInterop((ConflictingAccountResponse response) {
         if (completer.isCompleted) {
           return;
         }
 
-        if (response.errorCode == 0) {
+        if (response.baseResponse.errorCode == 0) {
           final WebConflictingAccount? account = response.conflictingAccount;
 
           completer.complete(
@@ -68,14 +70,14 @@ class _LinkAccountResolver extends LinkAccountResolver {
         } else {
           completer.completeError(
             GigyaError(
-              apiVersion: response.apiVersion,
-              callId: response.callId,
-              details: response.details,
-              errorCode: response.errorCode,
+              apiVersion: response.baseResponse.apiVersion,
+              callId: response.baseResponse.callId,
+              details: response.baseResponse.details,
+              errorCode: response.baseResponse.errorCode,
             ),
           );
         }
-      },
+      }).toJS,
     );
 
     GigyaWebSdk.instance.accounts.getConflictingAccount(parameters);

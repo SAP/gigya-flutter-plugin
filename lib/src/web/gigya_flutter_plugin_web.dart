@@ -9,7 +9,6 @@ import '../models/gigya_error.dart';
 import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
 import '../services/interruption_resolver.dart';
 import 'enums/web_error_code.dart';
-import 'static_interop/account.dart';
 import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
@@ -119,7 +118,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
             );
             break;
         }
-      }),
+      }).toJS,
     );
 
     GigyaWebSdk.instance.accounts.session.verify(parameters);
@@ -149,19 +148,19 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
           return;
         }
 
-        if (response.errorCode == 0) {
+        if (response.baseResponse.errorCode == 0) {
           completer.complete(response.toMap());
         } else {
           completer.completeError(
             GigyaError(
-              apiVersion: response.apiVersion,
-              callId: response.callId,
-              details: response.details,
-              errorCode: response.errorCode,
+              apiVersion: response.baseResponse.apiVersion,
+              callId: response.baseResponse.callId,
+              details: response.baseResponse.details,
+              errorCode: response.baseResponse.errorCode,
             ),
           );
         }
-      }),
+      }).toJS,
     );
 
     GigyaWebSdk.instance.accounts.login(loginParameters);
@@ -194,7 +193,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
             ),
           );
         }
-      }),
+      }).toJS,
     );
 
     GigyaWebSdk.instance.accounts.logout(parameters);
