@@ -1,21 +1,17 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the `Conflicting Account` object.
+/// The extension type for the `Conflicting Account` object.
 @JS()
 @anonymous
 @staticInterop
-class JsConflictingAccount {}
-
-/// This extension defines the static interop definition
-/// for the [JsConflictingAccount] class.
-extension ConflictingAccountExtension on JsConflictingAccount {
+extension type ConflictingAccount(JSObject _) {
   /// The username or email address
   /// of the user that has a conflicting account.
   external String? get loginID;
 
   @JS('loginProviders')
-  external List<dynamic>? get _loginProviders;
+  external JSArray? get _loginProviders;
 
-  /// The login providers for the that has a conflicting account.
-  List<String>? get loginProviders => _loginProviders?.cast<String>();
+  /// The login providers for the [loginID] that has a conflicting account.
+  List<String>? get loginProviders => _loginProviders?.toDart.cast<String>();
 }
