@@ -13,17 +13,20 @@ import 'parameters/login.dart';
 extension type Accounts(JSObject _) {
   /// Get the conflicting accounts of the user.
   /// 
-  /// This function receives a [ConflictingAccountParameters] instance as argument.
+  /// This function receives a [ConflictingAccountParameters] instance as argument,
+  /// and has [JSVoid] as return type.
   external JSFunction getConflictingAccount;
 
   /// Log the user in.
   /// 
-  /// This function receives a [LoginParameters] instance as argument.
+  /// This function receives a [LoginParameters] instance as argument,
+  /// and has [JSVoid] as return type.
   external JSFunction login;
 
   /// Log out of the current session.
   /// 
-  /// This function receives a [BasicParameters] instance as argument.
+  /// This function receives a [BasicParameters] instance as argument,
+  /// and has [JSVoid] as return type.
   external JSFunction logout;
 
   /// Get the `gigya.accounts.session` namespace.

@@ -9,7 +9,8 @@ import '../response/login_response.dart';
 extension type LoginParameters._(JSObject _) {
   /// Create a new [LoginParameters] instance.
   /// 
-  /// The [callback] receives a [LoginResponse] as argument.
+  /// The [callback] receives a [LoginResponse] as argument,
+  /// and has [JSVoid] as return type.
   external factory LoginParameters({
     JSFunction callback,
     String? captchaToken,

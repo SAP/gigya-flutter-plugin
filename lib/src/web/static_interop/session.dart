@@ -10,6 +10,7 @@ import 'parameters/basic.dart';
 extension type Session(JSObject _) {
   /// Verify the current session.
   /// 
-  /// This function receives a [BasicParameters] instance as argument.
+  /// This function receives a [BasicParameters] instance as argument,
+  /// and has [JSVoid] as return type.
   external JSFunction verify;
 }

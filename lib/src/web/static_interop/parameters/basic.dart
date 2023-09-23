@@ -10,6 +10,7 @@ import '../response/response.dart';
 extension type BasicParameters._(JSObject _) {
   /// Create a [BasicParameters] instance using the given [callback].
   /// 
-  /// The [callback] function will receive a [Response] as argument.
+  /// The [callback] function will receive a [Response] as argument,
+  /// and has [JSVoid] as return type.
   external factory BasicParameters({JSFunction callback});
 }

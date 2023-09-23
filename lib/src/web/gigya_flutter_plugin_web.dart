@@ -41,7 +41,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
     // Set `window.onGigyaServiceReady` before creating the script.
     // That function is called when the SDK has been initialized.
-    domWindow.onGigyaServiceReady = allowInterop((JSAny? _) {
+    domWindow.onGigyaServiceReady = allowInterop((JSString? _) {
       if (!onGigyaServiceReadyCompleter.isCompleted) {
         onGigyaServiceReadyCompleter.complete();
       }

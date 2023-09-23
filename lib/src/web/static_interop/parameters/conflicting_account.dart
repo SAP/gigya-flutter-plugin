@@ -9,7 +9,8 @@ import '../response/conflicting_account_response.dart';
 extension type ConflictingAccountParameters._(JSObject _) {
   /// Create a [ConflictingAccountParameters] instance using the given [callback] and [regToken].
   /// 
-  /// The [callback] receives a [ConflictingAccountResponse] as argument.
+  /// The [callback] receives a [ConflictingAccountResponse] as argument,
+  /// and has [JSVoid] as return type.
   external factory ConflictingAccountParameters({
     JSFunction callback,
     String regToken,
