@@ -361,7 +361,6 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
 
     // The binary messenger sends things back as `dynamic`,
     // but the events are actually a `Map<Object?, Object?>`.
-    // Cast using the `map()` Stream transformer.
     yield* screenSetEvents
         .receiveBroadcastStream()
         .cast<Map<Object?, Object?>>()
