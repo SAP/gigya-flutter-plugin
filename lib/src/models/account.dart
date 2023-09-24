@@ -6,72 +6,66 @@ class Account {
   /// The default constructor.
   Account({
     required this.emails,
-    this.createdTimestamp,
+    this.created,
     this.isActive,
     this.isRegistered,
     this.isVerified,
-    this.lastLoginTimestamp,
-    this.lastUpdatedTimestamp,
+    this.lastLogin,
+    this.lastUpdated,
     this.loginProvider,
-    this.oldestDataUpdateTimestamp,
+    this.oldestDataUpdated,
     this.profile,
-    this.registeredTimestamp,
+    this.registered,
     this.signatureTimestamp,
     this.socialProviders = const <String>[],
     this.uid,
     this.uidSignature,
-    this.verifiedTimestamp,
+    this.verified,
   });
 
   /// Construct an account from the given [json].
   factory Account.fromJson(Map<String, dynamic> json) {
-    final String? createdTimestamp = json['createdTimestamp'] as String?;
-    final Map<String, dynamic>? emails =
-        (json['emails'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
-    final Map<String, dynamic>? profile =
-        (json['profile'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
-    final String? lastLoginTimestamp = json['lastLogin'] as String?;
-    final String? lastUpdatedTimestamp = json['lastUpdated'] as String?;
-    final String? oldestDataUpdateTimestamp =
-        json['oldestDataUpdated'] as String?;
-    final String? registeredTimestamp = json['registered'] as String?;
-    final String? verifiedTimestamp = json['verified'] as String?;
+    final String? created = json['created'] as String?;
+    final Map<String, dynamic>? emails = (json['emails'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
+    final Map<String, dynamic>? profile = (json['profile'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
+    final String? lastLogin = json['lastLogin'] as String?;
+    final String? lastUpdated = json['lastUpdated'] as String?;
+    final String? oldestDataUpdated = json['oldestDataUpdated'] as String?;
+    final String? registered = json['registered'] as String?;
+    final String? verified = json['verified'] as String?;
     final String socialProviders = json['socialProviders'] as String? ?? '';
 
     // The signature timestamp can be either an ISO 8601 date,
     // or the number of seconds since the UNIX epoch (1 Jan 1970).
     final DateTime? signatureTimestamp = switch (json['signatureTimestamp']) {
       final String timestamp => DateTime.parse(timestamp),
-      final int timestamp =>
-        DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
-      final double timestamp =>
-        DateTime.fromMillisecondsSinceEpoch(timestamp.toInt() * 1000),
+      final int timestamp => DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
+      final double timestamp => DateTime.fromMillisecondsSinceEpoch(timestamp.toInt() * 1000),
       _ => null,
     };
 
     return Account(
       emails: emails == null ? const Emails() : Emails.fromJson(emails),
-      createdTimestamp: DateTime.tryParse(createdTimestamp ?? ''),
+      created: DateTime.tryParse(created ?? ''),
       isActive: json['isActive'] as bool?,
       isRegistered: json['isRegistered'] as bool?,
       isVerified: json['isVerified'] as bool?,
-      lastLoginTimestamp: DateTime.tryParse(lastLoginTimestamp ?? ''),
-      lastUpdatedTimestamp: DateTime.tryParse(lastUpdatedTimestamp ?? ''),
+      lastLogin: DateTime.tryParse(lastLogin ?? ''),
+      lastUpdated: DateTime.tryParse(lastUpdated ?? ''),
       loginProvider: json['loginProvider'] as String?,
-      oldestDataUpdateTimestamp:
-          DateTime.tryParse(oldestDataUpdateTimestamp ?? ''),
+      oldestDataUpdated: DateTime.tryParse(oldestDataUpdated ?? ''),
       profile: profile == null ? null : Profile.fromJson(profile),
-      registeredTimestamp: DateTime.tryParse(registeredTimestamp ?? ''),
+      registered: DateTime.tryParse(registered ?? ''),
       signatureTimestamp: signatureTimestamp,
       socialProviders: socialProviders.split(','),
       uid: json['UID'] as String?,
       uidSignature: json['UIDSignature'] as String?,
-      verifiedTimestamp: DateTime.tryParse(verifiedTimestamp ?? ''),
+      verified: DateTime.tryParse(verified ?? ''),
     );
   }
 
   /// The timestamp, in UTC, on which the account was created.
-  final DateTime? createdTimestamp;
+  final DateTime? created;
 
   /// Whether this account is active.
   final bool? isActive;
@@ -86,11 +80,11 @@ class Account {
   final Emails emails;
 
   /// The timestamp of the last login of the user.
-  final DateTime? lastLoginTimestamp;
+  final DateTime? lastLogin;
 
   /// The timestamp, in UTC, when the user's profile, preferences,
   /// or subscriptions data was last updated.
-  final DateTime? lastUpdatedTimestamp;
+  final DateTime? lastUpdated;
 
   /// The name of current login provider for this account.
   ///
@@ -98,14 +92,14 @@ class Account {
   /// then the value of this attribute will be `site`.
   final String? loginProvider;
 
-  /// The timestamp, in UTC, when the oldest data of the user was refreshed.
-  final DateTime? oldestDataUpdateTimestamp;
+  /// The timestamp, in UTC, of the oldest update to the user's account data.
+  final DateTime? oldestDataUpdated;
 
   /// The profile linked to this account.
   final Profile? profile;
 
   /// The timestamp, in UTC, when the user was registered.
-  final DateTime? registeredTimestamp;
+  final DateTime? registered;
 
   /// The timestamp of the [uidSignature], in UTC.
   /// This signature should be used for login validation.
@@ -121,30 +115,29 @@ class Account {
   final String? uidSignature;
 
   /// The timestamp, in UTC, when the user was verified.
-  final DateTime? verifiedTimestamp;
+  final DateTime? verified;
 
   /// Convert this object into a JSON object.
   Map<String, dynamic> toJson() {
     final Profile? accountProfile = profile;
 
     return <String, dynamic>{
-      'createdTimestamp': createdTimestamp?.toIso8601String(),
+      'created': created?.toIso8601String(),
       'emails': emails.toJson(),
       'isActive': isActive,
       'isRegistered': isRegistered,
       'isVerified': isVerified,
-      'lastLoginTimestamp': lastLoginTimestamp?.toIso8601String(),
-      'lastUpdatedTimestamp': lastUpdatedTimestamp?.toIso8601String(),
+      'lastLogin': lastLogin?.toIso8601String(),
+      'lastUpdated': lastUpdated?.toIso8601String(),
       'loginProvider': loginProvider,
-      'oldestDataUpdatedTimestamp':
-          oldestDataUpdateTimestamp?.toIso8601String(),
+      'oldestDataUpdated': oldestDataUpdated?.toIso8601String(),
       if (accountProfile != null) 'profile': accountProfile.toJson(),
-      'registeredTimestamp': registeredTimestamp?.toIso8601String(),
+      'registered': registered?.toIso8601String(),
       'signatureTimestamp': signatureTimestamp?.toIso8601String(),
       'socialProviders': socialProviders,
       'UID': uid,
       'UIDSignature': uidSignature,
-      'verifiedTimestamp': verifiedTimestamp?.toIso8601String(),
+      'verified': verified?.toIso8601String(),
     };
   }
 }
