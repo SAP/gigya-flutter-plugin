@@ -27,8 +27,10 @@ class Account {
   /// Construct an account from the given [json].
   factory Account.fromJson(Map<String, dynamic> json) {
     final String? created = json['created'] as String?;
-    final Map<String, dynamic>? emails = (json['emails'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
-    final Map<String, dynamic>? profile = (json['profile'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
+    final Map<String, dynamic>? emails =
+        (json['emails'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
+    final Map<String, dynamic>? profile =
+        (json['profile'] as Map<Object?, Object?>?)?.cast<String, dynamic>();
     final String? lastLogin = json['lastLogin'] as String?;
     final String? lastUpdated = json['lastUpdated'] as String?;
     final String? oldestDataUpdated = json['oldestDataUpdated'] as String?;
@@ -40,8 +42,10 @@ class Account {
     // or the number of seconds since the UNIX epoch (1 Jan 1970).
     final DateTime? signatureTimestamp = switch (json['signatureTimestamp']) {
       final String timestamp => DateTime.parse(timestamp),
-      final int timestamp => DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
-      final double timestamp => DateTime.fromMillisecondsSinceEpoch(timestamp.toInt() * 1000),
+      final int timestamp =>
+        DateTime.fromMillisecondsSinceEpoch(timestamp * 1000),
+      final double timestamp =>
+        DateTime.fromMillisecondsSinceEpoch(timestamp.toInt() * 1000),
       _ => null,
     };
 
