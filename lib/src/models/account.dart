@@ -5,8 +5,9 @@ import 'profile.dart';
 class Account {
   /// The default constructor.
   Account({
-    required this.emails,
+    this.emails = const Emails(),
     this.created,
+    this.data = const <String, dynamic>{},
     this.isActive,
     this.isRegistered,
     this.isVerified,
@@ -45,8 +46,9 @@ class Account {
     };
 
     return Account(
-      emails: emails == null ? const Emails() : Emails.fromJson(emails),
       created: DateTime.tryParse(created ?? ''),
+      data: (json['data'] as Map<Object?, Object?>?)?.cast<String, dynamic>(),
+      emails: emails == null ? const Emails() : Emails.fromJson(emails),
       isActive: json['isActive'] as bool?,
       isRegistered: json['isRegistered'] as bool?,
       isVerified: json['isVerified'] as bool?,
@@ -67,6 +69,12 @@ class Account {
   /// The timestamp, in UTC, on which the account was created.
   final DateTime? created;
 
+  /// The custom data for the account, which is not part of the [profile].
+  final Map<String, dynamic>? data;
+
+  /// The list of email addresses for the account.
+  final Emails emails;
+
   /// Whether this account is active.
   final bool? isActive;
 
@@ -75,9 +83,6 @@ class Account {
 
   /// Whether this account is verified.
   final bool? isVerified;
-
-  /// The list of email addresses for the account.
-  final Emails emails;
 
   /// The timestamp of the last login of the user.
   final DateTime? lastLogin;
@@ -123,6 +128,7 @@ class Account {
 
     return <String, dynamic>{
       'created': created?.toIso8601String(),
+      'data': data,
       'emails': emails.toJson(),
       'isActive': isActive,
       'isRegistered': isRegistered,
