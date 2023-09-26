@@ -116,17 +116,13 @@ extension type LoginResponse(Response baseResponse) {
   }
 }
 
-/// This class defines the response for the global login event emitted by the Gigya SDK.
+/// The extension type for the global login event emitted by the Gigya SDK.
 ///
 /// See: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/41532ab870b21014bbc5a10ce4041860.html#onlogin-event-data
 @JS()
 @anonymous
 @staticInterop
-class LoginGlobalEventResponse {}
-
-/// This extension defines the static interop definition
-/// for the [LoginGlobalEventResponse] class.
-extension LoginGlobalEventResponseExtension on LoginGlobalEventResponse {
+extension type LoginGlobalEventResponse(JSObject _) {
   /// The type of login, which is either 'standard' or 'reAuth'.
   external String get loginMode;
 
