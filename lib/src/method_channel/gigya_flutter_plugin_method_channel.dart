@@ -122,7 +122,7 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
-    bool forceLogout = true,
+    bool forceLogout = false,
   }) async {
     // First, initialize the Gigya SDK.
     try {

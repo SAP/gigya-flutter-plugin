@@ -1,14 +1,10 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the `Publication` object.
+/// The extension type for the `Publication` object.
 @JS()
 @anonymous
 @staticInterop
-class Publication {}
-
-/// This extension defines the static interop definition
-/// for the [Publication] class.
-extension PublicationExtension on Publication {
+extension type Publication(JSObject _) {
   /// The publication date.
   external String? get date;
 

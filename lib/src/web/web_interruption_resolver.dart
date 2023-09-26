@@ -1,9 +1,10 @@
 import 'dart:async';
+import 'dart:js_interop';
+import 'package:js/js.dart';
 
 import '../models/conflicting_account.dart';
 import '../models/gigya_error.dart';
 import '../services/interruption_resolver.dart';
-import 'static_interop/account.dart';
 import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/models/conflicting_account.dart';
 import 'static_interop/parameters/conflicting_account.dart';
@@ -17,16 +18,16 @@ import 'static_interop/response/response.dart';
 /// that uses static interop for its implementation.
 ///
 /// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/416d41b170b21014bbc5a10ce4041860.html#error-code-definitions-table
-class StaticInteropInterruptionResolverFactory extends InterruptionResolverFactory {
+class WebInterruptionResolverFactory extends InterruptionResolverFactory {
   /// The default constructor.
-  const StaticInteropInterruptionResolverFactory();
+  const WebInterruptionResolverFactory();
 
   @override
   InterruptionResolver? fromErrorCode(GigyaError exception) {
     // TODO: what is the error code for the `_StaticInteropLinkAccountResolver`?
     switch (exception.errorCode) {
       case 206001:
-        return const _StaticInteropPendingRegistrationResolver();
+        return const _PendingRegistrationResolver();
       case 206002:
         return PendingVerificationResolver(exception.registrationToken ?? '');
       default:
@@ -35,8 +36,8 @@ class StaticInteropInterruptionResolverFactory extends InterruptionResolverFacto
   }
 }
 
-class _StaticInteropLinkAccountResolver extends LinkAccountResolver {
-  _StaticInteropLinkAccountResolver({required this.registrationToken}) {
+class _LinkAccountResolver extends LinkAccountResolver {
+  _LinkAccountResolver({required this.registrationToken}) {
     _conflictingAccounts = _getConflictingAccounts();
   }
 
@@ -52,13 +53,13 @@ class _StaticInteropLinkAccountResolver extends LinkAccountResolver {
     final Completer<ConflictingAccount> completer = Completer<ConflictingAccount>();
     final ConflictingAccountParameters parameters = ConflictingAccountParameters(
       regToken: registrationToken,
-      callback: (ConflictingAccountResponse response) {
+      callback: allowInterop((ConflictingAccountResponse response) {
         if (completer.isCompleted) {
           return;
         }
 
-        if (response.errorCode == 0) {
-          final JsConflictingAccount? account = response.conflictingAccount;
+        if (response.baseResponse.errorCode == 0) {
+          final WebConflictingAccount? account = response.conflictingAccount;
 
           completer.complete(
             ConflictingAccount(
@@ -69,22 +70,25 @@ class _StaticInteropLinkAccountResolver extends LinkAccountResolver {
         } else {
           completer.completeError(
             GigyaError(
-              apiVersion: response.apiVersion,
-              callId: response.callId,
-              details: response.details,
-              errorCode: response.errorCode,
+              apiVersion: response.baseResponse.apiVersion,
+              callId: response.baseResponse.callId,
+              details: response.baseResponse.details,
+              errorCode: response.baseResponse.errorCode,
             ),
           );
         }
-      },
+      }).toJS,
     );
 
-    gigyaWebSdk.accounts.getConflictingAccount(parameters);
+    GigyaWebSdk.instance.accounts.getConflictingAccount.callAsFunction(
+      null,
+      parameters,
+    );
 
     return completer.future;
   }
 }
 
-class _StaticInteropPendingRegistrationResolver extends PendingRegistrationResolver {
-  const _StaticInteropPendingRegistrationResolver();
+class _PendingRegistrationResolver extends PendingRegistrationResolver {
+  const _PendingRegistrationResolver();
 }

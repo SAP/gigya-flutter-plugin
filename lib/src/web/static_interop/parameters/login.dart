@@ -1,15 +1,18 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import '../response/login_response.dart';
 
-/// This class represents the parameters for the `Accounts.login` method.
+/// This extension type represents the parameters for the `Accounts.login` method.
 @JS()
 @anonymous
 @staticInterop
-class LoginParameters {
+extension type LoginParameters._(JSObject _) implements JSObject {
   /// Create a new [LoginParameters] instance.
+  /// 
+  /// The [callback] receives a [LoginResponse] as argument,
+  /// and has [JSVoid] as return type.
   external factory LoginParameters({
-    void Function(LoginResponse response) callback,
+    JSFunction callback,
     String? captchaToken,
     String? include,
     String loginID,

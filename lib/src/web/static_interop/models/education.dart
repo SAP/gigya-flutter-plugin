@@ -1,14 +1,10 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the Education object.
+/// The extension type for the Education object.
 @JS()
 @anonymous
 @staticInterop
-class Education {}
-
-/// This extension defines the static interop definition
-/// for the [Education] class.
-extension EducationExtension on Education {
+extension type Education(JSObject _) {
   /// The degree for the education.
   external String? get degree;
 

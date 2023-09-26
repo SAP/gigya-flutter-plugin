@@ -1,22 +1,15 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-// Export the response classes,
-// since importing one does not include the extension getters,
-// which are defined here.
 export 'conflicting_account_response.dart';
 export 'login_response.dart';
 
-/// The static interop class for the Gigya `Response` class.
+/// The extension type for the Gigya `Response` class.
 ///
 /// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/416d55f070b21014bbc5a10ce4041860.html
 @JS()
 @anonymous
 @staticInterop
-class Response {}
-
-/// This extension defines the static interop definition
-/// for the [Response] class.
-extension ResponseExtension on Response {
+extension type Response(JSObject _) {
   /// The version of the Gigya API that was used.
   external int? get apiVersion;
 
@@ -24,6 +17,10 @@ extension ResponseExtension on Response {
   external String get callId;
 
   /// Get the error details.
+  /// 
+  /// This getter can be redefined (not overridden) by extension types,
+  /// that have [Response] as representation type,
+  /// to include additional details.
   Map<String, Object?> get details {
     return <String, Object?>{
       'errorDetails': errorDetails,

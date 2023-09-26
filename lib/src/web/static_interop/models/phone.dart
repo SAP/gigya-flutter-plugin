@@ -1,14 +1,10 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the `Phone` object.
+/// The extension type for the `Phone` object.
 @JS()
 @anonymous
 @staticInterop
-class Phone {}
-
-/// This extension defines the static interop definition
-/// for the [Phone] class.
-extension PhoneExtension on Phone {
+extension type Phone(JSObject _) {
   /// The value of the phone number.
   external String? get number;
 

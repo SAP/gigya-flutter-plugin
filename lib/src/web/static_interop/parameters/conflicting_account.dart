@@ -1,15 +1,18 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import '../response/conflicting_account_response.dart';
 
-/// This class represents the parameters for the `Accounts.getConflictingAccount` method.
+/// This extension type represents the parameters for the `Accounts.getConflictingAccount` method.
 @JS()
 @anonymous
 @staticInterop
-class ConflictingAccountParameters {
+extension type ConflictingAccountParameters._(JSObject _) implements JSObject {
   /// Create a [ConflictingAccountParameters] instance using the given [callback] and [regToken].
+  /// 
+  /// The [callback] receives a [ConflictingAccountResponse] as argument,
+  /// and has [JSVoid] as return type.
   external factory ConflictingAccountParameters({
-    void Function(ConflictingAccountResponse response) callback,
+    JSFunction callback,
     String regToken,
   });
 }

@@ -1,4 +1,4 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import '../models/emails.dart';
 import '../models/location.dart';
@@ -6,19 +6,15 @@ import '../models/profile.dart';
 import '../models/session_info.dart';
 import 'response.dart';
 
-/// The static interop class for the Gigya Login API response.
+/// The extension type for the Gigya Login API response.
 ///
 /// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/eb93d538b9ae45bfadd9a8aaa8806753.html#response-data
 @JS()
 @anonymous
 @staticInterop
-class LoginResponse extends Response {}
+extension type LoginResponse(Response baseResponse) {
+  // TODO: preferences, subscriptions should be in the login response
 
-// TODO: preferences, subscriptions should be in the login response
-
-/// This extension defines the static interop definition
-/// for the [LoginResponse] class.
-extension LoginResponseExtension on LoginResponse {
   /// The timestamp of the creation of the user.
   external String? get created;
 
@@ -69,8 +65,7 @@ extension LoginResponseExtension on LoginResponse {
   external SessionInfo? get sessionInfo;
 
   /// The timestamp of the [UIDSignature].
-  /// This value can be a [String] or a [num].
-  external Object? get signatureTimestamp;
+  external String? get signatureTimestamp;
 
   /// The comma separated list of social providers linked to this user.
   external String? get socialProviders;
@@ -88,21 +83,17 @@ extension LoginResponseExtension on LoginResponse {
   Map<String, dynamic> toMap() {
     final Map<String, dynamic>? profileAsMap = profile?.toMap();
 
-    if (profileAsMap != null) {
+    if (profileAsMap != null && lastLoginLocation != null) {
       // The lastLoginLocation field is not in the profile
       // when using the Gigya Web SDK.
       // Instead, it is located inside the login response.
       // Add it to the profile map.
-      profileAsMap['lastLoginLocation'] = lastLoginLocation?.toMap();
+      profileAsMap['lastLoginLocation'] = lastLoginLocation!.toMap();
     }
 
     return <String, dynamic>{
       'created': created,
-      if (emails != null)
-        'emails': <String, dynamic>{
-          'unverified': emails!.unverified,
-          'verified': emails!.verified,
-        },
+      if (emails != null) 'emails': emails!.toMap(),
       'isActive': isActive,
       'isNewUser': isNewUser,
       'isRegistered': isRegistered,
@@ -115,11 +106,7 @@ extension LoginResponseExtension on LoginResponse {
       'registered': registered,
       'regSource': regSource,
       'regToken': regToken,
-      if (sessionInfo != null)
-        'sessionInfo': <String, dynamic>{
-          'cookieName': sessionInfo!.cookieName,
-          'cookieValue': sessionInfo!.cookieValue,
-        },
+      if (sessionInfo != null) 'sessionInfo': sessionInfo!.toMap(),
       'signatureTimestamp': signatureTimestamp,
       'socialProviders': socialProviders,
       'UID': UID,

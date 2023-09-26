@@ -1,4 +1,4 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import 'certification.dart';
 import 'education.dart';
@@ -10,16 +10,11 @@ import 'publication.dart';
 import 'skill.dart';
 import 'work.dart';
 
-/// This class represents the static interop implementation
-/// for the profile object.
+/// The extension type for the `Profile` object.
 @JS()
 @anonymous
 @staticInterop
-class Profile {}
-
-/// This extension defines the static interop definition
-/// for the [Profile] class.
-extension ProfileExtension on Profile {
+extension type Profile(JSObject _) {
   /// The person's activities.
   external String? get activities;
 
@@ -42,11 +37,11 @@ extension ProfileExtension on Profile {
   external int? get birthYear;
 
   @JS('certifications')
-  external List<dynamic>? get _certifications;
+  external JSArray? get _certifications;
 
   /// The person's certifications.
   List<Certification> get certifications {
-    return _certifications?.cast<Certification>() ?? <Certification>[];
+    return _certifications?.toDart.cast<Certification>() ?? const <Certification>[];
   }
 
   /// The city in which the person resides.
@@ -56,11 +51,11 @@ extension ProfileExtension on Profile {
   external String? get country;
 
   @JS('education')
-  external List<dynamic>? get _education;
+  external JSArray? get _education;
 
   /// The different educations of the person.
   List<Education> get education {
-    return _education?.cast<Education>() ?? <Education>[];
+    return _education?.toDart.cast<Education>() ?? const <Education>[];
   }
 
   /// The education level of the person.
@@ -109,10 +104,10 @@ extension ProfileExtension on Profile {
   external String? get lastName;
 
   @JS('likes')
-  external List<dynamic>? get _likes;
+  external JSArray? get _likes;
 
   /// The person's likes.
-  List<Like> get likes => _likes?.cast<Like>() ?? <Like>[];
+  List<Like> get likes => _likes?.toDart.cast<Like>() ?? const <Like>[];
 
   /// The language locale of the person's primary language.
   external String? get locale;
@@ -131,16 +126,18 @@ extension ProfileExtension on Profile {
   external String? get nickname;
 
   @JS('patents')
-  external List<dynamic>? get _patents;
+  external JSArray? get _patents;
 
   /// The different patents that this person owns.
-  List<Patent> get patents => _patents?.cast<Patent>() ?? <Patent>[];
+  List<Patent> get patents {
+    return _patents?.toDart.cast<Patent>() ?? const <Patent>[];
+  }
 
   @JS('phones')
-  external List<dynamic>? get _phones;
+  external JSArray? get _phones;
 
   /// The different phone numbers belonging to this person.
-  List<Phone> get phones => _phones?.cast<Phone>() ?? <Phone>[];
+  List<Phone> get phones => _phones?.toDart.cast<Phone>() ?? const <Phone>[];
 
   /// The url to the person's photo.
   external String? get photoURL;
@@ -155,20 +152,22 @@ extension ProfileExtension on Profile {
   external String? get profileURL;
 
   @JS('providers')
-  external List<dynamic>? get _providers;
+  external JSArray? get _providers;
 
   /// The names of the providers to which the user is connected/logged in.
-  List<String> get providers => _providers?.cast<String>() ?? <String>[];
+  List<String> get providers {
+    return _providers?.toDart.cast<String>() ?? const <String>[];
+  }
 
   /// The person's proxy email address.
   external String? get proxyEmail;
 
   @JS('publications')
-  external List<dynamic>? get _publications;
+  external JSArray? get _publications;
 
   /// The list of publications belonging to this person.
   List<Publication> get publications {
-    return _publications?.cast<Publication>() ?? <Publication>[];
+    return _publications?.toDart.cast<Publication>() ?? const <Publication>[];
   }
 
   /// The person's relationship status.
@@ -178,10 +177,10 @@ extension ProfileExtension on Profile {
   external String? get religion;
 
   @JS('skills')
-  external List<dynamic>? get _skills;
+  external JSArray? get _skills;
 
   /// The different skills of the person.
-  List<Skill> get skills => _skills?.cast<Skill>() ?? <Skill>[];
+  List<Skill> get skills => _skills?.toDart.cast<Skill>() ?? const <Skill>[];
 
   /// The person's specialities.
   external String? get specialities;
@@ -202,10 +201,10 @@ extension ProfileExtension on Profile {
   external String? get verified;
 
   @JS('work')
-  external List<dynamic>? get _work;
+  external JSArray? get _work;
 
   /// The person's career, divided into the different employments.
-  List<Work> get work => _work?.cast<Work>() ?? <Work>[];
+  List<Work> get work => _work?.toDart.cast<Work>() ?? const <Work>[];
 
   /// The ZIP code of the person's address.
   external String? get zip;

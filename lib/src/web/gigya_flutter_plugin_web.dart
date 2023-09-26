@@ -1,21 +1,20 @@
 import 'dart:async';
-import 'dart:html' as html;
 import 'dart:js_interop';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
 import 'package:js/js.dart';
+import 'package:web/web.dart' as web;
 
 import '../models/gigya_error.dart';
 import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
 import '../services/interruption_resolver.dart';
-import 'static_interop/account.dart';
+import 'enums/web_error_code.dart';
 import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
 import 'static_interop/response/response.dart';
 import 'static_interop/window.dart';
-import 'static_interop_interruption_resolver.dart';
-import 'web_error_code.dart';
+import 'web_interruption_resolver.dart';
 
 /// An implementation of [GigyaFlutterPluginPlatform] that uses JavaScript static interop.
 class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
@@ -27,45 +26,56 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }
 
   @override
-  InterruptionResolverFactory get interruptionResolverFactory => const StaticInteropInterruptionResolverFactory();
+  InterruptionResolverFactory get interruptionResolverFactory {
+    return const WebInterruptionResolverFactory();
+  }
 
   @override
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
-    bool forceLogout = true,
+    bool forceLogout = false,
   }) async {
     final Completer<void> onGigyaServiceReadyCompleter = Completer<void>();
-    final JSWindow domWindow = html.window as JSWindow;
+    final GigyaWindow domWindow = GigyaWindow(web.window);
 
     // Set `window.onGigyaServiceReady` before creating the script.
     // That function is called when the SDK has been initialized.
-    domWindow.onGigyaServiceReady = allowInterop((Object? arguments) {
+    domWindow.onGigyaServiceReady = allowInterop((JSString? _) {
       if (!onGigyaServiceReadyCompleter.isCompleted) {
         onGigyaServiceReadyCompleter.complete();
       }
-    });
+    }).toJS;
 
     // If the Gigya SDK is ready beforehand, complete directly.
     // This is the case when doing a Hot Reload, where the application starts from scratch,
     // even though the Gigya SDK script is still attached to the DOM and ready.
     // See https://docs.flutter.dev/tools/hot-reload#how-to-perform-a-hot-reload
-    if (gigyaWebSdk.isDefinedAndNotNull && gigyaWebSdk.isReady) {
+    final bool sdkIsReady = domWindow.gigya != null && GigyaWebSdk.instance.isReady;
+
+    if (sdkIsReady) {
       if (!onGigyaServiceReadyCompleter.isCompleted) {
         onGigyaServiceReadyCompleter.complete();
       }
     } else {
-      final html.ScriptElement script = html.ScriptElement()
+      final Completer<void> scriptLoadCompleter = Completer<void>();
+
+      final web.HTMLScriptElement script = (web.document.createElement('script') as web.HTMLScriptElement)
         ..async = true
         ..defer = false
         ..type = 'text/javascript'
         ..lang = 'javascript'
         ..crossOrigin = 'anonymous'
-        ..src = 'https://cdns.$apiDomain/js/gigya.js?apikey=$apiKey';
+        ..src = 'https://cdns.$apiDomain/js/gigya.js?apikey=$apiKey'
+        ..onload = allowInterop((JSAny _) {
+          if (!scriptLoadCompleter.isCompleted) {
+            scriptLoadCompleter.complete();
+          }
+        }).toJS;
 
-      html.document.head!.append(script);
+      web.document.head!.append(script);
 
-      await script.onLoad.first;
+      await scriptLoadCompleter.future;
     }
 
     // If `onGigyaServiceReady` takes too long to be called
@@ -108,10 +118,13 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
             );
             break;
         }
-      }),
+      }).toJS,
     );
 
-    gigyaWebSdk.accounts.session.verify(parameters);
+    GigyaWebSdk.instance.accounts.session.verify.callAsFunction(
+      null,
+      parameters,
+    );
 
     return completer.future;
   }
@@ -138,22 +151,25 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
           return;
         }
 
-        if (response.errorCode == 0) {
+        if (response.baseResponse.errorCode == 0) {
           completer.complete(response.toMap());
         } else {
           completer.completeError(
             GigyaError(
-              apiVersion: response.apiVersion,
-              callId: response.callId,
-              details: response.details,
-              errorCode: response.errorCode,
+              apiVersion: response.baseResponse.apiVersion,
+              callId: response.baseResponse.callId,
+              details: response.baseResponse.details,
+              errorCode: response.baseResponse.errorCode,
             ),
           );
         }
-      }),
+      }).toJS,
     );
 
-    gigyaWebSdk.accounts.login(loginParameters);
+    GigyaWebSdk.instance.accounts.login.callAsFunction(
+      null,
+      loginParameters,
+    );
 
     return completer.future;
   }
@@ -183,10 +199,13 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
             ),
           );
         }
-      }),
+      }).toJS,
     );
 
-    gigyaWebSdk.accounts.logout(parameters);
+    GigyaWebSdk.instance.accounts.logout.callAsFunction(
+      null,
+      parameters,
+    );
 
     return completer.future;
   }

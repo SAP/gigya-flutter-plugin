@@ -1,14 +1,10 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the `Patent` object.
+/// The extension type for the `Patent` object.
 @JS()
 @anonymous
 @staticInterop
-class Patent {}
-
-/// This extension defines the static interop definition
-/// for the [Patent] class.
-extension PatentExtension on Patent {
+extension type Patent(JSObject _) {
   /// The issue date of the patent.
   external String? get date;
 

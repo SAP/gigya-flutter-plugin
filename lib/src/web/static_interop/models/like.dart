@@ -1,14 +1,10 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the `Like` object.
+/// The extension type for the `Like` object.
 @JS()
 @anonymous
 @staticInterop
-class Like {}
-
-/// This extension defines the static interop definition
-/// for the [Like] class.
-extension LikeExtension on Like {
+extension type Like(JSObject _) {
   /// The category of the like.
   external String? get category;
 
