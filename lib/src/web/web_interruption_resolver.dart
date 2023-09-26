@@ -80,7 +80,10 @@ class _LinkAccountResolver extends LinkAccountResolver {
       }).toJS,
     );
 
-    GigyaWebSdk.instance.accounts.getConflictingAccount(parameters);
+    GigyaWebSdk.instance.accounts.getConflictingAccount.callAsFunction(
+      null,
+      parameters,
+    );
 
     return completer.future;
   }

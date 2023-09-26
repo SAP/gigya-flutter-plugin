@@ -121,7 +121,10 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
       }).toJS,
     );
 
-    GigyaWebSdk.instance.accounts.session.verify(parameters);
+    GigyaWebSdk.instance.accounts.session.verify.callAsFunction(
+      null,
+      parameters,
+    );
 
     return completer.future;
   }
@@ -163,7 +166,10 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
       }).toJS,
     );
 
-    GigyaWebSdk.instance.accounts.login(loginParameters);
+    GigyaWebSdk.instance.accounts.login.callAsFunction(
+      null,
+      loginParameters,
+    );
 
     return completer.future;
   }
@@ -196,7 +202,10 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
       }).toJS,
     );
 
-    GigyaWebSdk.instance.accounts.logout(parameters);
+    GigyaWebSdk.instance.accounts.logout.callAsFunction(
+      null,
+      parameters,
+    );
 
     return completer.future;
   }
