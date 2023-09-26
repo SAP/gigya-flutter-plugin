@@ -1,6 +1,6 @@
 import 'dart:js_interop';
 
-import '../response/response.dart';
+import '../global_events/login_event.dart';
 
 /// The extension type that defines the parameters for the `Accounts.addEventHandlers` function.
 ///
