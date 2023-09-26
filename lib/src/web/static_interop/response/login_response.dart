@@ -93,7 +93,7 @@ extension type LoginResponse(Response baseResponse) {
 
     return <String, dynamic>{
       'created': created,
-      if (emails != null) 'emails': emails.toMap(),
+      if (emails != null) 'emails': emails!.toMap(),
       'isActive': isActive,
       'isNewUser': isNewUser,
       'isRegistered': isRegistered,
