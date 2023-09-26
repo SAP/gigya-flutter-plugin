@@ -25,9 +25,11 @@ extension type Accounts(JSObject _) {
   /// and has [JSVoid] as return type.
   external JSFunction getConflictingAccount;
 
-  // TODO: fix function handle
   /// Hide a screen set.
-  external void Function(HideScreensetParameters parameters) hideScreenSet;  
+  /// 
+  /// This function receives a [HideScreensetParameters] instance as argument,
+  /// and has [JSVoid] as return type.
+  external JSFunction hideScreenSet;  
 
   /// Log the user in.
   /// 
@@ -44,7 +46,9 @@ extension type Accounts(JSObject _) {
   /// Get the `gigya.accounts.session` namespace.
   external Session get session;
 
-  // TODO: fix function handle
   /// Show a screen set.
-  external void Function(ShowScreensetParameters parameters) showScreenSet;
+  /// 
+  /// This function receives a [ShowScreensetParameters] instance as argument,
+  /// and has [JSVoid] as return type.
+  external JSFunction showScreenSet;
 }
