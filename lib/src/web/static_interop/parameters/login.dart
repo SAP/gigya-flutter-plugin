@@ -6,7 +6,7 @@ import '../response/login_response.dart';
 @JS()
 @anonymous
 @staticInterop
-extension type LoginParameters._(JSObject _) {
+extension type LoginParameters._(JSObject _) implements JSObject {
   /// Create a new [LoginParameters] instance.
   /// 
   /// The [callback] receives a [LoginResponse] as argument,

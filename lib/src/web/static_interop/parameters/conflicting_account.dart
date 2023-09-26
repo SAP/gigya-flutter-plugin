@@ -6,7 +6,7 @@ import '../response/conflicting_account_response.dart';
 @JS()
 @anonymous
 @staticInterop
-extension type ConflictingAccountParameters._(JSObject _) {
+extension type ConflictingAccountParameters._(JSObject _) implements JSObject {
   /// Create a [ConflictingAccountParameters] instance using the given [callback] and [regToken].
   /// 
   /// The [callback] receives a [ConflictingAccountResponse] as argument,

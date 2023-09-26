@@ -7,7 +7,7 @@ import '../response/response.dart';
 @JS()
 @anonymous
 @staticInterop
-extension type BasicParameters._(JSObject _) {
+extension type BasicParameters._(JSObject _) implements JSObject {
   /// Create a [BasicParameters] instance using the given [callback].
   /// 
   /// The [callback] function will receive a [Response] as argument,
