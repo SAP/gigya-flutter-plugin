@@ -1,16 +1,12 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import '../response/response.dart';
 
-// TODO: refactor to extension type
-// - AddEventHandlersParameters class
-// - LoginGlobalEventResponse class
-
-/// This class represents the parameters for the `Accounts.addEventHandlers` function,
-/// which registers event handlers for global events in the Gigya SDK.
+/// The extension type that defines the parameters for the `Accounts.addEventHandlers` function.
 ///
 /// The `onLogout`, `onConnectionAdded` and `onConnectionRemoved` handlers are specifically omitted from this class,
-/// since the methods that emit these events also support a callback function.
+/// since the methods that emit these events also support a callback function,
+/// which is used in specific static interop definitions for these events.
 ///
 /// The `onError` handler is specifically omitted from this class.
 /// If the Gigya SDK fails to initialize, a timeout exception is thrown instead.
@@ -20,11 +16,16 @@ import '../response/response.dart';
 @JS()
 @anonymous
 @staticInterop
-class AddEventHandlersParameters {
+extension type AddEventHandlersParameters._(JSObject _) {
   /// Construct a new [AddEventHandlersParameters] instance.
+  /// 
+  /// The [onAfterResponse] function receives a nullable [JSAny] argument,
+  /// and has [JSVoid] as return type.
+  /// 
+  /// The [onLogin] function receives a [LoginEvent] argument,
+  /// and has [JSVoid] as return type.
   external factory AddEventHandlersParameters({
-    // TODO: the documentation does not specify the structure of `onAfterResponse` response.
-    void Function(Object? response)? onAfterResponse,
-    void Function(LoginGlobalEventResponse response)? onLogin,
+    JSFunction? onAfterResponse,
+    JSFunction? onLogin,
   });
 }
