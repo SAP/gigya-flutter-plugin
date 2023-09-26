@@ -1,23 +1,56 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-// TODO: refactor to extension type
 import '../../static_interop/screenset_event/screenset_events.dart';
 
-/// This class represents the parameters for the `Accounts.hideScreenset` method.
+/// The extension type that defines the parameters
+/// for the `Accounts.hideScreenset` method.
 @JS()
 @anonymous
 @staticInterop
-class HideScreensetParameters {
+extension type HideScreensetParameters._(JSObject _) {
   /// Construct a new [HideScreensetParameters] instance.
+  /// 
+  /// The given [screenSet] is the name of the screen set to hide.
   external factory HideScreensetParameters({String screenSet});
 }
 
-/// This class represents the parameters for the `Accounts.showScreenset` method.
+/// The extension type that defines the parameters
+/// for the `Accounts.showScreenset` method.
 @JS()
 @anonymous
 @staticInterop
-class ShowScreensetParameters {
+extension type ShowScreensetParameters._(JSObject _) {
   /// Construct a new [ShowScreensetParameters] instance.
+  /// 
+  /// The [onAfterScreenLoad] function receives an [AfterScreenLoadEvent] as argument,
+  /// and has [JSVoid] as return type.
+  /// 
+  /// The [onAfterSubmit] function receives an [AfterSubmitEvent] as argument,
+  /// and has [JSVoid] as return type.
+  /// 
+  /// The [onAfterValidation] function receives an [AfterValidationEvent] as argument,
+  /// and has [JSVoid] as return type.
+  /// 
+  /// The [onBeforeScreenLoad] function receives a [BeforeScreenLoadEvent] as argument,
+  /// and has a nullable [JSAny] as return type.
+  /// 
+  /// The [onBeforeSubmit] function receives a [BeforeSubmitEvent] as argument,
+  /// and has a boolean as return type.
+  /// 
+  /// The [onBeforeValidation] function receives a [BeforeValidationEvent] as argument,
+  /// and has a nullable [JSAny] as return type.
+  /// 
+  /// The [onError] function receives an [ErrorEvent] as argument,
+  /// and has a nullable [JSAny] as return type.
+  /// 
+  /// The [onFieldChanged] function receives a [FieldChangedEvent] as argument,
+  /// and has [JSVoid] as return type.
+  /// 
+  /// The [onHide] function receives a [HideEvent] as argument,
+  /// and has [JSVoid] as return type.
+  /// 
+  /// The [onSubmit] function receives a [SubmitEvent] as argument,
+  /// and has [JSVoid] as return type.
   external factory ShowScreensetParameters({
     String? authFlow,
     bool? communicationLangByScreenSet,
@@ -27,16 +60,16 @@ class ShowScreensetParameters {
     String? googlePlayAppID,
     String? lang,
     String? mobileScreenSet,
-    void Function(AfterScreenLoadEvent event) onAfterScreenLoad,
-    void Function(AfterSubmitEvent event) onAfterSubmit,
-    void Function(AfterValidationEvent event) onAfterValidation,
-    Object? Function(BeforeScreenLoadEvent event) onBeforeScreenLoad,
-    bool Function(BeforeSubmitEvent event) onBeforeSubmit,
-    Object? Function(BeforeValidationEvent event) onBeforeValidation,
-    Object? Function(ErrorEvent event) onError,
-    void Function(FieldChangedEvent event) onFieldChanged,
-    void Function(HideEvent event) onHide,
-    void Function(SubmitEvent event) onSubmit,
+    JSFunction onAfterScreenLoad,
+    JSFunction onAfterSubmit,
+    JSFunction onAfterValidation,
+    JSFunction onBeforeScreenLoad,
+    JSFunction onBeforeSubmit,
+    JSFunction onBeforeValidation,
+    JSFunction onError,
+    JSFunction onFieldChanged,
+    JSFunction onHide,
+    JSFunction onSubmit,
     String? redirectMethod,
     String? redirectURL,
     String? regSource,
