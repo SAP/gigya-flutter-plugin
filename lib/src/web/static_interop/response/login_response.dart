@@ -122,7 +122,7 @@ extension type LoginResponse(Response baseResponse) {
 @JS()
 @anonymous
 @staticInterop
-extension type LoginGlobalEventResponse(JSObject _) {
+extension type LoginEvent(JSObject _) {
   /// The type of login, which is either 'standard' or 'reAuth'.
   external String get loginMode;
 
