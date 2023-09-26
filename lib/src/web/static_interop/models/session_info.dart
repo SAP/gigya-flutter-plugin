@@ -6,10 +6,10 @@ import 'dart:js_interop';
 @staticInterop
 extension type SessionInfo(JSObject _) {
   /// The name of the session cookie.
-  external String get cookieName;
+  external String? get cookieName;
 
   /// The value of the session cookie.
-  external String get cookieValue;
+  external String? get cookieValue;
 
   /// Convert this session info into a [Map].
   Map<String, dynamic> toMap() {
