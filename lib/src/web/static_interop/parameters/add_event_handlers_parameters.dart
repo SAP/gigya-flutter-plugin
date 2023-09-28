@@ -16,7 +16,7 @@ import '../global_events/login_event.dart';
 @JS()
 @anonymous
 @staticInterop
-extension type AddEventHandlersParameters._(JSObject _) {
+extension type AddEventHandlersParameters._(JSObject _) implements JSObject {
   /// Construct a new [AddEventHandlersParameters] instance.
   /// 
   /// The [onAfterResponse] function receives a nullable [JSAny] argument,
