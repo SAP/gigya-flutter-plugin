@@ -1,32 +1,21 @@
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
+import 'dart:js_interop';
 
 import '../../../models/screenset_event.dart';
 import '../models/profile.dart';
 
-/// This typedef defines the function signature for the handler of the screenset before screen load event.
-///
-/// This function should return false to cancel the next screen load or true to continue loading the screen.
-/// This function can also return a [Map] with a `nextScreen` key to override the default screenset flow,
-/// by showing a different screen in a specific scenario.
-typedef BeforeScreenLoadEventHandler = Object? Function(ScreensetEvent event);
-
-/// The static interop class for the before screen load event of the `Account.showScreenset` event stream.
+/// The extension type for the before screen load event of the `Account.showScreenset` event stream.
 ///
 /// See: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/413a5b7170b21014bbc5a10ce4041860.html?locale=en-US#onbeforescreenload-event-data
 @JS()
 @anonymous
 @staticInterop
-class BeforeScreenLoadEvent {}
-
-/// This extension defines the static interop definition
-/// for the [BeforeScreenLoadEvent] class.
-extension BeforeScreenLoadEventExtension on BeforeScreenLoadEvent {
+extension type BeforeScreenLoadEvent(JSObject _) {
   /// The name of the current screen, before the screen switch.
   external String get currentScreen;
 
-  /// The site custom data fields related to the user, as known before the form submission.
-  external Object? get data;
+  /// The site custom data fields related to the user,
+  /// as known before the form submission.
+  external JSAny? get data;
 
   /// The name of the event.
   external String get eventName;
@@ -41,7 +30,7 @@ extension BeforeScreenLoadEventExtension on BeforeScreenLoadEvent {
   external Profile? get profile;
 
   /// The response of the previous screen's submit operation.
-  external Object? get response;
+  external JSAny? get response;
 
   /// The source plugin that generated this event.
   /// The value of this field is the name of the plugin's API method,
@@ -54,11 +43,11 @@ extension BeforeScreenLoadEventExtension on BeforeScreenLoadEvent {
       eventName,
       <String, dynamic>{
         'currentScreen': currentScreen,
-        'data': dartify(data),
+        'data': data.dartify(),
         'form': form,
         'nextScreen': nextScreen,
         'profile': profile?.toMap(),
-        'response': dartify(response),
+        'response': response.dartify(),
         'source': source,
       },
     );
