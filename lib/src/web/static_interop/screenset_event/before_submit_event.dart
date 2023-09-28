@@ -1,25 +1,15 @@
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
+import 'dart:js_interop';
 
 import '../../../models/screenset_event.dart';
 import '../models/profile.dart';
 
-/// This typedef defines the function signature for the handler of the screenset before submit event.
-///
-/// This function should return false if submission should be cancelled.
-typedef BeforeSubmitEventHandler = bool Function(ScreensetEvent event);
-
-/// The static interop class for the before submit event of the `Account.showScreenset` event stream.
+/// The extension type for the before submit event of the `Account.showScreenset` event stream.
 ///
 /// See: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/413a5b7170b21014bbc5a10ce4041860.html?locale=en-US#onbeforesubmit-event-data
 @JS()
 @anonymous
 @staticInterop
-class BeforeSubmitEvent {}
-
-/// This extension defines the static interop definition
-/// for the [BeforeSubmitEvent] class.
-extension BeforeSubmitEventExtension on BeforeSubmitEvent {
+extension type BeforeSubmitEvent(JSObject _) {
   /// The name of the event.
   external String get eventName;
 
@@ -27,7 +17,7 @@ extension BeforeSubmitEventExtension on BeforeSubmitEvent {
   external String get form;
 
   /// An object containing a copy of the form data that is about to be sent.
-  external Object? get formData;
+  external JSAny? get formData;
 
   /// The ID of the screen that is about to be loaded.
   external String? get nextScreen;
@@ -49,7 +39,7 @@ extension BeforeSubmitEventExtension on BeforeSubmitEvent {
       eventName,
       <String, dynamic>{
         'form': form,
-        'formData': dartify(formData),
+        'formData': formData.dartify(),
         'nextScreen': nextScreen,
         'profile': profile?.toMap(),
         'screen': screen,
