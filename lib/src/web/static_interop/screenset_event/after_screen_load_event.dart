@@ -1,25 +1,20 @@
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
+import 'dart:js_interop';
 
 import '../../../models/screenset_event.dart';
 import '../models/profile.dart';
 
-/// The static interop class for the after screen load event of the `Account.showScreenset` event stream.
+/// The extension type for the after screen load event of the `Account.showScreenset` event stream.
 ///
 /// See: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/413a5b7170b21014bbc5a10ce4041860.html?locale=en-US#onafterscreenload-event-data
 @JS()
 @anonymous
 @staticInterop
-class AfterScreenLoadEvent {}
-
-/// This extension defines the static interop definition
-/// for the [AfterScreenLoadEvent] class.
-extension AfterScreenLoadEventExtension on AfterScreenLoadEvent {
+extension type AfterScreenLoadEvent(JSObject _) {
   /// The name of the current screen.
   external String get currentScreen;
 
   /// An object containing any custom data fields related to the user.
-  external Object? get data;
+  external JSAny? get data;
 
   /// The name of the event.
   external String get eventName;
@@ -32,7 +27,7 @@ extension AfterScreenLoadEventExtension on AfterScreenLoadEvent {
   external Profile? get profile;
 
   /// The response of the previous screen's submit operation.
-  external Object? get response;
+  external JSAny? get response;
 
   /// The source plugin that generated this event.
   /// The value of this field is the name of the plugin's API method,
@@ -45,10 +40,10 @@ extension AfterScreenLoadEventExtension on AfterScreenLoadEvent {
       eventName,
       <String, dynamic>{
         'currentScreen': currentScreen,
-        'data': dartify(data),
+        'data': data.dartify(),
         'form': form,
         'profile': profile?.toMap(),
-        'response': dartify(response),
+        'response': response.dartify(),
         'source': source,
       },
     );
