@@ -1,28 +1,18 @@
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
+import 'dart:js_interop';
 
 import '../../../models/screenset_event.dart';
 import '../models/profile.dart';
 
-/// This typedef defines the function signature for the handler of the screenset before validation event.
-///
-/// This function should return a [Future] that resolves with a [Map] containing the error messages per field in the form.
-/// If there are no errors, this future should resolve with `null` as value.
-typedef BeforeValidationEventHandler = Future<Map<String, dynamic>?> Function(ScreensetEvent event);
-
-/// The static interop class for the before validation event of the `Account.showScreenset` event stream.
+/// The extension type for the before validation event of the `Account.showScreenset` event stream.
 ///
 /// See: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/413a5b7170b21014bbc5a10ce4041860.html?locale=en-US#onbeforevalidation
 @JS()
 @anonymous
 @staticInterop
-class BeforeValidationEvent {}
-
-/// This extension defines the static interop definition
-/// for the [BeforeValidationEvent] class.
-extension BeforeValidationEventExtension on BeforeValidationEvent {
-  /// The data object for the user. This will be empty if the user is not logged in.
-  external Object? get data;
+extension type BeforeValidationEvent(JSObject _) {
+  /// The data object for the user.
+  /// This will be empty if the user is not logged in.
+  external JSAny? get data;
 
   /// The name of the event.
   external String get eventName;
@@ -31,7 +21,7 @@ extension BeforeValidationEventExtension on BeforeValidationEvent {
   external String get form;
 
   /// An object containing the properties of the form fields.
-  external Object? get formData;
+  external JSAny? get formData;
 
   /// The profile object for the user. This will be empty if the user is not logged in.
   external Profile? get profile;
@@ -44,21 +34,24 @@ extension BeforeValidationEventExtension on BeforeValidationEvent {
   /// e.g., 'showLoginUI', 'showCommentsUI', etc.
   external String get source;
 
-  /// The subscriptions data for the user. This will be empty if the user is not logged in.
-  external Object? get subscriptions;
+  // TODO: This should be the subscriptions static interop type.
+
+  /// The subscriptions data for the user.
+  /// This will be empty if the user is not logged in.
+  external JSAny? get subscriptions;
 
   /// Serialize this event into a [ScreensetEvent].
   ScreensetEvent serialize() {
     return ScreensetEvent(
       eventName,
       <String, dynamic>{
-        'data': dartify(data),
+        'data': data.dartify(),
         'form': form,
-        'formData': dartify(formData),
+        'formData': formData.dartify(),
         'profile': profile?.toMap(),
         'screen': screen,
         'source': source,
-        'subscriptions': dartify(subscriptions),
+        'subscriptions': subscriptions.dartify(),
       },
     );
   }
