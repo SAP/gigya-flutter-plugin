@@ -1,23 +1,18 @@
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
+import 'dart:js_interop';
 
 import '../../../models/screenset_event.dart';
 import '../models/profile.dart';
 
-/// The static interop class for the after submit event of the `Account.showScreenset` event stream.
+/// The extension type for the after submit event of the `Account.showScreenset` event stream.
 ///
 /// See: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/413a5b7170b21014bbc5a10ce4041860.html?locale=en-US#onaftersubmit-event-data
 @JS()
 @anonymous
 @staticInterop
-class AfterSubmitEvent {}
-
-/// This extension defines the static interop definition
-/// for the [AfterSubmitEvent] class.
-extension AfterSubmitEventExtension on AfterSubmitEvent {
+extension type AfterSubmitEvent(JSObject _) {
   /// An object containing any custom data fields related to the user,
   /// as known after the form submission.
-  external Object? get data;
+  external JSAny? get data;
 
   /// The name of the event.
   external String get eventName;
@@ -30,7 +25,7 @@ extension AfterSubmitEventExtension on AfterSubmitEvent {
   external Profile? get profile;
 
   /// The response of the form's submit operation.
-  external Object? get response;
+  external JSAny? get response;
 
   /// The name of the screen.
   external String get screen;
@@ -45,10 +40,10 @@ extension AfterSubmitEventExtension on AfterSubmitEvent {
     return ScreensetEvent(
       eventName,
       <String, dynamic>{
-        'data': dartify(data),
+        'data': data.dartify(),
         'form': form,
         'profile': profile?.toMap(),
-        'response': dartify(response),
+        'response': response.dartify(),
         'screen': screen,
         'source': source,
       },
