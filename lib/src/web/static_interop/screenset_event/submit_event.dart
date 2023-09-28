@@ -1,24 +1,19 @@
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
+import 'dart:js_interop';
 
 import '../../../models/screenset_event.dart';
 
-/// The static interop class for the before submit event of the `Account.showScreenset` event stream.
+/// The extension type for the submit event of the `Account.showScreenset` event stream.
 ///
 /// See: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/413a5b7170b21014bbc5a10ce4041860.html?locale=en-US#onsubmit-event-data
 @JS()
 @anonymous
 @staticInterop
-class SubmitEvent {}
-
-/// This extension defines the static interop definition
-/// for the [SubmitEvent] class.
-extension SubmitEventExtension on SubmitEvent {
+extension type SubmitEvent(JSObject _) {
   /// An object that contains the user's account information.
   /// Only the `data`, `profile` and `subscriptions` are included.
   ///
   /// This is null if the user is not logged in.
-  external Object? get accountInfo;
+  external JSAny? get accountInfo;
 
   /// The name of the event.
   external String get eventName;
@@ -39,7 +34,7 @@ extension SubmitEventExtension on SubmitEvent {
     return ScreensetEvent(
       eventName,
       <String, dynamic>{
-        'accountInfo': dartify(accountInfo),
+        'accountInfo': accountInfo.dartify(),
         'form': form,
         'screen': screen,
         'source': source,
