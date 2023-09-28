@@ -7,19 +7,25 @@ import '../../static_interop/screenset_event/screenset_events.dart';
 @JS()
 @anonymous
 @staticInterop
-extension type HideScreensetParameters._(JSObject _) {
+extension type HideScreensetParameters._(JSObject _) implements JSObject {
   /// Construct a new [HideScreensetParameters] instance.
   /// 
   /// The given [screenSet] is the name of the screen set to hide.
   external factory HideScreensetParameters({String screenSet});
 }
 
+// TODO: move DartDoc comments for the ShowScreensetParameters function arguments
+// The function arguments have some documentation, which is only relevant for the constructor,
+// since the type has no fields. However, DartDoc does not yet support documenting constructor arguments.
+//
+// See https://github.com/dart-lang/dartdoc/issues/1259
+
 /// The extension type that defines the parameters
 /// for the `Accounts.showScreenset` method.
 @JS()
 @anonymous
 @staticInterop
-extension type ShowScreensetParameters._(JSObject _) {
+extension type ShowScreensetParameters._(JSObject _) implements JSObject {
   /// Construct a new [ShowScreensetParameters] instance.
   /// 
   /// The [onAfterScreenLoad] function receives an [AfterScreenLoadEvent] as argument,
