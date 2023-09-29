@@ -257,48 +257,51 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     required String password,
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
+    // TODO: make `initRegistration` public
     final Completer<String> initRegistrationCompleter = Completer<String>();
 
-    gigyaWebSdk.accounts.initRegistration(
+    // Start registration by retrieving the regToken.
+    GigyaWebSdk.instance.accounts.initRegistration.callAsFunction(
+      null,
       InitRegistrationParameters(
         isLite: parameters['isLite'] as bool?,
-        callback: allowInterop((InitRegistrationResponse response) {
-          if (initRegistrationCompleter.isCompleted) {
-            return;
-          }
+        callback: allowInterop(
+          (InitRegistrationResponse response) {
+            if (initRegistrationCompleter.isCompleted) {
+              return;
+            }
 
-          final String regToken = response.regToken ?? '';
-
-          if (response.errorCode == 0 && regToken.isNotEmpty) {
-            initRegistrationCompleter.complete(regToken);
-          } else {
-            // If the registration token is empty, the next step will fail.
-            // Abort with an error instead.
-            initRegistrationCompleter.completeError(
-              GigyaError(
-                apiVersion: response.apiVersion,
-                callId: response.callId,
-                errorCode: response.errorCode,
-                errorDetails: response.errorDetails,
-                registrationToken: response.regToken,
-              ),
-            );
-          }
-        }),
+            if (response.baseResponse.errorCode == 0) {
+              initRegistrationCompleter.complete(response.regToken ?? '');
+            } else {
+              initRegistrationCompleter.completeError(
+                GigyaError(
+                  apiVersion: response.baseResponse.apiVersion,
+                  callId: response.baseResponse.callId,
+                  details: response.baseResponse.details,
+                  errorCode: response.baseResponse.errorCode,
+                ),
+              );
+            }
+          },
+        ).toJS,
       ),
     );
 
-    final String registrationToken = await initRegistrationCompleter.future;
-    final Map<String, dynamic>? profile = parameters['profile'] as Map<String, dynamic>?;
+    final String regToken = await initRegistrationCompleter.future;
 
-    final Completer<Map<String, dynamic>> registrationCompleter = Completer<Map<String, dynamic>>();
+    final Map<String, Object?>? profile = parameters['profile'] as Map<String, Object?>?;
+    final Completer<Map<String, Object?>> registrationCompleter = Completer<Map<String, Object?>>();
 
-    gigyaWebSdk.accounts.register(
+    GigyaWebSdk.instance.accounts.register.callAsFunction(
+      null,
       RegistrationParameters(
         // Explicitly finalize using the register endpoint.
         // This way, calling `finalizeRegistration` is not needed.
+        // For lite accounts, the `accounts.register` endpoint is never used anyway.
+        // That flow uses `accounts.initRegistration` and `accounts.setAccountInfo` instead.
         finalizeRegistration: true,
-        regToken: registrationToken,
+        regToken: regToken,
         email: loginId,
         password: password,
         captchaToken: parameters['captchaToken'] as String?,
@@ -310,25 +313,31 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
         secretQuestion: parameters['secretQuestion'] as String?,
         sessionExpiration: parameters['sessionExpiration'] as int?,
         siteUID: parameters['siteUID'] as String?,
-        callback: allowInterop((LoginResponse response) {
-          if (registrationCompleter.isCompleted) {
-            return;
-          }
+        callback: allowInterop(
+          (LoginResponse response) {
+            if (registrationCompleter.isCompleted) {
+              return;
+            }
 
-          if (response.errorCode == 0) {
-            registrationCompleter.complete(response.toMap());
-          } else {
-            registrationCompleter.completeError(
-              GigyaError(
-                apiVersion: response.apiVersion,
-                callId: response.callId,
-                errorCode: response.errorCode,
-                errorDetails: response.errorDetails,
-                registrationToken: registrationToken,
-              ),
-            );
-          }
-        }),
+            if (response.baseResponse.errorCode == 0) {
+              registrationCompleter.complete(response.toMap());
+            } else {
+              // The error response does not seem to return the regToken.
+              // Forward it manually.
+              registrationCompleter.completeError(
+                GigyaError(
+                  apiVersion: response.baseResponse.apiVersion,
+                  callId: response.baseResponse.callId,
+                  details: <String, Object?>{
+                    ...response.baseResponse.details,
+                    'regToken': regToken,
+                  },
+                  errorCode: response.baseResponse.errorCode,
+                ),
+              );
+            }
+          },
+        ).toJS,
       ),
     );
 
