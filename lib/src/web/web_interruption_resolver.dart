@@ -10,9 +10,8 @@ import 'static_interop/models/conflicting_account.dart';
 import 'static_interop/parameters/conflicting_account.dart';
 import 'static_interop/response/response.dart';
 
-// TODO: implement linkToSite & linkToSocial in _StaticInteropLinkAccountResolver
-// TODO: return `_StaticInteropLinkAccountResolver` when required
-// TODO: implement setAccount in _StaticInteropPendingRegistrationResolver, using `account.setAccountInfo` endpoint
+// TODO: implement linkToSite & linkToSocial in _LinkAccountResolver
+// TODO: return `_LinkAccountResolver` when required
 
 /// This class represents an [InterruptionResolver]
 /// that uses static interop for its implementation.
