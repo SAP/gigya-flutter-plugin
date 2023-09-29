@@ -128,6 +128,11 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
+  Future<String> initRegistration({required bool isLite}) {
+    throw UnsupportedError('Calling initRegistration() is only supported on the web.');
+  }
+
+  @override
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
