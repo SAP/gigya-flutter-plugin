@@ -18,6 +18,16 @@ extension type LoginResponse(Response baseResponse) {
   /// The timestamp of the creation of the user.
   external String? get created;
 
+  /// Get the error details for this response.
+  ///
+  /// The [regToken] is included in the details.
+  Map<String, Object?> get details {
+    return <String, Object?>{
+      ...baseResponse.details,
+      'regToken': regToken,
+    };
+  }  
+
   /// The verified and unverified email addresses of the user.
   external Emails? get emails;
 

@@ -158,7 +158,7 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
             GigyaError(
               apiVersion: response.baseResponse.apiVersion,
               callId: response.baseResponse.callId,
-              details: response.baseResponse.details,
+              details: response.details,
               errorCode: response.baseResponse.errorCode,
             ),
           );
