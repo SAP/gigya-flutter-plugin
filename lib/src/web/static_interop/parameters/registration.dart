@@ -1,47 +1,52 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
 import '../models/profile.dart';
 import '../response/login_response.dart';
 import '../response/registration_response.dart';
 
-// TODO: convert registration params to extension types
-
-/*
-
-/// This class represents the parameters for the `Accounts.finalizeRegistration` method.
+/// The extension type for the parameters for the `Accounts.finalizeRegistration` method.
 @JS()
 @anonymous
 @staticInterop
-class FinalizeRegistrationParameters {
+extension type FinalizeRegistrationParameters._(JSObject _) implements JSObject {
   /// Create a new [FinalizeRegistrationParameters] instance.
+  /// 
+  /// The [callback] function receives a [LoginResponse] as argument
+  /// and has [JSVoid] as return type.
   external factory FinalizeRegistrationParameters({
-    void Function(LoginResponse response) callback,
+    JSFunction callback,
     bool allowAccountsLinking,
     String? include,
     String regToken,
   });
 }
 
-/// This class represents the parameters for the `Accounts.initRegistration` method.
+/// The extension type for the parameters for the `Accounts.initRegistration` method.
 @JS()
 @anonymous
 @staticInterop
-class InitRegistrationParameters {
+extension type InitRegistrationParameters._(JSObject _) implements JSObject {
   /// Create a new [InitRegistrationParameters] instance.
+  /// 
+  /// The [callback] function receives a [InitRegistrationResponse] as argument
+  /// and has [JSVoid] as return type.
   external factory InitRegistrationParameters({
-    void Function(InitRegistrationResponse response) callback,
+    JSFunction callback,
     bool? isLite,
   });
 }
 
-/// This class represents the parameters for the `Accounts.registration` method.
+/// The extension type for the parameters for the `Accounts.registration` method.
 @JS()
 @anonymous
 @staticInterop
-class RegistrationParameters {
+extension type RegistrationParameters._(JSObject _) implements JSObject {
   /// Create a new [RegistrationParameters] instance.
+  /// 
+  /// The [callback] function receives a [LoginResponse] as argument
+  /// and has [JSVoid] as return type.
   external factory RegistrationParameters({
-    void Function(LoginResponse response) callback,
+    JSFunction callback,
     String? captchaToken,
     String email,
     bool finalizeRegistration,
@@ -57,4 +62,3 @@ class RegistrationParameters {
     String? siteUID,
   });
 }
-*/
