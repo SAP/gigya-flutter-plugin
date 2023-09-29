@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:js_interop';
-import 'package:js/js.dart';
+import 'package:js/js_util.dart' show allowInterop;
 
 import '../models/conflicting_account.dart';
 import '../models/gigya_error.dart';

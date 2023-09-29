@@ -2,7 +2,7 @@ import 'dart:async';
 import 'dart:js_interop';
 
 import 'package:flutter_web_plugins/flutter_web_plugins.dart';
-import 'package:js/js.dart';
+import 'package:js/js_util.dart' show allowInterop;
 import 'package:web/web.dart' as web;
 
 import '../models/gigya_error.dart';
