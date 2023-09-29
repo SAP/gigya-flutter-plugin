@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:js_interop';
-import 'dart:js_util';
+
+import 'package:js/js_util.dart' show allowInterop;
 
 import '../models/screenset_event.dart';
 import 'static_interop/gigya_web_sdk.dart';
