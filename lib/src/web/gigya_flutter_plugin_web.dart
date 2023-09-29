@@ -74,6 +74,40 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }
 
   @override
+  Future<String> initRegistration({required bool isLite}) {
+    final Completer<String> initRegistrationCompleter = Completer<String>();
+
+    GigyaWebSdk.instance.accounts.initRegistration.callAsFunction(
+      null,
+      InitRegistrationParameters(
+        isLite: isLite,
+        callback: allowInterop(
+          (InitRegistrationResponse response) {
+            if (initRegistrationCompleter.isCompleted) {
+              return;
+            }
+
+            if (response.baseResponse.errorCode == 0) {
+              initRegistrationCompleter.complete(response.regToken ?? '');
+            } else {
+              initRegistrationCompleter.completeError(
+                GigyaError(
+                  apiVersion: response.baseResponse.apiVersion,
+                  callId: response.baseResponse.callId,
+                  details: response.baseResponse.details,
+                  errorCode: response.baseResponse.errorCode,
+                ),
+              );
+            }
+          },
+        ).toJS,
+      ),
+    );
+
+    return initRegistrationCompleter.future;
+  }
+
+  @override
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
@@ -259,38 +293,15 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     required String password,
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
-    // TODO: make `initRegistration` public
-    final Completer<String> initRegistrationCompleter = Completer<String>();
-
     // Start registration by retrieving the regToken.
-    GigyaWebSdk.instance.accounts.initRegistration.callAsFunction(
-      null,
-      InitRegistrationParameters(
-        isLite: parameters['isLite'] as bool?,
-        callback: allowInterop(
-          (InitRegistrationResponse response) {
-            if (initRegistrationCompleter.isCompleted) {
-              return;
-            }
+    // If it was already provided, skip the initRegistration step.
+    String regToken = parameters['regToken'] as String? ?? '';
 
-            if (response.baseResponse.errorCode == 0) {
-              initRegistrationCompleter.complete(response.regToken ?? '');
-            } else {
-              initRegistrationCompleter.completeError(
-                GigyaError(
-                  apiVersion: response.baseResponse.apiVersion,
-                  callId: response.baseResponse.callId,
-                  details: response.baseResponse.details,
-                  errorCode: response.baseResponse.errorCode,
-                ),
-              );
-            }
-          },
-        ).toJS,
-      ),
-    );
-
-    final String regToken = await initRegistrationCompleter.future;
+    if (regToken.isEmpty) {
+      regToken = await initRegistration(
+        isLite: parameters['isLite'] as bool? ?? false,
+      );
+    }
 
     final Map<String, Object?>? profile = parameters['profile'] as Map<String, Object?>?;
     final Completer<Map<String, Object?>> registrationCompleter = Completer<Map<String, Object?>>();

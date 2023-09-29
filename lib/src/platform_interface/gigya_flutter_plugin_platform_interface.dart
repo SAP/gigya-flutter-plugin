@@ -90,6 +90,19 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError('getSession() is not implemented.');
   }
 
+  /// Start a registration flow.
+  ///
+  /// The [isLite] parameter determines if a full
+  /// or a lite account registration should be started.
+  ///
+  /// This is typically only required for lite accounts,
+  /// as [register] automatically starts a registration.
+  Future<String> initRegistration({
+    required bool isLite,
+  }) {
+    throw UnimplementedError('initRegistration() is not implemented.');
+  }
+
   /// Initialize the Gigya SDK with the given [apiKey] and [apiDomain].
   ///
   /// If [forceLogout] is true, the user will be logged out.
