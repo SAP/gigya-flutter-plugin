@@ -91,4 +91,6 @@ class _LinkAccountResolver extends LinkAccountResolver {
 
 class _PendingRegistrationResolver extends PendingRegistrationResolver {
   const _PendingRegistrationResolver();
+
+  // TODO: implement set account info & call it here
 }
