@@ -41,30 +41,32 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }) {
     final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
 
-    gigyaWebSdk.accounts.finalizeRegistration(
+    GigyaWebSdk.instance.accounts.finalizeRegistration.callAsFunction(
+      null,
       FinalizeRegistrationParameters(
         allowAccountsLinking: allowAccountsLinking,
         include: include,
         regToken: registrationToken,
-        callback: allowInterop((LoginResponse response) {
-          if (completer.isCompleted) {
-            return;
-          }
+        callback: allowInterop(
+          (LoginResponse response) {
+            if (completer.isCompleted) {
+              return;
+            }
 
-          if (response.errorCode == 0) {
-            completer.complete(response.toMap());
-          } else {
-            completer.completeError(
-              GigyaError(
-                apiVersion: response.apiVersion,
-                callId: response.callId,
-                errorCode: response.errorCode,
-                errorDetails: response.errorDetails,
-                registrationToken: registrationToken,
-              ),
-            );
-          }
-        }),
+            if (response.baseResponse.errorCode == 0) {
+              completer.complete(response.toMap());
+            } else {
+              completer.completeError(
+                GigyaError(
+                  apiVersion: response.baseResponse.apiVersion,
+                  callId: response.baseResponse.callId,
+                  details: response.baseResponse.details,
+                  errorCode: response.baseResponse.errorCode,
+                ),
+              );
+            }
+          },
+        ).toJS,
       ),
     );
 
