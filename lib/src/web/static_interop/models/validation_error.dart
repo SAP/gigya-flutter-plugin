@@ -1,6 +1,6 @@
 import 'dart:js_interop';
 
-/// The extensino type for the validation error object.
+/// The extension type for the validation error object.
 @JS()
 @anonymous
 @staticInterop
