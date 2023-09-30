@@ -8,7 +8,7 @@ import 'static_interop/models/profile.dart';
 import 'static_interop/parameters/account.dart';
 import 'static_interop/response/account_response.dart';
 
-/// This class handles the updating or retrieving of, account information.
+/// This class handles updating and retrieving account information for the web.
 class WebAccountDelegate {
   /// Create an instance of [WebAccountDelegate].
   const WebAccountDelegate();
