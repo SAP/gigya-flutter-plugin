@@ -115,28 +115,31 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }) async {
     final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
 
-    gigyaWebSdk.accounts.getAccountInfo(
+    GigyaWebSdk.instance.accounts.getAccountInfo.callAsFunction(
+      null,
       GetAccountParameters(
         extraProfileFields: parameters['extraProfileFields'] as String?,
         include: parameters['include'] as String?,
-        callback: allowInterop((AccountInfoResponse response) {
-          if (completer.isCompleted) {
-            return;
-          }
+        callback: allowInterop(
+          (GetAccountResponse response) {
+            if (completer.isCompleted) {
+              return;
+            }
 
-          if (response.errorCode == 0) {
-            completer.complete(StaticInteropUtils.responseToMap(response));
-          } else {
-            completer.completeError(
-              GigyaError(
-                apiVersion: response.apiVersion,
-                callId: response.callId,
-                errorCode: response.errorCode,
-                errorDetails: response.errorDetails,
-              ),
-            );
-          }
-        }),
+            if (response.accountResponse.baseResponse.errorCode == 0) {
+              completer.complete(response.toMap());
+            } else {
+              completer.completeError(
+                GigyaError(
+                  apiVersion: response.accountResponse.baseResponse.apiVersion,
+                  callId: response.accountResponse.baseResponse.callId,
+                  details: response.accountResponse.baseResponse.details,
+                  errorCode: response.accountResponse.baseResponse.errorCode,
+                ),
+              );
+            }
+          },
+        ).toJS,
       ),
     );
 
