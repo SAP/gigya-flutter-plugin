@@ -25,7 +25,7 @@ extension type ConflictingAccountParameters._(JSObject _) implements JSObject {
 extension type GetAccountParameters._(JSObject _) implements JSObject {
   /// Create a [GetAccountParameters] instance.
   /// 
-  /// The [callback] receives an [AccountInfoResponse] as argument,
+  /// The [callback] receives a [GetAccountResponse] as argument,
   /// and has [JSVoid] as return type.
   external factory GetAccountParameters({
     JSFunction callback,
