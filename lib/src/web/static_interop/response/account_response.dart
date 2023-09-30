@@ -138,18 +138,21 @@ extension type GetAccountResponse(AccountResponse accountResponse) {
 @anonymous
 @staticInterop
 extension type SetAccountResponse(Response baseResponse) {
+  /// Get the error details.
+  /// 
+  /// The error details will include the [validationErrors].
+  Map<String, Object?> get details {
+    return <String, Object?>{
+      ...baseResponse.details,
+      'validationErrors': validationErrors.map((ValidationError e) => e.toMap()).toList(),
+    };
+  }
+
   @JS('validationErrors')
   external JSArray? get _validationErrors;
 
   /// The validation errors for the set account payload.
   List<ValidationError> get validationErrors {
     return _validationErrors?.toDart.cast<ValidationError>() ?? const <ValidationError>[];
-  }
-
-  /// Convert this response to a [Map].
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      'validationErrors': validationErrors.map((ValidationError e) => e.toMap()).toList(),
-    };
   }
 }
