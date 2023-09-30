@@ -11,13 +11,13 @@ import '../services/interruption_resolver.dart';
 import 'enums/web_error_code.dart';
 import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/models/profile.dart';
-import 'static_interop/parameters/account.dart';
 import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
 import 'static_interop/parameters/registration.dart';
 import 'static_interop/response/registration_response.dart';
 import 'static_interop/response/response.dart';
 import 'static_interop/window.dart';
+import 'web_account_delegate.dart';
 import 'web_interruption_resolver.dart';
 
 /// An implementation of [GigyaFlutterPluginPlatform] that uses JavaScript static interop.
@@ -33,6 +33,8 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   InterruptionResolverFactory get interruptionResolverFactory {
     return const WebInterruptionResolverFactory();
   }
+
+  final WebAccountDelegate _accountDelegate = const WebAccountDelegate();
 
   @override
   Future<Map<String, dynamic>> finalizeRegistration(
@@ -113,37 +115,10 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     bool invalidate = false,
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
-    final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
-
-    GigyaWebSdk.instance.accounts.getAccountInfo.callAsFunction(
-      null,
-      GetAccountParameters(
-        extraProfileFields: parameters['extraProfileFields'] as String?,
-        include: parameters['include'] as String?,
-        callback: allowInterop(
-          (GetAccountResponse response) {
-            if (completer.isCompleted) {
-              return;
-            }
-
-            if (response.accountResponse.baseResponse.errorCode == 0) {
-              completer.complete(response.toMap());
-            } else {
-              completer.completeError(
-                GigyaError(
-                  apiVersion: response.accountResponse.baseResponse.apiVersion,
-                  callId: response.accountResponse.baseResponse.callId,
-                  details: response.accountResponse.baseResponse.details,
-                  errorCode: response.accountResponse.baseResponse.errorCode,
-                ),
-              );
-            }
-          },
-        ).toJS,
-      ),
+    return _accountDelegate.getAccount(
+      invalidate: invalidate,
+      parameters: parameters,
     );
-
-    return completer.future;
   }
 
   @override
@@ -398,50 +373,6 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
 
   @override
   Future<Map<String, dynamic>> setAccount(Map<String, dynamic> account) {
-    final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
-
-    final Map<String, dynamic>? profile = account['profile'] as Map<String, dynamic>?;
-    final Map<String, dynamic>? data = account['data'] as Map<String, dynamic>?;
-
-    GigyaWebSdk.instance.accounts.setAccountInfo.callAsFunction(
-      null,
-      SetAccountParameters(
-        addLoginEmails: account['addLoginEmails'] as String?,
-        conflictHandling: account['conflictHandling'] as String?,
-        data: data.jsify(),
-        newPassword: account['newPassword'] as String?,
-        password: account['password'] as String?,
-        profile: profile == null ? null : Profile.fromMap(profile),
-        removeLoginEmails: account['removeLoginEmails'] as String?,
-        requirePasswordChange: account['requirePasswordChange'] as bool?,
-        secretAnswer: account['secretAnswer'] as String?,
-        secretQuestion: account['secretQuestion'] as String?,
-        username: account['username'] as String?,
-        callback: allowInterop(
-          (SetAccountResponse response) {
-            if (completer.isCompleted) {
-              return;
-            }
-
-            // If the call succeeded, there is no data of value to send back.
-            // However, if the call failed, the error details will include the validation errors.
-            if (response.baseResponse.errorCode == 0) {
-              completer.complete(const <String, dynamic>{});
-            } else {
-              completer.completeError(
-                GigyaError(
-                  apiVersion: response.baseResponse.apiVersion,
-                  callId: response.baseResponse.callId,
-                  details: response.details,
-                  errorCode: response.baseResponse.errorCode,
-                ),
-              );
-            }
-          },
-        ).toJS,
-      ),
-    );
-
-    return completer.future;
+    return _accountDelegate.setAccount(account);
   }
 }
