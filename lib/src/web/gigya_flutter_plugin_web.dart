@@ -218,7 +218,8 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }) {
     final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
 
-    gigyaWebSdk.accounts.socialLogin(
+    GigyaWebSdk.instance.accounts.socialLogin.callAsFunction(
+      null,
       SocialLoginParameters(
         authFlow: parameters['authFlow'] as String?,
         conflictHandling: parameters['conflictHandling'] as String?,
@@ -237,20 +238,19 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
             return;
           }
 
-          if (response.errorCode == 0) {
+          if (response.baseResponse.errorCode == 0) {
             completer.complete(response.toMap());
           } else {
             completer.completeError(
               GigyaError(
-                apiVersion: response.apiVersion,
-                callId: response.callId,
-                errorCode: response.errorCode,
-                errorDetails: response.errorDetails,
-                registrationToken: response.regToken,
+                apiVersion: response.baseResponse.apiVersion,
+                callId: response.baseResponse.callId,
+                details: response.details,
+                errorCode: response.baseResponse.errorCode,
               ),
             );
           }
-        }),
+        }).toJS,
       ),
     );
 

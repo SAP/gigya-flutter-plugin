@@ -33,5 +33,8 @@ extension type Accounts(JSObject _) {
   external Session get session;
 
   /// Login using a social provider.
-  external void Function(SocialLoginParameters parameters) socialLogin;
+  /// 
+  /// This function receives a [SocialLoginParameters] instance as argument,
+  /// and has [JSVoid] as return type.
+  external JSFunction socialLogin;
 }

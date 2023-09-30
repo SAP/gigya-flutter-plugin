@@ -24,15 +24,18 @@ extension type LoginParameters._(JSObject _) implements JSObject {
   });
 }
 
-/// This class represents the parameters for the `Accounts.socialLogin` method.
+/// This extension type represents the parameters for the `Accounts.socialLogin` method.
 @JS()
 @anonymous
 @staticInterop
-class SocialLoginParameters {
+extension type SocialLoginParameters._(JSObject _) implements JSObject {
   /// Create a new [SocialLoginParameters] instance.
+  /// 
+  /// The [callback] receives a [LoginResponse] as argument,
+  /// and has [JSVoid] as return type.
   external factory SocialLoginParameters({
     String? authFlow,
-    void Function(LoginResponse response) callback,
+    JSFunction callback,
     String? conflictHandling,
     String? extraFields,
     String? facebookExtraPermissions,
