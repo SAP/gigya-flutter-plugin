@@ -4,6 +4,7 @@ import '../models/account_login_id.dart';
 import '../models/emails.dart';
 import '../models/location.dart';
 import '../models/profile.dart';
+import '../models/validation_error.dart';
 import 'response.dart';
 
 // TODO: preferences, subscriptions should be in `AccountResponse`
@@ -126,6 +127,29 @@ extension type GetAccountResponse(AccountResponse baseResponse) {
     return <String, dynamic>{
       ...baseResponse.toMap(),
       'inTransition': inTransition,
+    };
+  }
+}
+
+/// The extension type for the Gigya Set Account API response.
+///
+/// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/4139777d70b21014bbc5a10ce4041860.html?locale=en-US#response-object-data-members
+@JS()
+@anonymous
+@staticInterop
+extension type SetAccountResponse(Response baseResponse) {
+  @JS('validationErrors')
+  external JSArray? get _validationErrors;
+
+  /// The validation errors for the set account payload.
+  List<ValidationError> get validationErrors {
+    return _validationErrors?.toDart.cast<ValidationError>() ?? const <ValidationError>[];
+  }
+
+  /// Convert this response to a [Map].
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'validationErrors': validationErrors.map((ValidationError e) => e.toMap()).toList(),
     };
   }
 }
