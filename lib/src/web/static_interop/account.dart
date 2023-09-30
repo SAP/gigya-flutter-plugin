@@ -58,5 +58,8 @@ extension type Accounts(JSObject _) {
   external Session get session;
 
   /// Update the user's account info.
-  external void Function(SetAccountParameters parameters) setAccountInfo;
+  /// 
+  /// This function receives a [SetAccountParameters] instance as argument,
+  /// and has [JSVoid] as return type.
+  external JSFunction setAccountInfo;
 }
