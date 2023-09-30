@@ -112,7 +112,7 @@ extension type AccountResponse(Response baseResponse) {
 @JS()
 @anonymous
 @staticInterop
-extension type GetAccountResponse(AccountResponse baseResponse) {
+extension type GetAccountResponse(AccountResponse accountResponse) {
   /// Whether this account is currently in transition.
   ///
   /// An account that is in transition cannot be modified.
@@ -125,7 +125,7 @@ extension type GetAccountResponse(AccountResponse baseResponse) {
   /// Convert this response to a [Map].
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
-      ...baseResponse.toMap(),
+      ...accountResponse.toMap(),
       'inTransition': inTransition,
     };
   }
