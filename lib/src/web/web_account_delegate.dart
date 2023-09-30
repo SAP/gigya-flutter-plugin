@@ -15,7 +15,6 @@ class WebAccountDelegate {
 
   /// Get the account information for the current user.
   Future<Map<String, dynamic>> getAccount({
-    bool invalidate = false,
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
     final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
