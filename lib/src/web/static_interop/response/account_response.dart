@@ -1,5 +1,4 @@
-import 'package:js/js.dart';
-import 'package:js/js_util.dart';
+import 'dart:js_interop';
 
 import '../models/account_login_id.dart';
 import '../models/emails.dart';
@@ -9,32 +8,16 @@ import 'response.dart';
 
 // TODO: preferences, subscriptions should be in `AccountResponse`
 
-// TODO: make the `BaseAccountResponse` class sealed once Class Modifiers is available
-
-/// The static interop class for the base account response.
+/// The extension type for the account response.
 @JS()
 @anonymous
 @staticInterop
-class BaseAccountResponse extends Response {}
-
-/// This extension defines the static interop definition
-/// for the [BaseAccountResponse] class.
-extension BaseAccountResponseExtension on BaseAccountResponse {
+extension type AccountResponse(Response baseResponse) {
   /// The timestamp of the creation of the user.
   external String? get created;
 
-  @JS('data')
-  external Object? get _data;
-
   /// The custom user data that is not part of the [profile].
-  ///
-  /// Any [List] or [Map] values within this map will have `Object?` as type argument(s).
-  Map<String, dynamic>? get data {
-    // The underlying structure of `data` is a flexible, user-defined definition
-    // and does not fit within a specific static interop definition.
-    // Instead use `dartify` to convert the Javascript Object into a Map.
-    return (dartify(_data) as Map<Object?, Object?>?)?.cast<String, dynamic>();
-  }
+  external JSAny? get data;
 
   /// The verified and unverified email addresses of the user.
   external Emails? get emails;
@@ -59,10 +42,12 @@ extension BaseAccountResponseExtension on BaseAccountResponse {
   external String? get lastUpdated;
 
   @JS('loginIDs')
-  external List<dynamic>? get _loginIds;
+  external JSArray? get _loginIds;
 
   /// The login IDs for the user.
-  List<AccountLoginId>? get loginIds => _loginIds?.cast<AccountLoginId>();
+  List<AccountLoginId>? get loginIds {
+    return _loginIds?.toDart.cast<AccountLoginId>();
+  }  
 
   /// The login provider that was last used to log in.
   external String? get loginProvider;
@@ -80,8 +65,7 @@ extension BaseAccountResponseExtension on BaseAccountResponse {
   external String? get regSource;
 
   /// The timestamp of the [UIDSignature].
-  /// This value can be a [String] or a [num].
-  external Object? get signatureTimestamp;
+  external String? get signatureTimestamp;
 
   /// The comma separated list of social providers linked to this user.
   external String? get socialProviders;
@@ -94,17 +78,40 @@ extension BaseAccountResponseExtension on BaseAccountResponse {
 
   /// The timestamp when the user was verified.
   external String? get verified;
+
+  /// Convert this response to a [Map].
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'created': created,
+      'data': data.dartify(),
+      'emails': emails?.toMap(),
+      'isActive': isActive,
+      'isRegistered': isRegistered,
+      'isVerified': isVerified,
+      'lastLogin': lastLogin,
+      'lastLoginLocation': lastLoginLocation?.toMap(),
+      'lastUpdated': lastUpdated,
+      if (loginIds != null)
+        'loginIds': loginIds!.map((AccountLoginId id) => id.toMap()).toList(),
+      'loginProvider': loginProvider,
+      'oldestDataUpdated': oldestDataUpdated,
+      'profile': profile?.toMap(),
+      'registered': registered,
+      'regSource': regSource,
+      'signatureTimestamp': signatureTimestamp,
+      'socialProviders': socialProviders,
+      'UID': UID,
+      'UIDSignature': UIDSignature,
+      'verified': verified,
+    };
+  }  
 }
 
-/// The static interop class for the account info response.
+/// The extension type for the get account response.
 @JS()
 @anonymous
 @staticInterop
-class AccountInfoResponse extends BaseAccountResponse {}
-
-/// This extension defines the static interop definition
-/// for the [AccountInfoResponse] class.
-extension AccountInfoResponseExtension on AccountInfoResponse {
+extension type GetAccountResponse(AccountResponse baseResponse) {
   /// Whether this account is currently in transition.
   ///
   /// An account that is in transition cannot be modified.
@@ -113,4 +120,12 @@ extension AccountInfoResponseExtension on AccountInfoResponse {
   // TODO: add lockedUntil when DateTime static interop is fixed.
   // Currently it is not supported, so add a static interop type for the date class
   // See: https://github.com/dart-lang/sdk/issues/52021
+
+  /// Convert this response to a [Map].
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      ...baseResponse.toMap(),
+      'inTransition': inTransition,
+    };
+  }
 }
