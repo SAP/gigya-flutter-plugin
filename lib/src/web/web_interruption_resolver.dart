@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:js_interop';
+import 'package:gigya_flutter_plugin/src/web/web_account_delegate.dart';
 import 'package:js/js_util.dart' show allowInterop;
 
 import '../models/conflicting_account.dart';
@@ -91,5 +92,10 @@ class _LinkAccountResolver extends LinkAccountResolver {
 class _PendingRegistrationResolver extends PendingRegistrationResolver {
   const _PendingRegistrationResolver();
 
-  // TODO: implement set account info & call it here
+  final WebAccountDelegate _accountDelegate = const WebAccountDelegate();
+
+  @override
+  Future<Map<String, dynamic>> setAccount(Map<String, dynamic> parameters) {
+    return _accountDelegate.setAccount(parameters);
+  }
 }
