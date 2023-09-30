@@ -13,8 +13,6 @@ class WebAccountDelegate {
   /// Create an instance of [WebAccountDelegate].
   const WebAccountDelegate();
 
-  // TODO: invalidate is never used?
-
   /// Get the account information for the current user.
   Future<Map<String, dynamic>> getAccount({
     bool invalidate = false,
