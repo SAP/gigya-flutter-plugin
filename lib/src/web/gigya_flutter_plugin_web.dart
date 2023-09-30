@@ -115,10 +115,8 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     bool invalidate = false,
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
-    return _accountDelegate.getAccount(
-      invalidate: invalidate,
-      parameters: parameters,
-    );
+    // Apparently, web does not support the invalidate argument.
+    return _accountDelegate.getAccount(parameters: parameters);
   }
 
   @override
