@@ -1,14 +1,10 @@
-import 'package:js/js.dart';
+import 'dart:js_interop';
 
-/// The static interop class for the validation error object.
+/// The extensino type for the validation error object.
 @JS()
 @anonymous
 @staticInterop
-class ValidationError {}
-
-/// This extension defines the static interop definition
-/// for the [ValidationError] class.
-extension ValidationErrorExtension on ValidationError {
+extension type ValidationError(JSObject _) {
   /// The validation error code.
   external int get errorCode;
 
