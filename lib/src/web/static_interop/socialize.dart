@@ -10,7 +10,7 @@ import 'parameters/social_connection.dart';
 extension type Socialize(JSObject _) {
   /// Add a new social connection.
   /// 
-  /// This function receives a [AddSocialConnectionParameters] argument,
+  /// This function receives an [AddSocialConnectionParameters] argument,
   /// and has [JSVoid] as return type.
   external JSFunction addConnection;
 
