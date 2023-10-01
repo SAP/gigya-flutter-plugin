@@ -1,10 +1,7 @@
-// TODO: investigate if this can be a `final class` once Class Modifiers are available in Dart 3.0
-// https://github.com/dart-lang/language/blob/master/accepted/future-releases/class-modifiers/feature-specification.md#syntax
-
 /// The currently supported social providers.
 ///
 /// Depending on the platform; some social providers might be unavailable.
-class SocialProvider {
+final class SocialProvider {
   /// The private constructor.
   const SocialProvider._(this.name);
 
