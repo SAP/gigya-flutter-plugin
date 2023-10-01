@@ -14,4 +14,11 @@ extension type SocialConnectionResponse(Response baseResponse) {
   ///
   /// In the web SDK, the `User` and `Profile` objects share the same shape.
   external Profile get user;
+
+  /// Convert this response to a [Map].
+  Map<String, dynamic> toMap() {
+    return <String, dynamic>{
+      'user': user.toMap(),
+    };
+  }
 }

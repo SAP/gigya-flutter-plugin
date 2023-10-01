@@ -1,6 +1,6 @@
 /// The currently supported social providers.
 ///
-/// Depending on the platform; some social providers might be unavailable.
+/// Depending on the platform some social providers might be unavailable.
 final class SocialProvider {
   /// The private constructor.
   const SocialProvider._(this.name);

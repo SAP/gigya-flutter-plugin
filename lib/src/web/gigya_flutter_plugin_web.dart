@@ -15,6 +15,7 @@ import 'static_interop/models/profile.dart';
 import 'static_interop/parameters/basic.dart';
 import 'static_interop/parameters/login.dart';
 import 'static_interop/parameters/registration.dart';
+import 'static_interop/parameters/social_connection.dart';
 import 'static_interop/response/registration_response.dart';
 import 'static_interop/response/response.dart';
 import 'static_interop/window.dart';
@@ -41,7 +42,8 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }) {
     final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
 
-    gigyaWebSdk.socialize.addConnection(
+    GigyaWebSdk.instance.socialize.addConnection.callAsFunction(
+      null,
       AddSocialConnectionParameters(
         authFlow: parameters['authFlow'] as String?,
         extraFields: parameters['extraFields'] as String?,
@@ -52,24 +54,26 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
         redirectMethod: parameters['redirectMethod'] as String?,
         redirectURL: parameters['redirectURL'] as String?,
         sessionExpiration: parameters['sessionExpiration'] as int?,
-        callback: allowInterop((SocialConnectionResponse response) {
-          if (completer.isCompleted) {
-            return;
-          }
+        callback: allowInterop(
+          (SocialConnectionResponse response) {
+            if (completer.isCompleted) {
+              return;
+            }
 
-          if (response.errorCode == 0) {
-            completer.complete(StaticInteropUtils.responseToMap(response));
-          } else {
-            completer.completeError(
-              GigyaError(
-                apiVersion: response.apiVersion,
-                callId: response.callId,
-                errorCode: response.errorCode,
-                errorDetails: response.errorDetails,
-              ),
-            );
-          }
-        }),
+            if (response.baseResponse.errorCode == 0) {
+              completer.complete(response.toMap());
+            } else {
+              completer.completeError(
+                GigyaError(
+                  apiVersion: response.baseResponse.apiVersion,
+                  callId: response.baseResponse.callId,
+                  details: response.baseResponse.details,
+                  errorCode: response.baseResponse.errorCode,
+                ),
+              );
+            }
+          },
+        ).toJS,
       ),
     );
 
@@ -407,30 +411,33 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   }) {
     final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
 
-    gigyaWebSdk.socialize.removeConnection(
+    GigyaWebSdk.instance.socialize.removeConnection.callAsFunction(
+      null,
       RemoveSocialConnectionParameters(
         forceProvidersLogout: parameters['forceProvidersLogout'] as bool?,
         lastIdentityHandling: parameters['lastIdentityHandling'] as String?,
         provider: provider.name,
         removeLoginID: parameters['removeLoginID'] as bool?,
-        callback: allowInterop((SocialConnectionResponse response) {
-          if (completer.isCompleted) {
-            return;
-          }
+        callback: allowInterop(
+          (SocialConnectionResponse response) {
+            if (completer.isCompleted) {
+              return;
+            }
 
-          if (response.errorCode == 0) {
-            completer.complete(StaticInteropUtils.responseToMap(response));
-          } else {
-            completer.completeError(
-              GigyaError(
-                apiVersion: response.apiVersion,
-                callId: response.callId,
-                errorCode: response.errorCode,
-                errorDetails: response.errorDetails,
-              ),
-            );
-          }
-        }),
+            if (response.baseResponse.errorCode == 0) {
+              completer.complete(response.toMap());
+            } else {
+              completer.completeError(
+                GigyaError(
+                  apiVersion: response.baseResponse.apiVersion,
+                  callId: response.baseResponse.callId,
+                  details: response.baseResponse.details,
+                  errorCode: response.baseResponse.errorCode,
+                ),
+              );
+            }
+          },
+        ).toJS,
       ),
     );
 
