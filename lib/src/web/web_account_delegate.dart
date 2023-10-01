@@ -30,15 +30,15 @@ class WebAccountDelegate {
               return;
             }
 
-            if (response.accountResponse.baseResponse.errorCode == 0) {
+            if (response.baseResponse.errorCode == 0) {
               completer.complete(response.toMap());
             } else {
               completer.completeError(
                 GigyaError(
-                  apiVersion: response.accountResponse.baseResponse.apiVersion,
-                  callId: response.accountResponse.baseResponse.callId,
-                  details: response.accountResponse.baseResponse.details,
-                  errorCode: response.accountResponse.baseResponse.errorCode,
+                  apiVersion: response.baseResponse.apiVersion,
+                  callId: response.baseResponse.callId,
+                  details: response.baseResponse.details,
+                  errorCode: response.baseResponse.errorCode,
                 ),
               );
             }

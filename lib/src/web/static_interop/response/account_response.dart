@@ -7,13 +7,13 @@ import '../models/profile.dart';
 import '../models/validation_error.dart';
 import 'response.dart';
 
-// TODO: preferences, subscriptions should be in `AccountResponse`
+// TODO: preferences, subscriptions should be in `GetAccountResponse`
 
-/// The extension type for the account response.
+/// The extension type for the get account response.
 @JS()
 @anonymous
 @staticInterop
-extension type AccountResponse(Response baseResponse) {
+extension type GetAccountResponse(Response baseResponse) {
   /// The timestamp of the creation of the user.
   external String? get created;
 
@@ -22,6 +22,11 @@ extension type AccountResponse(Response baseResponse) {
 
   /// The verified and unverified email addresses of the user.
   external Emails? get emails;
+
+  /// Whether this account is currently in transition.
+  ///
+  /// An account that is in transition cannot be modified.
+  external bool? get inTransition;  
 
   /// Whether the user is active.
   external bool? get isActive;
@@ -80,12 +85,17 @@ extension type AccountResponse(Response baseResponse) {
   /// The timestamp when the user was verified.
   external String? get verified;
 
+  // TODO: add lockedUntil when DateTime static interop is fixed.
+  // Currently it is not supported, so add a static interop type for the date class
+  // See: https://github.com/dart-lang/sdk/issues/52021  
+
   /// Convert this response to a [Map].
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'created': created,
       'data': data.dartify(),
       'emails': emails?.toMap(),
+      'inTransition': inTransition,
       'isActive': isActive,
       'isRegistered': isRegistered,
       'isVerified': isVerified,
@@ -104,29 +114,6 @@ extension type AccountResponse(Response baseResponse) {
       'UID': UID,
       'UIDSignature': UIDSignature,
       'verified': verified,
-    };
-  }  
-}
-
-/// The extension type for the get account response.
-@JS()
-@anonymous
-@staticInterop
-extension type GetAccountResponse(AccountResponse accountResponse) {
-  /// Whether this account is currently in transition.
-  ///
-  /// An account that is in transition cannot be modified.
-  external bool? get inTransition;
-
-  // TODO: add lockedUntil when DateTime static interop is fixed.
-  // Currently it is not supported, so add a static interop type for the date class
-  // See: https://github.com/dart-lang/sdk/issues/52021
-
-  /// Convert this response to a [Map].
-  Map<String, dynamic> toMap() {
-    return <String, dynamic>{
-      ...accountResponse.toMap(),
-      'inTransition': inTransition,
     };
   }
 }
