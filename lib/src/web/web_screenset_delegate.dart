@@ -103,19 +103,18 @@ class WebScreensetDelegate {
 
           final Object? result = handler(screensetEvent);
 
-          // The handler decided that the screen should be loaded or not.
-          // Just forward the result.
-          if (result is bool) {
-            return result;
+          switch (result) {
+            // The handler can return a Map, which contains a `nextScreen` key.
+            case {'nextScreen': final String _}:
+              return result.jsify();
+            // The handler decided that the screen should be loaded or not.
+            case true:
+            case false:
+              return result;
+            // The handler result is not valid, continue loading the screen.
+            default:
+              return true;
           }
-
-          // The handler can return a Map, which contains a `nextScreen` key.
-          if (result case {'nextScreen': final String _}) {
-            return result.jsify();
-          }
-
-          // The handler result is not valid, continue loading the screen.
-          return true;
         },
       ).toJS,
       onBeforeSubmit: allowInterop(
