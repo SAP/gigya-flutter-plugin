@@ -1,6 +1,6 @@
 import 'dart:async';
 import 'dart:js_interop';
-import 'package:gigya_flutter_plugin/src/web/web_account_delegate.dart';
+
 import 'package:js/js_util.dart' show allowInterop;
 
 import '../models/conflicting_account.dart';
@@ -10,6 +10,7 @@ import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/models/conflicting_account.dart';
 import 'static_interop/parameters/account.dart';
 import 'static_interop/response/response.dart';
+import 'web_account_delegate.dart';
 
 // TODO: implement linkToSite & linkToSocial in _LinkAccountResolver
 // TODO: return `_LinkAccountResolver` when required
