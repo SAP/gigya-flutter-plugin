@@ -1,6 +1,5 @@
 import 'dart:async';
 import 'dart:js_interop';
-import 'package:gigya_flutter_plugin/src/web/web_account_delegate.dart';
 import 'package:js/js_util.dart' show allowInterop;
 
 import '../models/conflicting_account.dart';
@@ -8,7 +7,7 @@ import '../models/gigya_error.dart';
 import '../services/interruption_resolver.dart';
 import 'static_interop/gigya_web_sdk.dart';
 import 'static_interop/models/conflicting_account.dart';
-import 'static_interop/parameters/account.dart';
+import 'static_interop/parameters/conflicting_account.dart';
 import 'static_interop/response/response.dart';
 
 // TODO: implement linkToSite & linkToSocial in _LinkAccountResolver
@@ -92,10 +91,5 @@ class _LinkAccountResolver extends LinkAccountResolver {
 class _PendingRegistrationResolver extends PendingRegistrationResolver {
   const _PendingRegistrationResolver();
 
-  final WebAccountDelegate _accountDelegate = const WebAccountDelegate();
-
-  @override
-  Future<Map<String, dynamic>> setAccount(Map<String, dynamic> parameters) {
-    return _accountDelegate.setAccount(parameters);
-  }
+  // TODO: implement set account info & call it here
 }

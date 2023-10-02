@@ -19,7 +19,6 @@ import 'static_interop/response/registration_response.dart';
 import 'static_interop/response/reset_password_response.dart';
 import 'static_interop/response/response.dart';
 import 'static_interop/window.dart';
-import 'web_account_delegate.dart';
 import 'web_interruption_resolver.dart';
 
 /// An implementation of [GigyaFlutterPluginPlatform] that uses JavaScript static interop.
@@ -35,8 +34,6 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
   InterruptionResolverFactory get interruptionResolverFactory {
     return const WebInterruptionResolverFactory();
   }
-
-  final WebAccountDelegate _accountDelegate = const WebAccountDelegate();
 
   @override
   Future<Map<String, dynamic>> finalizeRegistration(
@@ -145,15 +142,6 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     );
 
     return initRegistrationCompleter.future;
-  }
-
-  @override
-  Future<Map<String, dynamic>> getAccount({
-    bool invalidate = false,
-    Map<String, dynamic> parameters = const <String, dynamic>{},
-  }) async {
-    // Apparently, web does not support the invalidate argument.
-    return _accountDelegate.getAccount(parameters: parameters);
   }
 
   @override
@@ -404,10 +392,5 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     );
 
     return registrationCompleter.future;
-  }
-
-  @override
-  Future<Map<String, dynamic>> setAccount(Map<String, dynamic> account) {
-    return _accountDelegate.setAccount(account);
   }
 }

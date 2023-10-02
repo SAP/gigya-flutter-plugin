@@ -1,8 +1,8 @@
 import 'dart:js_interop';
 
 import './session.dart';
-import 'parameters/account.dart';
 import 'parameters/basic.dart';
+import 'parameters/conflicting_account.dart';
 import 'parameters/login.dart';
 import 'parameters/registration.dart';
 import 'parameters/reset_password.dart';
@@ -19,12 +19,6 @@ extension type Accounts(JSObject _) {
   /// This function receives a [FinalizeRegistrationParameters] instance as argument,
   /// and has [JSVoid] as return type.
   external JSFunction finalizeRegistration;
-
-  /// Get the account info of a user.
-  /// 
-  /// This function receives a [GetAccountParameters] instance as argument,
-  /// and has [JSVoid] as return type.
-  external JSFunction getAccountInfo;
 
   /// Get the conflicting accounts of the user.
   /// 
@@ -64,10 +58,4 @@ extension type Accounts(JSObject _) {
 
   /// Get the `gigya.accounts.session` namespace.
   external Session get session;
-
-  /// Update the user's account info.
-  /// 
-  /// This function receives a [SetAccountParameters] instance as argument,
-  /// and has [JSVoid] as return type.
-  external JSFunction setAccountInfo;
 }
