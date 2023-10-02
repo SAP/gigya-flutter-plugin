@@ -41,5 +41,5 @@ extension type ResetPasswordResponse(Response baseResponse) {
       'secretQuestion': secretQuestion,
       'UID': UID,
     };
-  }  
+  }
 }

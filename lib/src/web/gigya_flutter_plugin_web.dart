@@ -80,34 +80,24 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     String loginId, {
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) async {
-    final String? passwordResetToken = parameters['passwordResetToken'] as String?;
-    final String? newPassword = parameters['newPassword'] as String?;
-
-    // Either login id or password reset token is required.
-    if (loginId.isNotEmpty && passwordResetToken != null) {
-      throw ArgumentError('Either loginId or passwordResetToken should be specified.');
-    }
-
-    // If the password reset token is present, the new password should also be present.
-    if (passwordResetToken != null && newPassword == null) {
-      throw ArgumentError.notNull('newPassword');
-    }
-
-    final ResetPasswordResponse response = gigyaWebSdk.accounts.resetPassword(
+    final JSAny? response = GigyaWebSdk.instance.accounts.resetPassword.callAsFunction(
+      null,
       ResetPasswordParameters(
         email: parameters['email'] as String?,
-        ignoreInterruptions: parameters['ignoreInterruptions'] as bool? ?? false,
+        ignoreInterruptions: parameters['ignoreInterruptions'] as bool?,
         lang: parameters['lang'] as String?,
         // Treat an empty login id as null.
         loginID: loginId.isEmpty ? null : loginId,
-        newPassword: newPassword,
-        passwordResetToken: passwordResetToken,
+        newPassword: parameters['newPassword'] as String?,
+        passwordResetToken: parameters['passwordResetToken'] as String?,
         secretAnswer: parameters['secretAnswer'] as String?,
         securityFields: parameters['securityFields'] as String?,
+        sendEmail: parameters['sendEmail'] as bool?,
       ),
     );
 
-    return StaticInteropUtils.responseToMap(response);
+    // TODO: `callAsFunction` does not yet support generics.
+    return (response as ResetPasswordResponse).toMap();
   }
 
   @override
