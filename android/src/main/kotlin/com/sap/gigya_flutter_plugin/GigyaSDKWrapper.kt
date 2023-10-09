@@ -1107,6 +1107,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onBiometricOperationFailed(reason: String?) {
+                // TODO: Update to use error code once updated on Gigya Android SDK
                 if (reason != "Fingerprint recognition failed") {
                     channelResult.error(
                         GENERAL_ERROR,
@@ -1137,6 +1138,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 }
 
                 override fun onBiometricOperationFailed(reason: String?) {
+                    // TODO: Update to use error code once updated on Gigya Android SDK
                     if (reason != "Fingerprint recognition failed") {
                         channelResult.error(
                             GENERAL_ERROR,
@@ -1164,6 +1166,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 }
 
                 override fun onBiometricOperationFailed(reason: String?) {
+                    // TODO: Update to use error code once updated on Gigya Android SDK
                     if (reason != "Fingerprint recognition failed") {
                         channelResult.error(
                             GENERAL_ERROR,
@@ -1194,6 +1197,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 }
 
                 override fun onBiometricOperationFailed(reason: String?) {
+                    // TODO: Update to use error code once updated on Gigya Android SDK
                     if (reason != "Fingerprint recognition failed") {
                         channelResult.error(
                             GENERAL_ERROR,
