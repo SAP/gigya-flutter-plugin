@@ -1107,11 +1107,13 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onBiometricOperationFailed(reason: String?) {
-                channelResult.error(
-                    GENERAL_ERROR,
-                    "Operation Failed: $reason",
-                    null
-                )
+                if (reason != "Fingerprint recognition failed") {
+                    channelResult.error(
+                        GENERAL_ERROR,
+                        "Operation Failed: $reason",
+                        null
+                    )
+                }
             }
 
             override fun onBiometricOperationCanceled() {
@@ -1135,11 +1137,13 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 }
 
                 override fun onBiometricOperationFailed(reason: String?) {
-                    channelResult.error(
-                        GENERAL_ERROR,
-                        reason,
-                        null
-                    )
+                    if (reason != "Fingerprint recognition failed") {
+                        channelResult.error(
+                            GENERAL_ERROR,
+                            reason,
+                            null
+                        )
+                    }
                 }
 
                 override fun onBiometricOperationCanceled() {
@@ -1160,11 +1164,13 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 }
 
                 override fun onBiometricOperationFailed(reason: String?) {
-                    channelResult.error(
-                        GENERAL_ERROR,
-                        reason,
-                        null
-                    )
+                    if (reason != "Fingerprint recognition failed") {
+                        channelResult.error(
+                            GENERAL_ERROR,
+                            reason,
+                            null
+                        )
+                    }
                 }
 
                 override fun onBiometricOperationCanceled() {
@@ -1188,11 +1194,13 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 }
 
                 override fun onBiometricOperationFailed(reason: String?) {
-                    channelResult.error(
-                        GENERAL_ERROR,
-                        reason,
-                        null
-                    )
+                    if (reason != "Fingerprint recognition failed") {
+                        channelResult.error(
+                            GENERAL_ERROR,
+                            reason,
+                            null
+                        )
+                    }
                 }
 
                 override fun onBiometricOperationCanceled() {
