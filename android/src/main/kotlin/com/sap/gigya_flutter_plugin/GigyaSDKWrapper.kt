@@ -42,6 +42,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
          */
         const val CANCELED_ERROR = "702"
         const val CANCELED_ERROR_MESSAGE = "Operation canceled"
+        /**
+         * Biometric error code
+         */
+        const val BIOMETRIC_RECOGNITION_FAILED = "Fingerprint recognition failed"
     }
 
     private var sdk: Gigya<T>
@@ -1108,10 +1112,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onBiometricOperationFailed(reason: String?) {
                 // TODO: Update to use error code once updated on Gigya Android SDK
-                if (reason != "Fingerprint recognition failed") {
+                if (reason != BIOMETRIC_RECOGNITION_FAILED) {
                     channelResult.error(
                         GENERAL_ERROR,
-                        "Operation Failed: $reason",
+                        reason,
                         null
                     )
                 }
@@ -1139,7 +1143,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
                 override fun onBiometricOperationFailed(reason: String?) {
                     // TODO: Update to use error code once updated on Gigya Android SDK
-                    if (reason != "Fingerprint recognition failed") {
+                    if (reason != BIOMETRIC_RECOGNITION_FAILED) {
                         channelResult.error(
                             GENERAL_ERROR,
                             reason,
@@ -1167,7 +1171,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
                 override fun onBiometricOperationFailed(reason: String?) {
                     // TODO: Update to use error code once updated on Gigya Android SDK
-                    if (reason != "Fingerprint recognition failed") {
+                    if (reason != BIOMETRIC_RECOGNITION_FAILED) {
                         channelResult.error(
                             GENERAL_ERROR,
                             reason,
@@ -1198,7 +1202,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
                 override fun onBiometricOperationFailed(reason: String?) {
                     // TODO: Update to use error code once updated on Gigya Android SDK
-                    if (reason != "Fingerprint recognition failed") {
+                    if (reason != BIOMETRIC_RECOGNITION_FAILED) {
                         channelResult.error(
                             GENERAL_ERROR,
                             reason,
