@@ -13,7 +13,7 @@ analyzer:
 
   # TODO: remove this once it is no longer an experiment
   enable-experiment:
-  - inline-class    
+  - inline-class
 
 linter:
   rules:
