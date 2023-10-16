@@ -423,8 +423,12 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 case .onHide(let event):
                     handler.addScreenSetEvent(event: ["event":"onHide", "data" : event])
                 case .onLogin(account: let account):
-                    handler.addScreenSetEvent(event: ["event":"onLogin", "data" : self?.mapObject(account) ?? [:]])
-                case .onLogout:
+                    let session = self?.sdk?.getSession()
+                    let seesionObject = ["sessionInfo": ["sessionToken": session?.token ?? "", "sessionSecret": session?.secret ?? "", "expires_in": session?.sessionExpirationTimestamp ?? "0"]]
+                    var accountObj = self?.mapObject(account)
+                    accountObj?.merge(seesionObject) { _, new  in new }
+                    
+                    handler.addScreenSetEvent(event: ["event":"onLogin", "data" : accountObj ?? [:]])                case .onLogout:
                     handler.addScreenSetEvent(event: ["event":"onLogout"])
                 case .onConnectionAdded:
                     handler.addScreenSetEvent(event: ["event":"onConnectionAdded"])
