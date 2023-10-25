@@ -199,6 +199,10 @@ class GigyaSdk {
     );
   }
 
+  Future<void> dismissScreenSet() {
+    return GigyaFlutterPluginPlatform.instance.dismissScreenSet();
+  }
+
   /// Perform a login through the given [provider].
   ///
   /// This method leverages a longer than usual timeout of 5 minutes,
