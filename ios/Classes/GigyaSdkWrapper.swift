@@ -454,6 +454,16 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         result(nil)
     }
     
+    func dismissScreenSet(result: @escaping FlutterResult) {
+        guard let viewController = getDisplayedViewController()
+        else {
+            result(FlutterError(code: PluginErrors.generalError, message: "view controller not available", details: nil))
+            return
+        }
+        
+        viewController.dismiss(animated: true)
+    }
+    
     func webAuthnLogin(result: @escaping FlutterResult) {
         guard let viewController = getDisplayedViewController()
         else {
