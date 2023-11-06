@@ -74,6 +74,7 @@ enum Methods {
     switch (this) {
       case Methods.socialLogin:
       case Methods.addConnection:
+      case Methods.sso:
         return const Duration(minutes: 5);
       default:
         return const Duration(minutes: 1);
