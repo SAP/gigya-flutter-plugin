@@ -6,10 +6,10 @@ PODS:
   - AppAuth/ExternalUserAgent (1.6.2):
     - AppAuth/Core
   - Flutter (1.0.0)
-  - Gigya (1.5.1)
+  - Gigya (1.5.8)
   - gigya_flutter_plugin (1.0.0):
     - Flutter
-    - Gigya (>= 1.5.1)
+    - Gigya (>= 1.5.8)
     - GigyaAuth (>= 1.1.1)
   - GigyaAuth (1.1.1):
     - Gigya (>= 1.2.0)
@@ -50,8 +50,8 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  Gigya: 535b3dc1b4c635f2a95ae058049b012fa1fa3e94
-  gigya_flutter_plugin: 65e5966df890a99a236e4fd4ae59f758dc3c79c7
+  Gigya: 8e698005fa73eea2f45755f40967277620764f72
+  gigya_flutter_plugin: 4c7df0b8bcb69f72ab53bc200d10d17c4fd8f837
   GigyaAuth: 0ffdf8aea1f562fc09d34ded9930b57e41308fd7
   google_sign_in_ios: 1256ff9d941db546373826966720b0c24804bcdd
   GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
