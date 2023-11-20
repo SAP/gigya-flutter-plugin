@@ -48,7 +48,7 @@ android {
     defaultConfig {
         // TODO: Specify your own unique Application ID (https://developer.android.com/studio/build/application-id.html).
         applicationId "com.sap.gigya_flutter_plugin_example"
-        minSdkVersion 17
+        minSdkVersion 23
         targetSdkVersion 33
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
@@ -81,5 +81,12 @@ dependencies {
 
     // FIDO (Optional)
     implementation 'com.google.android.gms:play-services-fido:18.1.0'
+
+    // Facebook (Optional)
+    implementation 'com.facebook.android:facebook-android-sdk:14.1.1'
+
+    // Google (Optional)
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
+
 
 }

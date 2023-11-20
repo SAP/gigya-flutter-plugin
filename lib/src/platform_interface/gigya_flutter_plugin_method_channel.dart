@@ -373,6 +373,15 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
+  Future<void> dismissScreenSet() async {
+    try {
+      await methodChannel.invokeMethod<void>(Methods.dismissScreenSet.methodName);
+    } on PlatformException catch (exception) {
+      throw GigyaError.fromPlatformException(exception);
+    }
+  }
+
+  @override
   Future<Map<String, dynamic>> socialLogin(
     SocialProvider provider, {
     Map<String, dynamic> parameters = const <String, dynamic>{},

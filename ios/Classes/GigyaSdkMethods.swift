@@ -41,6 +41,7 @@ public enum GigyaSdkMethods: String {
     // Generic Requests API / Show ScreenSet API.
     case sendRequest
     case showScreenSet
+    case dismissScreenSet
     
     // Interruption types.
     case forgotPassword
