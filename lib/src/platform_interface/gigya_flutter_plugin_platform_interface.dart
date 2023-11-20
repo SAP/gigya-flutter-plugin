@@ -78,12 +78,13 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError('getSession() is not implemented.');
   }
 
-  /// Initialize the Gigya SDK with the given [apiKey] and [apiDomain].
+  /// Initialize the Gigya SDK with the given [apiKey], [apiDomain] and [cname].
   ///
   /// If [forceLogout] is true, the user will be logged out.
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
+    String? cname,
     bool forceLogout = true,
   }) {
     throw UnimplementedError('initSdk() is not implemented.');

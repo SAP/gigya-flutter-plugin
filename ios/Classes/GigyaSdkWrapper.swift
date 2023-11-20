@@ -257,7 +257,8 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
-        sdk?.initFor(apiKey: apiKey, apiDomain: apiDomain)
+
+        sdk?.initFor(apiKey: apiKey, apiDomain: apiDomain, cname: arguments["cname"] as? String)
         
         result(nil)
     }
