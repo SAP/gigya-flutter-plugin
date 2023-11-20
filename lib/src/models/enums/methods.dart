@@ -54,6 +54,9 @@ enum Methods {
   /// The method that triggers the display of a screen set.
   showScreenSet('showScreenSet'),
 
+  /// the method that force dismisses an open screen set.
+  dismissScreenSet('dismissScreenSet'),
+
   /// The method that logs a user in using a social provider.
   socialLogin('socialLogin'),
 
@@ -71,6 +74,7 @@ enum Methods {
     switch (this) {
       case Methods.socialLogin:
       case Methods.addConnection:
+      case Methods.sso:
         return const Duration(minutes: 5);
       default:
         return const Duration(minutes: 1);

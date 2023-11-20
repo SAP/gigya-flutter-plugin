@@ -174,6 +174,10 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError('showScreenSet() is not implemented.');
   }
 
+  Future<void> dismissScreenSet() {
+    throw UnimplementedError('dismissScreenSet() is not implemented.');
+  }
+
   /// Perform a login through the given [provider].
   ///
   /// This method leverages a longer than usual timeout of 5 minutes,

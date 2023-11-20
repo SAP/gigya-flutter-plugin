@@ -88,7 +88,7 @@ class GigyaSdk {
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
-    bool forceLogout = true,
+    bool forceLogout = false,
   }) {
     return GigyaFlutterPluginPlatform.instance.initSdk(
       apiDomain: apiDomain,
@@ -197,6 +197,10 @@ class GigyaSdk {
       name,
       parameters: parameters,
     );
+  }
+
+  Future<void> dismissScreenSet() {
+    return GigyaFlutterPluginPlatform.instance.dismissScreenSet();
   }
 
   /// Perform a login through the given [provider].

@@ -1,10 +1,10 @@
 name: gigya_flutter_plugin
 description: SAP Gigya Flutter plugin
-version: 1.0.0
+version: 1.0.1
 homepage: https://github.com/SAP/gigya-flutter-plugin
 
 environment:
-  sdk: ">=2.18.0 <3.0.0"
+  sdk: ">=2.18.0 <4.0.0"
   flutter: ">=3.3.0"
 
 dependencies:
