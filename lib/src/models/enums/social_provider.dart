@@ -21,6 +21,9 @@ enum SocialProvider {
   /// The social provider for WeChat.
   wechat,
 
-  /// The soocial provider for Yahoo.
+  /// The social provider for Yahoo.
   yahoo,
+
+  /// The social provider for Kakao
+  kakao,
 }
