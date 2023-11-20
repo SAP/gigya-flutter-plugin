@@ -20,7 +20,7 @@ class GigyaError implements Exception {
     }
 
     // Remove the specific error details, to avoid including them twice.
-    final int apiVersion = details.remove('apiVersion') != null ? details.remove('apiVersion') as int : 0;
+    final int? apiVersion = details.remove('apiVersion') as int?;
     final String? callId = details.remove('callId') as String?;
     final int? errorCode = details.remove('errorCode') as int?;
     final String? errorMessage = details.remove('errorMessage') as String? ??
