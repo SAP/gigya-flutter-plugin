@@ -8,7 +8,8 @@ A [Flutter](https://flutter.dev) plugin for interfacing Gigya's native SDKs into
 A flutter plugin that provides an interface for the Gigya API.
 
 ## Requirements
-Android SDK support requires SDK 14 and above. There is no specific requirement for iOS.
+Android SDK support requires SDK 14 and above.
+Requires iOS version 13+.
 
 ## Download and Installation
 Add the Flutter plugin to your **pubspec.yaml** project configuration file.
