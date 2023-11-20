@@ -175,6 +175,7 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError('showScreenSet() is not implemented.');
   }
 
+  /// Dismiss the currently shown screenset.
   Future<void> dismissScreenSet() {
     throw UnimplementedError('dismissScreenSet() is not implemented.');
   }

@@ -201,6 +201,7 @@ class GigyaSdk {
     );
   }
 
+  /// Dismiss the currently shown screenset.
   Future<void> dismissScreenSet() {
     return GigyaFlutterPluginPlatform.instance.dismissScreenSet();
   }
