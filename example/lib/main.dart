@@ -17,7 +17,9 @@ void main() async {
 
   // Demonstrate explicit initialization before calling `runApp()`,
   // using the configuration for the example app.
-  const String exampleAppApiKey = 'YOUR-API-KEY-HERE';
+
+  const String exampleAppApiKey =
+      '4_aOgBaARF4qkC9GnxcXCmdA';
   const String exampleAppApiDomain = 'us1.gigya.com';
   const String exampleCname = 'YOUR-CNAME-HERE';
 
@@ -25,7 +27,6 @@ void main() async {
     await sdk.initSdk(
       apiDomain: exampleAppApiDomain,
       apiKey: exampleAppApiKey,
-      cname: exampleCname,
     );
 
     print('Gigya SDK initialized.');
