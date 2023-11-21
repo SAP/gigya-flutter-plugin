@@ -425,11 +425,12 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                     handler.addScreenSetEvent(event: ["event":"onHide", "data" : event])
                 case .onLogin(account: let account):
                     let session = self?.sdk?.getSession()
-                    let seesionObject = ["sessionInfo": ["sessionToken": session?.token ?? "", "sessionSecret": session?.secret ?? "", "expires_in": session?.sessionExpirationTimestamp ?? "0"]]
+                    let sessionObject = ["sessionInfo": ["sessionToken": session?.token ?? "", "sessionSecret": session?.secret ?? "", "expires_in": session?.sessionExpirationTimestamp ?? "0"]]
                     var accountObj = self?.mapObject(account)
-                    accountObj?.merge(seesionObject) { _, new  in new }
+                    accountObj?.merge(sessionObject) { _, new  in new }
                     
-                    handler.addScreenSetEvent(event: ["event":"onLogin", "data" : accountObj ?? [:]])                case .onLogout:
+                    handler.addScreenSetEvent(event: ["event":"onLogin", "data" : accountObj ?? [:]])
+                case .onLogout:
                     handler.addScreenSetEvent(event: ["event":"onLogout"])
                 case .onConnectionAdded:
                     handler.addScreenSetEvent(event: ["event":"onConnectionAdded"])
@@ -467,6 +468,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         }
         
         viewController.dismiss(animated: true)
+        result(nil)
     }
     
     func webAuthnLogin(result: @escaping FlutterResult) {
