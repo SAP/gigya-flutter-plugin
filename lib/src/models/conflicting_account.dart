@@ -1,16 +1,19 @@
 /// This class represents a model that is used to resolve an account conflict.
-class ConflictingAccounts {
-  /// The private constructor.
-  const ConflictingAccounts._(this.loginID, this.loginProviders);
+class ConflictingAccount {
+  /// The default constructor.
+  const ConflictingAccount({
+    this.loginID,
+    this.loginProviders = const <String>[],
+  });
 
   /// The default constructor.
-  factory ConflictingAccounts.fromJson(Map<String, dynamic> json) {
+  factory ConflictingAccount.fromJson(Map<String, dynamic> json) {
     // Lists coming from `jsonDecode` always have dynamic as type.
     final List<dynamic>? providers = json['loginProviders'] as List<dynamic>?;
 
-    return ConflictingAccounts._(
-      json['loginID'] as String?,
-      providers?.cast<String>() ?? <String>[],
+    return ConflictingAccount(
+      loginID: json['loginID'] as String?,
+      loginProviders: providers?.cast<String>() ?? <String>[],
     );
   }
 
