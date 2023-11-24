@@ -192,9 +192,9 @@ class _HomePageState extends State<HomePage> {
             case ConnectionState.none:
             case ConnectionState.active:
             case ConnectionState.waiting:
-              return Column(
+              return const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   CircularProgressIndicator(),
                   Padding(
                     padding: EdgeInsets.all(8),

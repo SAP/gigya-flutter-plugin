@@ -17,8 +17,7 @@ void main() async {
 
   // Demonstrate explicit initialization before calling `runApp()`,
   // using the configuration for the example app.
-  const String exampleAppApiKey =
-      'YOUR-API-KEY-HERE';
+  const String exampleAppApiKey = 'YOUR-API-KEY-HERE';
   const String exampleAppApiDomain = 'us1.gigya.com';
 
   try {
