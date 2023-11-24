@@ -1,14 +1,14 @@
 import 'src/models/enums/social_provider.dart';
 import 'src/models/screenset_event.dart';
 import 'src/platform_interface/gigya_flutter_plugin_platform_interface.dart';
-import 'src/services/interruption_resolver/interruption_resolver.dart';
-import 'src/services/otp_service/otp_service.dart';
-import 'src/services/web_authentication_service/web_authentication_service.dart';
+import 'src/services/interruption_resolver.dart';
+import 'src/services/otp_service.dart';
+import 'src/services/web_authentication_service.dart';
 
 export 'src/models/account.dart';
 export 'src/models/address.dart';
 export 'src/models/certification.dart';
-export 'src/models/conflicting_accounts.dart';
+export 'src/models/conflicting_account.dart';
 export 'src/models/education.dart';
 export 'src/models/emails.dart';
 export 'src/models/enums/screen_set_event_type.dart';
@@ -26,9 +26,9 @@ export 'src/models/screenset_event.dart';
 export 'src/models/session_info.dart';
 export 'src/models/skill.dart';
 export 'src/models/work.dart';
-export 'src/services/interruption_resolver/interruption_resolver.dart';
-export 'src/services/otp_service/otp_service.dart';
-export 'src/services/web_authentication_service/web_authentication_service.dart';
+export 'src/services/interruption_resolver.dart';
+export 'src/services/otp_service.dart';
+export 'src/services/web_authentication_service.dart';
 
 /// This class represents the Gigya SDK plugin.
 class GigyaSdk {
@@ -51,8 +51,11 @@ class GigyaSdk {
   }
 
   /// Add a social connection to an existing account.
-  Future<Map<String, dynamic>> addConnection(SocialProvider provider) {
-    return GigyaFlutterPluginPlatform.instance.addConnection(provider);
+  Future<Map<String, dynamic>> addConnection(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.addConnection(provider, parameters: parameters);
   }
 
   /// Start the forgot password flow for the given [loginId].
@@ -145,8 +148,11 @@ class GigyaSdk {
   }
 
   /// Remove a social connection from an existing account.
-  Future<Map<String, dynamic>> removeConnection(SocialProvider provider) {
-    return GigyaFlutterPluginPlatform.instance.removeConnection(provider);
+  Future<Map<String, dynamic>> removeConnection(
+    SocialProvider provider, {
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    return GigyaFlutterPluginPlatform.instance.removeConnection(provider, parameters: parameters);
   }
 
   /// Send a request to the Gigya SDK.
