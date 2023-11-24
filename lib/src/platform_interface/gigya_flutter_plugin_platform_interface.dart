@@ -1,11 +1,11 @@
 import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 
+import '../method_channel/gigya_flutter_plugin_method_channel.dart';
 import '../models/enums/social_provider.dart';
 import '../models/screenset_event.dart';
-import '../services/interruption_resolver/interruption_resolver.dart';
-import '../services/otp_service/otp_service.dart';
-import '../services/web_authentication_service/web_authentication_service.dart';
-import 'gigya_flutter_plugin_method_channel.dart';
+import '../services/interruption_resolver.dart';
+import '../services/otp_service.dart';
+import '../services/web_authentication_service.dart';
 
 /// The platform interface for the Gigya Flutter Plugin.
 abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
@@ -30,6 +30,9 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     _instance = instance;
   }
 
+  // TODO(navaronbracke): Move the Biometrics service to `src/method_channel/method_channel_biometrics_service.dart`
+  // during the next rebase. See https://github.com/SAP/gigya-flutter-plugin/pull/77
+
   /// Get the interruption resolver factory provided by the Gigya SDK.
   InterruptionResolverFactory get interruptionResolverFactory {
     throw UnimplementedError(
@@ -52,6 +55,15 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   /// Add a social connection to an existing account.
   Future<Map<String, dynamic>> addConnection(SocialProvider provider) {
     throw UnimplementedError('addConnection() is not implemented.');
+  }
+
+  /// Finalize a pending registration.
+  Future<Map<String, dynamic>> finalizeRegistration(
+    String registrationToken, {
+    String? include,
+    bool allowAccountsLinking = false,
+  }) {
+    throw UnimplementedError('finalizeRegistration() is not implemented.');
   }
 
   /// Start the forgot password flow for the given [loginId].
@@ -78,13 +90,26 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError('getSession() is not implemented.');
   }
 
+  /// Start a registration flow.
+  ///
+  /// The [isLite] parameter determines if a full
+  /// or a lite account registration should be started.
+  ///
+  /// This is typically only required for lite accounts,
+  /// as [register] automatically starts a registration.
+  Future<String> initRegistration({
+    required bool isLite,
+  }) {
+    throw UnimplementedError('initRegistration() is not implemented.');
+  }
+
   /// Initialize the Gigya SDK with the given [apiKey] and [apiDomain].
   ///
   /// If [forceLogout] is true, the user will be logged out.
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
-    bool forceLogout = true,
+    bool forceLogout = false,
   }) {
     throw UnimplementedError('initSdk() is not implemented.');
   }
