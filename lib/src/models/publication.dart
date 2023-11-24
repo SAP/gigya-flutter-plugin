@@ -40,7 +40,7 @@ class Publication {
   /// Convert this object to a JSON object.
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'date': date?.toString(),
+      'date': date?.toIso8601String(),
       'publisher': publisher,
       'summary': summary,
       'title': title,

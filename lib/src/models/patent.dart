@@ -50,7 +50,7 @@ class Patent {
   /// Convert this object into a JSON object.
   Map<String, dynamic> toJson() {
     return <String, dynamic>{
-      'date': date?.toString(),
+      'date': date?.toIso8601String(),
       'number': number,
       'office': office,
       'status': status,

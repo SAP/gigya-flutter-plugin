@@ -6,7 +6,6 @@ class Like {
     this.id,
     this.name,
     this.time,
-    this.timestamp,
   });
 
   /// The default constructor.
@@ -15,8 +14,7 @@ class Like {
       category: json['category'] as String?,
       id: json['id'] as String?,
       name: json['name'] as String?,
-      time: json['time'] as String?,
-      timestamp: json['timestamp'] as double?,
+      time: DateTime.tryParse(json['time'] as String? ?? ''),
     );
   }
 
@@ -29,11 +27,8 @@ class Like {
   /// The name of the like.
   final String? name;
 
-  /// The formatted time of the like.
-  final String? time; // TODO: this parameter is redundant, timestamp is enough?
-
   /// The timestamp of the like.
-  final double? timestamp; // TODO: this should be a `DateTime?`
+  final DateTime? time;
 
   /// Convert this object into a JSON object.
   Map<String, dynamic> toJson() {
@@ -41,8 +36,7 @@ class Like {
       'category': category,
       'id': id,
       'name': name,
-      'time': time,
-      'timestamp': timestamp,
+      'time': time?.toIso8601String(),
     };
   }
 }
