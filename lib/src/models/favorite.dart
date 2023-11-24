@@ -103,6 +103,7 @@ class Favorites {
       'books': books.map((Favorite b) => b.toJson()).toList(),
       'interests': interests.map((Favorite i) => i.toJson()).toList(),
       'movies': movies.map((Favorite m) => m.toJson()).toList(),
+      'music': music.map((Favorite m) => m.toJson()).toList(),
       'television': television.map((Favorite t) => t.toJson()).toList(),
     };
   }
