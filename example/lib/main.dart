@@ -17,9 +17,11 @@ void main() async {
 
   // Demonstrate explicit initialization before calling `runApp()`,
   // using the configuration for the example app.
+
   const String exampleAppApiKey =
-      'YOUR-API-KEY-HERE';
+      '4_aOgBaARF4qkC9GnxcXCmdA';
   const String exampleAppApiDomain = 'us1.gigya.com';
+  const String exampleCname = 'YOUR-CNAME-HERE';
 
   try {
     await sdk.initSdk(

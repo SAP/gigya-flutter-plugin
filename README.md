@@ -104,6 +104,7 @@ Supported social login providers:
 - Amazon
 - LinkedIn
 - Yahoo
+- Kakao
 
 ## Embedded social providers
 

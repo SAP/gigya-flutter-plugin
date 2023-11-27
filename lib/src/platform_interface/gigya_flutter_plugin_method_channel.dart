@@ -122,6 +122,7 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
+    String? cname,
     bool forceLogout = true,
   }) async {
     // First, initialize the Gigya SDK.
@@ -131,6 +132,7 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
         <String, dynamic>{
           'apiKey': apiKey,
           'apiDomain': apiDomain,
+          'cname': cname
         },
       ).timeout(
         Methods.initSdk.timeout,
@@ -370,6 +372,15 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
         data ?? <String, Object?>{},
       );
     });
+  }
+
+  @override
+  Future<void> dismissScreenSet() async {
+    try {
+      await methodChannel.invokeMethod<void>(Methods.dismissScreenSet.methodName);
+    } on PlatformException catch (exception) {
+      throw GigyaError.fromPlatformException(exception);
+    }
   }
 
   @override

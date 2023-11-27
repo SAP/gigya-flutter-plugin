@@ -13,11 +13,14 @@ import com.gigya.android.sdk.api.IApiRequestFactory
 import com.gigya.android.sdk.auth.GigyaAuth
 import com.gigya.android.sdk.auth.GigyaOTPCallback
 import com.gigya.android.sdk.auth.resolvers.IGigyaOtpResult
+import com.gigya.android.sdk.containers.GigyaContainer
 import com.gigya.android.sdk.interruption.IPendingRegistrationResolver
 import com.gigya.android.sdk.interruption.link.ILinkAccountsResolver
 import com.gigya.android.sdk.network.GigyaError
 import com.gigya.android.sdk.session.SessionInfo
 import com.gigya.android.sdk.ui.plugin.GigyaPluginEvent
+import com.gigya.android.sdk.ui.plugin.GigyaWebBridge
+import com.gigya.android.sdk.ui.plugin.IGigyaWebBridge
 import com.gigya.android.sdk.utils.CustomGSONDeserializer
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
@@ -355,8 +358,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     fun initSdk(arguments: Any, channelResult: MethodChannel.Result) {
         val apiKey: String? = (arguments as Map<*, *>)["apiKey"] as String?
         val apiDomain: String? = arguments["apiDomain"] as String?
+        val cname: String? = arguments["cname"] as String?
 
-        if(apiKey == null || apiDomain == null) {
+        if (apiKey == null || apiDomain == null) {
             channelResult.error(
                 MISSING_PARAMETER_ERROR,
                 MISSING_PARAMETER_MESSAGE,
@@ -365,7 +369,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             return
         }
 
-        sdk.init(apiKey, apiDomain)
+        if (cname != null) sdk.init(apiKey, apiDomain, cname)
+        else sdk.init(apiKey, apiDomain)
 
         channelResult.success(null)
     }
@@ -374,7 +379,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      * Logout of existing session.
      */
     fun logOut(channelResult: MethodChannel.Result) {
-        if(!sdk.isLoggedIn) {
+        if (!sdk.isLoggedIn) {
             channelResult.success(null)
 
             return
@@ -791,6 +796,19 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
         })
 
+        channelResult.success(null)
+    }
+
+    fun dismissScreenSet(channelResult: MethodChannel.Result) {
+        val webBridge = Gigya.getContainer().get(IGigyaWebBridge::class.java)
+        webBridge?.onPluginEvent(
+            mapOf(
+                "eventName" to "hide",
+                "sourceContainerID" to "pluginContainer",
+                "isFlowFinalized" to true,
+                "reason" to "manual dismiss"
+            )
+        )
         channelResult.success(null)
     }
 
