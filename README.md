@@ -108,6 +108,10 @@ Supported social login providers:
 
 ## Embedded social providers
 
+#### Android v7 upgrade
+Plugin version 1.2.0+ will depend on Android SDK core v7.
+Please view the changes required to be made to yours application the Android code documentation for updating to external providers usage.
+
 Specific social providers (currently Facebook and Google) require additional setup. This due to the their requirement for specific (embedded) SDKs.
 ```
 Note: Examples for both Facebook & Google are implemented in the example application in the Github code repository for this project.
