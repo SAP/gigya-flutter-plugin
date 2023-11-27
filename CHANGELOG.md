@@ -1,3 +1,15 @@
+# 1.0.2
+1.0.2
+
+* Updated plugin to support Android core version 7+
+* Conformed to Android v7 external social providers implementation.
+* Added support for Kakao social providers.
+* Added missing support for cname in Android (due to Android core v7).
+* Added option to hide screenset programmatically via "dismissScreenSet" interface.
+* Fixed nullable "apiVersion" bug on Android wrapper.
+* Introduced Android proguard file.
+
+
 # 1.0.1
 1.0.1
 
