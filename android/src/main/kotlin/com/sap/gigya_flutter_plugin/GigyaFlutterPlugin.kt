@@ -93,12 +93,20 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Scre
             "otpLogin" -> sdk.otpLogin(call.arguments, result)
             "otpUpdate" -> sdk.otpUpdate(call.arguments, result)
             "otpVerify" -> sdk.otpVerify(call.arguments, result)
+            "biometricIsAvailable" -> sdk.biometricIsAvailable(result)
+            "biometricIsLocked" -> sdk.biometricIsLocked(result)
+            "biometricIsOptIn" -> sdk.biometricIsOptIn(result)
+            "biometricOptIn" -> sdk.biometricOptIn(call.arguments, result)
+            "biometricOptOut" -> sdk.biometricOptOut(call.arguments, result)
+            "biometricLockSession" -> sdk.biometricLockSession(result)
+            "biometricUnlockSession" -> sdk.biometricUnlockSession (call.arguments, result)
             else -> result.notImplemented()
         }
     }
 
     override fun onAttachedToActivity(binding: ActivityPluginBinding) {
         val activity = binding.activity
+        sdk.setActivity(activity)
         if (activity is ComponentActivity) {
             fidoResultHandler = activity.registerForActivityResult(
                 ActivityResultContracts.StartIntentSenderForResult()
@@ -118,6 +126,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Scre
 
     override fun onDetachedFromActivity() {
         fidoResultHandler = null
+        sdk.setActivity(null);
     }
 
     override fun addScreenSetEvent(event: Map<String, Any?>) {

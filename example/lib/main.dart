@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
 import 'routes/account_information_page.dart';
+import 'routes/biometrics_page.dart';
 import 'routes/forgot_password_page.dart';
 import 'routes/home_page.dart';
 import 'routes/login_with_credentials_page.dart';
@@ -17,9 +18,7 @@ void main() async {
 
   // Demonstrate explicit initialization before calling `runApp()`,
   // using the configuration for the example app.
-
-  const String exampleAppApiKey =
-      '4_aOgBaARF4qkC9GnxcXCmdA';
+  const String exampleAppApiKey = 'YOUR-API-KEY-HERE';
   const String exampleAppApiDomain = 'us1.gigya.com';
   const String exampleCname = 'YOUR-CNAME-HERE';
 
@@ -65,6 +64,7 @@ class _MyAppState extends State<MyApp> {
         '/manage_connections': (_) => ManageConnectionsPage(sdk: widget.sdk),
         '/forgot_password': (_) => ForgotPasswordPage(sdk: widget.sdk),
         '/otp_phone_login': (_) => OneTimePasswordLoginPage(sdk: widget.sdk),
+        '/biometrics': (_) => BiometricsPage(sdk: widget.sdk),
       },
     );
   }

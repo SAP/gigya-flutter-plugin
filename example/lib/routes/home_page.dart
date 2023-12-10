@@ -66,6 +66,19 @@ class _HomePageState extends State<HomePage> {
           child: const Text('Log out'),
         ),
       ),
+      Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: ElevatedButton(
+          onPressed: () async {
+            await Navigator.pushNamed(context, '/biometrics');
+
+            if (mounted) {
+              setState(() {});
+            }
+          },
+          child: const Text('Biometrics'),
+        ),
+      ),
       ElevatedButton(
         onPressed: () async {
           await Navigator.pushNamed(context, '/manage_connections');

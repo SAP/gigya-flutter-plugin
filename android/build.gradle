@@ -46,7 +46,7 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
     defaultConfig {
-        minSdkVersion 16
+        minSdkVersion 23
         consumerProguardFiles 'lib-proguard-rules.txt'
     }
     lintOptions {
@@ -60,6 +60,7 @@ dependencies {
     // Gigya SDK core implementation.
     api 'com.sap.oss.gigya-android-sdk:sdk-core:7.0.7'
     api 'com.github.SAP.gigya-android-sdk:sdk-auth:auth-v2.2.0'
+    api 'com.github.SAP.gigya-android-sdk:gigya-android-biometric:bio-v2.0.0'
 
     api 'com.google.code.gson:gson:2.8.9'
 

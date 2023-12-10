@@ -1,6 +1,7 @@
 import 'src/models/enums/social_provider.dart';
 import 'src/models/screenset_event.dart';
 import 'src/platform_interface/gigya_flutter_plugin_platform_interface.dart';
+import 'src/services/biometric_service/biometric_service.dart';
 import 'src/services/interruption_resolver/interruption_resolver.dart';
 import 'src/services/otp_service/otp_service.dart';
 import 'src/services/web_authentication_service/web_authentication_service.dart';
@@ -26,6 +27,7 @@ export 'src/models/screenset_event.dart';
 export 'src/models/session_info.dart';
 export 'src/models/skill.dart';
 export 'src/models/work.dart';
+export 'src/services/biometric_service/biometric_service.dart';
 export 'src/services/interruption_resolver/interruption_resolver.dart';
 export 'src/services/otp_service/otp_service.dart';
 export 'src/services/web_authentication_service/web_authentication_service.dart';
@@ -48,6 +50,11 @@ class GigyaSdk {
   /// Get the web authentication service provided by the Gigya SDK.
   WebAuthenticationService get webAuthenticationService {
     return GigyaFlutterPluginPlatform.instance.webAuthenticationService;
+  }
+
+  /// Get the biometric service provided by the Gigya SDK.
+  BiometricService get biometricService {
+    return GigyaFlutterPluginPlatform.instance.biometricService;
   }
 
   /// Add a social connection to an existing account.

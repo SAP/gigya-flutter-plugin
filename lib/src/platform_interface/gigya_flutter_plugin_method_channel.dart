@@ -7,6 +7,8 @@ import '../models/enums/methods.dart';
 import '../models/enums/social_provider.dart';
 import '../models/gigya_error.dart';
 import '../models/screenset_event.dart';
+import '../services/biometric_service/biometric_service.dart';
+import '../services/biometric_service/method_channel_biometric_service.dart';
 import '../services/interruption_resolver/interruption_resolver.dart';
 import '../services/interruption_resolver/method_channel_interruption_resolver.dart';
 import '../services/otp_service/method_channel_otp_service.dart';
@@ -40,6 +42,11 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   @override
   WebAuthenticationService get webAuthenticationService {
     return MethodChannelWebAuthenticationService(methodChannel);
+  }
+
+  @override
+  BiometricService get biometricService {
+    return MethodChannelBiometricService(methodChannel);
   }
 
   @override
