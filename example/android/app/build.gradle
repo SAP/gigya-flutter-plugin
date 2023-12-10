@@ -31,13 +31,10 @@ android {
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
-
-    lintOptions {
-        disable 'InvalidPackage'
-    }
-
     packagingOptions {
-        exclude 'META-INF/com.android.tools/proguard/coroutines.pro'
+        resources {
+            excludes += ['META-INF/com.android.tools/proguard/coroutines.pro']
+        }
     }
 
     compileOptions {
@@ -63,6 +60,10 @@ android {
             signingConfig signingConfigs.debug
         }
     }
+    namespace 'com.sap.gigya_flutter_plugin_example'
+    lint {
+        disable 'InvalidPackage'
+    }
 }
 
 flutter {
@@ -70,7 +71,7 @@ flutter {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     implementation "androidx.multidex:multidex:2.0.1"
 
     // Needed when implementing Gigya SDK activity based operations.
@@ -81,5 +82,12 @@ dependencies {
 
     // FIDO (Optional)
     implementation 'com.google.android.gms:play-services-fido:18.1.0'
+
+    // Facebook (Optional)
+    implementation 'com.facebook.android:facebook-android-sdk:14.1.1'
+
+    // Google (Optional)
+    implementation 'com.google.android.gms:play-services-auth:20.5.0'
+
 
 }

@@ -89,17 +89,19 @@ class GigyaSdk {
     return GigyaFlutterPluginPlatform.instance.getSession();
   }
 
-  /// Initialize the Gigya SDK with the given [apiKey] and [apiDomain].
+  /// Initialize the Gigya SDK with the given [apiKey], [apiDomain] and [cname].
   ///
   /// If [forceLogout] is true, the user will be logged out.
   Future<void> initSdk({
     required String apiDomain,
     required String apiKey,
+    String? cname,
     bool forceLogout = false,
   }) {
     return GigyaFlutterPluginPlatform.instance.initSdk(
       apiDomain: apiDomain,
       apiKey: apiKey,
+      cname: cname,
       forceLogout: forceLogout,
     );
   }
@@ -204,6 +206,11 @@ class GigyaSdk {
       name,
       parameters: parameters,
     );
+  }
+
+  /// Dismiss the currently shown screenset.
+  Future<void> dismissScreenSet() {
+    return GigyaFlutterPluginPlatform.instance.dismissScreenSet();
   }
 
   /// Perform a login through the given [provider].

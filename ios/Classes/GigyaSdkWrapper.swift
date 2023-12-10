@@ -257,7 +257,8 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
         }
-        sdk?.initFor(apiKey: apiKey, apiDomain: apiDomain)
+
+        sdk?.initFor(apiKey: apiKey, apiDomain: apiDomain, cname: arguments["cname"] as? String)
         
         result(nil)
     }
@@ -423,7 +424,12 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 case .onHide(let event):
                     handler.addScreenSetEvent(event: ["event":"onHide", "data" : event])
                 case .onLogin(account: let account):
-                    handler.addScreenSetEvent(event: ["event":"onLogin", "data" : self?.mapObject(account) ?? [:]])
+                    let session = self?.sdk?.getSession()
+                    let sessionObject = ["sessionInfo": ["sessionToken": session?.token ?? "", "sessionSecret": session?.secret ?? "", "expires_in": session?.sessionExpirationTimestamp ?? "0"]]
+                    var accountObj = self?.mapObject(account)
+                    accountObj?.merge(sessionObject) { _, new  in new }
+                    
+                    handler.addScreenSetEvent(event: ["event":"onLogin", "data" : accountObj ?? [:]])
                 case .onLogout:
                     handler.addScreenSetEvent(event: ["event":"onLogout"])
                 case .onConnectionAdded:
@@ -451,6 +457,17 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 }
             }
 
+        result(nil)
+    }
+    
+    func dismissScreenSet(result: @escaping FlutterResult) {
+        guard let viewController = getDisplayedViewController()
+        else {
+            result(FlutterError(code: PluginErrors.generalError, message: "view controller not available", details: nil))
+            return
+        }
+        
+        viewController.dismiss(animated: true)
         result(nil)
     }
     

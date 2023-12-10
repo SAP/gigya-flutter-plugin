@@ -20,6 +20,7 @@ void main() async {
   // using the configuration for the example app.
   const String exampleAppApiKey = 'YOUR-API-KEY-HERE';
   const String exampleAppApiDomain = 'us1.gigya.com';
+  const String exampleCname = 'YOUR-CNAME-HERE';
 
   try {
     await sdk.initSdk(

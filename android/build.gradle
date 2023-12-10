@@ -2,14 +2,18 @@ group 'com.sap.gigya_flutter_plugin'
 version '1.0.1'
 
 buildscript {
-    ext.kotlin_version = '1.7.21'
+    ext {
+        kotlin_version = '1.8.0'
+        gradle_version = '7.4.2'
+    }
+
     repositories {
         google()
         mavenCentral()
     }
 
     dependencies {
-        classpath 'com.android.tools.build:gradle:7.3.1'
+        classpath "com.android.tools.build:gradle:$gradle_version"
         classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
     }
 }
@@ -27,6 +31,7 @@ apply plugin: 'kotlin-android'
 
 android {
     compileSdkVersion 33
+    namespace 'com.sap.gigya_flutter_plugin'
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_1_8
@@ -42,6 +47,7 @@ android {
     }
     defaultConfig {
         minSdkVersion 23
+        consumerProguardFiles 'lib-proguard-rules.txt'
     }
     lintOptions {
         disable 'InvalidPackage'
@@ -49,10 +55,10 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     
     // Gigya SDK core implementation.
-    api 'com.github.SAP.gigya-android-sdk:sdk-core:core-v6.2.1'
+    api 'com.sap.oss.gigya-android-sdk:sdk-core:7.0.7'
     api 'com.github.SAP.gigya-android-sdk:sdk-auth:auth-v2.2.0'
     api 'com.github.SAP.gigya-android-sdk:gigya-android-biometric:bio-v2.0.0'
 

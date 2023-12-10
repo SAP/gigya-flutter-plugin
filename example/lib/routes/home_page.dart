@@ -170,7 +170,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _showScreenSet() async {
-    const String screenSet = 'Default-RegistrationLogin';
+    const String screenSet = 'Default-RegistrationLogin1';
 
     try {
       screenSetSubscription = widget.sdk.showScreenSet(screenSet).listen(
@@ -183,6 +183,11 @@ class _HomePageState extends State<HomePage> {
             screenSetSubscription = null;
           } else if (event.type == ScreenSetEventType.onLogin) {
             _refreshLogin();
+          } else if (event.type == ScreenSetEventType.onError) {
+            widget.sdk.dismissScreenSet();
+            print('event error: ${event.data}');
+            screenSetSubscription?.cancel();
+            screenSetSubscription = null;
           }
         },
         onError: (Object error) {
@@ -205,9 +210,9 @@ class _HomePageState extends State<HomePage> {
             case ConnectionState.none:
             case ConnectionState.active:
             case ConnectionState.waiting:
-              return Column(
+              return const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   CircularProgressIndicator(),
                   Padding(
                     padding: EdgeInsets.all(8),

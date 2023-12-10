@@ -51,6 +51,9 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
 
         // Methods without arguments.
         switch method {
+        case .dismissScreenSet:
+            sdk?.dismissScreenSet(result: result)
+            return
         case .isLoggedIn:
             sdk?.isLoggedIn(result: result)
             return

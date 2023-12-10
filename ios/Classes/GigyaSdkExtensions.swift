@@ -36,7 +36,7 @@ extension GigyaSdkWrapper {
      Map the given object to a Dictionary.
      The returned dictionary uses String keys.
      */
-    func mapObject<T: Codable>(_ obj: T) -> [String: Any] {
+    func mapObject<B: Codable>(_ obj: B) -> [String: Any] {
         do {
             let jsonEncoder = JSONEncoder()
             let jsonData = try jsonEncoder.encode(obj)

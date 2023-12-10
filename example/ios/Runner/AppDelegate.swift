@@ -2,7 +2,7 @@ import UIKit
 import Flutter
 import gigya_flutter_plugin
 import Gigya
-import FBSDKCoreKit
+//import FBSDKCoreKit
 
 @UIApplicationMain
 @objc class AppDelegate: FlutterAppDelegate {
@@ -14,10 +14,10 @@ import FBSDKCoreKit
     SwiftGigyaFlutterPlugin.register(accountSchema: GigyaAccount.self)
     
     // Register social providers here.
-    Gigya.sharedInstance(GigyaAccount.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
+//    Gigya.sharedInstance(GigyaAccount.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
     Gigya.sharedInstance(GigyaAccount.self).registerSocialProvider(of: .google, wrapper: GoogleWrapper())
     
-    ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
+//    ApplicationDelegate.shared.application(application, didFinishLaunchingWithOptions: launchOptions)
 
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
@@ -27,11 +27,12 @@ import FBSDKCoreKit
         open url: URL,
         options: [UIApplication.OpenURLOptionsKey : Any] = [:]
     ) -> Bool {
-        ApplicationDelegate.shared.application(
-            app,
-            open: url,
-            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
-            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
-        )
+        return true
+//        ApplicationDelegate.shared.application(
+//            app,
+//            open: url,
+//            sourceApplication: options[UIApplication.OpenURLOptionsKey.sourceApplication] as? String,
+//            annotation: options[UIApplication.OpenURLOptionsKey.annotation]
+//        )
     }
 }
