@@ -13,7 +13,8 @@ class BiometricsPage extends StatefulWidget {
   State<BiometricsPage> createState() => _BiometricsPageState();
 }
 
-class _BiometricsPageState extends State<BiometricsPage> {
+class _BiometricsPageState extends State<BiometricsPage>
+    with WidgetsBindingObserver {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
   bool isOptIn = false;
@@ -23,12 +24,50 @@ class _BiometricsPageState extends State<BiometricsPage> {
   void initializeBiometricState() async {
     isLocked = await widget.sdk.biometricService.isLocked();
     isOptIn = await widget.sdk.biometricService.isOptIn();
+    setState(() {});
+    debugPrint('isLocked: $isLocked, isOptIn:$isOptIn');
   }
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
     initializeBiometricState();
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _checkBiometricState();
+        print('resumed');
+        break;
+      case AppLifecycleState.inactive:
+        print('inactive');
+        break;
+      case AppLifecycleState.paused:
+        print('paused');
+        break;
+      case AppLifecycleState.detached:
+        print('detached');
+        break;
+      case AppLifecycleState.hidden:
+        print('hidden');
+        break;
+    }
+  }
+
+  Future<void> _checkBiometricState() async {
+    final bool isLocked = await widget.sdk.biometricService.isLocked();
+    if (isLocked) {
+      _handleLockSession();
+    }
   }
 
   void _handleOptIn() async {

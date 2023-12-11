@@ -13,7 +13,8 @@ class AccountInformationPage extends StatefulWidget {
   State<AccountInformationPage> createState() => _AccountInformationPageState();
 }
 
-class _AccountInformationPageState extends State<AccountInformationPage> {
+class _AccountInformationPageState extends State<AccountInformationPage>
+    with WidgetsBindingObserver {
   final TextEditingController _firstNameController = TextEditingController();
   final GlobalKey<FormFieldState<String>> _firstNameKey = GlobalKey();
   bool _inProgress = false;
@@ -64,8 +65,77 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
     accountInformationFuture = _getAccountInformation();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _checkBiometricState();
+        print('resumed');
+        break;
+      case AppLifecycleState.inactive:
+        print('inactive');
+        break;
+      case AppLifecycleState.paused:
+        print('paused');
+        break;
+      case AppLifecycleState.detached:
+        print('detached');
+        break;
+      case AppLifecycleState.hidden:
+        print('hidden');
+        break;
+    }
+  }
+
+  Future<void> _checkBiometricState() async {
+    bool isLocked = await widget.sdk.biometricService.isLocked();
+    if (isLocked) {
+      try {
+        await widget.sdk.biometricService.unlockSession(
+          parameters: <String, String>{
+            'title': 'SampleTitle',
+            'subtitle': 'SampleSubtitle',
+            'description': 'SampleDescription',
+          },
+        );
+
+        isLocked = await widget.sdk.biometricService.isLocked();
+        if (mounted) {
+          setState(() {});
+        }
+      } catch (error) {
+        if (mounted) {
+          setState(() {
+            _showBiometricErrorDialog(error.toString());
+          });
+        }
+      }
+    }
+  }
+
+  Future<void> _showBiometricErrorDialog(String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Dismiss'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildAccountInformationPage(BuildContext context, Account account) {
@@ -76,40 +146,14 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
               ? const LinearProgressIndicator(minHeight: 4)
               : const SizedBox(height: 4),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  const TextSpan(
-                    text: 'Account UID: ',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextSpan(text: account.uid),
-                ],
-              ),
-            ),
-          ),
+              padding: const EdgeInsets.all(8.0),
+              child: Text('UID:${account.uid}')),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  const TextSpan(
-                    text: 'Account Email: ',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextSpan(
-                    text: account.profile?.email ?? 'No email for this account',
-                  ),
-                ],
-              ),
-            ),
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                  'Email:${account.profile?.email ?? 'No email for this account'}')),
+          const SizedBox(
+            height: 20,
           ),
           const Text(
             'Testing setAccount',
@@ -238,9 +282,9 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
             case ConnectionState.active:
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return Column(
+              return const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   CircularProgressIndicator(),
                   Text('Fetching account...'),
                 ],
@@ -279,6 +323,7 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
   @override
   void dispose() {
     _firstNameController.dispose();
+    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }
