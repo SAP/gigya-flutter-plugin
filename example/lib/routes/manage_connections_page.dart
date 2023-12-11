@@ -121,7 +121,9 @@ class _ManageConnectionsPageState extends State<ManageConnectionsPage> {
                             ),
                           )
                         : ListView.builder(
-                            itemBuilder: (_, int index) => Text(account.socialProviders[index]),
+                            itemBuilder: (_, int index) => Text(
+                              account.socialProviders[index],
+                            ),
                             itemCount: account.socialProviders.length,
                           ),
                   ),
