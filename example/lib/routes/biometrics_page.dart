@@ -66,7 +66,7 @@ class _BiometricsPageState extends State<BiometricsPage>
   Future<void> _checkBiometricState() async {
     final bool isLocked = await widget.sdk.biometricService.isLocked();
     if (isLocked) {
-      _handleLockSession();
+      _handleUnlockSession();
     }
   }
 
