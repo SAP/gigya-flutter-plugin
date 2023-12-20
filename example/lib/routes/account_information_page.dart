@@ -65,79 +65,10 @@ class _AccountInformationPageState extends State<AccountInformationPage>
 
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
     accountInformationFuture = _getAccountInformation();
   }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        _checkBiometricState();
-        print('resumed');
-        break;
-      case AppLifecycleState.inactive:
-        print('inactive');
-        break;
-      case AppLifecycleState.paused:
-        print('paused');
-        break;
-      case AppLifecycleState.detached:
-        print('detached');
-        break;
-      case AppLifecycleState.hidden:
-        print('hidden');
-        break;
-    }
-  }
-
-  Future<void> _checkBiometricState() async {
-    bool isLocked = await widget.sdk.biometricService.isLocked();
-    if (isLocked) {
-      try {
-        await widget.sdk.biometricService.unlockSession(
-          parameters: <String, String>{
-            'title': 'SampleTitle',
-            'subtitle': 'SampleSubtitle',
-            'description': 'SampleDescription',
-          },
-        );
-
-        isLocked = await widget.sdk.biometricService.isLocked();
-        if (mounted) {
-          setState(() {});
-        }
-      } catch (error) {
-        if (mounted) {
-          setState(() {
-            _showBiometricErrorDialog(error.toString());
-          });
-        }
-      }
-    }
-  }
-
-  Future<void> _showBiometricErrorDialog(String message) async {
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text(message),
-          actions: <Widget>[
-            TextButton(
-              child: const Text('Dismiss'),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-            ),
-          ],
-        );
-      },
-    );
-  }
-
+  
   Widget _buildAccountInformationPage(BuildContext context, Account account) {
     return SingleChildScrollView(
       child: Column(
@@ -323,7 +254,6 @@ class _AccountInformationPageState extends State<AccountInformationPage>
   @override
   void dispose() {
     _firstNameController.dispose();
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }
 }

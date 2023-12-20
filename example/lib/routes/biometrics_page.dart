@@ -30,44 +30,13 @@ class _BiometricsPageState extends State<BiometricsPage>
 
   @override
   void initState() {
-    WidgetsBinding.instance.addObserver(this);
     super.initState();
     initializeBiometricState();
   }
 
   @override
   void dispose() {
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-  @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
-      case AppLifecycleState.resumed:
-        _checkBiometricState();
-        print('resumed');
-        break;
-      case AppLifecycleState.inactive:
-        print('inactive');
-        break;
-      case AppLifecycleState.paused:
-        print('paused');
-        break;
-      case AppLifecycleState.detached:
-        print('detached');
-        break;
-      case AppLifecycleState.hidden:
-        print('hidden');
-        break;
-    }
-  }
-
-  Future<void> _checkBiometricState() async {
-    final bool isLocked = await widget.sdk.biometricService.isLocked();
-    if (isLocked) {
-      _handleUnlockSession();
-    }
   }
 
   void _handleOptIn() async {
