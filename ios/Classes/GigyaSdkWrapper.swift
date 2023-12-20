@@ -705,6 +705,104 @@ extension GigyaSdkWrapper {
 
         result(nil)
     }
+
+    /**
+     Biometrics.
+     */
+
+    func biometricIsAvailable(result: @escaping FlutterResult) {
+        result(true)
+    }
+
+    func biometricIsLocked(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError,
+                                message: "SDK is not initialised",
+                                details: nil))
+            return
+        }
+        
+        result(sdk.biometric.isLocked)
+    }
+    
+    func biometricIsOptIn(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError,
+                                message: "SDK is not initialised",
+                                details: nil))
+        return
+        }
+        
+        result(sdk.biometric.isOptIn)
+    }
+    
+    func biometricOptIn(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError,
+                                message: "SDK is not initialised",
+                                details: nil))
+            return
+        }
+        
+        sdk.biometric.optIn(completion: { biometricResult in
+            biometricResult == GigyaBiometricResult.success ?
+            result(nil) :
+            result(FlutterError(code: PluginErrors.generalError,
+                                message: "Biometric opt in failed",
+                                details: nil))
+        })
+    }
+    
+    func biometricOptOut(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError,
+                                message: "SDK is not initialised",
+                                details: nil))
+            return
+        }
+        
+        sdk.biometric.optOut(completion: { biometricResult in
+            biometricResult == GigyaBiometricResult.success ?
+            result(nil) :
+            result(FlutterError(code: PluginErrors.generalError,
+                                message: "Biometric opt out failed",
+                                details: nil))
+        })
+    }
+    
+    func biometricLockSession(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError,
+                                message: "SDK is not initialised",
+                                details: nil))
+            return
+        }
+        
+        sdk.biometric.lockSession(completion: { biometricResult in
+            biometricResult == GigyaBiometricResult.success ?
+            result(nil) :
+            result(FlutterError(code: PluginErrors.generalError,
+                                message: "Biometric lock session failed",
+                                details: nil))
+        })
+    }
+    
+    func biometricUnlockSession(result: @escaping FlutterResult) {
+        guard let sdk = self.sdk else {
+            result(FlutterError(code: PluginErrors.missingParameterError,
+                                message: "SDK is not initialised",
+                                details: nil))
+            return
+        }
+
+        sdk.biometric.unlockSession(completion: { biometricResult in
+            biometricResult == GigyaBiometricResult.success ?
+            result(nil) :
+            result(FlutterError(code: PluginErrors.generalError,
+                                message: "Biometric unlock session failed",
+                                details: nil))
+        })
+    }
 }
 
 class ResolverHelper<T: GigyaAccountProtocol> {    
