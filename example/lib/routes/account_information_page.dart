@@ -13,7 +13,8 @@ class AccountInformationPage extends StatefulWidget {
   State<AccountInformationPage> createState() => _AccountInformationPageState();
 }
 
-class _AccountInformationPageState extends State<AccountInformationPage> {
+class _AccountInformationPageState extends State<AccountInformationPage>
+    with WidgetsBindingObserver {
   final TextEditingController _firstNameController = TextEditingController();
   final GlobalKey<FormFieldState<String>> _firstNameKey = GlobalKey();
   bool _inProgress = false;
@@ -67,7 +68,7 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
     super.initState();
     accountInformationFuture = _getAccountInformation();
   }
-
+  
   Widget _buildAccountInformationPage(BuildContext context, Account account) {
     return SingleChildScrollView(
       child: Column(
@@ -76,40 +77,14 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
               ? const LinearProgressIndicator(minHeight: 4)
               : const SizedBox(height: 4),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  const TextSpan(
-                    text: 'Account UID: ',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextSpan(text: account.uid),
-                ],
-              ),
-            ),
-          ),
+              padding: const EdgeInsets.all(8.0),
+              child: Text('UID:${account.uid}')),
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: RichText(
-              text: TextSpan(
-                children: <TextSpan>[
-                  const TextSpan(
-                    text: 'Account Email: ',
-                    style: TextStyle(
-                      fontSize: 16.0,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  TextSpan(
-                    text: account.profile?.email ?? 'No email for this account',
-                  ),
-                ],
-              ),
-            ),
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                  'Email:${account.profile?.email ?? 'No email for this account'}')),
+          const SizedBox(
+            height: 20,
           ),
           const Text(
             'Testing setAccount',
@@ -238,9 +213,9 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
             case ConnectionState.active:
             case ConnectionState.none:
             case ConnectionState.waiting:
-              return Column(
+              return const Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                children: const <Widget>[
+                children: <Widget>[
                   CircularProgressIndicator(),
                   Text('Fetching account...'),
                 ],

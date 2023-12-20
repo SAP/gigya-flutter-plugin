@@ -49,4 +49,13 @@ public enum GigyaSdkMethods: String {
     case linkToSite
     case linkToSocial
     case resolveSetAccount
+    
+    // Biometrics.
+    case biometricIsAvailable
+    case biometricIsLocked
+    case biometricIsOptIn
+    case biometricOptIn
+    case biometricOptOut
+    case biometricLockSession
+    case biometricUnlockSession
 }

@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
   State<HomePage> createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   late Future<bool> loggedInFuture;
 
   StreamSubscription<ScreensetEvent>? screenSetSubscription;
@@ -32,8 +32,79 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    WidgetsBinding.instance.addObserver(this);
     super.initState();
+
     loggedInFuture = widget.sdk.isLoggedIn();
+    _checkBiometricState();
+  }
+
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    switch (state) {
+      case AppLifecycleState.resumed:
+        _checkBiometricState();
+        print('resumed');
+        break;
+      case AppLifecycleState.inactive:
+        print('inactive');
+        break;
+      case AppLifecycleState.paused:
+        print('paused');
+        break;
+      case AppLifecycleState.detached:
+        print('detached');
+        break;
+      case AppLifecycleState.hidden:
+        print('hidden');
+        break;
+    }
+  }
+
+  Future<void> _checkBiometricState() async {
+    bool isLocked = await widget.sdk.biometricService.isLocked();
+    if (isLocked) {
+      try {
+        await widget.sdk.biometricService.unlockSession(
+          parameters: <String, String>{
+            'title': 'SampleTitle',
+            'subtitle': 'SampleSubtitle',
+            'description': 'SampleDescription',
+          },
+        );
+
+        isLocked = await widget.sdk.biometricService.isLocked();
+        if (mounted) {
+          setState(_refreshLogin);
+        }
+      } catch (error) {
+        if (mounted) {
+          setState(() {
+            _showBiometricErrorDialog(error.toString());
+          });
+        }
+      }
+    }
+  }
+
+  Future<void> _showBiometricErrorDialog(String message) async {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text(message),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Dismiss'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 
   List<Widget> _buildLoggedInOptions(BuildContext context) {
@@ -64,6 +135,19 @@ class _HomePageState extends State<HomePage> {
             }
           },
           child: const Text('Log out'),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: ElevatedButton(
+          onPressed: () async {
+            await Navigator.pushNamed(context, '/biometrics');
+
+            if (mounted) {
+              setState(() {});
+            }
+          },
+          child: const Text('Biometrics'),
         ),
       ),
       ElevatedButton(
@@ -271,6 +355,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
     screenSetSubscription?.cancel();
     screenSetSubscription = null;
     super.dispose();

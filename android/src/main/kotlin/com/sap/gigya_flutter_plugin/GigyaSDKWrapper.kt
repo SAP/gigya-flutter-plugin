@@ -1,5 +1,6 @@
 package com.sap.gigya_flutter_plugin
 
+import android.app.Activity
 import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
@@ -16,6 +17,9 @@ import com.gigya.android.sdk.auth.resolvers.IGigyaOtpResult
 import com.gigya.android.sdk.containers.GigyaContainer
 import com.gigya.android.sdk.interruption.IPendingRegistrationResolver
 import com.gigya.android.sdk.interruption.link.ILinkAccountsResolver
+import com.gigya.android.sdk.biometric.GigyaBiometric
+import com.gigya.android.sdk.biometric.GigyaPromptInfo
+import com.gigya.android.sdk.biometric.IGigyaBiometricCallback
 import com.gigya.android.sdk.network.GigyaError
 import com.gigya.android.sdk.session.SessionInfo
 import com.gigya.android.sdk.ui.plugin.GigyaPluginEvent
@@ -29,19 +33,33 @@ import java.util.*
 
 class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Class<T>) {
     companion object {
+        /**
+         * General error code
+         */
         const val GENERAL_ERROR = "700"
         const val GENERAL_ERROR_MESSAGE = "general error"
         const val MISSING_PARAMETER_ERROR = "701"
         const val MISSING_PARAMETER_MESSAGE = "request parameter missing"
+        /**
+         * Canceled error code
+         */
         const val CANCELED_ERROR = "702"
         const val CANCELED_ERROR_MESSAGE = "Operation canceled"
+        /**
+         * Biometric error code
+         */
+        const val BIOMETRIC_RECOGNITION_FAILED = "Fingerprint recognition failed"
     }
 
     private var sdk: Gigya<T>
 
     private var sdkAuth: GigyaAuth
 
+    private var sdkBiometric: GigyaBiometric
+
     private var resolverHelper: ResolverHelper = ResolverHelper()
+
+    private var activity: Activity? = null;
 
     private val gson = GsonBuilder().registerTypeAdapter(
         object : TypeToken<Map<String?, Any?>?>() {}.type,
@@ -52,6 +70,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         Gigya.setApplication(application)
         sdk = Gigya.getInstance(accountObj)
         sdkAuth = GigyaAuth.getInstance()
+        sdkBiometric = GigyaBiometric.getInstance()
 
         try {
             val pInfo: PackageInfo = getPackageInfo(application.packageManager, application.packageName)
@@ -61,6 +80,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         } catch (e: PackageManager.NameNotFoundException) {
             e.printStackTrace()
         }
+    }
+
+    fun setActivity(activity: Activity?) {
+        this.activity = activity;
     }
 
     @SuppressWarnings("deprecation")
@@ -1080,6 +1103,141 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     }
 
     //endregion
+
+    //region BIOMETRIC
+
+    fun biometricIsAvailable(channelResult: MethodChannel.Result) {
+        channelResult.success(sdkBiometric.isAvailable)
+    }
+
+    fun biometricIsLocked(channelResult: MethodChannel.Result) {
+        channelResult.success(sdkBiometric.isLocked)
+    }
+    
+    fun biometricIsOptIn(channelResult: MethodChannel.Result) {
+        channelResult.success(sdkBiometric.isOptIn)
+    }
+
+    fun biometricOptIn(arguments: Any, channelResult: MethodChannel.Result) {
+        val argumentMap = arguments as Map<*, *>;
+        sdkBiometric.optIn(activity, GigyaPromptInfo(argumentMap["title"] as String?,
+            argumentMap["subtitle"] as String?,
+            argumentMap["description"] as String?),
+        object : IGigyaBiometricCallback {
+            override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
+                channelResult.success(null)
+            }
+
+            override fun onBiometricOperationFailed(reason: String?) {
+                // TODO: Update to use error code once updated on Gigya Android SDK
+                if (reason != BIOMETRIC_RECOGNITION_FAILED) {
+                    channelResult.error(
+                        GENERAL_ERROR,
+                        reason,
+                        null
+                    )
+                }
+            }
+
+            override fun onBiometricOperationCanceled() {
+                channelResult.error(
+                    CANCELED_ERROR,
+                    CANCELED_ERROR_MESSAGE,
+                    null
+                )
+            }
+        })
+    }
+
+    fun biometricOptOut(arguments: Any, channelResult: MethodChannel.Result) {
+        val argumentMap = arguments as Map<*, *>;
+        sdkBiometric.optOut(activity, GigyaPromptInfo(argumentMap["title"] as String?,
+            argumentMap["subtitle"] as String?,
+            argumentMap["description"] as String?),
+            object : IGigyaBiometricCallback {
+                override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
+                    channelResult.success(null)
+                }
+
+                override fun onBiometricOperationFailed(reason: String?) {
+                    // TODO: Update to use error code once updated on Gigya Android SDK
+                    if (reason != BIOMETRIC_RECOGNITION_FAILED) {
+                        channelResult.error(
+                            GENERAL_ERROR,
+                            reason,
+                            null
+                        )
+                    }
+                }
+
+                override fun onBiometricOperationCanceled() {
+                    channelResult.error(
+                        CANCELED_ERROR,
+                        CANCELED_ERROR_MESSAGE,
+                        null
+                    )
+                }
+            })
+    }
+
+    fun biometricLockSession(channelResult: MethodChannel.Result) {
+        sdkBiometric.lock(
+            object : IGigyaBiometricCallback {
+                override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
+                    channelResult.success(null)
+                }
+
+                override fun onBiometricOperationFailed(reason: String?) {
+                    // TODO: Update to use error code once updated on Gigya Android SDK
+                    if (reason != BIOMETRIC_RECOGNITION_FAILED) {
+                        channelResult.error(
+                            GENERAL_ERROR,
+                            reason,
+                            null
+                        )
+                    }
+                }
+
+                override fun onBiometricOperationCanceled() {
+                    channelResult.error(
+                        CANCELED_ERROR,
+                        CANCELED_ERROR_MESSAGE,
+                        null
+                    )
+                }
+            })
+    }
+
+    fun biometricUnlockSession(arguments: Any, channelResult: MethodChannel.Result) {
+        val argumentMap = arguments as Map<*, *>;
+        sdkBiometric.unlock(activity, GigyaPromptInfo(argumentMap["title"] as String?,
+            argumentMap["subtitle"] as String?,
+            argumentMap["description"] as String?),
+            object : IGigyaBiometricCallback {
+                override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
+                    channelResult.success(null)
+                }
+
+                override fun onBiometricOperationFailed(reason: String?) {
+                    // TODO: Update to use error code once updated on Gigya Android SDK
+                    if (reason != BIOMETRIC_RECOGNITION_FAILED) {
+                        channelResult.error(
+                            GENERAL_ERROR,
+                            reason,
+                            null
+                        )
+                    }
+                }
+
+                override fun onBiometricOperationCanceled() {
+                    channelResult.error(
+                        CANCELED_ERROR,
+                        CANCELED_ERROR_MESSAGE,
+                        null
+                    )
+                }
+            })
+    }
 
     /**
      * Map typed object to a Map<String, Any> object in order to pass on to

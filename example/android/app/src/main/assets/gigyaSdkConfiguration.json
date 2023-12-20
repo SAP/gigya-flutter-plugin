@@ -1,6 +1,0 @@
-{
-  "apiKey": "YOUR-API-KEY-HERE",
-  "apiDomain": "us1.gigya.com",
-  "accountCacheTime": 1,
-  "sessionVerificationInterval": 0
-}
