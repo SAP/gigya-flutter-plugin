@@ -176,6 +176,67 @@ As with the core SDKs, the Flutter plugin provides a streaming channel that will
 - event - actual event name.
 - map - event data map.
 
+## Biometric support
+
+The plugin provides Android/iOS biometric support for these flows.
+
+```
+An end user logs in.
+An end user decides to use biometric authentication.
+This requires the end user to verify their fingerprint.
+The app is locked or deleted from memory.
+The end user needs to unlock the app to restore his session.
+In this case, the end user needs to verify his fingerprint.
+The end user decides not to use biometric authentication.
+```
+The biometric fingerprint feature is a security cipher that is placed on top of an existing session of your app, so invoking biometric operations requires a valid session.
+
+Please make sure you are using native implementations:
+
+## iOS
+1. The device has a passcode.
+2. The device has TouchID/FaceID.
+
+**FaceID
+To use FaceID in a compatible device, you must include the following key in your Info.plist file:
+
+**NSFaceIDUsageDescription = (String) "Your own message "**.
+If you also want to set a custom text in the Touch ID prompt, you can include the following key:
+
+**GigyaTouchIDMessage = (String) "Your custom message" (Default = "Please authenticate to continue").**
+
+## Android
+
+1. The device has a fingerprint sensor.
+2. At least 1 fingerprint is already registered on the device.
+3. Appropriate permissions are already requested in the library manifest: android.permission.USE _FINGERPRINT android.permission. USE _BIOMETRIC.
+
+**Declaring the prompt display**
+Android’s biometric authentication uses a prompt display. You can customize the text displayed by declaring your own ***BiometricPromptInfo*** object.
+
+In your application class (after launching the SDK), you can add the following:
+```dart
+await widget.sdk.biometricService.optIn(
+  parameters: <String, String>{
+    'title': 'SampleTitle',
+    'subtitle': 'SampleSubtitle',
+    'description': 'SampleDescription',
+  },
+);
+
+```
+
+If no prompt info is specified, the prompt window uses default English texts:
+```
+<string name="bio_prompt_default_title">Biometric verification</string>
+<string name="bio_prompt_default_subtitle">Confirm fingerprint to continue</string>
+<string name="bio_prompt_default_description">""</string>
+```
+
+**Note:**
+The biometric service parameter map is only relevant for Android applications.
+
+
 ## Mobile SSO
 
 The Flutter plugin supports the native SDK's "Single Sign On feature".
