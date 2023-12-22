@@ -1,3 +1,9 @@
+# 1.0.3
+1.0.3
+
+* Update Android core SDK.
+* Added support for biometric session lock.
+
 # 1.0.2
 1.0.2
 
@@ -8,7 +14,7 @@
 * Added option to hide screenset programmatically via "dismissScreenSet" interface.
 * Fixed nullable "apiVersion" bug on Android wrapper.
 * Introduced Android proguard file.
-* 
+
 # 1.0.1
 1.0.1
 

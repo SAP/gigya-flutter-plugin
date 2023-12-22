@@ -8,7 +8,8 @@ A [Flutter](https://flutter.dev) plugin for interfacing Gigya's native SDKs into
 A flutter plugin that provides an interface for the Gigya API.
 
 ## Requirements
-Android SDK support requires SDK 14 and above. There is no specific requirement for iOS.
+Android SDK support requires SDK 14 and above.
+Requires iOS version 13+.
 
 ## Download and Installation
 Add the Flutter plugin to your **pubspec.yaml** project configuration file.
@@ -107,6 +108,10 @@ Supported social login providers:
 
 ## Embedded social providers
 
+#### Android v7 upgrade
+Plugin version 1.2.0+ will depend on Android SDK core v7.
+Please view the changes required to be made to yours application the Android code documentation for updating to external providers usage.
+
 Specific social providers (currently Facebook and Google) require additional setup. This due to the their requirement for specific (embedded) SDKs.
 ```
 Note: Examples for both Facebook & Google are implemented in the example application in the Github code repository for this project.
@@ -171,6 +176,67 @@ As with the core SDKs, the Flutter plugin provides a streaming channel that will
 - event - actual event name.
 - map - event data map.
 
+## Biometric support
+
+The plugin provides Android/iOS biometric support for these flows.
+
+```
+An end user logs in.
+An end user decides to use biometric authentication.
+This requires the end user to verify their fingerprint.
+The app is locked or deleted from memory.
+The end user needs to unlock the app to restore his session.
+In this case, the end user needs to verify his fingerprint.
+The end user decides not to use biometric authentication.
+```
+The biometric fingerprint feature is a security cipher that is placed on top of an existing session of your app, so invoking biometric operations requires a valid session.
+
+Please make sure you are using native implementations:
+
+## iOS
+1. The device has a passcode.
+2. The device has TouchID/FaceID.
+
+**FaceID
+To use FaceID in a compatible device, you must include the following key in your Info.plist file:
+
+**NSFaceIDUsageDescription = (String) "Your own message "**.
+If you also want to set a custom text in the Touch ID prompt, you can include the following key:
+
+**GigyaTouchIDMessage = (String) "Your custom message" (Default = "Please authenticate to continue").**
+
+## Android
+
+1. The device has a fingerprint sensor.
+2. At least 1 fingerprint is already registered on the device.
+3. Appropriate permissions are already requested in the library manifest: android.permission.USE _FINGERPRINT android.permission. USE _BIOMETRIC.
+
+**Declaring the prompt display**
+Android’s biometric authentication uses a prompt display. You can customize the text displayed by declaring your own ***BiometricPromptInfo*** object.
+
+In your application class (after launching the SDK), you can add the following:
+```dart
+await widget.sdk.biometricService.optIn(
+  parameters: <String, String>{
+    'title': 'SampleTitle',
+    'subtitle': 'SampleSubtitle',
+    'description': 'SampleDescription',
+  },
+);
+
+```
+
+If no prompt info is specified, the prompt window uses default English texts:
+```
+<string name="bio_prompt_default_title">Biometric verification</string>
+<string name="bio_prompt_default_subtitle">Confirm fingerprint to continue</string>
+<string name="bio_prompt_default_description">""</string>
+```
+
+**Note:**
+The biometric service parameter map is only relevant for Android applications.
+
+
 ## Mobile SSO
 
 The Flutter plugin supports the native SDK's "Single Sign On feature".
@@ -192,6 +258,10 @@ To initiate the SSO request flow, run the following snippet.
 // Handle error here.
  });
 ```
+
+**Note:**
+When using mobile SSO (single sign-on using the central login page), logging out using the SDK's logout method will only log the user out of the current API key used.
+The user will not be logged out of the other group sites.
 
 ## FIDO/WebAuthn Authentication
 FIDO is a passwordless authentication method that allows password-only logins to be replaced with secure and fast login experiences across websites and apps.
