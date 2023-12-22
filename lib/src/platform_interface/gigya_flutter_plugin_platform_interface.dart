@@ -3,7 +3,7 @@ import 'package:plugin_platform_interface/plugin_platform_interface.dart';
 import '../method_channel/gigya_flutter_plugin_method_channel.dart';
 import '../models/enums/social_provider.dart';
 import '../models/screenset_event.dart';
-import '../services/biometric_service/biometric_service.dart';
+import '../services/biometric_service.dart';
 import '../services/interruption_resolver.dart';
 import '../services/otp_service.dart';
 import '../services/web_authentication_service.dart';
@@ -29,9 +29,6 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     PlatformInterface.verifyToken(instance, _token);
     _instance = instance;
   }
-
-  // TODO(navaronbracke): Move the Biometrics service to `src/method_channel/method_channel_biometrics_service.dart`
-  // during the next rebase. See https://github.com/SAP/gigya-flutter-plugin/pull/77
 
   /// Get the interruption resolver factory provided by the Gigya SDK.
   InterruptionResolverFactory get interruptionResolverFactory {
