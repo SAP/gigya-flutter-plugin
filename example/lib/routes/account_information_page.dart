@@ -68,7 +68,7 @@ class _AccountInformationPageState extends State<AccountInformationPage>
     super.initState();
     accountInformationFuture = _getAccountInformation();
   }
-  
+
   Widget _buildAccountInformationPage(BuildContext context, Account account) {
     return SingleChildScrollView(
       child: Column(

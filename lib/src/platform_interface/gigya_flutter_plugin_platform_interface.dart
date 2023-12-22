@@ -15,7 +15,8 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
 
   static final Object _token = Object();
 
-  static GigyaFlutterPluginPlatform _instance = MethodChannelGigyaFlutterPlugin();
+  static GigyaFlutterPluginPlatform _instance =
+      MethodChannelGigyaFlutterPlugin();
 
   /// The default instance of [GigyaFlutterPluginPlatform] to use.
   ///
