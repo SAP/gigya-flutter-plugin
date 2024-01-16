@@ -468,7 +468,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
      */
     fun sso(arguments: Any, channelResult: MethodChannel.Result) {
         val argumentMap: MutableMap<String, Any>? = arguments as MutableMap<String, Any>?
-        sdk.login(GigyaDefinitions.Providers.SSO, argumentMap, object : GigyaLoginCallback<T>() {
+        sdk.login(GigyaDefinitions.Providers.SSO, argumentMap!!["parameters"] as MutableMap<String, Any>?, object : GigyaLoginCallback<T>() {
             override fun onSuccess(p0: T) {
                 val mapped = mapObject(p0)
                 resolverHelper.clear()
