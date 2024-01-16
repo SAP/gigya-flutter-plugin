@@ -426,9 +426,6 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
           'provider': 'sso',
           'parameters': parameters,
         },
-      ).timeout(
-        Methods.sso.timeout,
-        onTimeout: () => throw const GigyaTimeoutError(),
       );
 
       return result ?? const <String, dynamic>{};
