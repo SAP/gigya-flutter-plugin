@@ -7,15 +7,15 @@ import '../models/enums/methods.dart';
 import '../models/enums/social_provider.dart';
 import '../models/gigya_error.dart';
 import '../models/screenset_event.dart';
-import '../services/biometric_service/biometric_service.dart';
-import '../services/biometric_service/method_channel_biometric_service.dart';
-import '../services/interruption_resolver/interruption_resolver.dart';
-import '../services/interruption_resolver/method_channel_interruption_resolver.dart';
-import '../services/otp_service/method_channel_otp_service.dart';
-import '../services/otp_service/otp_service.dart';
-import '../services/web_authentication_service/method_channel_web_authentication_service.dart';
-import '../services/web_authentication_service/web_authentication_service.dart';
-import 'gigya_flutter_plugin_platform_interface.dart';
+import '../platform_interface/gigya_flutter_plugin_platform_interface.dart';
+import '../services/biometric_service.dart';
+import '../services/interruption_resolver.dart';
+import '../services/otp_service.dart';
+import '../services/web_authentication_service.dart';
+import 'method_channel_biometric_service.dart';
+import 'method_channel_interruption_resolver.dart';
+import 'method_channel_otp_service.dart';
+import 'method_channel_web_authentication_service.dart';
 
 /// An implementation of [GigyaFlutterPluginPlatform] that uses method channels.
 class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
@@ -359,32 +359,19 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
       throw GigyaError.fromPlatformException(exception);
     }
 
-    yield* screenSetEvents.receiveBroadcastStream().map((dynamic event) {
-      // The binary messenger sends things back as `dynamic`.
-      // If the event is a `Map`,
-      // it does not have type information and comes back as `Map<Object?, Object?>`.
-      // Cast it using `Map.cast()` to at least recover the type of the key.
-      // The values are still `Object?`, though.
-      final Map<String, Object?> typedEvent =
-          (event as Map<Object?, Object?>).cast<String, Object?>();
-
-      // Now grab the data of the event,
-      // using `Map.cast()` to recover the type of the keys.
-      final Map<String, Object?>? data =
-          (typedEvent['data'] as Map<Object?, Object?>?)
-              ?.cast<String, Object?>();
-
-      return ScreensetEvent(
-        typedEvent['event'] as String,
-        data ?? <String, Object?>{},
-      );
-    });
+    // The binary messenger sends things back as `dynamic`,
+    // but the events are actually a `Map<Object?, Object?>`.
+    yield* screenSetEvents
+        .receiveBroadcastStream()
+        .cast<Map<Object?, Object?>>()
+        .map(ScreensetEvent.fromMap);
   }
 
   @override
   Future<void> dismissScreenSet() async {
     try {
-      await methodChannel.invokeMethod<void>(Methods.dismissScreenSet.methodName);
+      await methodChannel
+          .invokeMethod<void>(Methods.dismissScreenSet.methodName);
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
     }

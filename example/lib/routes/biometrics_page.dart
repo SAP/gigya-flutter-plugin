@@ -144,7 +144,7 @@ class _BiometricsPageState extends State<BiometricsPage>
             ),
             trailing: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
+              children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Switch(
@@ -167,7 +167,7 @@ class _BiometricsPageState extends State<BiometricsPage>
             ),
             trailing: Wrap(
               crossAxisAlignment: WrapCrossAlignment.center,
-              children: [
+              children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 5),
                   child: Switch(
