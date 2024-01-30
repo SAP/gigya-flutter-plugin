@@ -1,3 +1,9 @@
+# 1.0.5
+1.0.4
+
+* Removed timeout for SSO channel call.
+* Fixed Android "rp_context" parameters not passing correctly to native platform.
+
 # 1.0.3
 1.0.3
 
