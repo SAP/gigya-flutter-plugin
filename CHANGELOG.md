@@ -1,4 +1,4 @@
-# 1.0.5
+# 1.0.4
 1.0.4
 
 * Removed timeout for SSO channel call.
