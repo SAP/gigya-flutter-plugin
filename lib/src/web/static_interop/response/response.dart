@@ -7,9 +7,7 @@ export 'login_response.dart';
 ///
 /// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/416d55f070b21014bbc5a10ce4041860.html
 @JS()
-@anonymous
-@staticInterop
-extension type Response(JSObject _) {
+extension type Response._(JSObject _) {
   /// The version of the Gigya API that was used.
   external int? get apiVersion;
 
@@ -17,7 +15,7 @@ extension type Response(JSObject _) {
   external String get callId;
 
   /// Get the error details.
-  /// 
+  ///
   /// This getter can be redefined (not overridden) by extension types,
   /// that have [Response] as representation type,
   /// to include additional details.

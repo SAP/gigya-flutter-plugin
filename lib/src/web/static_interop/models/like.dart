@@ -2,9 +2,7 @@ import 'dart:js_interop';
 
 /// The extension type for the `Like` object.
 @JS()
-@anonymous
-@staticInterop
-extension type Like(JSObject _) {
+extension type Like._(JSObject _) implements JSObject {
   /// The category of the like.
   external String? get category;
 

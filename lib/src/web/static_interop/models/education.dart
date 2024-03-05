@@ -2,9 +2,7 @@ import 'dart:js_interop';
 
 /// The extension type for the Education object.
 @JS()
-@anonymous
-@staticInterop
-extension type Education(JSObject _) {
+extension type Education._(JSObject _) implements JSObject {
   /// The degree for the education.
   external String? get degree;
 

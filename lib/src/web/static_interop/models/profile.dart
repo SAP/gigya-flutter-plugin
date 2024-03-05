@@ -12,9 +12,7 @@ import 'work.dart';
 
 /// The extension type for the `Profile` object.
 @JS()
-@anonymous
-@staticInterop
-extension type Profile(JSObject _) {
+extension type Profile._(JSObject _) implements JSObject {
   /// The person's activities.
   external String? get activities;
 
@@ -37,11 +35,11 @@ extension type Profile(JSObject _) {
   external int? get birthYear;
 
   @JS('certifications')
-  external JSArray? get _certifications;
+  external JSArray<Certification>? get _certifications;
 
   /// The person's certifications.
   List<Certification> get certifications {
-    return _certifications?.toDart.cast<Certification>() ?? const <Certification>[];
+    return _certifications?.toDart ?? const <Certification>[];
   }
 
   /// The city in which the person resides.
@@ -51,11 +49,11 @@ extension type Profile(JSObject _) {
   external String? get country;
 
   @JS('education')
-  external JSArray? get _education;
+  external JSArray<Education>? get _education;
 
   /// The different educations of the person.
   List<Education> get education {
-    return _education?.toDart.cast<Education>() ?? const <Education>[];
+    return _education?.toDart ?? const <Education>[];
   }
 
   /// The education level of the person.
@@ -104,10 +102,10 @@ extension type Profile(JSObject _) {
   external String? get lastName;
 
   @JS('likes')
-  external JSArray? get _likes;
+  external JSArray<Like>? get _likes;
 
   /// The person's likes.
-  List<Like> get likes => _likes?.toDart.cast<Like>() ?? const <Like>[];
+  List<Like> get likes => _likes?.toDart ?? const <Like>[];
 
   /// The language locale of the person's primary language.
   external String? get locale;
@@ -126,18 +124,18 @@ extension type Profile(JSObject _) {
   external String? get nickname;
 
   @JS('patents')
-  external JSArray? get _patents;
+  external JSArray<Patent>? get _patents;
 
   /// The different patents that this person owns.
   List<Patent> get patents {
-    return _patents?.toDart.cast<Patent>() ?? const <Patent>[];
+    return _patents?.toDart ?? const <Patent>[];
   }
 
   @JS('phones')
-  external JSArray? get _phones;
+  external JSArray<Phone>? get _phones;
 
   /// The different phone numbers belonging to this person.
-  List<Phone> get phones => _phones?.toDart.cast<Phone>() ?? const <Phone>[];
+  List<Phone> get phones => _phones?.toDart ?? const <Phone>[];
 
   /// The url to the person's photo.
   external String? get photoURL;
@@ -152,7 +150,7 @@ extension type Profile(JSObject _) {
   external String? get profileURL;
 
   @JS('providers')
-  external JSArray? get _providers;
+  external JSArray<JSString>? get _providers;
 
   /// The names of the providers to which the user is connected/logged in.
   List<String> get providers {
@@ -163,11 +161,11 @@ extension type Profile(JSObject _) {
   external String? get proxyEmail;
 
   @JS('publications')
-  external JSArray? get _publications;
+  external JSArray<Publication>? get _publications;
 
   /// The list of publications belonging to this person.
   List<Publication> get publications {
-    return _publications?.toDart.cast<Publication>() ?? const <Publication>[];
+    return _publications?.toDart ?? const <Publication>[];
   }
 
   /// The person's relationship status.
@@ -177,10 +175,10 @@ extension type Profile(JSObject _) {
   external String? get religion;
 
   @JS('skills')
-  external JSArray? get _skills;
+  external JSArray<Skill>? get _skills;
 
   /// The different skills of the person.
-  List<Skill> get skills => _skills?.toDart.cast<Skill>() ?? const <Skill>[];
+  List<Skill> get skills => _skills?.toDart ?? const <Skill>[];
 
   /// The person's specialities.
   external String? get specialities;
@@ -201,10 +199,10 @@ extension type Profile(JSObject _) {
   external String? get verified;
 
   @JS('work')
-  external JSArray? get _work;
+  external JSArray<Work>? get _work;
 
   /// The person's career, divided into the different employments.
-  List<Work> get work => _work?.toDart.cast<Work>() ?? const <Work>[];
+  List<Work> get work => _work?.toDart ?? const <Work>[];
 
   /// The ZIP code of the person's address.
   external String? get zip;
@@ -219,7 +217,8 @@ extension type Profile(JSObject _) {
       'birthDay': birthDay,
       'birthMonth': birthMonth,
       'birthYear': birthYear,
-      'certifications': certifications.map((Certification c) => c.toMap()).toList(),
+      'certifications':
+          certifications.map((Certification c) => c.toMap()).toList(),
       'city': city,
       'country': country,
       'education': education.map((Education e) => e.toMap()).toList(),

@@ -2,9 +2,7 @@ import 'dart:js_interop';
 
 /// The extension type for the session info object.
 @JS()
-@anonymous
-@staticInterop
-extension type SessionInfo(JSObject _) {
+extension type SessionInfo._(JSObject _) implements JSObject {
   /// The name of the session cookie.
   external String? get cookieName;
 

@@ -2,9 +2,7 @@ import 'dart:js_interop';
 
 /// The extension type for the `Skill` object.
 @JS()
-@anonymous
-@staticInterop
-extension type Skill(JSObject _) {
+extension type Skill._(JSObject _) implements JSObject {
   /// The user's proficiency in the skill.
   external String? get level;
 

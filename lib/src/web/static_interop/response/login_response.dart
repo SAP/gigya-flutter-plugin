@@ -10,8 +10,6 @@ import 'response.dart';
 ///
 /// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/eb93d538b9ae45bfadd9a8aaa8806753.html#response-data
 @JS()
-@anonymous
-@staticInterop
 extension type LoginResponse(Response baseResponse) {
   // TODO: preferences, subscriptions should be in the login response
 
@@ -26,7 +24,7 @@ extension type LoginResponse(Response baseResponse) {
       ...baseResponse.details,
       'regToken': regToken,
     };
-  }  
+  }
 
   /// The verified and unverified email addresses of the user.
   external Emails? get emails;

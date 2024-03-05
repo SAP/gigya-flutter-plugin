@@ -2,14 +2,12 @@ import 'dart:js_interop';
 
 /// The extension type for the emails object.
 @JS()
-@anonymous
-@staticInterop
-extension type Emails(JSObject _) {
+extension type Emails._(JSObject _) implements JSObject {
   @JS('unverified')
-  external JSArray? get _unverified;
+  external JSArray<JSString>? get _unverified;
 
   @JS('verified')
-  external JSArray? get _verified;
+  external JSArray<JSString>? get _verified;
 
   /// The list of unverified email addresses.
   List<String> get unverified {

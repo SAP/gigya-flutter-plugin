@@ -2,9 +2,7 @@ import 'dart:js_interop';
 
 /// The extension type for the `Patent` object.
 @JS()
-@anonymous
-@staticInterop
-extension type Patent(JSObject _) {
+extension type Patent._(JSObject _) implements JSObject {
   /// The issue date of the patent.
   external String? get date;
 

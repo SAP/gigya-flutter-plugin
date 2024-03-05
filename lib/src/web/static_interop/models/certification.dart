@@ -2,9 +2,7 @@ import 'dart:js_interop';
 
 /// The extension type for the Certification object.
 @JS()
-@anonymous
-@staticInterop
-extension type Certification(JSObject _) {  
+extension type Certification._(JSObject _) implements JSObject {
   /// The certification authority.
   external String? get authority;
 

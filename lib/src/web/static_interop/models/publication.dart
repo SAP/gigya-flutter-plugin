@@ -2,9 +2,7 @@ import 'dart:js_interop';
 
 /// The extension type for the `Publication` object.
 @JS()
-@anonymous
-@staticInterop
-extension type Publication(JSObject _) {
+extension type Publication._(JSObject _) implements JSObject {
   /// The publication date.
   external String? get date;
 

@@ -2,9 +2,7 @@ import 'dart:js_interop';
 
 /// The extension type for the `Work` object.
 @JS()
-@anonymous
-@staticInterop
-extension type Work(JSObject _) {
+extension type Work._(JSObject _) implements JSObject {
   /// The name of the company.
   external String? get company;
 

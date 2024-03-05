@@ -2,9 +2,7 @@ import 'dart:js_interop';
 
 /// The extension type for the `Coordinates` object.
 @JS()
-@anonymous
-@staticInterop
-extension type Coordinates(JSObject _) {
+extension type Coordinates._(JSObject _) implements JSObject {
   /// The latitude of the coordinate.
   external double get lat;
 
@@ -22,9 +20,7 @@ extension type Coordinates(JSObject _) {
 
 /// The extension type for the `Location` object.
 @JS()
-@anonymous
-@staticInterop
-extension type Location(JSObject _) {
+extension type Location._(JSObject _) implements JSObject {
   /// The name of the city in which the location is located.
   external String? get city;
 

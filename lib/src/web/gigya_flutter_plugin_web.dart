@@ -37,11 +37,10 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     bool forceLogout = false,
   }) async {
     final Completer<void> onGigyaServiceReadyCompleter = Completer<void>();
-    final GigyaWindow domWindow = GigyaWindow(web.window);
 
     // Set `window.onGigyaServiceReady` before creating the script.
     // That function is called when the SDK has been initialized.
-    domWindow.onGigyaServiceReady = allowInterop((JSString? _) {
+    web.window.onGigyaServiceReady = allowInterop((JSString? _) {
       if (!onGigyaServiceReadyCompleter.isCompleted) {
         onGigyaServiceReadyCompleter.complete();
       }
@@ -51,7 +50,8 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     // This is the case when doing a Hot Reload, where the application starts from scratch,
     // even though the Gigya SDK script is still attached to the DOM and ready.
     // See https://docs.flutter.dev/tools/hot-reload#how-to-perform-a-hot-reload
-    final bool sdkIsReady = domWindow.gigya != null && GigyaWebSdk.instance.isReady;
+    final bool sdkIsReady =
+        web.window.gigya != null && GigyaWebSdk.instance.isReady;
 
     if (sdkIsReady) {
       if (!onGigyaServiceReadyCompleter.isCompleted) {
@@ -60,18 +60,19 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     } else {
       final Completer<void> scriptLoadCompleter = Completer<void>();
 
-      final web.HTMLScriptElement script = (web.document.createElement('script') as web.HTMLScriptElement)
-        ..async = true
-        ..defer = false
-        ..type = 'text/javascript'
-        ..lang = 'javascript'
-        ..crossOrigin = 'anonymous'
-        ..src = 'https://cdns.$apiDomain/js/gigya.js?apikey=$apiKey'
-        ..onload = allowInterop((JSAny _) {
-          if (!scriptLoadCompleter.isCompleted) {
-            scriptLoadCompleter.complete();
-          }
-        }).toJS;
+      final web.HTMLScriptElement script =
+          (web.document.createElement('script') as web.HTMLScriptElement)
+            ..async = true
+            ..defer = false
+            ..type = 'text/javascript'
+            ..lang = 'javascript'
+            ..crossOrigin = 'anonymous'
+            ..src = 'https://cdns.$apiDomain/js/gigya.js?apikey=$apiKey'
+            ..onload = allowInterop((JSAny _) {
+              if (!scriptLoadCompleter.isCompleted) {
+                scriptLoadCompleter.complete();
+              }
+            }).toJS;
 
       web.document.head!.append(script);
 
@@ -135,7 +136,8 @@ class GigyaFlutterPluginWeb extends GigyaFlutterPluginPlatform {
     required String password,
     Map<String, dynamic> parameters = const <String, dynamic>{},
   }) {
-    final Completer<Map<String, dynamic>> completer = Completer<Map<String, dynamic>>();
+    final Completer<Map<String, dynamic>> completer =
+        Completer<Map<String, dynamic>>();
 
     final LoginParameters loginParameters = LoginParameters(
       loginID: loginId,

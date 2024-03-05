@@ -2,9 +2,7 @@ import 'dart:js_interop';
 
 /// The extension type for the `Favorite` object.
 @JS()
-@anonymous
-@staticInterop
-extension type Favorite(JSObject _) {
+extension type Favorite._(JSObject _) implements JSObject {
   /// The category of the favorite.
   external String? get category;
 
@@ -26,56 +24,54 @@ extension type Favorite(JSObject _) {
 
 /// The extension type for the `Favorites` object.
 @JS()
-@anonymous
-@staticInterop
-extension type Favorites(JSObject _) {
+extension type Favorites._(JSObject _) implements JSObject {
   @JS('activities')
-  external JSArray? get _activities;
+  external JSArray<Favorite>? get _activities;
 
   @JS('books')
-  external JSArray? get _books;
+  external JSArray<Favorite>? get _books;
 
   @JS('interests')
-  external JSArray? get _interests;
+  external JSArray<Favorite>? get _interests;
 
   @JS('movies')
-  external JSArray? get _movies;
+  external JSArray<Favorite>? get _movies;
 
   @JS('music')
-  external JSArray? get _music;
+  external JSArray<Favorite>? get _music;
 
   @JS('television')
-  external JSArray? get _television;
+  external JSArray<Favorite>? get _television;
 
   /// The user's favorite activities.
   List<Favorite> get activities {
-    return _activities?.toDart.cast<Favorite>() ?? const <Favorite>[];
+    return _activities?.toDart ?? const <Favorite>[];
   }
 
   /// The user's favorite books.
   List<Favorite> get books {
-    return _books?.toDart.cast<Favorite>() ?? const <Favorite>[];
+    return _books?.toDart ?? const <Favorite>[];
   }
 
   /// The user's interests.
   List<Favorite> get interests {
-    return _interests?.toDart.cast<Favorite>() ?? const <Favorite>[];
+    return _interests?.toDart ?? const <Favorite>[];
   }
 
   /// The user's favorite movies.
   List<Favorite> get movies {
-    return _movies?.toDart.cast<Favorite>() ?? const <Favorite>[];
+    return _movies?.toDart ?? const <Favorite>[];
   }
 
   /// The user's favorite music.
   List<Favorite> get music {
-    return _music?.toDart.cast<Favorite>() ?? const <Favorite>[];
+    return _music?.toDart ?? const <Favorite>[];
   }
 
   /// The user's favorite television programmes.
   List<Favorite> get television {
-    return _television?.toDart.cast<Favorite>() ?? const <Favorite>[];
-  }  
+    return _television?.toDart ?? const <Favorite>[];
+  }
 
   /// Convert this object to a [Map].
   Map<String, dynamic> toMap() {

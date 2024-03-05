@@ -9,10 +9,9 @@ import 'window.dart';
 ///
 /// See also: https://help.sap.com/docs/SAP_CUSTOMER_DATA_CLOUD/8b8d6fffe113457094a17701f63e3d6a/417f6b5e70b21014bbc5a10ce4041860.html
 @JS()
-@staticInterop
-extension type GigyaWebSdk(JSObject _) implements JSObject {
+extension type GigyaWebSdk._(JSObject _) {
   /// Get the Gigya Web SDK instance from the window.
-  /// 
+  ///
   /// Throws a [StateError] if the Gigya Web SDK instance is null.
   static GigyaWebSdk get instance {
     final GigyaWebSdk? gigya = GigyaWindow(web.window).gigya;
