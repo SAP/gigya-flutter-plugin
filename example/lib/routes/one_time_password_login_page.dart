@@ -60,7 +60,7 @@ class _OneTimePasswordLoginPageState extends State<OneTimePasswordLoginPage> {
     PendingOtpVerification verification,
     String phone,
   ) {
-    _scaffoldKey.currentState?.showBottomSheet<void>((BuildContext context) {
+    _scaffoldKey.currentState?.showBottomSheet((BuildContext context) {
       return Material(
         color: Colors.white,
         elevation: 4,

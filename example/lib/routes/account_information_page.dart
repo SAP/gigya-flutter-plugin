@@ -51,7 +51,7 @@ class _AccountInformationPageState extends State<AccountInformationPage> {
 
       print('Update account result: $result');
 
-      if (mounted) {
+      if (context.mounted) {
         FocusScope.of(context).unfocus();
         setState(() {
           _inProgress = false;
