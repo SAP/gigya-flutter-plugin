@@ -4,8 +4,8 @@ version: 1.0.1
 homepage: https://github.com/SAP/gigya-flutter-plugin
 
 environment:
-  sdk: ">=3.3.0-1.0.dev <4.0.0"
-  flutter: ">=3.10.0"
+  sdk: ">=3.3.0 <4.0.0"
+  flutter: ">=3.19.0"
 
 dependencies:
   flutter:

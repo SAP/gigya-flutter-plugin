@@ -20,7 +20,6 @@ linter:
     avoid_positional_boolean_parameters: true
     avoid_print: false # The example app uses print statements.
     avoid_redundant_argument_values: true
-    avoid_returning_null_for_future: true
     avoid_returning_this: true # Cascade operator `..` is preferred if code gets flagged.
     avoid_slow_async_io: true
     avoid_unused_constructor_parameters: true
