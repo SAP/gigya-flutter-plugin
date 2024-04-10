@@ -1,3 +1,9 @@
+# 1.0.5
+1.0.5
+
+* Updated Podspec file to apply minimum SDK 1.0.6 (privacy manifest support).
+* Updated Android core gradle implementation.
+
 # 1.0.4
 1.0.4
 

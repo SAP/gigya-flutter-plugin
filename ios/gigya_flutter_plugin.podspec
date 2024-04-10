@@ -15,8 +15,8 @@ Pod::Spec.new do |s|
   s.source           = { :path => '.' }
   s.source_files = 'Classes/**/*'
   s.dependency 'Flutter'
-  s.dependency 'Gigya', '>= 1.5.8'
-  s.dependency 'GigyaAuth', '>= 1.1.1'
+  s.dependency 'Gigya', '>= 1.6.0'
+  s.dependency 'GigyaAuth', '>= 1.1.2'
   s.platform = :ios, '13.0'
 
   # Flutter.framework does not contain a i386 slice.
