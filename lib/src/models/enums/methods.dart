@@ -61,7 +61,10 @@ enum Methods {
   socialLogin('socialLogin'),
 
   /// The method that starts Single-Sign-On.
-  sso('sso');
+  sso('sso'),
+
+  /// Get session exchange authentication code.
+  getAuthCode('getAuthCode');
 
   /// The default constructor.
   const Methods(this.methodName);
