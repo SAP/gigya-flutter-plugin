@@ -335,6 +335,21 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
                 }
             }
     }
+
+    /*
+    Get Auth Code
+    */
+    func getAuthCode(result: @escaping FlutterResult) {
+        sdk?.getAuthCode() { res in
+            switch res {
+            case .success(let code):
+                result(code)
+            case .failure(let error):
+                result(PluginErrors.wrapNetworkError(error: error))
+            }
+        }
+    }
+
     
     func addConnection(arguments: [String: Any], result: @escaping FlutterResult) {
         guard let viewController = getDisplayedViewController()

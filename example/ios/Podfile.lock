@@ -1,18 +1,18 @@
 PODS:
-  - AppAuth (1.6.2):
-    - AppAuth/Core (= 1.6.2)
-    - AppAuth/ExternalUserAgent (= 1.6.2)
-  - AppAuth/Core (1.6.2)
-  - AppAuth/ExternalUserAgent (1.6.2):
+  - AppAuth (1.7.5):
+    - AppAuth/Core (= 1.7.5)
+    - AppAuth/ExternalUserAgent (= 1.7.5)
+  - AppAuth/Core (1.7.5)
+  - AppAuth/ExternalUserAgent (1.7.5):
     - AppAuth/Core
   - Flutter (1.0.0)
-  - Gigya (1.5.8)
+  - Gigya (1.6.2)
   - gigya_flutter_plugin (1.0.0):
     - Flutter
-    - Gigya (>= 1.5.8)
-    - GigyaAuth (>= 1.1.1)
-  - GigyaAuth (1.1.1):
-    - Gigya (>= 1.2.0)
+    - Gigya (>= 1.6.2)
+    - GigyaAuth (>= 1.1.2)
+  - GigyaAuth (1.1.2):
+    - Gigya (>= 1.6.0)
   - google_sign_in_ios (0.0.1):
     - Flutter
     - GoogleSignIn (~> 6.2)
@@ -48,11 +48,11 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/google_sign_in_ios/ios"
 
 SPEC CHECKSUMS:
-  AppAuth: 3bb1d1cd9340bd09f5ed189fb00b1cc28e1e8570
+  AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
   Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  Gigya: 8e698005fa73eea2f45755f40967277620764f72
-  gigya_flutter_plugin: 4c7df0b8bcb69f72ab53bc200d10d17c4fd8f837
-  GigyaAuth: 0ffdf8aea1f562fc09d34ded9930b57e41308fd7
+  Gigya: 0e6fa3447def67739461c489305cd1a82278857d
+  gigya_flutter_plugin: d0b75ee89ad68a01978c349d96e238e6582579d3
+  GigyaAuth: 32cd49aa9eb380275ad10d85543a90ce326fe4fb
   google_sign_in_ios: 1256ff9d941db546373826966720b0c24804bcdd
   GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
   GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd

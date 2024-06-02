@@ -87,6 +87,9 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
         case .biometricUnlockSession:
             sdk?.biometricUnlockSession(result: result)
             return
+        case .getAuthCode:
+            sdk?.getAuthCode(result: result)
+            return
         default:
             break
         }
