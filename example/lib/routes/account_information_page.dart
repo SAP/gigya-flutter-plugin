@@ -102,6 +102,10 @@ class _AccountInformationPageState extends State<AccountInformationPage>
             padding: const EdgeInsets.all(8.0),
             child: _buildRevokePasskeyButton(),
           ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: _buildGetAuthCodeButton(),
+          ),
         ],
       ),
     );
@@ -197,6 +201,38 @@ class _AccountInformationPageState extends State<AccountInformationPage>
         }
       },
       child: const Text('Revoke Passkey'),
+    );
+  }
+
+  Widget _buildGetAuthCodeButton() {
+    return ElevatedButton(
+      onPressed: () async {
+        setState(() {
+          _inProgress = true;
+        });
+
+        try {
+          final String? result =
+          await widget.sdk.getAuthCode();
+
+          print('GetAuth code $result');
+
+          if (mounted) {
+            setState(() {
+              _inProgress = false;
+            });
+          }
+        } catch (error) {
+          print('GetAuth error: $error');
+
+          if (mounted) {
+            setState(() {
+              _inProgress = false;
+            });
+          }
+        }
+      },
+      child: const Text('Get Auth Code'),
     );
   }
 
