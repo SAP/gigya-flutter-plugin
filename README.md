@@ -259,6 +259,29 @@ To initiate the SSO request flow, run the following snippet.
  });
 ```
 
+**Note:**
+When using mobile SSO (single sign-on using the central login page), logging out using the SDK's logout method will only log the user out of the current API key used.
+The user will not be logged out of the other group sites.
+
+## Session Exchange Between Mobile & WebView
+
+Applications (mobile/web) within the same site group are now able to share a session from the mobile application to a web page running the JS SDK.
+
+Follow these steps to allow session exchange:
+
+1. Use the “getAuthCode” interface. This call will provide you with the required code that the web page will require for the exchange.
+```dart
+final String? result = await widget.sdk.getAuthCode();
+```
+
+2. Add these URL parameters to your hosted page/website URL using the provided code:
+   *** https://page-url?authCode=code&gig_actions=sso.login ***
+
+3. Make sure that the WebView element you are using to open the URL has JavaScript enabled.
+
+4. Once the page is loaded, the JS SDK will exchange the token provided for a valid session.
+
+
 ## FIDO/WebAuthn Authentication
 FIDO is a passwordless authentication method that allows password-only logins to be replaced with secure and fast login experiences across websites and apps.
 

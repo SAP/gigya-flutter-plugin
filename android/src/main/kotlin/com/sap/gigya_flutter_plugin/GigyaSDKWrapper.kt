@@ -14,16 +14,14 @@ import com.gigya.android.sdk.api.IApiRequestFactory
 import com.gigya.android.sdk.auth.GigyaAuth
 import com.gigya.android.sdk.auth.GigyaOTPCallback
 import com.gigya.android.sdk.auth.resolvers.IGigyaOtpResult
-import com.gigya.android.sdk.containers.GigyaContainer
-import com.gigya.android.sdk.interruption.IPendingRegistrationResolver
-import com.gigya.android.sdk.interruption.link.ILinkAccountsResolver
 import com.gigya.android.sdk.biometric.GigyaBiometric
 import com.gigya.android.sdk.biometric.GigyaPromptInfo
 import com.gigya.android.sdk.biometric.IGigyaBiometricCallback
+import com.gigya.android.sdk.interruption.IPendingRegistrationResolver
+import com.gigya.android.sdk.interruption.link.ILinkAccountsResolver
 import com.gigya.android.sdk.network.GigyaError
 import com.gigya.android.sdk.session.SessionInfo
 import com.gigya.android.sdk.ui.plugin.GigyaPluginEvent
-import com.gigya.android.sdk.ui.plugin.GigyaWebBridge
 import com.gigya.android.sdk.ui.plugin.IGigyaWebBridge
 import com.gigya.android.sdk.utils.CustomGSONDeserializer
 import com.google.gson.GsonBuilder
@@ -667,7 +665,24 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         })
     }
 
+    fun getAuthCode(channelResult: MethodChannel.Result) {
+        sdk.getAuthCode(object : GigyaCallback<String>() {
+            override fun onSuccess(code: String) {
+                channelResult.success(code)
+            }
+
+            override fun onError(error: GigyaError) {
+                channelResult.error(
+                    error.errorCode.toString(),
+                    error.localizedMessage,
+                    mapJson(error.data)
+                )
+            }
+        })
+    }
+
     //endregion
+
     //region SCREENSETS
 
     /**

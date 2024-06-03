@@ -233,4 +233,9 @@ class GigyaSdk {
   }) {
     return GigyaFlutterPluginPlatform.instance.sso(parameters: parameters);
   }
+
+  /// Request authentication code required for web session exchange (group sites).
+  Future<String?> getAuthCode() {
+    return GigyaFlutterPluginPlatform.instance.getAuthCode();
+  }
 }

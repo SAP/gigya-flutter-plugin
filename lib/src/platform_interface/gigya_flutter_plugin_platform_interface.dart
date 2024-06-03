@@ -203,4 +203,8 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   }) {
     throw UnimplementedError('sso() is not implemented.');
   }
+
+  /// Request authentication code required for web session exchange (group sites).
+  Future<String?> getAuthCode() async =>
+      throw UnimplementedError('socialLogin() is not implemented.');
 }
