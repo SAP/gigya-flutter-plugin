@@ -1,3 +1,8 @@
+# 1.0.6
+1.0.6
+
+* Added "getAuthCode" interface used to obtain a session exchange code with WebSDK.
+
 # 1.0.5
 1.0.5
 
