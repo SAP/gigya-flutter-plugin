@@ -384,7 +384,8 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   @override
   Future<void> dismissScreenSet() async {
     try {
-      await methodChannel.invokeMethod<void>(Methods.dismissScreenSet.methodName);
+      await methodChannel
+          .invokeMethod<void>(Methods.dismissScreenSet.methodName);
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
     }
@@ -429,6 +430,17 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
       );
 
       return result ?? const <String, dynamic>{};
+    } on PlatformException catch (exception) {
+      throw GigyaError.fromPlatformException(exception);
+    }
+  }
+
+  @override
+  Future<String?> getAuthCode() async {
+    try {
+      final String? result = await methodChannel
+          .invokeMethod<String>(Methods.getAuthCode.methodName);
+      return result;
     } on PlatformException catch (exception) {
       throw GigyaError.fromPlatformException(exception);
     }

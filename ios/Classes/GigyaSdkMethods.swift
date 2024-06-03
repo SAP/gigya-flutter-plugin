@@ -15,7 +15,8 @@ public enum GigyaSdkMethods: String {
 
     // Login using a Social Provider / Single-Sign-On.
     case socialLogin
-    case sso    
+    case sso
+    case getAuthCode
 
     // Web Authentication.
     case webAuthnLogin
