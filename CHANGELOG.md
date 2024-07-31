@@ -1,3 +1,10 @@
+# 1.0.7
+1.0.7
+
+* Updated Android core 7.1.0 - https://github.com/SAP/gigya-android-sdk/releases/tag/core-v7.1.0
+* Updated Swift Core 1.7.0 - https://github.com/SAP/gigya-swift-sdk/releases/tag/core%2Fv1.7.0
+* Please read each platform requirement changes for supporting social sign in.
+
 # 1.0.6
 1.0.6
 
