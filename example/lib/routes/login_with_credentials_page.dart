@@ -214,7 +214,7 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
       return;
     }
 
-    scaffoldState.showBottomSheet<void>(
+    scaffoldState.showBottomSheet(
       (BuildContext context) => Material(
         color: Colors.white,
         elevation: 4,
@@ -276,7 +276,7 @@ class _LoginWithCredentialsPageState extends State<LoginWithCredentialsPage> {
       return;
     }
 
-    scaffoldState.showBottomSheet<void>(
+    scaffoldState.showBottomSheet(
       (BuildContext context) => Material(
         color: Colors.white,
         elevation: 4,

@@ -26,7 +26,7 @@ apply plugin: 'kotlin-android'
 apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
 
 android {
-    compileSdkVersion 33
+    compileSdkVersion 34
 
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
@@ -87,7 +87,7 @@ dependencies {
     implementation 'com.facebook.android:facebook-android-sdk:14.1.1'
 
     // Google (Optional)
-    implementation 'com.google.android.gms:play-services-auth:20.5.0'
-
+    implementation 'androidx.credentials:credentials-play-services-auth:1.2.2'
+    implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.0'
 
 }

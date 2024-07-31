@@ -2,7 +2,7 @@
 //  GoogleWrapper.swift
 //  GigyaSwift
 //
-//  Created by Shmuel, Sagi on 15/04/2019.
+//  Created by Shmuel, Sagi on 15/07/2023.
 //  Copyright © 2019 Gigya. All rights reserved.
 //
 
@@ -10,8 +10,8 @@ import UIKit
 import GoogleSignIn
 import Gigya
 
-
-// MARK: - Google Sign In V6 wrapper
+// MARK: - for Gigya v1.7.0+
+// MARK: - Google Sign In V7 wrapper
 
 class GoogleWrapper: ProviderWrapperProtocol {
     var clientID: String? = {
@@ -34,15 +34,17 @@ class GoogleWrapper: ProviderWrapperProtocol {
 
         let signInConfig = GIDConfiguration.init(clientID: clientID, serverClientID: googleServerClientID)
 
-        GIDSignIn.sharedInstance.signIn(with: signInConfig, presenting: viewController) { user, error in
+        GIDSignIn.sharedInstance.configuration = signInConfig
+
+        GIDSignIn.sharedInstance.signIn(withPresenting: viewController) { user, error in
             guard error == nil else {
                 completion(nil, error?.localizedDescription)
                 return
             }
+            
+            let jsonData: [String: Any] = ["idToken": user?.user.idToken?.tokenString ?? ""]
 
-            let jsonData = ["accessToken": user?.serverAuthCode ?? ""]
             completion(jsonData, nil)
-
         }
     }
 
