@@ -129,8 +129,6 @@ iOS: In addition, add the following to your Runner's **AppDelegate.swift** file:
 Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .facebook, wrapper: FacebookWrapper())
 ```
 
-Instead of adding the provider's SDK using gradle/cocoapods, you can add the [Flutter_Facebook_login](https://pub.dev/packages/flutter_facebook_login) plugin to your **pubspec.yaml** dependencies.
-
 ### Google
 
 Follow the core SDK documentation and instructions for setting Google login.
@@ -142,8 +140,6 @@ Follow the core SDK documentation and instructions for setting Google login.
 ```swift
 Gigya.sharedInstance(UserHost.self).registerSocialProvider(of: .google, wrapper: GoogleWrapper())
 ```
-
-Instead of adding the provider's sdk using gradle/cocoapods you can add the [Google_sign_in](https://pub.dev/packages/google_sign_in) plugin to your **pubspec.yaml** dependencies.
 
 ### LINE
 
