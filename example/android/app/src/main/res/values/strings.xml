@@ -2,9 +2,9 @@
 <resources>
 
     <string name="google_client_id">GOOGLE-CLIENT-ID-HERE(WEB)</string>
-    <string name="facebook_app_id">720188262037015 </string>
-    <string name="fb_login_protocol_scheme">fb720188262037015</string>
-    <string name="facebook_client_token">242d446e866f086fdfb11729e548f958</string>
+    <string name="facebook_app_id">FACEBOOK-APP-ID-HERE</string>
+    <string name="fb_login_protocol_scheme">fbFACEBOOK-APP-ID-HERE</string>
+    <string name="facebook_client_token">FACEBOOK-CLIENT-TOKEN-HERE</string>
 
 
 </resources>
