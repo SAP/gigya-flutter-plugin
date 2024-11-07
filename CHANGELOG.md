@@ -1,3 +1,10 @@
+# 1.0.8
+1.0.8
+
+* Updated Android core 7.1.3 - https://github.com/SAP/gigya-android-sdk/releases/tag/core-v7.1.3
+* Updated Swift Core 1.7.1 - https://github.com/SAP/gigya-swift-sdk/releases/tag/core%2Fv1.7.1
+* Fixed interruption flows causing channel result error.
+
 # 1.0.7
 1.0.7
 
