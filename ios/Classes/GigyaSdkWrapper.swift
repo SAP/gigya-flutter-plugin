@@ -428,6 +428,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
 
         if let isDebug = arguments["isDebug"] as? Bool, isDebug {
             GigyaLogger.setDebugMode(to: isDebug)
+            print("Screenset Debuggable")
         }
         
         guard let screenSet = arguments["screenSet"] as? String
