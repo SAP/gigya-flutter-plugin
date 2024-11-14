@@ -177,6 +177,7 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
   Stream<ScreensetEvent> showScreenSet(
     String name, {
     Map<String, dynamic> parameters = const <String, dynamic>{},
+    bool isDebug = false,
   }) {
     throw UnimplementedError('showScreenSet() is not implemented.');
   }

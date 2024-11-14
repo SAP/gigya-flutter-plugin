@@ -6,29 +6,36 @@ PODS:
   - AppAuth/ExternalUserAgent (1.7.5):
     - AppAuth/Core
   - Flutter (1.0.0)
-  - Gigya (1.6.2)
+  - Gigya (1.7.1)
   - gigya_flutter_plugin (1.0.0):
     - Flutter
-    - Gigya (>= 1.6.2)
+    - Gigya (>= 1.7.1)
     - GigyaAuth (>= 1.1.2)
   - GigyaAuth (1.1.2):
     - Gigya (>= 1.6.0)
   - google_sign_in_ios (0.0.1):
+    - AppAuth (>= 1.7.4)
     - Flutter
-    - GoogleSignIn (~> 6.2)
-  - GoogleSignIn (6.2.4):
-    - AppAuth (~> 1.5)
-    - GTMAppAuth (~> 1.3)
-    - GTMSessionFetcher/Core (< 3.0, >= 1.1)
-  - GTMAppAuth (1.3.1):
-    - AppAuth/Core (~> 1.6)
-    - GTMSessionFetcher/Core (< 3.0, >= 1.5)
-  - GTMSessionFetcher/Core (2.3.0)
+    - FlutterMacOS
+    - GoogleSignIn (~> 7.1)
+    - GTMSessionFetcher (>= 3.4.0)
+  - GoogleSignIn (7.1.0):
+    - AppAuth (< 2.0, >= 1.7.3)
+    - GTMAppAuth (< 5.0, >= 4.1.1)
+    - GTMSessionFetcher/Core (~> 3.3)
+  - GTMAppAuth (4.1.1):
+    - AppAuth/Core (~> 1.7)
+    - GTMSessionFetcher/Core (< 4.0, >= 3.3)
+  - GTMSessionFetcher (3.5.0):
+    - GTMSessionFetcher/Full (= 3.5.0)
+  - GTMSessionFetcher/Core (3.5.0)
+  - GTMSessionFetcher/Full (3.5.0):
+    - GTMSessionFetcher/Core
 
 DEPENDENCIES:
   - Flutter (from `Flutter`)
   - gigya_flutter_plugin (from `.symlinks/plugins/gigya_flutter_plugin/ios`)
-  - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/ios`)
+  - google_sign_in_ios (from `.symlinks/plugins/google_sign_in_ios/darwin`)
 
 SPEC REPOS:
   trunk:
@@ -45,19 +52,19 @@ EXTERNAL SOURCES:
   gigya_flutter_plugin:
     :path: ".symlinks/plugins/gigya_flutter_plugin/ios"
   google_sign_in_ios:
-    :path: ".symlinks/plugins/google_sign_in_ios/ios"
+    :path: ".symlinks/plugins/google_sign_in_ios/darwin"
 
 SPEC CHECKSUMS:
   AppAuth: 501c04eda8a8d11f179dbe8637b7a91bb7e5d2fa
-  Flutter: f04841e97a9d0b0a8025694d0796dd46242b2854
-  Gigya: 0e6fa3447def67739461c489305cd1a82278857d
-  gigya_flutter_plugin: d0b75ee89ad68a01978c349d96e238e6582579d3
+  Flutter: e0871f40cf51350855a761d2e70bf5af5b9b5de7
+  Gigya: 69f7dbb2d2195930a5c3fc23c1a98f66595afa3f
+  gigya_flutter_plugin: 89ad5341d277cca4b6c3e637d8d3d72fb6892c80
   GigyaAuth: 32cd49aa9eb380275ad10d85543a90ce326fe4fb
-  google_sign_in_ios: 1256ff9d941db546373826966720b0c24804bcdd
-  GoogleSignIn: 5651ce3a61e56ca864160e79b484cd9ed3f49b7a
-  GTMAppAuth: 0ff230db599948a9ad7470ca667337803b3fc4dd
-  GTMSessionFetcher: 3a63d75eecd6aa32c2fc79f578064e1214dfdec2
+  google_sign_in_ios: 07375bfbf2620bc93a602c0e27160d6afc6ead38
+  GoogleSignIn: d4281ab6cf21542b1cfaff85c191f230b399d2db
+  GTMAppAuth: f69bd07d68cd3b766125f7e072c45d7340dea0de
+  GTMSessionFetcher: 5aea5ba6bd522a239e236100971f10cb71b96ab6
 
 PODFILE CHECKSUM: cc1f88378b4bfcf93a6ce00d2c587857c6008d3b
 
-COCOAPODS: 1.13.0
+COCOAPODS: 1.15.2
