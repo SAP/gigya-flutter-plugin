@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
 
@@ -244,7 +245,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     const String screenSet = 'Default-RegistrationLogin1';
 
     try {
-      screenSetSubscription = widget.sdk.showScreenSet(screenSet).listen(
+      screenSetSubscription = widget.sdk
+          .showScreenSet(
+        screenSet,
+        isDebug: kDebugMode,
+      )
+          .listen(
         (ScreensetEvent event) {
           print('event type: ${event.type}');
           print('event data: ${event.data}');
