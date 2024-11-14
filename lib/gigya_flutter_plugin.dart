@@ -201,10 +201,12 @@ class GigyaSdk {
   Stream<ScreensetEvent> showScreenSet(
     String name, {
     Map<String, dynamic> parameters = const <String, dynamic>{},
+    bool isDebug = false,
   }) {
     return GigyaFlutterPluginPlatform.instance.showScreenSet(
       name,
       parameters: parameters,
+      isDebug: isDebug,
     );
   }
 
