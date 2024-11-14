@@ -5,6 +5,7 @@ import android.app.Application
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
+import android.webkit.WebView
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.IntentSenderRequest
 import com.gigya.android.sdk.*
@@ -722,6 +723,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         val parameters: MutableMap<String, Any> =
             arguments["parameters"] as MutableMap<String, Any>?
                 ?: mutableMapOf()
+
+        (arguments["isDebug"] as? Boolean)?.let { isDebug ->
+            if (isDebug) WebView.setWebContentsDebuggingEnabled(true).also { Log.d("SCREENSET_TAG", "Screenset Debuggable") }
+        }
 
         sdk.showScreenSet(screenSet, true, parameters, object : GigyaPluginCallback<T>() {
             override fun onError(event: GigyaPluginEvent?) {
