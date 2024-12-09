@@ -245,12 +245,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     const String screenSet = 'Default-RegistrationLogin1';
 
     try {
-      screenSetSubscription = widget.sdk
-          .showScreenSet(
-        screenSet,
-        isDebug: kDebugMode,
-      )
-          .listen(
+      screenSetSubscription =
+          widget.sdk.showScreenSet(screenSet, isDebug: kDebugMode).listen(
         (ScreensetEvent event) {
           print('event type: ${event.type}');
           print('event data: ${event.data}');
