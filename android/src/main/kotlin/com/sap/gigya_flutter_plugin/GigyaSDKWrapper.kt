@@ -726,7 +726,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 ?: mutableMapOf()
 
         (arguments["isDebug"] as? Boolean)?.let { isDebug ->
-            if (isDebug) WebView.setWebContentsDebuggingEnabled(true).also { Log.d("SCREENSET_TAG", "Screenset Debuggable") }
+            if (isDebug) WebView.setWebContentsDebuggingEnabled(true)
         }
 
         sdk.showScreenSet(screenSet, true, parameters, object : GigyaPluginCallback<T>() {
