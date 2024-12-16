@@ -88,6 +88,8 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             return
         }
         
+        resolverHelper.currentResult = result
+
         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
         sdk?.login(loginId: loginId, password: password, params: parameters) { [weak self] loginResult in
             switch loginResult {
