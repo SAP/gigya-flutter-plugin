@@ -42,9 +42,10 @@ class FacebookWrapper: ProviderWrapperProtocol {
             if let error = error {
                 completion(nil, error.localizedDescription)
             }
+            let expiration: Int = Int(result?.token?.expirationDate.timeIntervalSince1970 ?? 0)
 
-            let jsonData: [String: Any] = ["authToken": result?.token?.tokenString ?? "", "idToken": result?.authenticationToken?.tokenString ?? "", "tokenExpiration": Int32(result?.token?.expirationDate.timeIntervalSince1970 ?? 0)]
-                
+            let jsonData: [String: Any] = ["authToken": result?.token?.tokenString ?? "", "idToken": result?.authenticationToken?.tokenString ?? "", "tokenExpiration": expiration > Int32.max ? Int32.max : expiration]
+
             completion(jsonData, nil)
         }
     }
