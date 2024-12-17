@@ -428,7 +428,11 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             return
         }
 
-        guard let screenSet = arguments["screenSet"] as? String 
+        if let isDebug = arguments["isDebug"] as? Bool, isDebug {
+            GigyaLogger.setDebugMode(to: isDebug)
+        }
+        
+        guard let screenSet = arguments["screenSet"] as? String
         else {
             result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
             return
