@@ -1,3 +1,8 @@
+# 1.0.9
+1.0.9
+
+* Fixed iOS missing callback assignment `loginWithCredentials` flow.
+
 # 1.0.8
 1.0.8
 
