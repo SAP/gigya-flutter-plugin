@@ -346,6 +346,7 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   Stream<ScreensetEvent> showScreenSet(
     String name, {
     Map<String, dynamic> parameters = const <String, dynamic>{},
+    bool isDebug = false,
   }) async* {
     try {
       await methodChannel.invokeMethod<void>(
@@ -353,6 +354,7 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
         <String, dynamic>{
           'screenSet': name,
           'parameters': parameters,
+          'isDebug': isDebug,
         },
       );
     } on PlatformException catch (exception) {
