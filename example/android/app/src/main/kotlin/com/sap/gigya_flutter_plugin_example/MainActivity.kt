@@ -4,14 +4,17 @@ import android.content.pm.PackageManager
 import android.os.Bundle
 import android.util.Base64
 import android.util.Log
-import io.flutter.embedding.android.FlutterFragmentActivity
+import android.webkit.WebView
+import io.flutter.embedding.android.FlutterActivity
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
 
-class MainActivity : FlutterFragmentActivity() {
+class MainActivity : FlutterActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        WebView.setWebContentsDebuggingEnabled(true)
         getSignature()
     }
 
@@ -19,7 +22,7 @@ class MainActivity : FlutterFragmentActivity() {
     private fun getSignature() {
         try {
             val info = packageManager.getPackageInfo(packageName, PackageManager.GET_SIGNATURES)
-            for (signature in info.signatures) {
+            for (signature in info.signatures!!) {
                 val md: MessageDigest = MessageDigest.getInstance("SHA256")
                 md.update(signature.toByteArray())
                 Log.e(

@@ -92,5 +92,9 @@
             android:theme="@android:style/Theme.Translucent.NoTitleBar">
         </activity>
 
+        <meta-data
+            android:name="com.gigya.android.externalProvidersPath"
+            android:value="gigya.providers" />
+
     </application>
 </manifest>

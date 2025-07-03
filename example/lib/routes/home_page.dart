@@ -241,7 +241,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   }
 
   void _showScreenSet() async {
-    const String screenSet = 'Default-RegistrationLogin1';
+    const String screenSet = 'Default-RegsistrationLogin';
 
     try {
       screenSetSubscription = widget.sdk.showScreenSet(screenSet).listen(
