@@ -1,3 +1,11 @@
+# 1.0.10
+1.0.10
+
+* Android Gradle update (deprecated imperative apply plugin method).
+* Android dependencies source update(Maven Central).
+* iOS updated core SDK to 1.7.5.
+
+
 # 1.0.9
 1.0.9
 

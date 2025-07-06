@@ -4,7 +4,7 @@ import gigya_flutter_plugin
 import Gigya
 //import FBSDKCoreKit
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
     _ application: UIApplication,
