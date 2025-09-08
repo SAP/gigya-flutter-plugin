@@ -8,13 +8,19 @@ import android.webkit.WebView
 import io.flutter.embedding.android.FlutterActivity
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import io.flutter.embedding.engine.FlutterEngine
+import io.flutter.plugins.GeneratedPluginRegistrant
 
 class MainActivity : FlutterActivity() {
+
+//    override fun configureFlutterEngine(flutterEngine: FlutterEngine) {
+//        GeneratedPluginRegistrant.registerWith(flutterEngine)
+//    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        WebView.setWebContentsDebuggingEnabled(true)
+//        WebView.setWebContentsDebuggingEnabled(true)
         getSignature()
     }
 

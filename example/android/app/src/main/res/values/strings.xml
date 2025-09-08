@@ -6,5 +6,10 @@
     <string name="fb_login_protocol_scheme">fbFACEBOOK-APP-ID-HERE</string>
     <string name="facebook_client_token">FACEBOOK-CLIENT-TOKEN-HERE</string>
 
+    <string name="asset_statements" translatable="false">
+        [{
+             \"include\": \"https://Sagi.gigya-cs.com/.well-known/assetlinks.json\"
+        }]
+    </string>
 
 </resources>

@@ -20,6 +20,7 @@ buildscript {
 
 rootProject.allprojects {
     repositories {
+        mavenLocal()
         google()
         mavenCentral()
         maven { url 'https://jitpack.io' }
@@ -58,7 +59,7 @@ dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
     
     // Gigya SDK core implementation.
-    api 'com.sap.oss.gigya-android-sdk:sdk-core:7.1.+'
+    api 'com.sap.oss.gigya-android-sdk:sdk-core:7.+'
     api 'com.sap.oss.gigya-android-sdk:sdk-auth:2.2.+'
     api 'com.sap.oss.gigya-android-sdk:sdk-bio:2.1.+'
 

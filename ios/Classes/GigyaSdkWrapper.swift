@@ -527,6 +527,10 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             result(FlutterError(code: PluginErrors.unsupportedError, message: PluginErrors.unsupportedErrorMessage, details: nil))
         }
     }
+
+    func passkeyLogin(result: @escaping FlutterResult) {
+        webAuthnLogin(result: result)
+    }
     
     func webAuthnRegister(result: @escaping FlutterResult) {
         guard let viewController = getDisplayedViewController()
@@ -555,6 +559,10 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             result(FlutterError(code: PluginErrors.unsupportedError, message: PluginErrors.unsupportedErrorMessage, details: nil))
         }
     }
+
+    func passkeyRegister(result: @escaping FlutterResult) {
+        webAuthnRegister(result: result)
+    }
     
     func webAuthnRevoke(result: @escaping FlutterResult) {
         if #available(iOS 16.0.0, *) {
@@ -576,6 +584,14 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         } else {
             result(FlutterError(code: PluginErrors.unsupportedError, message: PluginErrors.unsupportedErrorMessage, details: nil))
         }
+    }
+
+    fun passkeyRevoke(arguments: [String: Any], result: @escaping FlutterResult) {
+
+    }
+
+    fun passkeyGetCredentials(result: @escaping FlutterResult) {
+
     }
 }
 

@@ -2,6 +2,7 @@ package com.sap.gigya_flutter_plugin
 
 import android.app.Activity
 import android.app.Application
+import android.content.pm.CapabilityParams
 import android.content.pm.PackageInfo
 import android.content.pm.PackageManager
 import android.os.Build
@@ -13,6 +14,7 @@ import com.gigya.android.sdk.api.GigyaApiResponse
 import com.gigya.android.sdk.api.IApiRequestFactory
 import com.gigya.android.sdk.auth.GigyaAuth
 import com.gigya.android.sdk.auth.GigyaOTPCallback
+import com.gigya.android.sdk.auth.passkeys.PasskeysAuthenticationProvider
 import com.gigya.android.sdk.auth.resolvers.IGigyaOtpResult
 import com.gigya.android.sdk.biometric.GigyaBiometric
 import com.gigya.android.sdk.biometric.GigyaPromptInfo
@@ -27,6 +29,7 @@ import com.gigya.android.sdk.utils.CustomGSONDeserializer
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
 import io.flutter.plugin.common.MethodChannel
+import java.lang.ref.WeakReference
 import java.util.*
 
 class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Class<T>) {
@@ -91,7 +94,14 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     }
 
     fun setActivity(activity: Activity?) {
-        this.activity = activity;
+        this.activity = activity
+
+        // Set Passkey provider with weak reference to avoid memory leaks.
+        sdk.setPasskeyAuthenticatorProvider(
+            PasskeysAuthenticationProvider(
+                WeakReference(activity)
+            )
+        )
     }
 
     @SuppressWarnings("deprecation")
@@ -899,6 +909,31 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     }
 
     /**
+     * Passkey/WebAuthn register.
+     */
+    fun passkeyRegister(
+        channelResult: MethodChannel.Result
+    ) {
+        sdk.WebAuthn().register(object : GigyaCallback<GigyaApiResponse>() {
+            override fun onSuccess(obj: GigyaApiResponse?) {
+                channelResult.success(obj?.asJson())
+            }
+
+            override fun onError(error: GigyaError?) {
+                error?.let {
+                    channelResult.error(
+                        error.errorCode.toString(),
+                        error.localizedMessage,
+                        mapJson(error.data)
+                    )
+                } ?: channelResult.notImplemented()
+            }
+
+        })
+
+    }
+
+    /**
      * Fido2/WebAuthn login.
      */
     fun webAuthnLogin(
@@ -927,6 +962,31 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
     }
 
     /**
+     * Passkey/WebAuthn login.
+     */
+    fun passkeyLogin(
+        channelResult: MethodChannel.Result
+    ) {
+        sdk.WebAuthn().login(object : GigyaLoginCallback<T>() {
+            override fun onSuccess(obj: T?) {
+                val mapped = mapObject(obj)
+                channelResult.success(mapped)
+            }
+
+            override fun onError(error: GigyaError?) {
+                error?.let {
+                    channelResult.error(
+                        error.errorCode.toString(),
+                        error.localizedMessage,
+                        mapJson(error.data)
+                    )
+                } ?: channelResult.notImplemented()
+            }
+
+        })
+    }
+
+    /**
      * Fido2/WebAuthn revoke.
      */
     fun webAuthnRevoke(channelResult: MethodChannel.Result) {
@@ -947,6 +1007,59 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 }
             }
         )
+    }
+
+    /**
+     * Passkey/WebAuthn revoke for specific id.
+     */
+    fun passkeyRevoke(arguments: Any, channelResult: MethodChannel.Result) {
+        val id: String? = (arguments as Map<*, *>)["id"] as String?
+        if (id == null) {
+            channelResult.error(
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
+            )
+            return
+        }
+        sdk.WebAuthn().revoke(id, object : GigyaCallback<GigyaApiResponse>() {
+            override fun onSuccess(obj: GigyaApiResponse?) {
+                channelResult.success(obj?.asJson())
+            }
+
+            override fun onError(error: GigyaError?) {
+                error?.let {
+                    channelResult.error(
+                        error.errorCode.toString(),
+                        error.localizedMessage,
+                        mapJson(error.data)
+                    )
+                } ?: channelResult.notImplemented()
+            }
+
+        })
+    }
+
+    /**
+     * Get registered passkey/fido credentials from server.
+     */
+    fun passkeyGetCredentials(channelResult: MethodChannel.Result) {
+        sdk.WebAuthn().getCredentials(object : GigyaCallback<GigyaApiResponse>() {
+            override fun onSuccess(obj: GigyaApiResponse?) {
+                channelResult.success(obj?.asJson())
+            }
+
+            override fun onError(error: GigyaError?) {
+                error?.let {
+                    channelResult.error(
+                        error.errorCode.toString(),
+                        error.localizedMessage,
+                        mapJson(error.data)
+                    )
+                } ?: channelResult.notImplemented()
+            }
+
+        })
     }
 
     //endregion
@@ -1153,11 +1266,12 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     fun biometricOptIn(arguments: Any, channelResult: MethodChannel.Result) {
         val argumentMap = arguments as Map<*, *>;
-        sdkBiometric.optIn(activity, GigyaPromptInfo(
-            argumentMap["title"] as String?,
-            argumentMap["subtitle"] as String?,
-            argumentMap["description"] as String?
-        ),
+        sdkBiometric.optIn(
+            activity, GigyaPromptInfo(
+                argumentMap["title"] as String?,
+                argumentMap["subtitle"] as String?,
+                argumentMap["description"] as String?
+            ),
             object : IGigyaBiometricCallback {
                 override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
                     channelResult.success(null)
@@ -1186,11 +1300,12 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     fun biometricOptOut(arguments: Any, channelResult: MethodChannel.Result) {
         val argumentMap = arguments as Map<*, *>;
-        sdkBiometric.optOut(activity, GigyaPromptInfo(
-            argumentMap["title"] as String?,
-            argumentMap["subtitle"] as String?,
-            argumentMap["description"] as String?
-        ),
+        sdkBiometric.optOut(
+            activity, GigyaPromptInfo(
+                argumentMap["title"] as String?,
+                argumentMap["subtitle"] as String?,
+                argumentMap["description"] as String?
+            ),
             object : IGigyaBiometricCallback {
                 override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
                     channelResult.success(null)
@@ -1247,11 +1362,12 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
     fun biometricUnlockSession(arguments: Any, channelResult: MethodChannel.Result) {
         val argumentMap = arguments as Map<*, *>;
-        sdkBiometric.unlock(activity, GigyaPromptInfo(
-            argumentMap["title"] as String?,
-            argumentMap["subtitle"] as String?,
-            argumentMap["description"] as String?
-        ),
+        sdkBiometric.unlock(
+            activity, GigyaPromptInfo(
+                argumentMap["title"] as String?,
+                argumentMap["subtitle"] as String?,
+                argumentMap["description"] as String?
+            ),
             object : IGigyaBiometricCallback {
                 override fun onBiometricOperationSuccess(action: GigyaBiometric.Action) {
                     channelResult.success(null)
@@ -1277,6 +1393,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 }
             })
     }
+
+    //endregion
 
     /**
      * Map typed object to a Map<String, Any> object in order to pass on to

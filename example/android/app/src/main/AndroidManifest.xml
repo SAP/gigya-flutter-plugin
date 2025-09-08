@@ -96,5 +96,7 @@
             android:name="com.gigya.android.externalProvidersPath"
             android:value="gigya.providers" />
 
+        <meta-data android:name="asset_statements" android:resource="@string/asset_statements" />
+
     </application>
 </manifest>

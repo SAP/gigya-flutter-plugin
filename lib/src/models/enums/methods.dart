@@ -113,7 +113,15 @@ enum WebAuthnMethods {
   register('webAuthnRegister'),
 
   /// The method that revokes the web authentication of a user.
-  revoke('webAuthnRevoke');
+  revoke('webAuthnRevoke'),
+
+  passkeyLogin('passkeyLogin'),
+
+  passkeyRegister('passkeyRegister'),
+
+  passkeyRevoke('passkeyRevoke'),
+
+  passkeyGetCredentials('passkeyGetCredentials');
 
   /// The default constructor.
   const WebAuthnMethods(this.methodName);

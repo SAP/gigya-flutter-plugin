@@ -17,4 +17,20 @@ abstract class WebAuthenticationService {
   Future<Map<String, dynamic>> revoke() {
     throw UnimplementedError('revoke() is not implemented.');
   }
+
+  Future<Map<String, dynamic>> passkeyLogin() {
+    throw UnimplementedError('passkeyLogin() is not implemented.');
+  }
+
+  Future<Map<String, dynamic>> passkeyRegister() {
+    throw UnimplementedError('passkeyRegister() is not implemented.');
+  }
+
+  Future<Map<String, dynamic>> passkeyRevoke(String id) {
+    throw UnimplementedError('passkeyRevoke() is not implemented.');
+  }
+
+  Future<Map<String, dynamic>> passkeyGetCredentials() {
+    throw UnimplementedError('passkeyGetCredentials() is not implemented.');
+  }
 }

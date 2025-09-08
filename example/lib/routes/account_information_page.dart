@@ -100,6 +100,10 @@ class _AccountInformationPageState extends State<AccountInformationPage>
           ),
           Padding(
             padding: const EdgeInsets.all(8.0),
+            child: _buildGetPasskeyCredentialsButton(),
+          ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
             child: _buildRevokePasskeyButton(),
           ),
           Padding(
@@ -147,7 +151,7 @@ class _AccountInformationPageState extends State<AccountInformationPage>
           });
 
           final Map<String, dynamic> result =
-              await widget.sdk.webAuthenticationService.register();
+              await widget.sdk.webAuthenticationService.passkeyRegister();
 
           print('FIDO success, passkey registered');
           print(result);
@@ -171,6 +175,39 @@ class _AccountInformationPageState extends State<AccountInformationPage>
     );
   }
 
+  Widget _buildGetPasskeyCredentialsButton() {
+    return ElevatedButton(
+      onPressed: () async {
+        setState(() {
+          _inProgress = true;
+        });
+
+        try {
+          final Map<String, dynamic> result =
+              await widget.sdk.webAuthenticationService.passkeyGetCredentials();
+
+          print('FIDO success, passkey credentials retrieved');
+          print(result);
+
+          if (mounted) {
+            setState(() {
+              _inProgress = false;
+            });
+          }
+        } catch (error) {
+          print('FIDO error: $error');
+
+          if (mounted) {
+            setState(() {
+              _inProgress = false;
+            });
+          }
+        }
+      },
+      child: const Text('Get Passkey Credentials'),
+    );
+  }
+
   Widget _buildRevokePasskeyButton() {
     return ElevatedButton(
       onPressed: () async {
@@ -180,7 +217,7 @@ class _AccountInformationPageState extends State<AccountInformationPage>
 
         try {
           final Map<String, dynamic> result =
-              await widget.sdk.webAuthenticationService.revoke();
+              await widget.sdk.webAuthenticationService.passkeyRevoke('FeWz1kmN9bvY5e+uIiyzDQ==');
 
           print('FIDO success, passkey revoked');
           print(result);

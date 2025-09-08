@@ -90,6 +90,10 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Scre
                 }
             }
             "webAuthnRevoke" -> sdk.webAuthnRevoke(result)
+            "passkeyLogin" -> sdk.passkeyLogin( result)
+            "passkeyRegister" -> sdk.passkeyRegister(result)
+            "passkeyRevoke" -> sdk.passkeyRevoke(call.arguments, result)
+            "passkeyGetCredentials" -> sdk.passkeyGetCredentials(result)
             "otpLogin" -> sdk.otpLogin(call.arguments, result)
             "otpUpdate" -> sdk.otpUpdate(call.arguments, result)
             "otpVerify" -> sdk.otpVerify(call.arguments, result)

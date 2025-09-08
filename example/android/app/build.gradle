@@ -53,12 +53,21 @@ android {
 
         multiDexEnabled true
     }
-
+    
     buildTypes {
+
+        debug {
+            signingConfig signingConfigs.debug
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
         release {
             // TODO: Add your own signing config for the release build.
             // Signing with the debug keys for now, so `flutter run --release` works.
             signingConfig signingConfigs.debug
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
     namespace 'com.sap.gigya_flutter_plugin_example'
@@ -84,10 +93,46 @@ dependencies {
     implementation 'com.google.android.gms:play-services-fido:18.1.0'
 
     // Facebook (Optional)
-    implementation 'com.facebook.android:facebook-android-sdk:14.1.1'
+    // your existing facebook-core, still excluding installreferrer:
+    implementation('com.facebook.android:facebook-core:14.1.1') {
+        exclude group: 'com.android.installreferrer', module: 'installreferrer'
+    }
+
+    // bring in the Facebook Login APIs:
+    implementation('com.facebook.android:facebook-login:14.1.1') {
+        // (optionally also exclude installreferrer here, if you need to)
+        exclude group: 'com.android.installreferrer', module: 'installreferrer'
+    }
 
     // Google (Optional)
     implementation 'androidx.credentials:credentials-play-services-auth:1.2.2'
     implementation 'com.google.android.libraries.identity.googleid:googleid:1.1.0'
 
+    // 1. Google Play Install Referrer Client
+    implementation "com.android.installreferrer:installreferrer:2.2"
+// Provides com.android.installreferrer.api.InstallReferrerClient… :contentReference[oaicite:0]{index=0}
+
+// 2. Volley (for Gigya’s network provider)
+    implementation "com.android.volley:volley:1.2.1"
+// Provides com.android.volley.* types :contentReference[oaicite:1]{index=1}
+
+// 3. Material Components (BottomSheetDialog, etc.)
+    implementation "com.google.android.material:material:1.10.0"
+// Provides com.google.android.material.bottomsheet.BottomSheetDialog :contentReference[oaicite:2]{index=2}
+
+// 4. Play Feature Delivery (replaces monolithic play-core for splitinstall/splitcompat)
+    implementation "com.google.android.play:feature-delivery:2.1.0"
+// Provides com.google.android.play.core.splitinstall.*, SplitCompatApplication… :contentReference[oaicite:3]{index=3}
+
+// 5. OkHttp + Logging Interceptor (for Gigya’s OkHttp adapter)
+    implementation "com.squareup.okhttp3:okhttp:4.9.3"
+// Provides okhttp3.OkHttpClient, Request, Response… :contentReference[oaicite:4]{index=4}
+    implementation "com.squareup.okhttp3:logging-interceptor:4.9.0"
+// Provides okhttp3.logging.HttpLoggingInterceptor :contentReference[oaicite:5]{index=5}
+
+// 6. Firebase Cloud Messaging & IID (for Gigya’s push)
+    implementation "com.google.firebase:firebase-messaging:23.1.2"
+// Provides FirebaseMessagingService, RemoteMessage… :contentReference[oaicite:6]{index=6}
+    implementation "com.google.firebase:firebase-iid:21.1.0"
+// Provides FirebaseInstanceId, InstanceIdResult… :contentReference[oaicite:7]{index=7}
 }

@@ -217,7 +217,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           onPressed: () async {
             try {
               final Map<String, dynamic> result =
-                  await widget.sdk.webAuthenticationService.login();
+                  await widget.sdk.webAuthenticationService.passkeyLogin();
 
               print('FIDO result: $result');
 
