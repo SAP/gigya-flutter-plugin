@@ -139,6 +139,10 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.webAuthnRegister(result: result)
         case .webAuthnRevoke:
             sdk?.webAuthnRevoke(result: result)
+        case .passkeyRevoke:
+            sdk?.passkeyRevoke(arguments: args, result: result)
+        case .passkeyGetCredentials:
+            sdk?.passkeyGetCredentials(result: result)
         case .otpLogin:
             sdk?.otpLogin(arguments: args, result: result)
         case .otpUpdate:

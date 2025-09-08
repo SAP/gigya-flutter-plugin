@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/services.dart' show MethodChannel, PlatformException;
 import 'package:gigya_flutter_plugin/gigya_flutter_plugin.dart';
@@ -33,6 +34,9 @@ class MethodChannelWebAuthenticationService extends WebAuthenticationService {
 
   @override
   Future<Map<String, dynamic>> passkeyLogin() async {
+    if (Platform.isIOS) {
+      return login();
+    }
     try {
       final Map<String, dynamic>? result =
           await _channel.invokeMapMethod<String, dynamic>(
@@ -72,6 +76,9 @@ class MethodChannelWebAuthenticationService extends WebAuthenticationService {
 
   @override
   Future<Map<String, dynamic>> passkeyRegister() async {
+    if (Platform.isIOS) {
+      return register();
+    }
     try {
       final String? json = await _channel.invokeMethod<String>(
         WebAuthnMethods.passkeyRegister.methodName,

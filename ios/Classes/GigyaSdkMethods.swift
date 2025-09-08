@@ -22,8 +22,6 @@ public enum GigyaSdkMethods: String {
     case webAuthnLogin
     case webAuthnRegister
     case webAuthnRevoke
-    case passkeyLogin
-    case passkeyRegister
     case passkeyRevoke
     case passkeyGetCredentials
 

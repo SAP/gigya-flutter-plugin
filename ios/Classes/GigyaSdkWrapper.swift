@@ -528,10 +528,6 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         }
     }
 
-    func passkeyLogin(result: @escaping FlutterResult) {
-        webAuthnLogin(result: result)
-    }
-    
     func webAuthnRegister(result: @escaping FlutterResult) {
         guard let viewController = getDisplayedViewController()
         else {
@@ -560,9 +556,6 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         }
     }
 
-    func passkeyRegister(result: @escaping FlutterResult) {
-        webAuthnRegister(result: result)
-    }
     
     func webAuthnRevoke(result: @escaping FlutterResult) {
         if #available(iOS 16.0.0, *) {
@@ -586,12 +579,54 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
         }
     }
 
-    fun passkeyRevoke(arguments: [String: Any], result: @escaping FlutterResult) {
-
+    func passkeyRevoke(arguments: [String: Any], result: @escaping FlutterResult) {
+        if #available(iOS 16.0.0, *) {
+            guard let id = arguments["id"] as? String
+            else {
+                result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+                return
+            }
+            
+            Task {
+                guard let revokeResult = await sdk?.webAuthn.revoke(id: id)
+                else {
+                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
+                    return
+                }
+                
+                switch revokeResult {
+                case .success(let data):
+                    let json = data.mapValues { $0.value }.asJson
+                    result(json)
+                case .failure(let error):
+                    result(PluginErrors.wrapNetworkError(error: error))
+                }
+            }
+        } else {
+            result(FlutterError(code: PluginErrors.unsupportedError, message: PluginErrors.unsupportedErrorMessage, details: nil))
+        }
     }
 
-    fun passkeyGetCredentials(result: @escaping FlutterResult) {
-
+    func passkeyGetCredentials(result: @escaping FlutterResult) {
+        if #available(iOS 16.0.0, *) {
+            Task {
+                guard let revokeResult = await sdk?.webAuthn.getCredentials()
+                else {
+                    result(FlutterError(code: PluginErrors.generalError, message: PluginErrors.generalErrorMessage, details: nil))
+                    return
+                }
+                
+                switch revokeResult {
+                case .success(let data):
+                    let json = data.mapValues { $0.value }.asJson
+                    result(json)
+                case .failure(let error):
+                    result(PluginErrors.wrapNetworkError(error: error))
+                }
+            }
+        } else {
+            result(FlutterError(code: PluginErrors.unsupportedError, message: PluginErrors.unsupportedErrorMessage, details: nil))
+        }
     }
 }
 
