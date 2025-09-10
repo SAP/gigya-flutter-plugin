@@ -284,6 +284,7 @@ FIDO is a passwordless authentication method that allows password-only logins to
 Our SDK provides an interface to register a passkey, login, and revoke passkeys created using FIDO/Passkeys, backed by our WebAuthn service.
 
 Please follow the platform implementation guides:
+* Android solution has been updated to use both FIDO & passkeys
 
 - [Swift](https://sap.github.io/gigya-swift-sdk/GigyaSwift/#fidowebauthn-authentication)
 - [Android](https://sap.github.io/gigya-android-sdk/sdk-core/#fidowebauthn-authentication)
@@ -293,48 +294,48 @@ To support FIDO operations in your application, it is required that the *MainAct
 extends the *FlutterFragmentActivity* class and not *FlutterActivity* class.
 
 **Usage example**
-Login with FIDO/WebAuthn passkey:
+### LOGIN:
+Login with a FIDO key on Android & a passkey on iOS:
 ```
-_loginWithPasskey() async {
-    try {
-      GigyaSdk.instance.webAuthn.webAuthnLogin().then((result) {
-        setState(() {});
-      });
-    } catch (error) {
-      if (error is GigyaResponse) {
-        showAlert("FidoError", error.errorDetails);
-      }
-    }
-  }
+final Map<String, dynamic> result =
+                  await widget.sdk.webAuthenticationService.login();
 ```
-Register a new FIDO/WebAuthn passkey:
-```
-_registerPasskey() async {
-    try {
-      var result = await GigyaSdk.instance.webAuthn.webAuthnRegister();
-      debugPrint(jsonEncode(result));
-      showAlert("FIDO success", "passkey registered");
-    } catch (error) {
-      if (error is GigyaResponse) {
-        showAlert("FIDO error", error.errorDetails);
-      }
-    }
 
-  }
+Login with a passkey on both Android & iOS:
 ```
-Revoke an existing FIDO/WebAuthn passkey:
+final Map<String, dynamic> result =
+                  await widget.sdk.webAuthenticationService.passkeyLogin();
 ```
- _revokePasskey() async {
-    try {
-      var result = await GigyaSdk.instance.webAuthn.webAuthnRevoke();
-      debugPrint(jsonEncode(result));
-      showAlert("FIDO success", "passkey revoked");
-    } catch (error) {
-      if (error is GigyaResponse) {
-        showAlert("FIDO", error.errorDetails);
-      }
-    }
-  }
+
+### REGISTER:
+Register a new FIDO key on Android & a passkey on iOS:
+```
+final Map<String, dynamic> result =
+              await widget.sdk.webAuthenticationService.register();
+```
+
+Register a new Passkey on both Android & iOS:
+```
+final Map<String, dynamic> result =
+              await widget.sdk.webAuthenticationService.passkeyRegister();
+```
+
+### REVOKE:
+Revoke an existing FIDO key on Android and all passkeys on iOS
+```
+final Map<String, dynamic> result =
+              await widget.sdk.webAuthenticationService.revoke();
+```
+
+Revoke a specific passkey on both Android & iOS.
+```
+ final Map<String, dynamic> result =
+              await widget.sdk.webAuthenticationService.passkeyRevoke('KEY TO REVOKE');
+```
+***Note:*** *The key to revoke can be obtained from the new passkeyGetCredentials method available.
+```
+final Map<String, dynamic> result =
+              await widget.sdk.webAuthenticationService.passkeyGetCredentials();
 ```
 
 ## Login using phone number (OTP)

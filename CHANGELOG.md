@@ -1,3 +1,10 @@
+# 1.0.11
+1.0.11
+
+* Updated Android core SDK to 7.2.0 - https://github.com/SAP/gigya-android-sdk/releases/tag/core-v7.2.0
+* Updated Swift core SDK to 1.7.6 - https://github.com/SAP/gigya-swift-sdk/releases/tag/1.7.6
+* Added support for Android passkeys usage with Credentials Manager (iOS acts as a passthrough)
+
 # 1.0.10
 1.0.10
 
