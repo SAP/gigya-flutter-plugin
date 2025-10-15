@@ -757,8 +757,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
 
             override fun onHide(event: GigyaPluginEvent, reason: String?) {
                 val data = event.eventMap.toMutableMap()
-                data["reason"] = reason!!
-
+                data["reason"] = reason ?: "unknown"
+                
                 handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onHide",
