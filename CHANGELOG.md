@@ -1,3 +1,7 @@
+# 1.0.12
+1.0.12
+* Fix: Android SDK Wrapper nullable "reason" in screen-set onHide callback.
+
 # 1.0.11
 1.0.11
 
