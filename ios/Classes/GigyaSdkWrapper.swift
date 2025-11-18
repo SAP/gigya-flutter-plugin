@@ -105,7 +105,33 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         }
     }
-    
+
+    func loginWithCustomIdentifier(arguments: [String: Any], result: @escaping FlutterResult) {
+         guard let identifier = arguments["identifier"] as? String,
+               let identifierType = arguments["identifierType"] as? String,
+               let password = arguments["password"] as? String else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+         }
+
+         resolverHelper.currentResult = result
+
+         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+         sdk?.login(identifier: identifier, identifierType: identifierType, password: password, params: parameters) { [weak self] (loginResult) in
+            switch loginResult {
+            case .success(let data):
+                let mapped = self?.mapObject(data)
+                self?.resolverHelper.currentResult?(mapped)
+
+                self?.resolverHelper.dispose()
+            case .failure(let error):
+                self?.saveResolvesIfNeeded(interruption: error.interruption)
+
+                self?.resolverHelper.currentResult?(PluginErrors.wrapNetworkError(error: error.error))
+            }
+         }
+    }
+
     /**
      Register a new user using credentials (email/password combination with optional parameter map).
      */

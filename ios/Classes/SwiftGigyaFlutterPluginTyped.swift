@@ -105,6 +105,8 @@ public class SwiftGigyaFlutterPluginTyped<T: GigyaAccountProtocol> : NSObject, F
             sdk?.sendRequest(arguments: args, result: result)
         case .loginWithCredentials:
             sdk?.loginWithCredentials(arguments: args, result: result)
+        case .loginWithCustomIdentifier:
+            sdk?.loginWithCustomIdentifier(arguments: args, result: result)
         case .registerWithCredentials:
             sdk?.registerWithCredentials(arguments: args, result: result)
         case .getAccount:
