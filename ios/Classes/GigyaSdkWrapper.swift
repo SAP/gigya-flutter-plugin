@@ -29,7 +29,24 @@ public class PluginErrors {
             
             return FlutterError(code: "\(data.errorCode)", message: data.errorMessage, details: details)
         case .providerError(data: let data):
-            return FlutterError(code: PluginErrors.generalError, message: data, details: nil)
+            if data == "canceled" {
+               let details: [String: Any] = [
+                  "callId": "0",
+                  "errorCode": 702,
+                  "statusCode": 0,
+                  "errorMessage": "Operation canceled"
+                  ]
+               return FlutterError(code: PluginErrors.generalError, message: data, details: details)
+            }
+            else {
+                let details: [String: Any] = [
+                    "callId": "0",
+                    "errorCode": 700,
+                    "statusCode": 0,
+                    "errorMessage": data
+                ]
+            return FlutterError(code: PluginErrors.generalError, message: data, details: details)
+        }
         case .networkError(error: let error):
             return FlutterError(code: PluginErrors.generalError, message: error.localizedDescription, details: nil)
         case .emptyResponse:
