@@ -28,6 +28,12 @@ import com.gigya.android.sdk.ui.plugin.IGigyaWebBridge
 import com.gigya.android.sdk.utils.CustomGSONDeserializer
 import com.google.gson.GsonBuilder
 import com.google.gson.reflect.TypeToken
+import com.sap.gigya_flutter_plugin.GigyaSDKWrapper.Companion.BIOMETRIC_RECOGNITION_FAILED
+import com.sap.gigya_flutter_plugin.GigyaSDKWrapper.Companion.CANCELED_ERROR
+import com.sap.gigya_flutter_plugin.GigyaSDKWrapper.Companion.CANCELED_ERROR_MESSAGE
+import com.sap.gigya_flutter_plugin.GigyaSDKWrapper.Companion.GENERAL_ERROR
+import com.sap.gigya_flutter_plugin.GigyaSDKWrapper.Companion.MISSING_PARAMETER_ERROR
+import com.sap.gigya_flutter_plugin.GigyaSDKWrapper.Companion.MISSING_PARAMETER_MESSAGE
 import io.flutter.plugin.common.MethodChannel
 import java.lang.ref.WeakReference
 import java.util.*
@@ -178,6 +184,76 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             loginParams.putAll(parameters)
         }
         sdk.login(loginParams, object : GigyaLoginCallback<T>() {
+            override fun onSuccess(p0: T) {
+                resolverHelper.clear()
+                val mapped = mapObject(p0)
+                currentResult?.success(mapped)
+            }
+
+            override fun onError(p0: GigyaError?) {
+                p0?.let {
+                    currentResult?.error(
+                        p0.errorCode.toString(),
+                        p0.localizedMessage,
+                        mapJson(p0.data)
+                    )
+                } ?: currentResult?.notImplemented()
+            }
+
+            override fun onConflictingAccounts(
+                response: GigyaApiResponse,
+                resolver: ILinkAccountsResolver
+            ) {
+                resolverHelper.linkAccountResolver = resolver
+                currentResult?.error(
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
+                )
+            }
+
+            override fun onPendingRegistration(
+                response: GigyaApiResponse,
+                resolver: IPendingRegistrationResolver
+            ) {
+                resolverHelper.pendingRegistrationResolver = resolver
+                currentResult?.error(
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
+                )
+            }
+
+            override fun onPendingVerification(response: GigyaApiResponse, regToken: String?) {
+                resolverHelper.regToken = regToken
+                currentResult?.error(
+                    response.errorCode.toString(),
+                    response.errorDetails,
+                    response.asMap()
+                )
+            }
+        })
+    }
+
+    /**
+     * Login using custom identifier (identifier/identifierType/password combination with optional parameter map).
+     */
+    fun loginWithCustomIdentifier(arguments: Any, channelResult: MethodChannel.Result) {
+        currentResult = channelResult
+        val identifier: String? = (arguments as Map<*, *>)["identifier"] as String?
+        val identifierType: String? = (arguments as Map<*, *>)["identifierType"] as String?
+        val password: String? = arguments["password"] as String?
+        if (identifier == null || password == null || identifierType == null) {
+            currentResult?.error(
+                MISSING_PARAMETER_ERROR,
+                MISSING_PARAMETER_MESSAGE,
+                mapOf<String, Any>()
+            )
+            return
+        }
+
+        val parameters: Map<String, Any>? = arguments["parameters"] as Map<String, Any>?
+        sdk.login(identifier, identifierType, password, parameters, object : GigyaLoginCallback<T>() {
             override fun onSuccess(p0: T) {
                 resolverHelper.clear()
                 val mapped = mapObject(p0)
@@ -583,7 +659,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onOperationCanceled() {
-                currentResult?.error(CANCELED_ERROR, CANCELED_ERROR_MESSAGE, null)
+                currentResult?.error(
+                    CANCELED_ERROR,
+                    CANCELED_ERROR_MESSAGE,
+                    null)
             }
 
             override fun onConflictingAccounts(
@@ -708,9 +787,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         })
     }
 
-    //endregion
+//endregion
 
-    //region SCREENSETS
+//region SCREENSETS
 
     /**
      * Trigger embedded web screen sets.
@@ -877,9 +956,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         channelResult.success(null)
     }
 
-    //endregion
+//endregion
 
-    //region FIDO
+//region FIDO
 
     /**
      * Fido2/WebAuthn register.
@@ -1062,9 +1141,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         })
     }
 
-    //endregion
+//endregion
 
-    //region OTP
+//region OTP
 
     /**
      * Login via phone OTP.
@@ -1183,9 +1262,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         resolverHelper.otpResolver?.verify(code)
     }
 
-    //endregion
+//endregion
 
-    //region RESOLVERS
+//region RESOLVERS
 
     /**
      * Link account - handler for fetching conflicting accounts from current interruption state.
@@ -1248,9 +1327,9 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         } ?: currentResult?.notImplemented()
     }
 
-    //endregion
+//endregion
 
-    //region BIOMETRIC
+//region BIOMETRIC
 
     fun biometricIsAvailable(channelResult: MethodChannel.Result) {
         channelResult.success(sdkBiometric.isAvailable)
@@ -1394,7 +1473,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             })
     }
 
-    //endregion
+//endregion
 
     /**
      * Map typed object to a Map<String, Any> object in order to pass on to

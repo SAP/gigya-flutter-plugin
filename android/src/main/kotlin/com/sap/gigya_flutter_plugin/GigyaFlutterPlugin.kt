@@ -105,6 +105,7 @@ class GigyaFlutterPlugin : FlutterPlugin, MethodCallHandler, ActivityAware, Scre
             "biometricLockSession" -> sdk.biometricLockSession(result)
             "biometricUnlockSession" -> sdk.biometricUnlockSession (call.arguments, result)
             "getAuthCode" -> sdk.getAuthCode(result)
+            "loginWithCustomIdentifier" -> sdk.loginWithCustomIdentifier(call.arguments, result)
             else -> result.notImplemented()
         }
     }

@@ -30,6 +30,9 @@ enum Methods {
   /// The method that logs a user in using his credentials.
   loginWithCredentials('loginWithCredentials'),
 
+  /// The method that logs a user using a custom identifier.
+  loginWithCustomIdentifier('loginWithCustomIdentifier'),
+
   /// The method that logs a user out.
   logOut('logOut'),
 

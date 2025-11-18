@@ -7,6 +7,7 @@ public enum GigyaSdkMethods: String {
     // Credential based Authentication.
     case loginWithCredentials
     case registerWithCredentials
+    case loginWithCustomIdentifier
 
     // One-Time-Password Authentication.
     case otpLogin

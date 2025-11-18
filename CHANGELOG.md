@@ -1,3 +1,9 @@
+# 1.0.13
+1.0.13
+* Fix: Aligned SSO cancellation error Android/iOS
+* Fix: Missing link account v2 error support.
+* Feature: Added Custom Identifier login support.
+
 # 1.0.12
 1.0.12
 * Fix: Android SDK Wrapper nullable "reason" in screen-set onHide callback.

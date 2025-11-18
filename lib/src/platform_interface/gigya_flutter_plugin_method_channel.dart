@@ -219,6 +219,34 @@ class MethodChannelGigyaFlutterPlugin extends GigyaFlutterPluginPlatform {
   }
 
   @override
+  Future<Map<String, dynamic>> loginWithCustomIdentifier({
+    required String identifier,
+    required String identifierType,
+    required String password,
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) async {
+    try {
+      final Map<String, dynamic>? result =
+          await methodChannel.invokeMapMethod<String, dynamic>(
+        Methods.loginWithCustomIdentifier.methodName,
+        <String, dynamic>{
+          'identifier': identifier,
+          'identifierType': identifierType,
+          'password': password,
+          'parameters': parameters,
+        },
+      ).timeout(
+        Methods.loginWithCustomIdentifier.timeout,
+        onTimeout: () => throw const GigyaTimeoutError(),
+      );
+
+      return result ?? const <String, dynamic>{};
+    } on PlatformException catch (exception) {
+      throw GigyaError.fromPlatformException(exception);
+    }
+  }
+
+  @override
   Future<void> logout() async {
     try {
       await methodChannel.invokeMethod<void>(Methods.logOut.methodName).timeout(

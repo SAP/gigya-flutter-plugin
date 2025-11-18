@@ -29,7 +29,24 @@ public class PluginErrors {
             
             return FlutterError(code: "\(data.errorCode)", message: data.errorMessage, details: details)
         case .providerError(data: let data):
-            return FlutterError(code: PluginErrors.generalError, message: data, details: nil)
+            if data == "canceled" {
+               let details: [String: Any] = [
+                  "callId": "0",
+                  "errorCode": 702,
+                  "statusCode": 0,
+                  "errorMessage": "Operation canceled"
+                  ]
+               return FlutterError(code: PluginErrors.generalError, message: data, details: details)
+            }
+            else {
+                let details: [String: Any] = [
+                    "callId": "0",
+                    "errorCode": 700,
+                    "statusCode": 0,
+                    "errorMessage": data
+                ]
+            return FlutterError(code: PluginErrors.generalError, message: data, details: details)
+        }
         case .networkError(error: let error):
             return FlutterError(code: PluginErrors.generalError, message: error.localizedDescription, details: nil)
         case .emptyResponse:
@@ -50,7 +67,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     
     init(accountSchema: T.Type) {
         // Initializing the Gigya SDK instance.
-        GigyaDefinitions.versionPrefix = "flutter_1.0.12_"
+        GigyaDefinitions.versionPrefix = "flutter_1.0.13_"
         sdk = Gigya.sharedInstance(accountSchema)
         GigyaAuth.shared.register(scheme: accountSchema)
     }
@@ -105,7 +122,33 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
             }
         }
     }
-    
+
+    func loginWithCustomIdentifier(arguments: [String: Any], result: @escaping FlutterResult) {
+         guard let identifier = arguments["identifier"] as? String,
+               let identifierType = arguments["identifierType"] as? String,
+               let password = arguments["password"] as? String else {
+            result(FlutterError(code: PluginErrors.missingParameterError, message: PluginErrors.missingParameterMessage, details: nil))
+            return
+         }
+
+         resolverHelper.currentResult = result
+
+         let parameters = arguments["parameters"] as? [String: Any] ?? [:]
+         sdk?.login(identifier: identifier, identifierType: identifierType, password: password, params: parameters) { [weak self] (loginResult) in
+            switch loginResult {
+            case .success(let data):
+                let mapped = self?.mapObject(data)
+                self?.resolverHelper.currentResult?(mapped)
+
+                self?.resolverHelper.dispose()
+            case .failure(let error):
+                self?.saveResolvesIfNeeded(interruption: error.interruption)
+
+                self?.resolverHelper.currentResult?(PluginErrors.wrapNetworkError(error: error.error))
+            }
+         }
+    }
+
     /**
      Register a new user using credentials (email/password combination with optional parameter map).
      */

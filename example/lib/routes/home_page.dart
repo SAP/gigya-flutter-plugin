@@ -187,6 +187,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         padding: const EdgeInsets.only(bottom: 8),
         child: ElevatedButton(
           onPressed: () async {
+            await Navigator.pushNamed(context, '/login_custom_id');
+
+            _refreshLogin();
+          },
+          child: const Text('Login with Custom ID'),
+        ),
+      ),
+      Padding(
+        padding: const EdgeInsets.only(bottom: 8),
+        child: ElevatedButton(
+          onPressed: () async {
             await Navigator.pushNamed(context, '/register_email');
 
             _refreshLogin();

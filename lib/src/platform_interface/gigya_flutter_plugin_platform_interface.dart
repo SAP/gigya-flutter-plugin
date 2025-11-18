@@ -120,6 +120,18 @@ abstract class GigyaFlutterPluginPlatform extends PlatformInterface {
     throw UnimplementedError('login() is not implemented.');
   }
 
+  /// Login using the given [identifier], [identifierType] and [password] combination.
+  ///
+  /// Any additional parameters can be provided using the [parameters] map.
+  Future<Map<String, dynamic>> loginWithCustomIdentifier({
+    required String identifier,
+    required String identifierType,
+    required String password,
+    Map<String, dynamic> parameters = const <String, dynamic>{},
+  }) {
+    throw UnimplementedError('login() is not implemented.');
+  }
+
   /// Log out of the current active session.
   Future<void> logout() {
     throw UnimplementedError('logout() is not implemented.');
