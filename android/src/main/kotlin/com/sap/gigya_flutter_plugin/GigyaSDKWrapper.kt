@@ -583,7 +583,10 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             }
 
             override fun onOperationCanceled() {
-                currentResult?.error(CANCELED_ERROR, CANCELED_ERROR_MESSAGE, null)
+                currentResult?.error(
+                    CANCELED_ERROR,
+                    CANCELED_ERROR_MESSAGE,
+                    null)
             }
 
             override fun onConflictingAccounts(
