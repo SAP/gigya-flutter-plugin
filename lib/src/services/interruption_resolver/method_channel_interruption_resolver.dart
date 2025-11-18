@@ -19,6 +19,7 @@ class MethodChannelInterruptionResolverFactory
   InterruptionResolver? fromErrorCode(GigyaError exception) {
     switch (exception.errorCode) {
       case 403043:
+      case 409003:
         return _MethodChannelLinkAccountResolver(_channel);
       case 206001:
         return _MethodChannelPendingRegistrationResolver(_channel);
