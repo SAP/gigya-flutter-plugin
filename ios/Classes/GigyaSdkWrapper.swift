@@ -67,7 +67,7 @@ public class GigyaSdkWrapper<T: GigyaAccountProtocol> :GigyaInstanceProtocol {
     
     init(accountSchema: T.Type) {
         // Initializing the Gigya SDK instance.
-        GigyaDefinitions.versionPrefix = "flutter_1.0.12_"
+        GigyaDefinitions.versionPrefix = "flutter_1.0.13_"
         sdk = Gigya.sharedInstance(accountSchema)
         GigyaAuth.shared.register(scheme: accountSchema)
     }
