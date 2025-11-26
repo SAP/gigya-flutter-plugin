@@ -1,3 +1,7 @@
+# 1.0.14
+1.0.14
+* Fix: Aligned cancellation error (Android/iOS).
+
 # 1.0.13
 1.0.13
 * Fix: Aligned SSO cancellation error Android/iOS
