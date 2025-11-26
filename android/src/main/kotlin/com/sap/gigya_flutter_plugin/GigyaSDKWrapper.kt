@@ -586,12 +586,21 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 }
 
                 override fun onOperationCanceled() {
-                    currentResult?.error(CANCELED_ERROR, CANCELED_ERROR_MESSAGE, null)
+                    currentResult?.error(
+                        CANCELED_ERROR, CANCELED_ERROR_MESSAGE,
+                        mapOf(
+                            "callId" to "0",
+                            "statusCode" to 0,
+                            "errorMessage" to "Operation canceled",
+                            "errorCode" to CANCELED_ERROR
+                        )
+                    )
                 }
 
                 override fun onConflictingAccounts(
                     response: GigyaApiResponse,
                     resolver: ILinkAccountsResolver
+
                 ) {
                     resolverHelper.linkAccountResolver = resolver
                     currentResult?.error(
@@ -662,7 +671,8 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                 currentResult?.error(
                     CANCELED_ERROR,
                     CANCELED_ERROR_MESSAGE,
-                    null)
+                    null
+                )
             }
 
             override fun onConflictingAccounts(
@@ -837,7 +847,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
             override fun onHide(event: GigyaPluginEvent, reason: String?) {
                 val data = event.eventMap.toMutableMap()
                 data["reason"] = reason ?: "unknown"
-                
+
                 handler.addScreenSetEvent(
                     mapOf(
                         "event" to "onHide",

@@ -36,7 +36,7 @@ public class PluginErrors {
                   "statusCode": 0,
                   "errorMessage": "Operation canceled"
                   ]
-               return FlutterError(code: PluginErrors.generalError, message: data, details: details)
+               return FlutterError(code: PluginErrors.unsupportedError, message: "Operation canceled", details: details)
             }
             else {
                 let details: [String: Any] = [
