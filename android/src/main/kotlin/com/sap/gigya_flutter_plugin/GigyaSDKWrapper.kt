@@ -592,7 +592,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
                             "callId" to "0",
                             "statusCode" to 0,
                             "errorMessage" to "Operation canceled",
-                            "errorCode" to CANCELED_ERROR
+                            "errorCode" to CANCELED_ERROR.toInt()
                         )
                     )
                 }

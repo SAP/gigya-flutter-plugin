@@ -1,3 +1,7 @@
+# 1.0.15
+1.0.15
+* Fix: Wrong type casting in cancellation error (Android)
+
 # 1.0.14
 1.0.14
 * Fix: Aligned cancellation error (Android/iOS).
