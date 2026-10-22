@@ -91,7 +91,7 @@ class GigyaSDKWrapper<T : GigyaAccount>(application: Application, accountObj: Cl
         try {
             val pInfo: PackageInfo =
                 getPackageInfo(application.packageManager, application.packageName)
-            val version: String = pInfo.versionName
+            val version: String? = pInfo.versionName
             val ref: IApiRequestFactory = Gigya.getContainer().get(IApiRequestFactory::class.java)
             ref.setSDK("flutter_${version}_android_${(Gigya.VERSION).lowercase(Locale.ENGLISH)}")
         } catch (e: PackageManager.NameNotFoundException) {
